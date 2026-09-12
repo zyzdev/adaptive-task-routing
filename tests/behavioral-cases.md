@@ -8,9 +8,9 @@ Use these cases for manual or automated forward evaluation. Judge observable dec
 
 **Given:** A substantial debugging request explicitly invokes `adaptive-task-routing`, with both child Skills and shared files available.
 
-**Expect:** The coordinator loads the context router first, resolves the effective context, then loads the model router for that context. One compact note reports both independent results; the coordinator does not make either child decision itself.
+**Expect:** After a lightweight understanding and rough plan, the coordinator loads the context router first, resolves the effective context, then loads the model router for that context. User-facing output briefly frames the understood task and rough approach before one compact routing note; detailed planning or execution follows it. The coordinator does not make either child decision itself.
 
-**中文：** 明確要求 `adaptive-task-routing` 處理實質除錯任務，且兩個子 Skill 與共用檔均可用時，入口應先載入 Context Router、確定實際 Context，再為該 Context 載入 Model Router。單一精簡訊息呈現兩個獨立結果，入口本身不代替子元件做判斷。
+**中文：** 明確要求 `adaptive-task-routing` 處理實質除錯任務，且兩個子 Skill 與共用檔均可用時，入口應先理解任務並形成輕量初步計畫，再載入 Context Router、確定實際 Context，最後為該 Context 載入 Model Router。面向使用者的輸出先簡短交代任務理解與粗略方向，再用單一精簡訊息呈現兩個獨立結果，詳細計畫或執行內容接在其後；入口本身不代替子元件做判斷。
 
 ## 2. Improvement-plan delivery / 交付改善計畫
 

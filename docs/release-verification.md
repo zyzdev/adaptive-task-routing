@@ -1,7 +1,7 @@
 # Release verification — 0.4.1
 
 Audit date: 2026-09-12 (Asia/Taipei). This release updates discovery, recommendation,
-direct-selection dispatch and non-blocking setting guidance while preserving the three Skill names. Local automated checks passed;
+direct-selection dispatch, non-blocking setting guidance and rough-plan-first routing while preserving the three Skill names. Local automated checks passed;
 public submission and conversational acceptance remain outstanding.
 
 ## Automated results
@@ -14,7 +14,7 @@ public submission and conversational acceptance remain outstanding.
 | Reproducibility | PASS | Build-twice integration compares ZIP bytes and preserves old output |
 | Claude Code 2.1.269 | PASS | claude plugin validate dist/claude/adaptive-task-routing --strict |
 | Gemini CLI 0.59.0 | PASS | gemini extensions validate dist/gemini/adaptive-task-routing |
-| Codex runtime install | PASS | Installed and enabled `0.4.1+codex.20260912061656` from the personal marketplace |
+| Codex runtime install | PASS | Installed and enabled `0.4.1+codex.20260912064954` from the personal marketplace |
 | Bundled Codex compatibility validator | KNOWN LIMITATION | Its older schema rejects the runtime-supported manifest `hooks` field |
 | Three Skill validators | PASS | Bundled skill-creator quick_validate.py |
 
@@ -46,6 +46,12 @@ Gemini coordinator projection and the one allowed helper source.
   action. It did not request a confirmation word: in the same turn it retained the current
   setting, inspected `release.json` and `CHANGELOG.md`, reported the comparison, and changed
   no project files.
+- A later fresh installed-host Codex CLI session loaded development build
+  `0.4.1+codex.20260912064517` without naming the Skill. Its first visible message briefly
+  framed the release-flow audit and rough approach; it then rendered the localized conversation,
+  minimum and recommended AI-setting blocks before beginning broad file inspection. The current
+  setting was retained without blocking execution. The run was stopped after this ordering and
+  downstream read-only execution were observed, so it is not evidence for final audit quality.
 - Two fresh installed-host dispatch runs used the updated Skill descriptions. An
   ordinary release-audit prompt selected `adaptive-task-routing` without naming a
   Skill and showed conversation plus Model routing. A second run explicitly started from
@@ -81,12 +87,13 @@ Evidence: [sanitized native inventory](evidence/native-smoke.json) and
 [deferred-permission challenge fixture](evidence/codex-app-permission-challenge.json) and
 [Gemini CLI model-routing result](evidence/gemini-cli-model-routing.json), plus
 [Gemini automatic activation](evidence/gemini-cli-auto-activation.json) and
-[Codex CLI automatic activation](evidence/codex-cli-auto-activation.json).
+[Codex CLI automatic activation](evidence/codex-cli-auto-activation.json), plus the
+[Codex CLI routing-order result](evidence/codex-cli-routing-order.json).
 Raw inventory is regenerated locally at build/native-smoke.json.
 Host startup may update its own logs/caches or contact its provider.
 
 The persistent personal plugin was updated and enabled as development build
-`0.4.1+codex.20260912061656`. A new conversation is still required to load it. No user
+`0.4.1+codex.20260912064954`. A new conversation is still required to load it. No user
 model/effort setting was changed.
 Native discovery is not behavioral execution, and no live App control socket was tested.
 
@@ -94,14 +101,14 @@ Native discovery is not behavioral execution, and no live App control socket was
 
 | Archive | Bytes |
 |---|---:|
-| adaptive-task-routing-openai-0.4.1.zip | 102390 |
-| adaptive-task-routing-claude-0.4.1.zip | 101087 |
-| adaptive-task-routing-gemini-0.4.1.zip | 102585 |
+| adaptive-task-routing-openai-0.4.1.zip | 103896 |
+| adaptive-task-routing-claude-0.4.1.zip | 102595 |
+| adaptive-task-routing-gemini-0.4.1.zip | 104119 |
 
 ```text
-d0e88682b2f5105475abc7ce6c58fed2c1bb485b9866543229b2a38bce4fd2fa  adaptive-task-routing-openai-0.4.1.zip
-6ca08a5c84cc7e1e0ad205f3b133d10b71e1e5d1d4723fbfab7e5a2b3a9d74ff  adaptive-task-routing-claude-0.4.1.zip
-15eeeac0a4334197b909209d189dc85664a6f5468ecaa6f90d2e31884afcaf1a  adaptive-task-routing-gemini-0.4.1.zip
+f06250628ea929eb25d8799dcbb62d11d6913585d4a9c95c88c84bd9f15064e7  adaptive-task-routing-openai-0.4.1.zip
+f1a651751467c5c90dbbed9d0dade6435e9b49208b53715192c352d51f5edcd7  adaptive-task-routing-claude-0.4.1.zip
+f2c5361254570f3190fbb417e0dbb950b9c9d6ab9fdeee1eb60c0893b6fe51e4  adaptive-task-routing-gemini-0.4.1.zip
 ```
 
 Each ZIP has manifests at its root without a wrapper. All three Skills, shared guides
@@ -140,6 +147,6 @@ frontmatter descriptions, their checked trigger contract, and relevant behaviora
 expectations now cover direct child selection. Unrelated existing content is retained.
 
 The final build moved the previous dist to
-.release-backups/dist-evm3lh47/dist. It is recoverable and was not used as input.
+.release-backups/dist-z7jtvy4v/dist. It is recoverable and was not used as input.
 No Git index/history/remotes, remote repository, push, release or submission was changed.
 See [release and owner submission steps](release.md).

@@ -403,6 +403,9 @@ def validate_source(root):
     coordinator = (root / "skills/adaptive-task-routing/SKILL.md").read_text()
     require("【對話設定】" in coordinator and "* 建議：留在目前對話" in coordinator
             and "是否切換視窗" in coordinator
+            and "Form a lightweight rough plan" in coordinator
+            and "before the routing note" in coordinator
+            and "Put detailed planning, findings, or execution after the routing note" in coordinator
             and "Localize every label and description to the user's language" in coordinator
             and "never show those English enum tokens" in coordinator
             and "never surface the probe, fallback/registry source" in coordinator

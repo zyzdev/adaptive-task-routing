@@ -24,7 +24,7 @@ Plugin 不會因為使用者允許自動操作，就假設宿主環境真的具�
 
 ### `adaptive-task-routing` — 完整流程入口
 
-理解實質任務並形成初步計畫後，協調入口先讀取 Context Router，確定實際工作 Context，再讀取 Model Router。交付改善計畫且提出具體實質下一階段時，也要在回覆結束前給出該階段的建議；只要求計畫不代表授權實作。
+理解實質任務並形成初步計畫後，協調入口先讀取 Context Router，確定實際工作 Context，再讀取 Model Router。同一則回覆還要繼續工作時，畫面先用一句話交代任務理解與粗略方向，再顯示 Routing 建議，最後才展開詳細計畫或執行。交付改善計畫且提出具體實質下一階段時，也要在回覆結束前給出該階段的建議；只要求計畫不代表授權實作。
 
 簡短解釋、狀態詢問、小修改，以及僅詢問 Plugin 功能時不必自動觸發。後續階段只載入必要的 Router；回答完整且沒有實質下一階段時，不必再加 Routing 訊息。
 
@@ -46,7 +46,7 @@ Plugin 不會因為使用者允許自動操作，就假設宿主環境真的具�
 
 ## 觸發與顯示
 
-三個平台產物現在都包含簡短的宿主原生啟動提醒。Codex 與 Claude Code 使用 `UserPromptSubmit` Plugin hook；Gemini CLI 在重啟後的每個工作階段載入 Extension 的 `GEMINI.md`。提醒只要求宿主在符合條件的實質工作中呼叫協調 Skill，不會複製路由政策，也不會自行執行 Router。Codex 安裝的 hook 首次執行前可能需要一次審查；宿主或管理員仍可停用 hook 或 Extension。只讀取可攜式 Agent Plugins Manifest 的 ChatGPT 介面沒有本機 Prompt hook，因此仍要依賴描述匹配或明確選取 Skill。
+三個平台產物現在都包含簡短的宿主原生啟動提醒。Codex 與 Claude Code 使用 `UserPromptSubmit` Plugin hook；Gemini CLI 在重啟後的每個工作階段載入 Extension 的 `GEMINI.md`。提醒要求宿主先理解請求並形成輕量初步計畫，再於大量工具操作、詳細規劃或執行前，在符合條件的實質工作中呼叫協調 Skill；它不會複製路由政策，也不會自行執行 Router。Codex 安裝的 hook 首次執行前可能需要一次審查；宿主或管理員仍可停用 hook 或 Extension。只讀取可攜式 Agent Plugins Manifest 的 ChatGPT 介面沒有本機 Prompt hook，因此仍要依賴描述匹配或明確選取 Skill。
 
 需要明確觸發時，可在宿主的 Skill 選擇器選取 **adaptive-task-routing Skill**，或要求：「開始這項工作前，請使用 adaptive-task-routing Skill。」支援 `$` 提及的 Codex 介面可用 `$adaptive-task-routing`；Claude Code 可用 `/adaptive-task-routing:adaptive-task-routing`。一般實質任務仍以協調入口為主；誤選到子 Router 時，除非使用者明確只要 Context 或 Model，子 Router 只會轉交協調入口一次。
 

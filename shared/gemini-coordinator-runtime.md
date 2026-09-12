@@ -7,10 +7,14 @@ from memory.
 
 ## Sequence
 
-1. Assess conversation placement before model choice.
-2. Assess minimum-sufficient and recommended Gemini model settings for the upcoming phase.
-3. Render the localized routing note and apply the `ask` or `auto` action.
-4. Stop immediately when user action is required. Do not append a plan or announce execution.
+1. Understand the request and form a lightweight rough plan without broad exploration or execution.
+2. Assess conversation placement before model choice.
+3. Assess minimum-sufficient and recommended Gemini model settings for the upcoming phase.
+4. When work will continue, precede the localized routing note with one brief localized sentence
+   stating the understood task and rough approach. Render the routing note and apply the `ask` or
+   `auto` action.
+5. Put detailed planning, findings, or execution after the routing note. Stop only when a context
+   decision or the user's requested scope requires it.
 
 Both routers default to `ask`. Skip a router only when its mode is explicitly `off`. Reuse a
 completed gate for an unchanged phase. Never claim a context or model change unless the host

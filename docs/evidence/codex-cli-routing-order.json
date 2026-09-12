@@ -1,0 +1,30 @@
+{
+  "observed_at": "2026-09-12T06:48:39Z",
+  "host": "Codex CLI 0.154.0",
+  "installed_plugin_version": "0.4.1+codex.20260912064517",
+  "prompt_named_skill": false,
+  "hook_event": "UserPromptSubmit",
+  "hook_test_mode": "dangerously-bypass-hook-trust for this reviewed local test invocation only",
+  "task": "Read-only release-flow audit and improvement plan",
+  "result": {
+    "coordinator_skill_loaded": true,
+    "lightweight_task_understanding_formed_before_routing": true,
+    "brief_task_framing_rendered_before_routing": true,
+    "context_block_rendered_after_task_framing": true,
+    "minimum_setting_block_rendered_after_task_framing": true,
+    "recommended_setting_block_rendered_after_task_framing": true,
+    "detailed_work_started_after_routing": true,
+    "model_switch_blocked_execution": false,
+    "project_files_modified": false
+  },
+  "sanitized_order": [
+    "Briefly framed the release-flow audit and rough approach.",
+    "Rendered the localized conversation-setting block.",
+    "Rendered minimum-sufficient and recommended AI-setting blocks.",
+    "Retained the current setting and began the read-only audit."
+  ],
+  "notes": [
+    "The run was stopped after the ordering contract and downstream read-only execution were observed; it was not used as acceptance evidence for the quality of the final audit plan.",
+    "Normal interactive use still requires the user to review and trust the installed hook once."
+  ]
+}

@@ -11,6 +11,8 @@ The following model names are **fictional test-fixture labels**, not installable
 The context router finds recent requirements relevant and recommends staying in this conversation. The model router finds the observed balanced configuration sufficient for initial inspection. A compact note is enough:
 
 ```text
+I will trace the startup entry points and timing evidence, then turn the findings into a scoped improvement plan.
+
 Conversation setting
 Recommendation: Stay in this conversation
 Switch window: no
@@ -36,6 +38,8 @@ Suppose the inspection finds serialized initialization and proposes three depend
 Before yielding, the coordinator identifies a substantial **next phase**: implementing and validating initialization changes. The context result remains valid; only the model gate is revisited. The model router recommends more reasoning effort from the fixture's verified options:
 
 ```text
+The next phase would implement the three initialization changes and verify their ordering and regressions.
+
 Conversation setting
 Recommendation: Stay in this conversation
 Switch window: no

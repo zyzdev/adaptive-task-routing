@@ -36,8 +36,9 @@ architecture, examples, shared files, license, changelog and platform-specific R
 are explicitly included. README source lives in packaging/<platform>/README.md and is
 placed at each package root with its repository-relative links rebased by the builder.
 Both source and packaged links are checked. Codex and Claude packages include fixed-output
-prompt hooks; Gemini includes startup context. They remind the host to invoke the Skill and
-do not run the router or metadata helper themselves.
+prompt hooks; Gemini includes startup context. They remind the host to understand the request,
+form a lightweight rough plan, and invoke the Skill before substantial tool use, detailed
+planning, or execution. They do not run the router or metadata helper themselves.
 
 The sole packaged executable source is the optional Python 3.10+ Codex metadata helper
 inside the model Skill. Its read-only RPC tests run in the Python suite. To check it

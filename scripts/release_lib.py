@@ -24,28 +24,37 @@ MANIFESTS = {
 }
 AUTO_ACTIVATION = {
     "openai": (
-        "Before responding or using tools, decide whether this prompt starts a substantial "
+        "First understand this prompt and form a lightweight rough plan without starting "
+        "substantial execution. Then decide whether it starts a substantial "
         "multi-step coding, debugging, architecture, validation, research, or analysis phase. "
-        "For every qualifying phase you MUST invoke $adaptive-task-routing first and follow its "
-        "routing gate; never merely suggest invoking it later. Skip ordinary chat, status checks, "
+        "For every qualifying phase you MUST invoke $adaptive-task-routing before substantial tool "
+        "use, detailed planning, or execution and follow its routing gate; never merely suggest "
+        "invoking it later. In user-facing output, briefly state the task understanding or rough "
+        "approach before the routing note. Skip ordinary chat, status checks, "
         "tiny operations, questions only about this plugin, and an unchanged phase whose gate "
         "already completed."
     ),
     "claude": (
-        "Before responding or using tools, decide whether this prompt starts a substantial "
+        "First understand this prompt and form a lightweight rough plan without starting "
+        "substantial execution. Then decide whether it starts a substantial "
         "multi-step coding, debugging, architecture, validation, research, or analysis phase. "
         "For every qualifying phase you MUST invoke /adaptive-task-routing:adaptive-task-routing "
-        "first and follow its routing gate; never merely suggest invoking it later. Skip ordinary "
-        "chat, status checks, tiny operations, questions only about this plugin, and an unchanged "
-        "phase whose gate already completed."
+        "before substantial tool use, detailed planning, or execution and follow its routing gate; "
+        "never merely suggest invoking it later. In user-facing output, briefly state the task "
+        "understanding or rough approach before the routing note. Skip ordinary chat, status "
+        "checks, tiny operations, questions only about this plugin, and an unchanged phase whose "
+        "gate already completed."
     ),
     "gemini": (
-        "Before responding or using tools, decide whether a user prompt starts a substantial "
+        "First understand the user prompt and form a lightweight rough plan without starting "
+        "substantial execution. Then decide whether it starts a substantial "
         "multi-step coding, debugging, architecture, validation, research, or analysis phase. "
         "For every qualifying phase you MUST call activate_skill with name adaptive-task-routing "
-        "first and follow its routing gate; never merely suggest activation as a future step. Skip "
-        "ordinary chat, status checks, tiny operations, questions only about this extension, and "
-        "an unchanged phase whose gate already completed."
+        "before substantial tool use, detailed planning, or execution and follow its routing gate; "
+        "never merely suggest activation as a future step. In user-facing output, briefly state the "
+        "task understanding or rough approach before the routing note. Skip ordinary chat, status "
+        "checks, tiny operations, questions only about this extension, and an unchanged phase whose "
+        "gate already completed."
     ),
 }
 GEMINI_COORDINATOR_DEPENDENCIES = (

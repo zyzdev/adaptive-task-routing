@@ -3,7 +3,8 @@
 This plugin contains three workflows with preserved triggers: adaptive-task-routing,
 task-context-router, and research-model-router. It suggests context, model and reasoning
 for substantial work; both routers default to ask. The Codex compatibility manifest includes
-a `UserPromptSubmit` reminder that asks the host to invoke the coordinator for qualifying work.
+a `UserPromptSubmit` reminder that asks the host to form a lightweight rough plan and invoke the
+coordinator for qualifying work before substantial tool use, detailed planning, or execution.
 
 The root plugin.json targets Agent Plugins 1.0.0. OpenAI presentation is under
 extensions.com.openai. The generated .codex-plugin/plugin.json is the Codex compatibility
@@ -45,7 +46,8 @@ does not publish to your workspace or the public directory.
 
 Check that all three Skill names appear in the new task's inventory and review/enable the
 plugin hook when Codex asks. Submit a substantial task without naming the Skill, then confirm
-the routing note appears before execution. Also test explicit selection. Current conversation
+a brief task framing appears before the routing note and substantial execution follows it. Also
+test explicit selection. Current conversation
 settings or user-only controls must never be claimed to have changed automatically.
 
 ## Contents and testing

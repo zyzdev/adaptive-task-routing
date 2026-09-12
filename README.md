@@ -24,7 +24,7 @@ It never assumes that a host can perform a switch. A recommendation, user author
 
 ### `adaptive-task-routing` — start here
 
-After understanding a substantial task and forming a rough plan, this coordinator reads the context router, resolves the effective working context, then reads the model router. It also routes a concrete substantial next phase when delivering an improvement plan, before yielding to the user. It does not authorize implementing a plan-only request.
+After understanding a substantial task and forming a rough plan, this coordinator reads the context router, resolves the effective working context, then reads the model router. When work continues in the same response, it first shows one brief task-framing sentence, then the routing note, followed by detailed planning or execution. It also routes a concrete substantial next phase when delivering an improvement plan, before yielding to the user. It does not authorize implementing a plan-only request.
 
 It skips brief explanations, status checks, tiny edits, and questions merely about the plugin. At later phase changes it loads only the needed router. A completed answer with no substantial next phase does not need a new routing note.
 
@@ -46,7 +46,7 @@ It does not decide where the task runs or perform the task. Direct model-only re
 
 ## Invocation and visibility
 
-The generated packages now add a short host-native activation reminder. Codex and Claude Code run a `UserPromptSubmit` plugin hook; Gemini CLI loads the extension's `GEMINI.md` in every restarted session. The reminder tells the host to invoke the coordinator for qualifying substantial work. It does not duplicate the routing policy or run the routers itself. Codex can require one-time review before an installed hook runs, and any host or administrator can disable hooks or extensions. ChatGPT surfaces that consume only the portable Agent Plugins manifest do not expose a local prompt hook, so their implicit activation still depends on description matching or explicit Skill selection.
+The generated packages now add a short host-native activation reminder. Codex and Claude Code run a `UserPromptSubmit` plugin hook; Gemini CLI loads the extension's `GEMINI.md` in every restarted session. The reminder tells the host to understand the request, form a lightweight rough plan, and invoke the coordinator for qualifying substantial work before broad tool use, detailed planning, or execution. It does not duplicate the routing policy or run the routers itself. Codex can require one-time review before an installed hook runs, and any host or administrator can disable hooks or extensions. ChatGPT surfaces that consume only the portable Agent Plugins manifest do not expose a local prompt hook, so their implicit activation still depends on description matching or explicit Skill selection.
 
 For explicit use, select the **adaptive-task-routing skill** in the host's skill picker, or ask: “Use the adaptive-task-routing skill before starting this work.” Codex surfaces supporting `$` mentions can use `$adaptive-task-routing`; Claude Code uses `/adaptive-task-routing:adaptive-task-routing`. Individual routers remain available for context-only or model-only requests. The coordinator remains the primary entrypoint; a child selected for a general task dispatches once to it unless the request is explicitly context-only or model-only.
 

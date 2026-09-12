@@ -19,8 +19,9 @@ gemini skills list
 Linking changes the local extension registry. Use install instead of link if you
 want a copied installation. Start a new interactive session and inspect /skills list.
 The manifest loads the packaged `GEMINI.md` after restart. Submit a substantial task without
-naming the Skill and confirm Gemini requests or performs adaptive-task-routing activation
-before execution. Explicit activation remains available for comparison.
+naming the Skill and confirm Gemini forms a lightweight rough plan, requests or performs
+adaptive-task-routing activation, and shows a brief task framing before the routing note and
+execution. Explicit activation remains available for comparison.
 
 Gemini can limit consent to an activated Skill's directory. Our coordinator also
 reads sibling Skills and plugin-level shared/. Verify these reads in the installed

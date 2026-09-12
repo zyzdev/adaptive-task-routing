@@ -9,7 +9,7 @@
       "title": "Coordinator sequence / 協調入口順序",
       "setup": "A substantial debugging request explicitly invokes `adaptive-task-routing`, with both child Skills and shared files available.",
       "prompt": "Evaluate this fixture under the installed routing Skills: A substantial debugging request explicitly invokes `adaptive-task-routing`, with both child Skills and shared files available.",
-      "expected": "The coordinator loads the context router first, resolves the effective context, then loads the model router for that context. One compact note reports both independent results; the coordinator does not make either child decision itself.",
+      "expected": "After a lightweight understanding and rough plan, the coordinator loads the context router first, resolves the effective context, then loads the model router for that context. User-facing output briefly frames the understood task and rough approach before one compact routing note; detailed planning or execution follows it. The coordinator does not make either child decision itself.",
       "results": {
         "chatgpt": {
           "status": "not_run",
