@@ -84,7 +84,7 @@ Permission escalation is deferred until the user questions the recommendation or
 
 ## Cross-platform strategy
 
-Version 0.4.1 separates task requirements from candidate mapping and adds automatic
+Version 0.4.2 separates task requirements from candidate mapping and adds automatic
 activation reminders. Discovery observations
 carry source/time/scope/status; persisted thread values and disk defaults never fill
 unknown live fields. Official descriptions are capability evidence, not account catalogs

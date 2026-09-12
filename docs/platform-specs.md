@@ -57,7 +57,7 @@ Gemini repository/tree; the source monorepo has no root extension manifest.
 
 ## Local audit baseline
 
-Routing-discovery references updated for 0.4.1: [OpenAI](../shared/hosts/openai.md),
+Routing-discovery references updated for 0.4.2: [OpenAI](../shared/hosts/openai.md),
 [Claude Code](../shared/hosts/claude.md), [Gemini CLI](../shared/hosts/gemini.md).
 Their official sources were checked on 2026-09-11. The 2026-09-12 implementation uses
 version-sensitive, optional read paths, not a fixed model/effort catalog. Official

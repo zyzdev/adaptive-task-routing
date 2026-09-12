@@ -1,4 +1,4 @@
-# Release verification — 0.4.1
+# Release verification — 0.4.2
 
 Audit date: 2026-09-12 (Asia/Taipei). This release updates discovery, recommendation,
 direct-selection dispatch, plan-first routing and the `ask` hold while preserving the three Skill names. Local automated checks passed;
@@ -105,14 +105,14 @@ Native discovery is not behavioral execution, and no live App control socket was
 
 | Archive | Bytes |
 |---|---:|
-| adaptive-task-routing-openai-0.4.1.zip | 108409 |
-| adaptive-task-routing-claude-0.4.1.zip | 106978 |
-| adaptive-task-routing-gemini-0.4.1.zip | 111598 |
+| adaptive-task-routing-openai-0.4.2.zip | 108435 |
+| adaptive-task-routing-claude-0.4.2.zip | 107003 |
+| adaptive-task-routing-gemini-0.4.2.zip | 111623 |
 
 ```text
-875917c506c78b313f09662588dfaffcd1a5d01e33a2e66bf9e793126e5f2eeb  adaptive-task-routing-openai-0.4.1.zip
-8b7291fcbf574c35196cace895e1f4dd4712622b0a8e8b6a83b38affc2f904f3  adaptive-task-routing-claude-0.4.1.zip
-91a1c77f178e832a9583841f87ddfd94eff56612cedd87032b01920f9c839fcb  adaptive-task-routing-gemini-0.4.1.zip
+7407f6448fba1d2edcad9a298b5192f65512a762b7410544637dcf457a494d9e  adaptive-task-routing-openai-0.4.2.zip
+07f4c0008ce161ea386dce4a2e06366fc9f98b2da51bb1cffa9d44d7d7053a94  adaptive-task-routing-claude-0.4.2.zip
+2acbd1afefc0517f3c053b5dbebe99acafe3b0f923ae0b5e11502f33ddb18289  adaptive-task-routing-gemini-0.4.2.zip
 ```
 
 Each ZIP has manifests at its root without a wrapper. All three Skills, shared guides

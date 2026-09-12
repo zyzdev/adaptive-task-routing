@@ -2,7 +2,7 @@
 
 The repository root is source, not an installable plugin. Edit skills/ and shared/ once.
 Set release.json's version and update CHANGELOG.md. The current release candidate is
-0.4.1; no remote release or platform submission is created by any script.
+0.4.2; no remote release or platform submission is created by any script.
 
 ## Build and validate
 

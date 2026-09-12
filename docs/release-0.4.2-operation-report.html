@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Adaptive Task Routing 0.4.2｜發布準備操作報告</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172033;
+      --muted: #667085;
+      --line: #d9e2ee;
+      --paper: #ffffff;
+      --wash: #f3f7fb;
+      --brand: #3157c8;
+      --brand-soft: #e9efff;
+      --success: #13795b;
+      --success-soft: #e7f7f1;
+      --pending: #98620b;
+      --pending-soft: #fff5dc;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: linear-gradient(145deg, #eef3fb 0%, #f8fafc 45%, #eef7f4 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+      line-height: 1.65;
+    }
+
+    main {
+      width: min(1080px, calc(100% - 32px));
+      margin: 36px auto;
+    }
+
+    .hero, section {
+      background: var(--paper);
+      border: 1px solid rgba(217, 226, 238, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 14px 36px rgba(25, 40, 70, 0.08);
+    }
+
+    .hero {
+      padding: 36px;
+      border-top: 5px solid var(--brand);
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--brand);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .lede {
+      max-width: 760px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .meta div {
+      padding: 14px 16px;
+      background: var(--wash);
+      border-radius: 13px;
+    }
+
+    .meta dt {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .meta dd {
+      margin: 3px 0 0;
+      font-weight: 750;
+      overflow-wrap: anywhere;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    section { padding: 28px; }
+
+    h2 {
+      margin: 0 0 18px;
+      font-size: 1.25rem;
+      letter-spacing: -0.015em;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 750;
+    }
+
+    .done { color: var(--success); background: var(--success-soft); }
+    .next { color: var(--pending); background: var(--pending-soft); }
+
+    ol.timeline {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: step;
+    }
+
+    .timeline li {
+      position: relative;
+      padding: 0 0 22px 45px;
+      counter-increment: step;
+    }
+
+    .timeline li:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 30px;
+      bottom: 4px;
+      left: 14px;
+      width: 2px;
+      background: var(--line);
+    }
+
+    .timeline li::before {
+      content: counter(step);
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      color: white;
+      background: var(--success);
+      border-radius: 50%;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .timeline strong { display: block; }
+    .timeline p { margin: 4px 0 0; color: var(--muted); }
+
+    ul.checks {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .checks li {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .checks li:last-child { border-bottom: 0; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.91rem;
+    }
+
+    th, td {
+      padding: 13px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th { color: var(--muted); font-size: 0.78rem; }
+
+    code {
+      padding: 2px 6px;
+      background: var(--wash);
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.88em;
+    }
+
+    .hash {
+      display: block;
+      max-width: 38ch;
+      overflow-wrap: anywhere;
+    }
+
+    a { color: var(--brand); font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .callout {
+      margin-top: 18px;
+      padding: 18px 20px;
+      background: var(--brand-soft);
+      border-left: 4px solid var(--brand);
+      border-radius: 12px;
+    }
+
+    footer {
+      padding: 22px 4px 8px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.86rem;
+    }
+
+    @media (max-width: 760px) {
+      main { margin: 16px auto; }
+      .hero, section { padding: 22px; border-radius: 16px; }
+      .grid, .meta { grid-template-columns: 1fr; }
+      table { display: block; overflow-x: auto; }
+    }
+
+    @media print {
+      body { background: white; }
+      main { width: 100%; margin: 0; }
+      .hero, section { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <p class="eyebrow">Release preparation report</p>
+      <h1>Adaptive Task Routing 0.4.2</h1>
+      <p class="lede">第一階段「整理正式版本」已完成。合併基準、版本整理、三平台重建、完整驗證、發布分支與審查 PR 均已有可追蹤結果。</p>
+      <dl class="meta">
+        <div><dt>執行日期</dt><dd>2026-09-12</dd></div>
+        <div><dt>發布分支</dt><dd>release/0.4.2</dd></div>
+        <div><dt>發布提交</dt><dd>78d70e2</dd></div>
+        <div><dt>目前狀態</dt><dd><span class="status done">準備完成</span></dd></div>
+      </dl>
+    </header>
+
+    <div class="grid">
+      <section>
+        <h2>已完成操作</h2>
+        <ol class="timeline">
+          <li><strong>同步並確認主線</strong><p>PR #1 已合併，安全檢查通過；本機 main 已快轉至遠端合併提交。</p></li>
+          <li><strong>建立發布分支</strong><p>從最新 main 建立 <code>release/0.4.2</code>，沒有直接修改遠端 main。</p></li>
+          <li><strong>整理正式版本</strong><p>將 Unreleased 內容歸入 0.4.2，更新版本、架構、平台規格與發布驗證文件。</p></li>
+          <li><strong>重建三平台套件</strong><p>由單一來源重新產生 OpenAI、Claude 與 Gemini 三份 ZIP。</p></li>
+          <li><strong>推送並建立審查</strong><p>發布分支已推送；<a href="https://github.com/zyzdev/adaptive-task-routing/pull/2">PR #2：Release adaptive-task-routing 0.4.2</a> 已建立。</p></li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>驗證結果</h2>
+        <ul class="checks">
+          <li><span>來源、Manifest、連結與觸發</span><span class="status done">通過</span></li>
+          <li><span>Python 單元與整合測試</span><span class="status done">54 / 54</span></li>
+          <li><span>ZIP 內容與 SHA-256</span><span class="status done">通過</span></li>
+          <li><span>Claude strict validation</span><span class="status done">通過</span></li>
+          <li><span>Gemini extension validation</span><span class="status done">通過</span></li>
+          <li><span>三平台本機 smoke test</span><span class="status done">通過</span></li>
+          <li><span>三平台實際操作</span><span class="status done">使用者確認</span></li>
+        </ul>
+      </section>
+    </div>
+
+    <section style="margin-top: 18px;">
+      <h2>0.4.2 發布產物</h2>
+      <table>
+        <thead>
+          <tr><th>平台</th><th>檔案</th><th>大小</th><th>SHA-256</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>OpenAI</td><td><code>adaptive-task-routing-openai-0.4.2.zip</code></td><td>108,435 bytes</td><td><code class="hash">7407f6448fba1d2edcad9a298b5192f65512a762b7410544637dcf457a494d9e</code></td></tr>
+          <tr><td>Claude</td><td><code>adaptive-task-routing-claude-0.4.2.zip</code></td><td>107,003 bytes</td><td><code class="hash">07f4c0008ce161ea386dce4a2e06366fc9f98b2da51bb1cffa9d44d7d7053a94</code></td></tr>
+          <tr><td>Gemini</td><td><code>adaptive-task-routing-gemini-0.4.2.zip</code></td><td>111,623 bytes</td><td><code class="hash">2acbd1afefc0517f3c053b5dbebe99acafe3b0f923ae0b5e11502f33ddb18289</code></td></tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        <strong>產物位置：</strong>本機 <code>dist/</code>。該目錄依專案規則不納入 Git；PR 保存版本來源、建置規則與驗證紀錄。公開上架時再使用這三份已驗證的 ZIP 或對應解壓目錄。
+      </div>
+    </section>
+
+    <section style="margin-top: 18px;">
+      <h2>仍待擁有者執行</h2>
+      <p><span class="status next">下一階段</span></p>
+      <p>審查並合併 PR #2，接著建立 <code>v0.4.2</code> tag 與 GitHub Release，再分別送交 OpenAI Plugin Portal、Claude Plugin Directory 與 Gemini Extension 發布管道。此報告沒有建立 tag、公開 Release 或送出平台審核。</p>
+    </section>
+
+    <footer>由專案既有的可重現建置與驗證流程產生操作紀錄。</footer>
+  </main>
+</body>
+</html>
