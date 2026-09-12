@@ -17,6 +17,9 @@ The [skill guide](https://developers.openai.com/plugins/build/skills) defines na
 description frontmatter and description-based activation.
 The [testing guide](https://developers.openai.com/plugins/deploy/connect-chatgpt) calls for
 installed-host testing of triggers, resources, outcomes and negative cases.
+The current Codex runtime exposes plugin lifecycle hooks, including `UserPromptSubmit`;
+the compatibility manifest uses that event for a fixed activation reminder. Hook trust
+and installed-host delivery remain runtime checks rather than portable schema guarantees.
 
 The pinned schema in tests/schemas/plugin.schema.json was fetched from
 https://agent-plugins.org/schemas/1.0.0/plugin.schema.json, linked by OpenAI's packaging
@@ -27,6 +30,8 @@ by the build or portable validator.
 
 The [plugin reference](https://code.claude.com/docs/en/plugins-reference) defines
 .claude-plugin/plugin.json and root skills/. Use slash commands namespaced by plugin.
+The [hooks reference](https://code.claude.com/docs/en/hooks) permits plugin
+`hooks/hooks.json` and `UserPromptSubmit` context injection.
 The [creation guide](https://code.claude.com/docs/en/plugins) covers local --plugin-dir
 loading and catalog submission. CLI capabilities must be checked locally: newer
 documentation can describe flags not available in an installed version. Third-party
@@ -37,7 +42,8 @@ the claude.ai directory submission form requires Team/Enterprise directory acces
 ## Gemini CLI
 
 The [extension reference](https://geminicli.com/docs/extensions/reference/) requires
-root gemini-extension.json. [Agent Skills](https://geminicli.com/docs/cli/skills/)
+root gemini-extension.json and supports persistent extension context through
+`contextFileName` and `GEMINI.md`. [Agent Skills](https://geminicli.com/docs/cli/skills/)
 describes extension Skill discovery and activation consent scoped to the Skill directory.
 Cross-Skill and plugin-level shared reference access therefore remains an installed-host
 permission test; file existence alone does not establish access.
@@ -49,7 +55,7 @@ Gemini repository/tree; the source monorepo has no root extension manifest.
 
 ## Local audit baseline
 
-Routing-discovery references added for 0.4.0: [OpenAI](../shared/hosts/openai.md),
+Routing-discovery references updated for 0.4.1: [OpenAI](../shared/hosts/openai.md),
 [Claude Code](../shared/hosts/claude.md), [Gemini CLI](../shared/hosts/gemini.md).
 Their official sources were checked on 2026-09-11. The 2026-09-12 implementation uses
 version-sensitive, optional read paths, not a fixed model/effort catalog. Official

@@ -2,7 +2,7 @@
 
 The repository root is source, not an installable plugin. Edit skills/ and shared/ once.
 Set release.json's version and update CHANGELOG.md. The current release candidate is
-0.4.0; no remote release or platform submission is created by any script.
+0.4.1; no remote release or platform submission is created by any script.
 
 ## Build and validate
 
@@ -35,7 +35,9 @@ Source tests and build code are excluded from runtime packages. Behavioral cases
 architecture, examples, shared files, license, changelog and platform-specific README
 are explicitly included. README source lives in packaging/<platform>/README.md and is
 placed at each package root with its repository-relative links rebased by the builder.
-Both source and packaged links are checked. No installer or code runs when a Skill loads.
+Both source and packaged links are checked. Codex and Claude packages include fixed-output
+prompt hooks; Gemini includes startup context. They remind the host to invoke the Skill and
+do not run the router or metadata helper themselves.
 
 The sole packaged executable source is the optional Python 3.10+ Codex metadata helper
 inside the model Skill. Its read-only RPC tests run in the Python suite. To check it
@@ -48,7 +50,8 @@ to produce minimum-sufficient and recommended settings. It does not print unread
 current fields. In `auto`, it applies only through independently verified model and
 effort controls; otherwise it shows `/model` and waits for the user to reply “continue.”
 `/status` can provide current settings as user-reported evidence.
-Installing a release does not configure hooks, status lines, daemons or Python.
+Installing a release enables the packaged host-native reminder where the host supports it.
+Codex can require one-time hook trust. No status line, daemon, or Python environment is configured.
 
 This source build does not replace existing personal plugin installations. Use the
 confirmed local marketplace's update/reinstall flow and a new thread to test changes;

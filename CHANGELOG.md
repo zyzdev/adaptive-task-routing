@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.1] - 2026-09-12
+
+### Changed
+
+- Added host-native automatic activation reminders: a Codex `UserPromptSubmit` plugin hook, a Claude Code `UserPromptSubmit` plugin hook, and an extension `GEMINI.md` loaded through `contextFileName`.
+- Kept routing judgment inside the coordinator Skill. The startup integrations inject only a short eligibility reminder and skip ordinary chat, status checks, tiny operations, plugin-only questions, and unchanged phases.
+- Added package validation and regression coverage for all three automatic activation integrations. Codex may require one-time hook trust; Gemini loads the reminder after a CLI restart.
+
 All notable changes to this project are documented here.
 
 ## Unreleased
@@ -18,6 +26,7 @@ All notable changes to this project are documented here.
 - Use the visible model/reasoning selector in ChatGPT App and web instructions without mentioning the CLI-only `/model` command; identified Codex CLI instructions continue to use `/model` directly.
 - Treat the bundled, officially described OpenAI model inventory as cross-surface recommendation evidence when App runtime metadata is unavailable. Produce both concrete settings without requesting a copied selector; keep account availability unverified internally.
 - Defer permission escalation until a user questions a recommendation. Explain the evidence first, then ask once only when a narrowly scoped permission can unlock the same App/session model list; otherwise continue with the fallback without repeated prompts.
+- Add a Gemini CLI fallback registry using the current stable aliases and require model-native reasoning output, preventing legacy Gemini 1.5 names and unsupported Codex-style effort levels.
 - Add regression coverage for registry completeness, capability metadata, sandbox failure classification and permission-denial fallback behavior.
 
 ## [0.4.0] - 2026-09-12

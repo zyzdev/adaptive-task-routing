@@ -1,8 +1,9 @@
 # Adaptive Task Routing — Claude Code
 
 Three Skills route substantial work through context, model and reasoning recommendations.
-Both independent routers default to ask; no-change recommendations continue. Skill
-descriptions and triggers are unchanged. Automatic selection depends on the host.
+Both independent routers default to ask; no-change recommendations continue. A packaged
+`UserPromptSubmit` hook injects a short reminder before each prompt so Claude invokes the
+coordinator for qualifying substantial work.
 
 ## Local installation
 
@@ -14,11 +15,14 @@ claude plugin validate /absolute/path/to/adaptive-task-routing --strict
 claude --plugin-dir /absolute/path/to/adaptive-task-routing
 ```
 
-In the new session invoke /adaptive-task-routing:adaptive-task-routing.
+In the new session, first submit a substantial task without naming the Skill and confirm the
+routing note appears. Explicit invocation is /adaptive-task-routing:adaptive-task-routing.
 The individual routers are /adaptive-task-routing:task-context-router and
 /adaptive-task-routing:research-model-router. Verify all three are discovered.
 Keep the entire plugin together: shared files and sibling Skills are required.
-No MCP server, hook or startup context is bundled. The common model Skill carries an
+The hook prints fixed reminder text only and does not inspect files, call a model, or execute
+the routers. It can be inspected with `/hooks` and disabled through Claude Code settings.
+No MCP server is bundled. The common model Skill carries an
 optional Codex-only Python helper; do not run it to discover Claude settings.
 
 ## Model discovery
@@ -26,7 +30,7 @@ optional Codex-only Python helper; do not run it to discover Claude settings.
 Follow the [Claude guide](../../shared/hosts/claude.md). Prefer current session metadata
 or an already exposed status-line observation; use `/model` and, on supported versions,
 `/effort` as user controls when needed. Saved defaults and subagent overrides are not
-the main thread's live settings. No status-line or hook installation is performed.
+the main thread's live settings. No status-line integration is performed.
 Unknown settings still yield task capability guidance. Record acceptance in the
 [surface matrix](../../tests/surface-matrix.json).
 

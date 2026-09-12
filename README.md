@@ -46,9 +46,9 @@ It does not decide where the task runs or perform the task. Direct model-only re
 
 ## Invocation and visibility
 
-For the full workflow, explicitly select the **adaptive-task-routing skill** in your host's skill picker, or ask: “Use the adaptive-task-routing skill before starting this work.” Codex surfaces supporting `$` mentions can use `$adaptive-task-routing`; Claude Code uses `/adaptive-task-routing:adaptive-task-routing`. Individual routers remain available for context-only or model-only requests.
+The generated packages now add a short host-native activation reminder. Codex and Claude Code run a `UserPromptSubmit` plugin hook; Gemini CLI loads the extension's `GEMINI.md` in every restarted session. The reminder tells the host to invoke the coordinator for qualifying substantial work. It does not duplicate the routing policy or run the routers itself. Codex can require one-time review before an installed hook runs, and any host or administrator can disable hooks or extensions. ChatGPT surfaces that consume only the portable Agent Plugins manifest do not expose a local prompt hook, so their implicit activation still depends on description matching or explicit Skill selection.
 
-Implicit selection depends on the host matching a skill's description. Installing the plugin, selecting its display name, or adding a shared policy file does not create an always-on hook. The coordinator is marked as the primary entrypoint for general substantial tasks. If a host still selects a child, that child dispatches once to the coordinator unless the request is explicitly context-only or model-only. Coordinator-delegated markers prevent recursion. Missing children or a pending destination must be reported explicitly.
+For explicit use, select the **adaptive-task-routing skill** in the host's skill picker, or ask: “Use the adaptive-task-routing skill before starting this work.” Codex surfaces supporting `$` mentions can use `$adaptive-task-routing`; Claude Code uses `/adaptive-task-routing:adaptive-task-routing`. Individual routers remain available for context-only or model-only requests. The coordinator remains the primary entrypoint; a child selected for a general task dispatches once to it unless the request is explicitly context-only or model-only.
 
 When diagnosing a missing note, inspect the skill inventory, actual loaded Skill paths, modes, and response. No visible note alone does not prove whether a skill loaded. An older conversation alone does not prove an outdated inventory either. A new task after reinstall is the recommended test boundary.
 
@@ -70,7 +70,7 @@ The present conversation state is the fallback; no second fixed strategy is requ
 
 On first use, the plugin loads a capability snapshot from a host- or user-managed settings store. It detects and records missing or stale operations when persistence is available. Later gates perform only a lightweight freshness check; cached observations remain hints and are invalidated by surface, session, permission, tool, host, catalog, or operation-result changes.
 
-The model catalog is dynamic and separate from the running configuration. Runtime metadata is preferred, then clearly labeled user-provided options, then an explicitly versioned and expiring fallback registry. On recognized OpenAI surfaces, that registry's dated official cross-surface descriptions can produce concrete recommendations when App metadata is inaccessible, without claiming account availability or asking the user to copy the selector first. A runtime catalog may be cached for the session or another short host-defined lifetime, and is refreshed after relevant changes or errors. Task scoring stays model-neutral; the plugin does not permanently assign scores to model names.
+The model catalog is dynamic and separate from the running configuration. Runtime metadata is preferred, then clearly labeled user-provided options, then an explicitly versioned and expiring fallback registry. On recognized OpenAI surfaces, that registry's dated official cross-surface descriptions can produce concrete recommendations when App metadata is inaccessible, without claiming account availability or asking the user to copy the selector first. Gemini CLI has its own dated registry of stable model aliases; it never borrows OpenAI effort levels or guesses the account-dependent backend model. A runtime catalog may be cached for the session or another short host-defined lifetime, and is refreshed after relevant changes or errors. Task scoring stays model-neutral; the plugin does not permanently assign scores to model names.
 
 The normal fallback path does not ask for broader permission. If the user later questions a recommendation, the router explains the source, date, applicability limit and task mapping. It asks once for narrowly scoped read permission only when that permission can query the same App or session; permission that can only inspect another process is not requested. A declined request returns to the fallback without repeated prompts.
 
@@ -86,8 +86,9 @@ Read the matching [host guide](shared/host-discovery.md) only when discovery is 
 The optional Python 3.10+ [Codex helper](skills/research-model-router/scripts/probe_codex.py)
 reads metadata without inference or configuration writes. It keeps CLI catalogs, disk
 defaults and persisted thread settings separate; App applicability requires verification.
-It runs only on demand, not on installation or Skill loading. No daemon, hook or MCP
-service is bundled. Claude and Gemini use their own host guides, not this helper.
+It runs only on demand, not on installation or Skill loading. The activation hooks do not
+run this helper; they only print a fixed reminder. No daemon or MCP service is bundled.
+Claude and Gemini use their own host guides, not this helper.
 
 [Seven-surface acceptance records](tests/surface-matrix.json) cover 34 cases (238 cells):
 ChatGPT web/desktop/mobile, Codex App/CLI, Claude Code and Gemini CLI. Metadata probe
@@ -95,7 +96,7 @@ success is not a conversational pass, live App verification, or switching capabi
 
 ## Source and releases
 
-Version **0.4.0** is a locally prepared release candidate. The only maintained Skill and
+Version **0.4.1** is a locally prepared release candidate. The only maintained Skill and
 policy sources are root skills/ and shared/. The three stable Skill names remain unchanged;
 their descriptions now distinguish the general coordinator from context-only and model-only children.
 Bodies and translations provide scoped discovery and task-needs guidance.
@@ -110,7 +111,7 @@ release.json provides metadata for every generated manifest.
 The source monorepo is not directly installable on any platform. Build first and use
 the correct generated root. ZIP names are adaptive-task-routing-<platform>-<version>.zip;
 each has its manifest directly at ZIP root. There are exactly three ZIPs plus SHA256SUMS.
-No separate Codex marketplace ZIP, runtime script, MCP service or always-on hook is shipped.
+No separate Codex marketplace ZIP, runtime service, or MCP service is shipped.
 
 ## Build and verify
 

@@ -18,14 +18,15 @@ gemini skills list
 
 Linking changes the local extension registry. Use install instead of link if you
 want a copied installation. Start a new interactive session and inspect /skills list.
-Ask Gemini to use adaptive-task-routing; accept Skill activation only after reviewing
-the request. Then test implicit activation separately.
+The manifest loads the packaged `GEMINI.md` after restart. Submit a substantial task without
+naming the Skill and confirm Gemini requests or performs adaptive-task-routing activation
+before execution. Explicit activation remains available for comparison.
 
 Gemini can limit consent to an activated Skill's directory. Our coordinator also
 reads sibling Skills and plugin-level shared/. Verify these reads in the installed
 host and record any additional permission prompt. An inaccessible dependency must
-produce an incomplete gate, not an invented routing result. No GEMINI.md startup
-context is included, so installation does not change the preserved triggers.
+produce an incomplete gate, not an invented routing result. The startup context contains only
+the eligibility reminder; the Skill remains the source of routing policy and output rules.
 
 ## Contents and evaluation
 
@@ -37,15 +38,17 @@ context is included, so installation does not change the preserved triggers.
 - [Defaults](../../shared/defaults.yaml)
 - [Changelog](../../CHANGELOG.md)
 
-Version is in gemini-extension.json. No MCP service, hook or credential prompt is bundled.
+Version is in gemini-extension.json. No MCP service, executable hook or credential prompt is bundled.
 The common model Skill carries an optional Codex-only Python helper, not a Gemini
 probe or startup executable. Real model/context changes depend on observed host capabilities.
 
 ## Model discovery
 
 Follow the [Gemini guide](../../shared/hosts/gemini.md). Use current host metadata or the
-user's `/model` inventory; Auto is a configured policy, not a fixed execution model.
-Do not equate thinking budgets or display toggles with Codex reasoning levels.
+user's `/model` inventory, then the dated Gemini CLI alias registry when live metadata
+is unavailable. Auto is a configured policy, not a fixed execution model. Do not
+equate thinking budgets or display toggles with Codex reasoning levels; without an
+observed native control, Reasoning is reported as the model default.
 Unknown settings still yield task capability guidance. Record acceptance in the
 [surface matrix](../../tests/surface-matrix.json); do not run the Codex helper here.
 

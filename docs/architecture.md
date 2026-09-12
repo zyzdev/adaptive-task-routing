@@ -46,7 +46,7 @@ The coordinator follows relative links to the packaged child `SKILL.md` files, o
 
 ## Trigger and gate lifecycle
 
-Explicitly selecting the coordinator runs the full workflow. Implicit discovery remains a host decision based on the description; neither the manifest's default prompt nor the shared policy file is an always-on hook. The coordinator description is the primary general-task match, while each child description is limited to explicit component-only use and delegated calls. A child's one-time dispatch guard recovers when a host nevertheless selects it for a general task.
+Explicitly selecting the coordinator runs the full workflow. The generated packages also use a host-native reminder: Codex and Claude Code inject one short instruction on `UserPromptSubmit`, while Gemini CLI loads an extension `GEMINI.md` at session startup. The reminder asks the host to invoke the coordinator for qualifying work; the coordinator Skill still owns eligibility and routing. A child's one-time dispatch guard recovers when a host nevertheless selects it for a general task.
 
 Run an initial gate after a rough plan and before substantial work. Also route a substantial next phase when presenting an improvement plan, even if executing it awaits user approval. A final answer with no concrete substantial next phase ends normally. At later stage changes, re-run model routing alone unless context also needs reconsideration.
 
@@ -78,13 +78,14 @@ The first invocation loads a capability snapshot from a host- or user-managed se
 
 The installed plugin package is not used as mutable state because upgrades may replace it.
 
-The available model catalog has a shorter lifecycle than the capability snapshot. Runtime metadata is preferred and cached for the session or another short host-defined lifetime. A user-provided list is labeled as such; a static fallback must be versioned and expiring. When an OpenAI App cannot expose runtime discovery, the router immediately uses the bundled official cross-surface reference to produce minimum-sufficient and recommended settings without asking for a copied selector. Account availability remains unverified. In `auto`, independently verified switch controls may apply the pair; otherwise it waits for the user's surface-appropriate control and “continue” response. Unreadable current fields are retained only in structured evidence and omitted from compact output. Catalog, running configuration, model capability evidence and switch capability remain separate.
+The available model catalog has a shorter lifecycle than the capability snapshot. Runtime metadata is preferred and cached for the session or another short host-defined lifetime. A user-provided list is labeled as such; a static fallback must be versioned and expiring. When an OpenAI App cannot expose runtime discovery, the router immediately uses the bundled official cross-surface reference to produce minimum-sufficient and recommended settings without asking for a copied selector. Gemini CLI uses a separate registry of stable aliases and preserves model-native reasoning controls; without an observed `thinkingBudget` or `thinkingLevel`, compact output says the model default is used. Account availability remains unverified. In `auto`, independently verified switch controls may apply the pair; otherwise it waits for the user's surface-appropriate control and “continue” response. Unreadable current fields are retained only in structured evidence and omitted from compact output. Catalog, running configuration, model capability evidence and switch capability remain separate.
 
 Permission escalation is deferred until the user questions the recommendation or requests an account-specific check. The router first discloses its evidence and limits. It may then ask once for the smallest useful read permission, but only when a concrete path can reach the same App or session model catalog. Access to a separate CLI process does not satisfy that condition. A refusal keeps the fallback result and suppresses repeat requests until the relevant environment or user request changes.
 
 ## Cross-platform strategy
 
-Version 0.4.0 separates task requirements from candidate mapping. Discovery observations
+Version 0.4.1 separates task requirements from candidate mapping and adds automatic
+activation reminders. Discovery observations
 carry source/time/scope/status; persisted thread values and disk defaults never fill
 unknown live fields. Official descriptions are capability evidence, not account catalogs
 or measured task rankings. Only applicable options can become concrete recommendations.
@@ -95,13 +96,13 @@ not the App connection. Read and write capabilities are resolved independently.
 
 The repository root owns the only maintained `skills/` and `shared/` sources. Skill names remain stable; frontmatter descriptions and their checked trigger contract distinguish the primary coordinator from component-only children. Bodies and translations evolve together. `release.json` owns release identity, version and presentation. `scripts/release_lib.py` translates it into platform manifests at build time:
 
-- OpenAI: root `plugin.json` (Agent Plugins schema; `extensions.com.openai.interface`) and `.codex-plugin/plugin.json` compatibility fallback, generated from the same metadata.
-- Claude: `.claude-plugin/plugin.json`.
-- Gemini: root `gemini-extension.json`.
+- OpenAI: root `plugin.json` (Agent Plugins schema; `extensions.com.openai.interface`) and `.codex-plugin/plugin.json` compatibility fallback with a `UserPromptSubmit` hook.
+- Claude: `.claude-plugin/plugin.json` plus `hooks/hooks.json`.
+- Gemini: root `gemini-extension.json` plus `GEMINI.md`, selected by `contextFileName`.
 
-`scripts/build_release.py` creates three staging trees at `dist/<platform>/adaptive-task-routing` and three root-layout ZIPs. Common documentation is included by explicit file list; each platform README comes from `packaging/<platform>/README.md`. Build/test executables are excluded. The one allowed executable source is the optional on-demand Skill helper; there is no startup hook, service or automatic execution.
+`scripts/build_release.py` creates three staging trees at `dist/<platform>/adaptive-task-routing` and three root-layout ZIPs. Common documentation is included by explicit file list; each platform README comes from `packaging/<platform>/README.md`. Build/test executables are excluded. The one allowed executable source is the optional on-demand Skill helper. Automatic activation uses declarative context or a fixed shell-output hook; it does not probe metadata, start a service, or execute the routers itself.
 
-There is no fourth marketplace archive. Local marketplace registration is a separate host setup step. The validator checks relative references, frontmatter, preserved triggers, shared files, versions, platform manifest boundaries, staged bytes, ZIP members and SHA-256. Rebuilds use fixed archive metadata. Previous dist trees are preserved outside dist in `.release-backups/`. File validation does not prove implicit activation, permission to read a sibling Skill, or real model switching; the behavioral matrix records those host results separately.
+There is no fourth marketplace archive. Local marketplace registration is a separate host setup step. The validator checks relative references, frontmatter, preserved triggers, automatic activation definitions, shared files, versions, platform manifest boundaries, staged bytes, ZIP members and SHA-256. Rebuilds use fixed archive metadata. Previous dist trees are preserved outside dist in `.release-backups/`. File validation proves that the reminder is packaged, but installed-host tests are still required to prove that the host delivered it, invoked the Skill, allowed sibling reads, or switched settings.
 
 ## Defaults
 

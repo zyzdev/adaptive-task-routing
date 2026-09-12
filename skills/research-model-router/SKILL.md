@@ -35,6 +35,8 @@ When observations are missing or stale, follow the matching [host discovery guid
 
 For verified runtime decisions, recommend only a `model` and `reasoning_effort` supported by the current environment. For a matching unexpired registry fallback, recommend only pairs recorded in that registry and label their account availability `unverified`. Never invent identifiers.
 
+Reasoning controls are platform-native. The rubric's `low`, `moderate`, and `high` task demand is internal analysis, not proof that those strings are selectable settings. On Gemini CLI, use an exact observed `thinkingBudget` or `thinkingLevel` only when it is configurable in the effective session. Otherwise render `Reasoning: model default`, localized to the user. Never output bare Codex-style `low`, `medium`, or `high` as a Gemini setting without matching Gemini control evidence.
+
 Resolve the catalog's scope instead of copying a probe's initial `unverified` label. Follow the host guide's surface-specific invocation and criteria. In an identified Codex CLI task, invoke the helper with `--surface codex-cli`. When CLI versus App is not explicitly identified, invoke it with `--surface auto`; do not guess App. Automatic detection may use a standalone CLI process ancestor or the exact thread's stable `source: cli` when tool isolation hides that ancestor; the latter identifies the interface without treating saved model/effort as live. Accept a fresh successful CLI catalog marked `applicability: verified` unless positive evidence shows an availability-changing launch mismatch. The helper's separate process, unreadable live settings, absence of an App bridge, or inability to prove that no hidden override exists must not invalidate that CLI catalog. Runtime descriptions and supported effort options can support a capability-based recommendation without benchmarks. If scope is still unresolved, name the actual conflicting evidence; neither unknown current values nor an unrelated failed metadata read is a catalog failure.
 
 Judge technical difficulty, ambiguity, dependent reasoning steps, evidence volume and heterogeneity, validation needs, consequence of subtle errors, synthesis or critique demands, latency and compute cost, and whether the phase is execution-heavy or interpretation-heavy.
@@ -57,6 +59,7 @@ Resolve the recommendation independently of whether it can be compared or applie
 | Current pair is known and supported by capability evidence | Give both task-based pairs by their concrete names, compare the observed pair with them, and assess switching value. Retain the current pair when justified. Recommend an alternative only with sufficient evidence. |
 | A model recommendation is supported, but its effort options are unknown | Give the model in both blocks, retain effort as `CURRENT`, and explicitly report the unknown effort options. Relative task demand is not an invented selector value. |
 | Runtime discovery is blocked on a recognized OpenAI surface, but the unexpired bundled registry has model descriptions and effort options | Stop after the failed read and give concrete minimum and recommended fallback pairs without asking the user to transcribe the selector. Treat the registry as cross-surface recommendation evidence, while keeping account availability and current settings unverified. Apply only through independently verified switch controls in `auto`; otherwise present the surface-appropriate user control and wait for the user to adjust or choose to continue. |
+| Gemini CLI live selector metadata is unavailable, but the unexpired Gemini CLI registry applies | Recommend only its stable aliases (`auto`, `pro`, `flash`, or `flash-lite`) using the recorded task guidance. Never guess a concrete backend model because alias resolution is account-dependent. Use the model's default reasoning behavior unless an exact native thinking control is observed. Do not ask for `/model` before giving the fallback recommendation. |
 | Relevant bounded discovery leaves insufficient catalog or capability evidence to choose a pair, and no recognized-product bundled reference applies | Show task requirements, the attempted source and outcome or concrete access limitation, and the missing evidence. Provisionally retain `CURRENT / CURRENT` with `assessment: unverified`, or ask once for selector options when an exact choice is necessary. Do not call this proof of suitability. |
 
 Lack of an automatic switching tool affects execution, not the ability to recommend evidenced pairs. `upgrade_value` compares the recommended pair with the minimum sufficient pair, never with an unknown current setting. In `ask`, ask the user to use the recommended pair when the current pair is unknown; do not describe it as an upgrade or downgrade from the unknown setting.
@@ -79,76 +82,15 @@ Resolve this router's mode independently of the context router. A current-turn i
 
 ## Output
 
-Every enabled invocation must visibly report the minimum sufficient model/effort, the recommended model/effort, upgrade value, a short reason, and what actually happened. Use the two headings `Minimum sufficient AI setting` and `Recommended AI setting`, translated to the user's language. Show a current-setting block only when matching live or user-provided values are known and useful for the switch decision; never print `Current: unknown / unknown` in the compact result. Unless the user asks for diagnostics, do not mention the probe, fallback/registry source, freshness, surface/account applicability, unreadable current values, confidence, assessment or mode in the compact result. The compact output contains only the task-specific setting blocks plus the useful capability outcome: either verified automatic application or the exact user action. When manual action is needed, the final line must tell the user to reply “continue” after setting it, or to reply “continue” to proceed unchanged. A second gate in the same response may reuse an unchanged result, but cannot silently omit the enabled model result.
+Every enabled invocation must visibly report the minimum sufficient model/effort, the recommended model/effort, upgrade value, a short reason, and what actually happened. Use the two headings `Minimum sufficient AI setting` and `Recommended AI setting`, translated to the user's language. Traditional Chinese must use the exact literal headings `【最低足夠 AI 設定】` and `【建議 AI 設定】`; do not replace them with Markdown `#` headings. Show a current-setting block only when matching live or user-provided values are known and useful for the switch decision; never print `Current: unknown / unknown` in the compact result. Unless the user asks for diagnostics, do not mention the probe, fallback/registry source, freshness, surface/account applicability, unreadable current values, confidence, assessment or mode in the compact result. The compact output contains only the task-specific setting blocks plus the useful capability outcome: either verified automatic application or the exact user action. When manual action is needed, the final line must tell the user to reply “continue” after setting it, or to reply “continue” to proceed unchanged. Stop the response immediately after that instruction; do not append a plan, task analysis, separator, or any other content. A second gate in the same response may reuse an unchanged result, but cannot silently omit the enabled model result.
 
-```yaml
-skill: research-model-router
-phase: short description of the upcoming work phase
-task_requirements:
-  capabilities: [phase-specific needs, not model names]
-  reasoning_demand: low | moderate | high
-  quality_and_validation: short requirement
-  latency_and_usage: user constraints or unspecified
-discovery:
-  status: not_probed | available | partial | unavailable | permission_denied | error | stale | scope_mismatch
-  attempts: [source, outcome and limitation, without secrets]
-  scope: product, surface, execution host and effective context
-  observed_at: timestamp | unknown
-  missing_information: []
-capability_evidence:
-  source: runtime description | official documentation | task evaluation | unavailable
-  reference: source identifier or URL | null
-  observed_at: timestamp | unknown
-  recommendation_basis: inferred | measured | insufficient
-current_configuration:
-  model: observed model name | unknown
-  reasoning_effort: observed effort | unknown | unsupported
-  evidence: runtime metadata | user-provided settings | cached observation | unavailable
-  scope: matching live configuration | user-reported | unknown
-model_catalog:
-  availability: available | unknown
-  source: runtime metadata | user-provided settings | cached observation | versioned fallback | unavailable
-  observed_at: timestamp | unknown
-  cache_scope: current session | host-defined short lifetime | none
-  applicable_to_context: verified | unverified | mismatch
-assessment: suitable | change_recommended | unverified | deferred
-minimum_sufficient_setting:
-  model: supported model name | CURRENT | null
-  reasoning_effort: supported effort | CURRENT | null
-  availability: verified | unverified | unknown
-  reason: why this is sufficient for the task
-recommended_setting:
-  model: supported model name | CURRENT | null
-  reasoning_effort: supported effort | CURRENT | null
-  availability: verified | unverified | unknown
-upgrade_value: low | medium | high
-upgrade_reason: additional value over the minimum, or why a stronger pair would not help
-confidence: 0.00-1.00
-reason: one concise phase-specific explanation
-mode: off | ask | auto
-disposition: skipped | awaiting_user_confirmation | awaiting_user_action | applied | kept_current
-revisit_at: meaningful next stage transition | null
-runtime_capabilities:
-  surface: identified surface or unknown
-  switch_current_model: agent | orchestrator | user_only | unavailable | unknown
-  set_model_for_new_run: agent | orchestrator | user_only | unavailable | unknown
-  set_reasoning_effort: agent | orchestrator | user_only | unavailable | unknown
-  evidence: runtime metadata | user-provided settings | cached observation | unavailable
-  observed_at: timestamp | unknown
-  confidence: 0.00-1.00
-execution:
-  requested_owner: agent | orchestrator | user | none
-  effective_owner: agent | orchestrator | user | none
-  status: skipped | awaiting_user_confirmation | awaiting_user_action | applied | retained_current | blocked
-  reason: concise explanation
-  manual_action: null | surface-specific instruction
-```
+Keep internal observations in the [structured evidence schema](references/evidence-schema.md). Read that reference only when the user requests diagnostics or when maintaining the router implementation. Never render the schema or internal evidence in ordinary compact output.
 
 Distinguish both settings from what was actually applied. With a bundled registry, `availability: unverified` means the identifiers and efforts were observed and documented recently, while availability to this account has not been verified. For a deferred destination decision in `ask`, use null setting fields, `assessment: deferred`, `disposition: awaiting_user_confirmation`, and the matching execution status; explain the dependency instead of presenting `CURRENT` as an evaluated destination choice. Never claim a switch occurred unless the host applied it. Provide concise rationale, not hidden chain-of-thought.
 
 Keep persisted settings and disk defaults in structured evidence, not as verified current values. The compact result focuses on actionable routing information: task need, both pairs, upgrade value, actual disposition and the next action. When current values cannot be read, omit them instead of explaining that they are unknown. Use only models and efforts present in the applicable runtime catalog or unexpired registry, and never claim a setting was applied without verification.
 
-In Traditional Chinese, the compact result should follow this structure:
+In Traditional Chinese, the compact result should follow this structure. This first example uses OpenAI values:
 
 ```text
 【最低足夠 AI 設定】
@@ -162,9 +104,23 @@ In Traditional Chinese, the compact result should follow this structure:
 * 升級價值：低。目前主要瓶頸是歷史資料可用性與口徑一致性，提高設定不會補出缺失的資料。
 ```
 
+On Gemini CLI, keep the same headings but use Gemini-native values. When no independent thinking control is verified, use this form instead of inventing an effort level:
+
+```text
+【最低足夠 AI 設定】
+* Model：Flash
+* Reasoning：使用模型預設
+這一步範圍清楚，一般的模型推理能力足以完成。
+
+【建議 AI 設定】
+* Model：Pro
+* Reasoning：使用模型預設
+* 升級價值：中。較適合需要多步判斷、交叉核對與較高錯誤成本的工作。
+```
+
 The explanation must describe the actual phase rather than copying this example. When the two pairs differ, `upgrade_reason` must say what the recommended pair adds. When they are equal, explain why further capability has low value.
 
-When manual action is required, name the control appropriate to the identified surface. On ChatGPT desktop or web with a visible model/reasoning selector, mention only that selector; do not include the CLI-only `/model` command. For Traditional Chinese use: “請使用介面中的模型與推理強度選單完成設定。完成後請回覆「繼續」。若決定不調整，也請回覆「繼續」。” On an identified Codex CLI where `/model` is the documented control, use: “請用 `/model` 完成設定；完成後請回覆「繼續」。若決定不調整，也請回覆「繼續」。” If the surface is unresolved, refer generically to the interface's model controls and do not mention `/model` until CLI support is established.
+When manual action is required, name the control appropriate to the identified surface. On ChatGPT desktop or web with a visible model/reasoning selector, mention only that selector; do not include the CLI-only `/model` command. For Traditional Chinese use: “請使用介面中的模型與推理強度選單完成設定。完成後請回覆「繼續」。若決定不調整，也請回覆「繼續」。” On an identified Codex CLI where `/model` is the documented control, use: “請用 `/model` 完成設定；完成後請回覆「繼續」。若決定不調整，也請回覆「繼續」。” On Gemini CLI, `/model` changes only the model or alias unless a separate native thinking control is actually available. With model-default reasoning, use: “目前環境無法代為切換模型；Reasoning 使用模型預設。請用 `/model` 選擇建議的模型；完成後請回覆「繼續」。若決定不調整，也請回覆「繼續」。” If the surface is unresolved, refer generically to the interface's model controls and do not mention `/model` until CLI support is established.
 
 Immediately before that instruction, state the capability outcome in plain language: “目前環境無法代為切換模型與推理強度。” If `auto` successfully applied and verified both operations, replace the manual instruction with: “已自動套用建議設定，現在繼續執行。”
 

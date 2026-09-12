@@ -1,15 +1,20 @@
 # Adaptive Task Routing — OpenAI / ChatGPT / Codex
 
-This skills-only plugin contains three workflows with preserved triggers: adaptive-task-routing,
+This plugin contains three workflows with preserved triggers: adaptive-task-routing,
 task-context-router, and research-model-router. It suggests context, model and reasoning
-for substantial work; both routers default to ask. It cannot guarantee automatic
-activation or change settings unless the host exposes an authorized, verifiable operation.
+for substantial work; both routers default to ask. The Codex compatibility manifest includes
+a `UserPromptSubmit` reminder that asks the host to invoke the coordinator for qualifying work.
 
 The root plugin.json targets Agent Plugins 1.0.0. OpenAI presentation is under
 extensions.com.openai. The generated .codex-plugin/plugin.json is the Codex compatibility
-fallback, with the same identity, version and presentation. There is no MCP, app connection,
-hook or startup executable. An optional Python 3.10+ read-only metadata helper lives
+fallback, with the same identity, version and presentation. The hook prints fixed text only;
+it does not inspect the prompt or run routing logic. Codex may require one-time hook review.
+There is no MCP or app connection. An optional Python 3.10+ read-only metadata helper lives
 inside the model Skill; it runs only on demand, never on installation or Skill loading.
+
+The hook belongs to the Codex compatibility manifest. ChatGPT web, desktop, mobile, or
+Chrome surfaces that consume only the portable manifest do not execute this local hook;
+automatic selection there remains description-based and cannot be guaranteed by this ZIP.
 
 ## Model discovery
 
@@ -38,8 +43,9 @@ a new task. A plugin ZIP is not a marketplace root. This release provides three 
 archives; it does not provide a fourth marketplace archive. Local marketplace installation
 does not publish to your workspace or the public directory.
 
-Check that all three Skill names appear in the new task's inventory. Explicitly select
-adaptive-task-routing first, then separately test implicit selection. Current conversation
+Check that all three Skill names appear in the new task's inventory and review/enable the
+plugin hook when Codex asks. Submit a substantial task without naming the Skill, then confirm
+the routing note appears before execution. Also test explicit selection. Current conversation
 settings or user-only controls must never be claimed to have changed automatically.
 
 ## Contents and testing

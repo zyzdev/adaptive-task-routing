@@ -46,9 +46,9 @@ Plugin 不會因為使用者允許自動操作，就假設宿主環境真的具�
 
 ## 觸發與顯示
 
-需要完整流程時，在宿主的 Skill 選擇器明確選取 **adaptive-task-routing Skill**，或要求：「開始這項工作前，請使用 adaptive-task-routing Skill。」支援 `$` 提及的 Codex 介面可用 `$adaptive-task-routing`；Claude Code 可用 `/adaptive-task-routing:adaptive-task-routing`。兩個 Router 也能各自單獨使用。
+三個平台產物現在都包含簡短的宿主原生啟動提醒。Codex 與 Claude Code 使用 `UserPromptSubmit` Plugin hook；Gemini CLI 在重啟後的每個工作階段載入 Extension 的 `GEMINI.md`。提醒只要求宿主在符合條件的實質工作中呼叫協調 Skill，不會複製路由政策，也不會自行執行 Router。Codex 安裝的 hook 首次執行前可能需要一次審查；宿主或管理員仍可停用 hook 或 Extension。只讀取可攜式 Agent Plugins Manifest 的 ChatGPT 介面沒有本機 Prompt hook，因此仍要依賴描述匹配或明確選取 Skill。
 
-隱式選用取決於宿主對 Skill 描述的匹配。安裝 Plugin、選到 Plugin 顯示名稱，或新增共用描述檔，都不會變成常駐 Hook。一般實質任務會優先匹配協調入口；宿主若仍直接選到子 Router，除非使用者明確只要 Context 或 Model，子 Router 會只轉交協調入口一次，協調委派標記會避免循環。元件缺失或目的地未確定時，必須明確回報。
+需要明確觸發時，可在宿主的 Skill 選擇器選取 **adaptive-task-routing Skill**，或要求：「開始這項工作前，請使用 adaptive-task-routing Skill。」支援 `$` 提及的 Codex 介面可用 `$adaptive-task-routing`；Claude Code 可用 `/adaptive-task-routing:adaptive-task-routing`。一般實質任務仍以協調入口為主；誤選到子 Router 時，除非使用者明確只要 Context 或 Model，子 Router 只會轉交協調入口一次。
 
 排查漏掉建議時，檢查可用 Skill 清單、實際載入路徑、模式及回覆；不能僅憑沒看到建議就斷定沒載入，也不能只因對話較舊就斷定清單過期。重新安裝後，建議用新任務作為測試邊界。
 
@@ -70,7 +70,7 @@ Plugin 不會因為使用者允許自動操作，就假設宿主環境真的具�
 
 第一次使用時，Plugin 先從宿主或使用者管理的設定區讀取能力快照；沒有快照或資料過期時，才偵測缺少的操作並在可持久化時記錄。後續 Gate 只做輕量新鮮度檢查；快取只是提示。介面、Session、權限、工具、宿主、模型清單或操作結果改變時，重新偵測受影響項目。
 
-模型清單是動態資料，且與目前執行設定分開。優先使用 Runtime 資料，再使用明確標記的使用者提供清單，最後才使用有版本與有效期限的備援 Registry。已辨識為 OpenAI 介面但 App 資料無法讀取時，Registry 內有日期的官方跨介面說明仍可直接產生兩組具體建議，不宣稱帳號可用，也不先要求使用者抄寫選單。Runtime 清單可在 Session 或宿主定義的短期限內快取，遇到環境改變、錯誤或過期時更新。任務評分不綁定模型名稱，Plugin 不會永久替特定模型寫死分數。
+模型清單是動態資料，且與目前執行設定分開。優先使用 Runtime 資料，再使用明確標記的使用者提供清單，最後才使用有版本與有效期限的備援 Registry。已辨識為 OpenAI 介面但 App 資料無法讀取時，Registry 內有日期的官方跨介面說明仍可直接產生兩組具體建議，不宣稱帳號可用，也不先要求使用者抄寫選單。Gemini CLI 使用自己的穩定模型別名參考，不借用 OpenAI 的強度等級，也不猜測帳號相依的後端型號。Runtime 清單可在 Session 或宿主定義的短期限內快取，遇到環境改變、錯誤或過期時更新。任務評分不綁定模型名稱，Plugin 不會永久替特定模型寫死分數。
 
 一般備援流程不要求擴大權限。使用者之後質疑推薦時，Router 才說明資料來源、日期、適用限制與任務判斷；只有最小必要權限確實能查詢同一個 App 或 Session 時才詢問一次。只能查看另一個程序的權限不會被索取；使用者拒絕後沿用備援，不重複打擾。
 
@@ -78,12 +78,12 @@ Plugin 不會因為使用者允許自動操作，就假設宿主環境真的具�
 
 ## 單一來源與三平台產物
 
-目前版本為 **0.4.0** 本機發布候選。根目錄 skills/ 與 shared/ 是唯一維護來源。
+目前版本為 **0.4.1** 本機發布候選。根目錄 skills/ 與 shared/ 是唯一維護來源。
 三個 Skill 名稱維持不變；描述已區分一般任務協調入口，以及 Context-only／Model-only 子 Router。主體與翻譯新增證據範圍與任務需求指引。release.json 統一管理版本與 metadata。
 
 Model Router 先提出任務能力需求，再映射為適用且可選的模型／強度；未知設定不抹去需求建議。官方描述是能力參考，不代表帳號可用，也不是固定排名。
 按需讀取[宿主探測指引](shared/host-discovery.md)。Codex 有選用的 Python 3.10+ 唯讀 helper，不做模型推論或設定寫入；CLI 清單、磁碟預設、保存的 thread 設定分開標示，不能冒充 App 即時狀態。Claude／Gemini 使用自己的指引，不呼叫 Codex helper。
-helper 不在安裝或 Skill 載入時自動執行，也不是常駐服務或 hook。
+helper 不在安裝、Skill 載入或啟動提醒時自動執行。啟動 hook 只輸出固定提醒，不執行探測；本專案沒有常駐服務。
 
 | 平台 | 產物根目錄 | Manifest | 安裝 |
 |---|---|---|---|

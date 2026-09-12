@@ -22,6 +22,35 @@ MANIFESTS = {
     "claude": {".claude-plugin/plugin.json"},
     "gemini": {"gemini-extension.json"},
 }
+AUTO_ACTIVATION = {
+    "openai": (
+        "Before responding or using tools, decide whether this prompt starts a substantial "
+        "multi-step coding, debugging, architecture, validation, research, or analysis phase. "
+        "For every qualifying phase you MUST invoke $adaptive-task-routing first and follow its "
+        "routing gate; never merely suggest invoking it later. Skip ordinary chat, status checks, "
+        "tiny operations, questions only about this plugin, and an unchanged phase whose gate "
+        "already completed."
+    ),
+    "claude": (
+        "Before responding or using tools, decide whether this prompt starts a substantial "
+        "multi-step coding, debugging, architecture, validation, research, or analysis phase. "
+        "For every qualifying phase you MUST invoke /adaptive-task-routing:adaptive-task-routing "
+        "first and follow its routing gate; never merely suggest invoking it later. Skip ordinary "
+        "chat, status checks, tiny operations, questions only about this plugin, and an unchanged "
+        "phase whose gate already completed."
+    ),
+    "gemini": (
+        "Before responding or using tools, decide whether a user prompt starts a substantial "
+        "multi-step coding, debugging, architecture, validation, research, or analysis phase. "
+        "For every qualifying phase you MUST call activate_skill with name adaptive-task-routing "
+        "first and follow its routing gate; never merely suggest activation as a future step. Skip "
+        "ordinary chat, status checks, tiny operations, questions only about this extension, and "
+        "an unchanged phase whose gate already completed."
+    ),
+}
+GEMINI_COORDINATOR_DEPENDENCIES = (
+    "shared/gemini-coordinator-runtime.md",
+)
 FORBIDDEN_PARTS = {".DS_Store", "__MACOSX", "__pycache__", ".git", "dist", "node_modules", ".venv"}
 
 
@@ -53,6 +82,26 @@ def read_tree(directory):
     return result
 
 
+def gemini_coordinator(root, base):
+    parts = [
+        base.decode("utf-8").rstrip(),
+        "\n\n## Generated Gemini dependency appendix",
+        "\nThis build-generated appendix is authoritative for this invocation. It keeps the "
+        "complete compact Gemini routing contract inside the one directory authorized by "
+        "activating this Skill. Follow it as the coordinator-delegated result of both child "
+        "routers. Do not output until both enabled decisions are complete.\n",
+    ]
+    for name in GEMINI_COORDINATOR_DEPENDENCIES:
+        content = (root / name).read_text(encoding="utf-8").rstrip()
+        # Embedded dependencies are instructions, not navigable files in the coordinator's
+        # Skill directory. Remove Markdown link wrappers so Gemini does not follow a path that
+        # sits outside the directory authorized by this one Skill activation.
+        content = re.sub(r"\[([^\]]+)\]\([^\n)]+\)", r"\1", content)
+        parts.extend((f"\n### Embedded dependency: `{name}`\n\n",
+                      content, "\n"))
+    return "".join(parts).encode("utf-8")
+
+
 def manifests(config, platform):
     common = {key: config[key] for key in
               ("name", "version", "description", "author", "license", "keywords")}
@@ -60,17 +109,28 @@ def manifests(config, platform):
         if key in config:
             common[key] = config[key]
     if platform == "openai":
+        reminder = AUTO_ACTIVATION["openai"]
+        hooks = {"hooks": {"UserPromptSubmit": [{"hooks": [{
+            "type": "command",
+            "command": f"printf '%s\\n' '{reminder}'",
+            "commandWindows": f"Write-Output '{reminder}'",
+            "async": False,
+            "timeoutSec": 5,
+            "additionalContextLimit": 0,
+        }]}]}}
         return {
             "plugin.json": json_bytes({"$schema": SCHEMA, **common,
                                       "extensions": {"com.openai": {"interface": config["interface"]}}}),
             ".codex-plugin/plugin.json": json_bytes({**common, "skills": "./skills/",
+                                                     "hooks": hooks,
                                                      "interface": config["interface"]}),
         }
     if platform == "claude":
         return {".claude-plugin/plugin.json": json_bytes(common)}
     if platform == "gemini":
         return {"gemini-extension.json": json_bytes({key: config[key] for key in
-                                                     ("name", "version", "description")})}
+                                                     ("name", "version", "description")}
+                                                     | {"contextFileName": "GEMINI.md"})}
     raise ValueError(f"Unknown platform: {platform}")
 
 
@@ -79,12 +139,29 @@ def payload(root, platform):
     result = {}
     for folder in ("skills", "shared"):
         result.update({f"{folder}/{name}": data for name, data in read_tree(root / folder).items()})
+    if platform == "gemini":
+        coordinator = "skills/adaptive-task-routing/SKILL.md"
+        result[coordinator] = gemini_coordinator(root, result[coordinator])
     for name in COMMON_FILES:
         result[name] = (root / name).read_bytes()
     # Installation text is also the packaged README: one maintained copy per platform.
     readme = (root / f"packaging/{platform}/README.md").read_text(encoding="utf-8")
     # Source READMEs link two levels up; rebasing keeps both source and ZIP links valid.
     result["README.md"] = re.sub(r"(\]\()\.\./\.\./", r"\1", readme).encode("utf-8")
+    if platform == "claude":
+        result["hooks/hooks.json"] = json_bytes({
+            "description": "Remind Claude to route qualifying substantial work.",
+            "hooks": {"UserPromptSubmit": [{"hooks": [{
+                "type": "command",
+                "command": f'echo "{AUTO_ACTIVATION["claude"]}"',
+                "timeout": 5,
+            }]}]},
+        })
+    if platform == "gemini":
+        result["GEMINI.md"] = (
+            "# Adaptive Task Routing startup instruction\n\n"
+            + AUTO_ACTIVATION["gemini"] + "\n"
+        ).encode("utf-8")
     result.update(manifests(config, platform))
     return result
 

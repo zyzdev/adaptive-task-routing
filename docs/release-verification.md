@@ -1,4 +1,4 @@
-# Release verification — 0.4.0
+# Release verification — 0.4.1
 
 Audit date: 2026-09-12 (Asia/Taipei). This release updates discovery, recommendation,
 and direct-selection dispatch guidance while preserving the three Skill names. Local automated checks passed;
@@ -8,11 +8,11 @@ public submission and conversational acceptance remain outstanding.
 
 | Check | Result | Scope |
 |---|---|---|
-| Python unit/integration tests | PASS, 50 tests | 35 release tests plus 15 metadata-helper tests |
+| Python unit/integration tests | PASS, 54 tests | 39 release tests plus 15 metadata-helper tests |
 | Source validation | PASS | Three checked frontmatters/trigger contracts, links/anchors, defaults, required host guides, manifests/version |
 | Release validation | PASS | Three staging trees, exact ZIP members/bytes, shared files, manifest isolation, SHA-256 |
 | Reproducibility | PASS | Build-twice integration compares ZIP bytes and preserves old output |
-| Claude Code 2.1.152 | PASS | claude plugin validate dist/claude/adaptive-task-routing --strict |
+| Claude Code 2.1.269 | PASS | claude plugin validate dist/claude/adaptive-task-routing --strict |
 | Gemini CLI 0.59.0 | PASS | gemini extensions validate dist/gemini/adaptive-task-routing |
 | Codex compatibility validator | PASS | Bundled plugin-creator validate_plugin.py |
 | Three Skill validators | PASS | Bundled skill-creator quick_validate.py |
@@ -21,14 +21,16 @@ The helper tests cover catalog pagination/cycles, hidden models, malformed/dupli
 catalogs, partial failure, exact thread matching, scope labeling, filtered output,
 unknown current values, write/history rejection, bounded timeouts, malformed/oversized
 protocol output and redacted project-sandbox startup classification. Release tests additionally enforce the bundled registry's complete model count, runtime and official descriptions, task-selection guidance, reasoning metadata, scope, structure and seven-day expiry, seven surfaces, complete case sets,
-evidence for executed results, required guides and the one allowed helper source.
+evidence for executed results, required guides, automatic activation payloads, the compact
+Gemini coordinator projection and the one allowed helper source.
 
 ## Native local discovery and probe
 
 - Codex CLI 0.154.0: plugin/read in a disposable marketplace found all three namespaced
   Skills and localVersion 0.4.0. It did not install or enable that temporary plugin.
-- Claude Code 2.1.152: isolated session --plugin-dir discovered version 0.4.0 and three
-  Skills; bare credential-free inventory found no hooks, agents or MCP servers.
+- Claude Code 2.1.269: strict validation accepted the plugin manifest and packaged
+  `UserPromptSubmit` hook. A live inference run was blocked because this local CLI is no
+  longer authenticated; this is not counted as a behavioral pass.
 - Gemini CLI 0.59.0: temporary GEMINI_CLI_HOME, link with scoped consent, extensions
   list and skills list discovered all three Skills. Temporary registry/trust changes
   were removed with the test workspace.
@@ -62,6 +64,20 @@ evidence for executed results, required guides and the one allowed helper source
   only possible read belonged to a separate CLI process. The response disclosed the actual
   source, observation and expiry dates, account-availability limit and task mapping. It did
   not start the probe or request permission that could not reach the same App/session.
+- A fresh Gemini CLI 0.59.0 model-only run used `Flash / model default` and
+  `Pro / model default`, preserved the exact Traditional Chinese bracket headings, named
+  `/model` only for the model change, and ended at the continue prompt. It did not emit a
+  legacy Gemini 1.5 name, invent Codex effort levels, expose internal YAML, or modify files.
+- Three fresh Gemini CLI 0.59.0 runs used a substantial Traditional Chinese prompt that did
+  not name any Skill. Every run automatically called `activate_skill` once, rendered the
+  conversation, minimum and recommended blocks, ended with the `/model` and “continue”
+  action, and changed zero file lines. The generated coordinator uses a compact runtime
+  projection because Gemini grants one activation access only to that Skill directory.
+  A fresh `1 + 1` negative control made zero `activate_skill` calls.
+- A fresh Codex CLI 0.154.0 run used the same unnamed-Skill task. With hook trust bypassed
+  for that reviewed local test invocation only, it automatically loaded the coordinator,
+  rendered all three blocks and stopped at the “continue” action without scanning the
+  project. Normal interactive use still presents one-time hook review.
 
 Evidence: [sanitized native inventory](evidence/native-smoke.json) and
 [metadata-probe summary](evidence/routing-probe.json), plus the
@@ -69,12 +85,15 @@ Evidence: [sanitized native inventory](evidence/native-smoke.json) and
 [direct-selection result](evidence/codex-cli-direct-selection.json), plus the
 [localized conversation-output result](evidence/codex-cli-localized-context.json) and
 [App fallback-reference fixture](evidence/codex-app-fallback-reference.json), plus the
-[deferred-permission challenge fixture](evidence/codex-app-permission-challenge.json).
+[deferred-permission challenge fixture](evidence/codex-app-permission-challenge.json) and
+[Gemini CLI model-routing result](evidence/gemini-cli-model-routing.json), plus
+[Gemini automatic activation](evidence/gemini-cli-auto-activation.json) and
+[Codex CLI automatic activation](evidence/codex-cli-auto-activation.json).
 Raw inventory is regenerated locally at build/native-smoke.json.
 Host startup may update its own logs/caches or contact its provider.
 
 The persistent personal plugin was updated and enabled as development build
-`0.4.0+codex.20260912040629`. A new conversation is still required to load it. No user
+`0.4.1+codex.20260912055741`. A new conversation is still required to load it. No user
 model/effort setting was changed.
 Native discovery is not behavioral execution, and no live App control socket was tested.
 
@@ -82,19 +101,20 @@ Native discovery is not behavioral execution, and no live App control socket was
 
 | Archive | Bytes |
 |---|---:|
-| adaptive-task-routing-openai-0.4.0.zip | 94181 |
-| adaptive-task-routing-claude-0.4.0.zip | 92794 |
-| adaptive-task-routing-gemini-0.4.0.zip | 92722 |
+| adaptive-task-routing-openai-0.4.1.zip | 102026 |
+| adaptive-task-routing-claude-0.4.1.zip | 100723 |
+| adaptive-task-routing-gemini-0.4.1.zip | 102218 |
 
 ```text
-4a530ae6bbc93cf789d68dd0813c6e61efaf3c8985c2185312b3b1629fea1c76  adaptive-task-routing-openai-0.4.0.zip
-784a91a9c9b5cddc5488fba37a9eb701b89f656d8ed289bc68674660ccee19ea  adaptive-task-routing-claude-0.4.0.zip
-cd85de753d5ce7cfb41ddc589731b8b6a2cd51cc2f2158f09422a4e9540f408c  adaptive-task-routing-gemini-0.4.0.zip
+1a8ff7758036584f68b93e35c5f89f17d3dbe924d8d534c6831a8d285aad8381  adaptive-task-routing-openai-0.4.1.zip
+351efe7e0f5903a1f26e2e3194b2cd9e70d78457aa1119a0c109f729c9cb5bb7  adaptive-task-routing-claude-0.4.1.zip
+1815dba32416364b624b2ff5460183d80604a7600660cb919acda0f6aeca13bb  adaptive-task-routing-gemini-0.4.1.zip
 ```
 
 Each ZIP has manifests at its root without a wrapper. All three Skills, shared guides
 and the single optional Codex helper are generated from canonical sources. The helper
-does not run on installation or Skill loading; no startup hook or daemon is introduced.
+does not run on installation, Skill loading, or prompt-hook execution. Codex and Claude
+hooks print a fixed reminder; Gemini loads a fixed context reminder. No daemon is introduced.
 Finder metadata, Python caches, old dist content, foreign manifests and build/test
 executables are excluded.
 
@@ -127,6 +147,6 @@ frontmatter descriptions, their checked trigger contract, and relevant behaviora
 expectations now cover direct child selection. Unrelated existing content is retained.
 
 The final build moved the previous dist to
-.release-backups/dist-u1nm3ofm/dist. It is recoverable and was not used as input.
+.release-backups/dist-djx3yxhj/dist. It is recoverable and was not used as input.
 No Git index/history/remotes, remote repository, push, release or submission was changed.
 See [release and owner submission steps](release.md).

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "name": "adaptive-task-routing",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Route complex work to an appropriate conversation context, model, and reasoning effort using shared runtime capability detection and independent user controls.",
   "author": {
     "name": "Adaptive Task Routing contributors"

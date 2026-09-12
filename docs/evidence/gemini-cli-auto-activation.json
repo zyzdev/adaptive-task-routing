@@ -1,0 +1,28 @@
+{
+  "observed_at": "2026-09-12T05:50:00Z",
+  "host": "Gemini CLI 0.59.0",
+  "model_alias": "flash-lite",
+  "serving_model": "gemini-3.1-flash-lite",
+  "plugin_version": "0.4.1",
+  "prompt_named_skill": false,
+  "runs": 3,
+  "results": {
+    "activate_skill_called_in_every_run": true,
+    "context_block_in_every_run": true,
+    "minimum_setting_block_in_every_run": true,
+    "recommended_setting_block_in_every_run": true,
+    "manual_model_action_in_every_run": true,
+    "continue_prompt_was_final_in_every_run": true,
+    "file_lines_changed": 0
+  },
+  "negative_control": {
+    "prompt": "1 + 1 等於多少？",
+    "activate_skill_calls": 0,
+    "response": "1 + 1 等於 2。"
+  },
+  "notes": [
+    "The extension GEMINI.md required activation before responding or using tools.",
+    "The generated coordinator contained a compact Gemini runtime projection because one activated Skill cannot reliably activate sibling Skills in the same task.",
+    "All runs recommended Flash as minimum, Pro as recommended, and model-default reasoning."
+  ]
+}

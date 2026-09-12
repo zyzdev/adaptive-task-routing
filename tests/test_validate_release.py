@@ -64,6 +64,26 @@ class ValidateReleaseTests(unittest.TestCase):
         ):
             VALIDATOR.main()
 
+    def test_source_validation_rejects_stale_gemini_fallback_registry(self) -> None:
+        path = self.root / "shared/model-catalogs/gemini-cli.json"
+        registry = json.loads(path.read_text())
+        registry["expires_at"] = registry["observed_at"]
+        path.write_text(json.dumps(registry, indent=2) + "\n")
+        with self.temporary_root(), self.assertRaisesRegex(
+            ValueError, "Gemini fallback registry is stale"
+        ):
+            VALIDATOR.main()
+
+    def test_source_validation_rejects_legacy_gemini_model(self) -> None:
+        path = self.root / "shared/model-catalogs/gemini-cli.json"
+        registry = json.loads(path.read_text())
+        registry["models"][1]["model"] = "gemini-1.5-pro"
+        path.write_text(json.dumps(registry, indent=2) + "\n")
+        with self.temporary_root(), self.assertRaisesRegex(
+            ValueError, "Invalid Gemini fallback models"
+        ):
+            VALIDATOR.main()
+
     def test_source_validation_rejects_incomplete_fallback_model_metadata(self) -> None:
         path = self.root / "shared/model-catalogs/openai-codex-cli.json"
         registry = json.loads(path.read_text())
@@ -313,10 +333,44 @@ class ValidateReleaseTests(unittest.TestCase):
                 self.assertEqual(set(package.namelist()) & all_manifests, MANIFESTS[platform])
                 self.assertIn("shared/defaults.yaml", package.namelist())
                 for name in ("adaptive-task-routing", "task-context-router", "research-model-router"):
-                    self.assertEqual(package.read(f"skills/{name}/SKILL.md"),
-                                     (self.root / f"skills/{name}/SKILL.md").read_bytes())
+                    packaged = package.read(f"skills/{name}/SKILL.md")
+                    source = (self.root / f"skills/{name}/SKILL.md").read_bytes()
+                    if platform == "gemini" and name == "adaptive-task-routing":
+                        self.assertTrue(packaged.startswith(source.rstrip()))
+                        self.assertIn(b"Generated Gemini dependency appendix", packaged)
+                    else:
+                        self.assertEqual(packaged, source)
             self.assertEqual(stage_path(dist, config, platform).name, "adaptive-task-routing")
         VALIDATOR.validate_dist(self.root, dist)
+
+    def test_platform_packages_include_automatic_activation(self):
+        from release_lib import AUTO_ACTIVATION, payload
+
+        openai = payload(self.root, "openai")
+        legacy = json.loads(openai[".codex-plugin/plugin.json"])
+        codex_handlers = legacy["hooks"]["hooks"]["UserPromptSubmit"][0]["hooks"]
+        self.assertEqual(codex_handlers[0]["type"], "command")
+        self.assertIn(AUTO_ACTIVATION["openai"], codex_handlers[0]["command"])
+
+        claude = payload(self.root, "claude")
+        claude_hooks = json.loads(claude["hooks/hooks.json"])
+        claude_handlers = claude_hooks["hooks"]["UserPromptSubmit"][0]["hooks"]
+        self.assertIn(AUTO_ACTIVATION["claude"], claude_handlers[0]["command"])
+
+        gemini = payload(self.root, "gemini")
+        gemini_manifest = json.loads(gemini["gemini-extension.json"])
+        self.assertEqual(gemini_manifest["contextFileName"], "GEMINI.md")
+        self.assertIn(AUTO_ACTIVATION["gemini"], gemini["GEMINI.md"].decode())
+
+    def test_rejects_modified_automatic_activation(self):
+        from release_lib import payload
+
+        entries = payload(self.root, "claude")
+        hook = json.loads(entries["hooks/hooks.json"])
+        hook["hooks"]["UserPromptSubmit"][0]["hooks"][0]["command"] = "echo bypass"
+        entries["hooks/hooks.json"] = json.dumps(hook).encode()
+        with self.assertRaisesRegex(ValueError, "Claude automatic routing hook mismatch"):
+            VALIDATOR.validate_manifests(entries, "claude", VALIDATOR.metadata(self.root))
 
     def test_invalid_source_preserves_previous_dist(self):
         from build_release import build

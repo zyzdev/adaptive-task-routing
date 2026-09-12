@@ -18,6 +18,7 @@ import yaml
 # Also support importlib-based callers, including the original regression tests.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from release_lib import (ROOT, PLATFORMS, SKILLS, SURFACES, SKILL_HELPER, MANIFESTS, COMMON_FILES, SCHEMA,
+                         AUTO_ACTIVATION, GEMINI_COORDINATOR_DEPENDENCIES,
                          archive_name, digest, ignored, metadata, payload, stage_path)
 
 SEMVER = re.compile(r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?\Z")
@@ -130,16 +131,50 @@ def validate_manifests(entries, platform, config):
         require(portable["extensions"]["com.openai"] == {"interface": legacy["interface"]},
                 "OpenAI overlay mismatch")
         require(legacy.get("skills") == "./skills/", "Codex skills path mismatch")
+        expected_hook = {"hooks": {"UserPromptSubmit": [{"hooks": [{
+            "type": "command",
+            "command": f"printf '%s\\n' '{AUTO_ACTIVATION['openai']}'",
+            "commandWindows": f"Write-Output '{AUTO_ACTIVATION['openai']}'",
+            "async": False,
+            "timeoutSec": 5,
+            "additionalContextLimit": 0,
+        }]}]}}
+        require(legacy.get("hooks") == expected_hook, "Codex automatic routing hook mismatch")
         import jsonschema
         schema = json.loads((Path(__file__).resolve().parent.parent / "tests/schemas/plugin.schema.json").read_text())
         jsonschema.Draft202012Validator(schema).validate(portable)
-    # Skills-only permits an on-demand Skill helper, not startup code/services/hooks.
+    if platform == "claude":
+        hook = json.loads(entries.get("hooks/hooks.json", b"{}"))
+        handlers = hook.get("hooks", {}).get("UserPromptSubmit", [])
+        require(hook.get("description") and len(handlers) == 1
+                and handlers[0].get("hooks") == [{
+                    "type": "command",
+                    "command": f'echo "{AUTO_ACTIVATION["claude"]}"',
+                    "timeout": 5,
+                }], "Claude automatic routing hook mismatch")
+    if platform == "gemini":
+        manifest = json.loads(entries["gemini-extension.json"])
+        require(manifest.get("contextFileName") == "GEMINI.md",
+                "Gemini automatic context is not configured")
+        expected = "# Adaptive Task Routing startup instruction\n\n" + AUTO_ACTIVATION["gemini"] + "\n"
+        require(entries.get("GEMINI.md", b"").decode("utf-8") == expected,
+                "Gemini automatic routing context mismatch")
+        coordinator = entries["skills/adaptive-task-routing/SKILL.md"].decode("utf-8")
+        require("## Generated Gemini dependency appendix" in coordinator
+                and all(f"### Embedded dependency: `{name}`" in coordinator
+                        for name in GEMINI_COORDINATOR_DEPENDENCIES),
+                "Gemini coordinator dependency appendix mismatch")
+    # The optional model probe is the only executable source. Automatic activation uses
+    # a declarative Gemini context and small host-native command hooks.
     executables = {n for n in entries if PurePosixPath(n).suffix in
                    {".py", ".sh", ".js", ".ts", ".ps1", ".exe", ".so", ".dylib"}}
     require(executables == {SKILL_HELPER}, "Unexpected or missing Skill helper")
-    require(not any(PurePosixPath(n).parts[0] in {"scripts", "hooks", "commands", "agents"}
+    allowed_roots = {"hooks"} if platform == "claude" else set()
+    require(not any(PurePosixPath(n).parts[0] in {"scripts", "hooks", "commands", "agents"} - allowed_roots
                     for n in entries), "Unexpected startup/build component")
-    require(not any(n in entries for n in (".mcp.json", "mcp.json", ".app.json", "GEMINI.md", "CLAUDE.md")),
+    allowed_runtime = {"GEMINI.md"} if platform == "gemini" else set()
+    require(not any(n in entries for n in ({".mcp.json", "mcp.json", ".app.json", "GEMINI.md", "CLAUDE.md"}
+                                             - allowed_runtime)),
             "Unexpected runtime component")
 
 
@@ -178,7 +213,8 @@ def validate_source(root):
                "shared/runtime-routing-policy.md", "shared/runtime-routing-policy.zh-TW.md",
                "tests/trigger-contract.json", "scripts/build_release.py", "scripts/validate_release.py",
                "shared/host-discovery.md", "shared/hosts/openai.md", "shared/hosts/claude.md",
-               "shared/hosts/gemini.md", "shared/model-catalogs/openai-codex-cli.json", SKILL_HELPER]
+               "shared/hosts/gemini.md", "shared/gemini-coordinator-runtime.md",
+               "shared/model-catalogs/openai-codex-cli.json", SKILL_HELPER]
     for name in required:
         require((root / name).is_file(), f"Missing required file: {name}")
     config = metadata(root)
@@ -235,9 +271,12 @@ def validate_source(root):
                 "maximum_requests_per_unchanged_condition": 1,
                 "after_decline": "continue_with_fallback",
             }, "Invalid permission escalation defaults")
-    registry_rel = defaults["model_catalog"].get("bundled_fallback_registry")
-    require(registry_rel == "shared/model-catalogs/openai-codex-cli.json",
-            "Unexpected bundled fallback registry")
+    registry_map = defaults["model_catalog"].get("bundled_fallback_registries", {})
+    require(registry_map == {
+                "openai": "shared/model-catalogs/openai-codex-cli.json",
+                "gemini-cli": "shared/model-catalogs/gemini-cli.json",
+            }, "Unexpected bundled fallback registries")
+    registry_rel = registry_map["openai"]
     registry = json.loads((root / registry_rel).read_text())
     require(registry.get("schema_version") == 3 and registry.get("product") == "codex-cli"
             and registry.get("surface") == "codex-cli"
@@ -286,7 +325,52 @@ def validate_source(root):
         require(model.get("default_reasoning_effort") in efforts, "Invalid fallback default effort")
         identifiers.append(model["model"])
     require(len(identifiers) == len(set(identifiers)), "Duplicate fallback model")
+    gemini_registry = json.loads((root / registry_map["gemini-cli"]).read_text())
+    require(gemini_registry.get("schema_version") == 1
+            and gemini_registry.get("product") == "gemini-cli"
+            and gemini_registry.get("surface") == "gemini-cli"
+            and gemini_registry.get("catalog_kind") == "versioned_expiring_fallback",
+            "Invalid Gemini fallback registry scope")
+    gemini_observed = datetime.fromisoformat(gemini_registry["observed_at"])
+    gemini_expires = datetime.fromisoformat(gemini_registry["expires_at"])
+    require(gemini_observed.tzinfo and gemini_expires.tzinfo
+            and gemini_observed < gemini_expires <= gemini_observed + timedelta(days=7)
+            and gemini_expires > datetime.now(timezone.utc),
+            "Gemini fallback registry is stale")
+    gemini_models = gemini_registry.get("models")
+    require(isinstance(gemini_models, list)
+            and gemini_registry.get("catalog_complete") is True
+            and gemini_registry.get("visible_model_count") == len(gemini_models)
+            and {item.get("model") for item in gemini_models}
+                == {"auto", "pro", "flash", "flash-lite"}
+            and all(isinstance(item.get("display_name"), str)
+                    and isinstance(item.get("official_description"), str)
+                    and isinstance(item.get("selection_guidance"), str)
+                    for item in gemini_models)
+            and not any("1.5" in json.dumps(item) for item in gemini_models),
+            "Invalid Gemini fallback models")
+    gemini_capability_url = urlsplit(
+        gemini_registry.get("capability_source", {}).get("url", ""))
+    reasoning_control = gemini_registry.get("reasoning_control", {})
+    require(gemini_registry.get("source", {}).get("host_version") == "gemini-cli 0.59.0"
+            and gemini_capability_url.scheme == "https"
+            and gemini_capability_url.netloc == "geminicli.com"
+            and gemini_registry.get("fallback_use", {}).get(
+                "ask_for_selector_before_recommendation") is False
+            and reasoning_control.get("kind") == "model_native"
+            and reasoning_control.get("fallback_display_value") == "model-default"
+            and all(isinstance(reasoning_control.get(key), str)
+                    for key in ("selection_rule", "forbidden_inference")),
+            "Invalid Gemini fallback evidence")
+    gemini_runtime = (root / "shared/gemini-coordinator-runtime.md").read_text()
+    require(all(token in gemini_runtime for token in (
+                "A fresh one-prompt session is focused",
+                "【最低足夠 AI 設定】", "【建議 AI 設定】",
+                "Reasoning：使用模型預設", "Never output Gemini 1.5",
+                "請用 /model 選擇建議的模型", "End the response after that paragraph")),
+            "Gemini compact coordinator contract missing")
     model_skill = (root / "skills/research-model-router/SKILL.md").read_text()
+    evidence_schema = (root / "skills/research-model-router/references/evidence-schema.md").read_text()
     require(all(token in model_skill for token in
                 ("minimum_sufficient_setting", "recommended_setting",
                  "upgrade_value", "upgrade_reason")),
@@ -296,12 +380,23 @@ def validate_source(root):
             and "請使用介面中的模型與推理強度選單完成設定。完成後" in model_skill
             and "do not include the CLI-only `/model` command" in model_skill
             and "Do not ask the user to transcribe selector options" in model_skill
+            and "Never output bare Codex-style `low`, `medium`, or `high` as a Gemini setting" in model_skill
+            and "* Reasoning：使用模型預設" in model_skill
+            and "Traditional Chinese must use the exact literal headings" in model_skill
+            and "目前環境無法代為切換模型；Reasoning 使用模型預設" in model_skill
+            and "Stop the response immediately after that instruction" in model_skill
+            and "Never render the schema or internal evidence in ordinary compact output" in model_skill
             and "## When the user questions a recommendation" in model_skill
             and "ask once for narrowly scoped read permission only when the current host exposes a concrete path" in model_skill
             and "do not mention the probe, fallback/registry source" in model_skill
             and "## Direct-selection dispatch guard" in model_skill
             and "delegated_from: research-model-router" in model_skill,
             "Model router compact action contract missing")
+    require(all(token in evidence_schema for token in
+                ("current_configuration:", "model_catalog:", "assessment:",
+                 "minimum_sufficient_setting:", "recommended_setting:",
+                 "runtime_capabilities:", "execution:")),
+            "Model router evidence schema missing")
     coordinator = (root / "skills/adaptive-task-routing/SKILL.md").read_text()
     require("【對話設定】" in coordinator and "* 建議：留在目前對話" in coordinator
             and "是否切換視窗" in coordinator

@@ -46,7 +46,7 @@ research-model-router ─► 最低足夠＋建議 Model／Reasoning 組合
 
 ## 觸發與 Gate 生命週期
 
-明確選取協調入口後執行完整流程；隱式選用仍由宿主根據描述決定。Manifest 的預設提示與共用政策不是常駐 Hook。協調入口描述是一般實質任務的主要匹配，子元件描述限於明確的單一元件需求與協調委派；宿主仍誤選子元件時，由一次性轉交守門補回完整流程。
+明確選取協調入口後會執行完整流程。三個平台產物也加入宿主原生提醒：Codex 與 Claude Code 在 `UserPromptSubmit` 注入一段簡短指令，Gemini CLI 則於工作階段啟動時載入 Extension 的 `GEMINI.md`。提醒要求宿主在符合條件時呼叫協調入口；實際適用性與路由判斷仍由 Skill 負責。宿主誤選子元件時，由一次性轉交守門補回完整流程。
 
 初步計畫形成後、大量工作開始前執行第一次 Gate。改善計畫提出實質下一階段時，即使要等批准才實作，也先在回覆中給建議。完整答案沒有具體實質下一階段時正常結束；後續階段改變時通常只重跑 Model Router，除非 Context 也需要重新判斷。
 
@@ -78,23 +78,23 @@ research-model-router ─► 最低足夠＋建議 Model／Reasoning 組合
 
 不可把已安裝 Plugin 目錄當成可變狀態儲存區，因為更新可能覆寫內容。
 
-可用模型清單的生命週期比能力快照短。優先使用 Runtime 資料，並在 Session 或宿主定義的短期限內快取；使用者提供的清單要標示來源，靜態備援必須有版本與有效期限。OpenAI App 無法提供 Runtime 資料時，Router 立即使用內建的官方跨介面參考產生最低足夠與建議兩組設定，不先要求使用者抄寫選單；帳號可用性仍標為未驗證。`auto` 只有在切換操作可呼叫、已授權且可驗證時才套用；否則等待使用者透過符合目前介面的控制完成設定並回覆「繼續」。無法讀取的目前欄位只留在結構化證據，不顯示於精簡結果。模型清單、目前執行設定、能力證據與切換能力彼此分開。
+可用模型清單的生命週期比能力快照短。優先使用 Runtime 資料，並在 Session 或宿主定義的短期限內快取；使用者提供的清單要標示來源，靜態備援必須有版本與有效期限。OpenAI App 無法提供 Runtime 資料時，Router 立即使用內建的官方跨介面參考產生最低足夠與建議兩組設定，不先要求使用者抄寫選單；Gemini CLI 使用獨立的穩定別名參考並保留平台原生 Reasoning 控制，沒有觀察到 `thinkingBudget` 或 `thinkingLevel` 時顯示「使用模型預設」。帳號可用性仍標為未驗證。`auto` 只有在切換操作可呼叫、已授權且可驗證時才套用；否則等待使用者透過符合目前介面的控制完成設定並回覆「繼續」。無法讀取的目前欄位只留在結構化證據，不顯示於精簡結果。模型清單、目前執行設定、能力證據與切換能力彼此分開。
 
 只有使用者質疑推薦或要求依目前帳號確認時，才考慮索取額外權限。Router 先說明證據與限制；只有具體途徑能讀取同一個 App 或 Session 的模型清單時，才詢問一次最小必要唯讀權限。能讀到另一個 CLI 程序不符合條件。使用者拒絕後沿用備援，直到相關環境或使用者要求改變前不再詢問。
 
 ## 跨平台策略
 
-0.4.0 將任務需求與具體候選映射分開。探測附來源／時間／範圍／狀態；保存值及磁碟預設不填入未知即時欄位。官方描述只作能力參考，不是帳號清單或任務實測排名。[宿主指引](../shared/host-discovery.md) 按需載入；Codex 選用 helper 只做有界限的唯讀 RPC，不恢復對話、不選模型、不切換。Claude／Gemini 使用自己的 metadata 或選單指引；新 CLI 程序不等於 App 連線，讀取與寫入能力分開判斷。
+0.4.1 將任務需求與具體候選映射分開，並加入自動啟動提醒。探測附來源／時間／範圍／狀態；保存值及磁碟預設不填入未知即時欄位。官方描述只作能力參考，不是帳號清單或任務實測排名。[宿主指引](../shared/host-discovery.md) 按需載入；Codex 選用 helper 只做有界限的唯讀 RPC，不恢復對話、不選模型、不切換。Claude／Gemini 使用自己的 metadata 或選單指引；新 CLI 程序不等於 App 連線，讀取與寫入能力分開判斷。
 
 根目錄 `skills/` 與 `shared/` 是唯一維護來源；Skill 名稱維持不變，frontmatter 描述與受檢查的觸發契約會區分主要協調入口和單一元件子 Router，主體與翻譯一起演進。`release.json` 統一管理版本、識別與展示資訊，建置時由 `scripts/release_lib.py` 產生平台 Manifest：
 
-- OpenAI：根層 `plugin.json`（Agent Plugins schema；展示資料在 `extensions.com.openai.interface`）及同來源的 `.codex-plugin/plugin.json` 相容 Manifest。
-- Claude：`.claude-plugin/plugin.json`。
-- Gemini：根層 `gemini-extension.json`。
+- OpenAI：根層 `plugin.json`（Agent Plugins schema；展示資料在 `extensions.com.openai.interface`）及含 `UserPromptSubmit` hook 的 `.codex-plugin/plugin.json` 相容 Manifest。
+- Claude：`.claude-plugin/plugin.json` 與 `hooks/hooks.json`。
+- Gemini：根層 `gemini-extension.json` 與由 `contextFileName` 指定的 `GEMINI.md`。
 
-`scripts/build_release.py` 建立 `dist/<平台>/adaptive-task-routing` 三個解壓目錄與三個 ZIP；ZIP 沒有外包目錄。共同文件以明確清單封裝，平台 README 來自 `packaging/<平台>/README.md`；排除建置及測試程式，唯一允許封裝的執行程式來源是選用的 Skill helper，不含啟動 hook、服務或自動執行設定。
+`scripts/build_release.py` 建立 `dist/<平台>/adaptive-task-routing` 三個解壓目錄與三個 ZIP；ZIP 沒有外包目錄。共同文件以明確清單封裝，平台 README 來自 `packaging/<平台>/README.md`；排除建置及測試程式，唯一允許封裝的執行程式來源是選用的 Skill helper。自動啟動使用宣告式 Context 或輸出固定文字的 hook，不探測 metadata、不啟動服務，也不自行執行 Router。
 
-沒有第四個 Marketplace ZIP，本機登錄是獨立的宿主設定步驟。驗證涵蓋相對連結、frontmatter、觸發契約、共用檔、版本、平台隔離、目錄與 ZIP 內容及 SHA-256。固定 ZIP metadata 支援重現建置；舊 dist 會保存到 `.release-backups/`。檔案驗證不能證明隱式觸發、跨 Skill 讀取權限或真實切換，這些結果另記於行為矩陣。
+沒有第四個 Marketplace ZIP，本機登錄是獨立的宿主設定步驟。驗證涵蓋相對連結、frontmatter、觸發契約、自動啟動定義、共用檔、版本、平台隔離、目錄與 ZIP 內容及 SHA-256。檔案驗證可證明提醒已封裝；宿主是否實際送入提醒、呼叫 Skill、允許跨 Skill 讀取或完成設定切換，仍須用已安裝環境測試。
 
 ## 預設值
 

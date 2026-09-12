@@ -1,0 +1,36 @@
+{
+  "case": "Gemini CLI model routing with native reasoning semantics",
+  "surface": "gemini-cli",
+  "observed_at": "2026-09-12T13:10:35+08:00",
+  "host_version": "gemini-cli 0.59.0",
+  "plugin_version": "0.4.0",
+  "execution_host": {
+    "model_alias": "flash-lite",
+    "resolved_model": "gemini-3.1-flash-lite",
+    "approval_mode": "yolo for the controlled read-only fixture",
+    "session": "new non-interactive session"
+  },
+  "fixture": {
+    "skill": "research-model-router",
+    "phase": "cross-file release scripts, platform differences, CI, and test coverage review",
+    "main_task_execution_authorized": false
+  },
+  "result": {
+    "minimum_sufficient": "Flash / model default",
+    "recommended": "Pro / model default",
+    "upgrade_value": "medium",
+    "used_exact_traditional_chinese_headings": true,
+    "mentioned_legacy_gemini_1_5": false,
+    "used_unverified_codex_effort_labels": false,
+    "named_gemini_model_control": "/model",
+    "claimed_reasoning_control_switch": false,
+    "continue_instruction_was_final": true,
+    "task_started": false
+  },
+  "status": "pass",
+  "limitations": [
+    "This result covers the model-only child Skill; the full coordinator was not accepted as passed by this fixture.",
+    "The account had no Pro quota during verification, so Pro availability remains unverified and only the stable alias was recommended.",
+    "The test used yolo only to auto-approve activation and reference reads; the prompt prohibited file modification and Gemini reported zero changed lines."
+  ]
+}

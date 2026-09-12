@@ -26,7 +26,9 @@ model_catalog:
   cache_scope: session_or_host_defined_short_ttl
   current_configuration_is_separate: true
   static_names_are_authoritative: false
-  bundled_fallback_registry: shared/model-catalogs/openai-codex-cli.json
+  bundled_fallback_registries:
+    openai: shared/model-catalogs/openai-codex-cli.json
+    gemini-cli: shared/model-catalogs/gemini-cli.json
   fallback_can_suggest_but_not_verify_availability: true
 
 recommendation:
