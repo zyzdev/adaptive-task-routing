@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "name": "adaptive-task-routing",
+  "version": "0.4.0",
+  "description": "Route complex work to an appropriate conversation context, model, and reasoning effort using shared runtime capability detection and independent user controls.",
+  "author": {
+    "name": "Adaptive Task Routing contributors"
+  },
+  "interface": {
+    "displayName": "Adaptive Task Routing",
+    "shortDescription": "Choose context, model, and reasoning for complex work.",
+    "longDescription": "The primary adaptive-task-routing skill coordinates independent context and model routers before substantial work and for substantial next phases. Directly selected child routers dispatch general tasks back to the coordinator while explicit context-only and model-only requests remain scoped. Concrete recommendations stay visible, and per-operation capability checks allow verified automation or clear user actions.",
+    "developerName": "Adaptive Task Routing",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": [
+      "Use adaptive task routing before the next substantial phase."
+    ]
+  },
+  "license": "MIT",
+  "keywords": [
+    "agent-skills",
+    "context-routing",
+    "model-routing",
+    "reasoning-effort",
+    "agentic-workflows"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "case": "recognized OpenAI App without runtime catalog",
+  "surface_fixture": "chatgpt-desktop",
+  "observed_at": "2026-09-12T11:50:30+08:00",
+  "host_version": "codex-cli 0.154.0 fixture harness",
+  "plugin_version": "0.4.0+codex.20260912034830",
+  "execution_host": {
+    "sandbox": "workspace-write",
+    "approval": "never",
+    "session": "ephemeral"
+  },
+  "fixture": {
+    "runtime_catalog": "unavailable",
+    "bundled_registry": "unexpired",
+    "main_task_execution_authorized": false
+  },
+  "result": {
+    "context_recommendation": "留在目前對話",
+    "minimum_sufficient": "GPT-5.6 Terra / high",
+    "recommended": "GPT-5.6 Sol / high",
+    "upgrade_value": "medium",
+    "requested_selector_inventory": false,
+    "mentioned_cli_model_command": false,
+    "named_app_selector": true,
+    "task_started": false
+  },
+  "status": "pass",
+  "limitations": [
+    "This was a controlled ChatGPT desktop surface fixture executed by the Codex CLI harness, not a live ChatGPT desktop conversation.",
+    "The test verifies installed Skill behavior; account-specific model availability remains unverified."
+  ]
+}

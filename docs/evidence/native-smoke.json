@@ -1,0 +1,183 @@
+{
+  "openai": {
+    "command": [
+      "codex",
+      "app-server",
+      "--stdio",
+      "-c",
+      "analytics.enabled=false"
+    ],
+    "method": "plugin/read",
+    "skills": [
+      "adaptive-task-routing:adaptive-task-routing",
+      "adaptive-task-routing:research-model-router",
+      "adaptive-task-routing:task-context-router"
+    ],
+    "status": "pass",
+    "result": {
+      "plugin": {
+        "marketplaceName": "atr-release-smoke",
+        "marketplacePath": "<temporary>/openai/.agents/plugins/marketplace.json",
+        "summary": {
+          "id": "adaptive-task-routing@atr-release-smoke",
+          "remotePluginId": null,
+          "version": null,
+          "localVersion": "0.4.0",
+          "name": "adaptive-task-routing",
+          "shareContext": null,
+          "source": {
+            "type": "local",
+            "path": "<temporary>/openai/plugins/adaptive-task-routing"
+          },
+          "installed": false,
+          "installedAt": null,
+          "enabled": false,
+          "installPolicy": "AVAILABLE",
+          "installPolicySource": null,
+          "mustShowInstallationInterstitial": null,
+          "authPolicy": "ON_INSTALL",
+          "availability": "AVAILABLE",
+          "disabledReason": null,
+          "eligiblePlanTypes": null,
+          "interface": {
+            "displayName": "Adaptive Task Routing",
+            "shortDescription": "Choose context, model, and reasoning for complex work.",
+            "longDescription": "A thin adaptive-task-routing skill coordinates two independent context and model routers before substantial work and when improvement plans propose a next phase. Model and effort results remain visible, including unknown or retained settings. The default ask mode pauses only for recommended changes, while per-operation capability snapshots allow verified automation and accurate user fallbacks.",
+            "developerName": "Adaptive Task Routing",
+            "category": "Productivity",
+            "capabilities": [],
+            "websiteUrl": null,
+            "privacyPolicyUrl": null,
+            "termsOfServiceUrl": null,
+            "defaultPrompt": [
+              "Use adaptive task routing before the next substantial phase."
+            ],
+            "brandColor": null,
+            "composerIcon": null,
+            "composerIconUrl": null,
+            "logo": null,
+            "logoDark": null,
+            "logoUrl": null,
+            "logoUrlDark": null,
+            "screenshots": [],
+            "screenshotUrls": []
+          },
+          "keywords": [
+            "agent-skills",
+            "context-routing",
+            "model-routing",
+            "reasoning-effort",
+            "agentic-workflows"
+          ]
+        },
+        "shareUrl": null,
+        "description": "Route complex work to an appropriate conversation context, model, and reasoning effort using shared runtime capability detection and independent user controls.",
+        "skills": [
+          {
+            "name": "adaptive-task-routing:adaptive-task-routing",
+            "description": "Coordinate context, model, and reasoning recommendations before substantial multi-step work, including coding, debugging, architecture, research, and analysis. Use after a rough plan forms, when an improvement plan proposes substantial next work, or at a meaningful phase transition. Skip brief explanations, status checks, tiny edits, and questions merely about this plugin.",
+            "shortDescription": null,
+            "interface": null,
+            "path": "/private<temporary>/openai/plugins/adaptive-task-routing/skills/adaptive-task-routing/SKILL.md",
+            "enabled": true
+          },
+          {
+            "name": "adaptive-task-routing:research-model-router",
+            "description": "Recommend model and reasoning effort for substantial coding, debugging, architecture, validation, research, or analysis. Use after context and rough plan are known, when an improvement plan proposes a substantial next phase, and at meaningful phase transitions. Skip ordinary chat and tiny operations; do not choose the working context.",
+            "shortDescription": null,
+            "interface": null,
+            "path": "/private<temporary>/openai/plugins/adaptive-task-routing/skills/research-model-router/SKILL.md",
+            "enabled": true
+          },
+          {
+            "name": "adaptive-task-routing:task-context-router",
+            "description": "Decide whether a non-trivial task should continue in the current conversation, move to a new context with a compact handoff, or start clean. Use after understanding the request and before context-heavy execution; do not use it to choose a model or reasoning effort.",
+            "shortDescription": null,
+            "interface": null,
+            "path": "/private<temporary>/openai/plugins/adaptive-task-routing/skills/task-context-router/SKILL.md",
+            "enabled": true
+          }
+        ],
+        "hooks": [],
+        "apps": [],
+        "appTemplates": [],
+        "mcpServers": [],
+        "scheduledTasks": null
+      }
+    }
+  },
+  "claude": {
+    "status": "pass",
+    "scope": "plugin and Skill inventory discovery, not behavioral execution",
+    "records": [
+      {
+        "command": [
+          "claude",
+          "--setting-sources",
+          "",
+          "--plugin-dir",
+          "<project>/dist/claude/adaptive-task-routing",
+          "plugin",
+          "list",
+          "--json"
+        ],
+        "exit_code": 0,
+        "stdout": "[\n  {\n    \"id\": \"adaptive-task-routing@inline\",\n    \"version\": \"0.4.0\",\n    \"scope\": \"session\",\n    \"enabled\": true,\n    \"installPath\": \"<project>/dist/claude/adaptive-task-routing\"\n  }\n]\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "claude",
+          "--bare",
+          "--setting-sources",
+          "",
+          "--plugin-dir",
+          "<project>/dist/claude/adaptive-task-routing",
+          "plugin",
+          "details",
+          "adaptive-task-routing@inline"
+        ],
+        "exit_code": 0,
+        "stdout": "adaptive-task-routing 0.4.0\n  Route complex work to an appropriate conversation context, model, and reasoning effort using shared runtime capability detection and independent user controls.\n  Source: adaptive-task-routing@inline\n\nComponent inventory\n  Skills (3)  adaptive-task-routing, research-model-router, task-context-router\n  Agents (0)\n  Hooks (0)\n  MCP servers (0)\n  LSP servers (0)\n\nProjected token cost\n  Always-on:   ~277 tok   added to every session\n\nPer-component (rounded)\n  component              always-on  on-invoke\n  research-model-router       ~100      ~2.8k\n  task-context-router          ~80      ~1.6k\n  adaptive-task-routing       ~110      ~1.2k\n\n  On-invoke cost is paid each time a skill or agent fires.\n  Token counts are estimates and may differ from actual usage.\n",
+        "stderr": ""
+      }
+    ]
+  },
+  "gemini": {
+    "status": "pass",
+    "records": [
+      {
+        "command": [
+          "gemini",
+          "extensions",
+          "link",
+          "<project>/dist/gemini/adaptive-task-routing",
+          "--consent"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "You have consented to the following:\nThe extension you are about to install may have been created by a third-party developer and sourced from a public repository. Google does not vet, endorse, or guarantee the functionality or security of extensions. Please carefully inspect any extension and its source code before installing to understand the permissions it requires and the actions it may perform.\nExtension \"adaptive-task-routing\" linked successfully and enabled.\n"
+      },
+      {
+        "command": [
+          "gemini",
+          "extensions",
+          "list"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "✓ adaptive-task-routing (0.4.0)\n ID: 18867e7909db2f2b86775815dd9d45590d1b2b0951bdc36bb8627e1725044f58\n name: b22b68cca191b4e35a66b4ac1eff2b2ffd953c1b2b0c8be3430c3d34543dacb1\n Path: <project>/dist/gemini/adaptive-task-routing\n Source: <project>/dist/gemini/adaptive-task-routing (Type: link)\n Enabled (User): true\n Enabled (Workspace): true\n Agent skills:\n  task-context-router: Decide whether a non-trivial task should continue in the current conversation, move to a new context with a compact handoff, or start clean. Use after understanding the request and before context-heavy execution; do not use it to choose a model or reasoning effort.\n  research-model-router: Recommend model and reasoning effort for substantial coding, debugging, architecture, validation, research, or analysis. Use after context and rough plan are known, when an improvement plan proposes a substantial next phase, and at meaningful phase transitions. Skip ordinary chat and tiny operations; do not choose the working context.\n  adaptive-task-routing: Coordinate context, model, and reasoning recommendations before substantial multi-step work, including coding, debugging, architecture, research, and analysis. Use after a rough plan forms, when an improvement plan proposes substantial next work, or at a meaningful phase transition. Skip brief explanations, status checks, tiny edits, and questions merely about this plugin.\n"
+      },
+      {
+        "command": [
+          "gemini",
+          "skills",
+          "list"
+        ],
+        "exit_code": 0,
+        "stdout": "Discovered Agent Skills:\n\nadaptive-task-routing [Enabled]\n  Description: Coordinate context, model, and reasoning recommendations before substantial multi-step work, including coding, debugging, architecture, research, and analysis. Use after a rough plan forms, when an improvement plan proposes substantial next work, or at a meaningful phase transition. Skip brief explanations, status checks, tiny edits, and questions merely about this plugin.\n  Location:    <project>/dist/gemini/adaptive-task-routing/skills/adaptive-task-routing/SKILL.md\n\nresearch-model-router [Enabled]\n  Description: Recommend model and reasoning effort for substantial coding, debugging, architecture, validation, research, or analysis. Use after context and rough plan are known, when an improvement plan proposes a substantial next phase, and at meaningful phase transitions. Skip ordinary chat and tiny operations; do not choose the working context.\n  Location:    <project>/dist/gemini/adaptive-task-routing/skills/research-model-router/SKILL.md\n\ntask-context-router [Enabled]\n  Description: Decide whether a non-trivial task should continue in the current conversation, move to a new context with a compact handoff, or start clean. Use after understanding the request and before context-heavy execution; do not use it to choose a model or reasoning effort.\n  Location:    <project>/dist/gemini/adaptive-task-routing/skills/task-context-router/SKILL.md\n\n",
+        "stderr": "Ripgrep is not available. Falling back to GrepTool.\nLoading extension: adaptive-task-routing\nScheduling MCP context refresh...\nExecuting MCP context refresh...\nMCP context refresh complete.\n"
+      }
+    ]
+  }
+}

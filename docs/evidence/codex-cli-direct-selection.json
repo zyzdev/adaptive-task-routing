@@ -1,0 +1,43 @@
+{
+  "surface": "codex-cli",
+  "observed_at": "2026-09-12T03:04:43+00:00",
+  "host_version": "codex-cli 0.154.0",
+  "plugin_version": "0.4.0+codex.20260912030044",
+  "execution_host": {
+    "sandbox": "workspace-write",
+    "approval": "never",
+    "session": "ephemeral"
+  },
+  "runs": [
+    {
+      "kind": "implicit_general_task",
+      "prompt": "檢查這個專案的發布流程並提出改善計畫，先不要修改檔案。",
+      "selected_entrypoint": "adaptive-task-routing",
+      "context": "CURRENT",
+      "switch_window": false,
+      "minimum_sufficient": "GPT-5.6 Terra / high",
+      "recommended": "GPT-5.6 Sol / high",
+      "continue_instruction": true,
+      "task_started_before_continue": false,
+      "result": "pass"
+    },
+    {
+      "kind": "forced_child_for_general_task",
+      "initial_child": "research-model-router",
+      "request_scope": "full Context and Model routing",
+      "effective_entrypoint": "adaptive-task-routing",
+      "context": "CURRENT",
+      "switch_window": false,
+      "minimum_sufficient": "GPT-5.6 Terra / medium",
+      "recommended": "GPT-5.6 Sol / high",
+      "continue_instruction": true,
+      "task_started_before_continue": false,
+      "result": "pass"
+    }
+  ],
+  "result": "pass",
+  "limitations": [
+    "Implicit Skill selection is host-controlled, so the direct-selection guard remains the fallback when a child is selected for a general task.",
+    "These runs cover Codex CLI only."
+  ]
+}

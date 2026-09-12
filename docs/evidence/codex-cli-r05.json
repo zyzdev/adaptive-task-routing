@@ -1,0 +1,65 @@
+{
+  "case": "R05",
+  "surface": "codex-cli",
+  "observed_at": "2026-09-12T02:46:12+00:00",
+  "host_version": "codex-cli 0.154.0",
+  "plugin_version": "0.4.0+codex.20260912024318",
+  "execution_host": {
+    "sandbox": "workspace-write",
+    "approval": "never",
+    "session": "ephemeral"
+  },
+  "task": "Scan the Codex plugin release flow, cross-platform consistency, and test gaps without performing the scan or modifying files.",
+  "context_routing": {
+    "recommendation": "CURRENT",
+    "switch_window": false,
+    "reason": "The conversation already contains the task scope and constraints."
+  },
+  "probe": {
+    "attempt_count": 1,
+    "status": "unavailable",
+    "reason": "codex_state_unwritable",
+    "detected_surface": "unknown",
+    "surface_detection_basis": "process_ancestry_unavailable",
+    "permission_requested": false,
+    "retry_count": 0
+  },
+  "fallback": {
+    "source": "shared/model-catalogs/openai-codex-cli.json",
+    "use": "Codex CLI reference catalog",
+    "expired": false,
+    "minimum_sufficient": {
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "high"
+    },
+    "recommended": {
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "high"
+    },
+    "upgrade_value": "medium"
+  },
+  "routing": {
+    "mode": "ask",
+    "disposition": "awaiting_user_action",
+    "setting_changed": false,
+    "manual_action": "Use /model to select the recommended pair, then reply continue; or reply continue without changing it."
+  },
+  "compact_output": {
+    "context_block_present": true,
+    "minimum_sufficient_block_present": true,
+    "recommended_block_present": true,
+    "window_switch_answer_present": true,
+    "continue_instruction_present": true,
+    "unknown_current_fields_omitted": true,
+    "probe_diagnostics_omitted": true,
+    "fallback_provenance_omitted": true,
+    "account_and_surface_applicability_omitted": true,
+    "confidence_assessment_and_mode_omitted": true
+  },
+  "project_changes": "none",
+  "result": "pass",
+  "limitations": [
+    "This run verified the manual fallback in ask mode; verified automatic model switching was not available in the harness.",
+    "This result covers R05 on Codex CLI only."
+  ]
+}

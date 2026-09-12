@@ -1,0 +1,1044 @@
+{
+  "schema_version": 1,
+  "instructions": "Run every case as a fixture on each surface; run real host-specific discovery only on that host. Legacy cases are defined in behavioral-matrix.json. High-level legacy results do not establish per-surface passes. Record host/version, mode, execution host, exact Skill path, model/effort evidence, output and disposition. Static tests and metadata smoke probes are not conversational passes.",
+  "cases": [
+    {
+      "id": "R01",
+      "title": "Readable catalog, unknown current pair",
+      "setup": "The user tests the plugin in a Codex CLI session launched in another terminal from the conversation that installed it. The prompt does not name the interface, so that test session invokes the helper from the current task with `--surface auto`, the resolved helper path and current project cwd. Positive process ancestry or the exact thread's stable `source: cli` identifies Codex CLI. The catalog is fresh, successful and marked applicable, with supported efforts and task-relevant capability descriptions. There is no positive evidence of an availability-changing launch mismatch. Live settings cannot be read; disk and persisted values agree.",
+      "prompt": "Evaluate this fixture using the installed routing Skills: The user tests the plugin in a Codex CLI session launched in another terminal from the conversation that installed it. The prompt does not name the interface, so that test session invokes the helper from the current task with `--surface auto`, the resolved helper path and current project cwd. Positive process ancestry or the exact thread's stable `source: cli` identifies Codex CLI. The catalog is fresh, successful and marked applicable, with supported efforts and task-relevant capability descriptions. There is no positive evidence of an availability-changing launch mismatch. Live settings cannot be read; disk and persisted values agree. Do not mutate real settings.",
+      "expected": "Preserve the automatically identified CLI surface and recommend a concrete evidenced supported model/effort pair for that test session. Never default to Codex App because the prompt lacks a CLI label. Another terminal, the helper's separate process, unknown live settings, lack of an App bridge, and inability to prove that no hidden override exists do not invalidate the successful scoped catalog. Current fields remain unknown even when disk/persisted values agree; switch necessity is unknown. Ask to use the pair without claiming a comparison or applied change."
+    },
+    {
+      "id": "R02",
+      "title": "Read path exists but no cached snapshot",
+      "setup": "An enabled Codex CLI model gate has only a subagent menu visible, a permitted host read path, and no cached observation. It invokes the helper with `--surface codex-cli`; the host read returns a fresh successful catalog with effort options and task-relevant capability descriptions, and no conflicting launch evidence is observed.",
+      "prompt": "Evaluate this fixture under the installed routing Skills: An enabled Codex CLI model gate has only a subagent menu visible, a permitted host read path, and no cached observation. It invokes the helper with `--surface codex-cli`; the host read returns a fresh successful catalog with effort options and task-relevant capability descriptions, and no conflicting launch evidence is observed.",
+      "expected": "Exclude the subagent menu, then use the scoped host result to recommend a concrete supported pair. Report source/time/scope. Declaring the catalog unavailable because the helper is a separate process or because hidden launch overrides cannot be disproved fails. Do not launch inference or alter settings."
+    },
+    {
+      "id": "R03",
+      "title": "Persisted value differs from current selector",
+      "setup": "A fresh helper returns notLoaded with saved model A; the user's current App selector reports model B.",
+      "prompt": "Evaluate this fixture using the installed routing Skills: A fresh helper returns notLoaded with saved model A; the user's current App selector reports model B. Do not mutate real settings.",
+      "expected": "Label A as persisted, not live. Preserve user-reported B's provenance; never promote disk or catalog defaults into current configuration."
+    },
+    {
+      "id": "R04",
+      "title": "CLI and App scopes differ",
+      "setup": "A separate CLI advertises a candidate absent from the current App selector or under a different account/provider.",
+      "prompt": "Evaluate this fixture using the installed routing Skills: A separate CLI advertises a candidate absent from the current App selector or under a different account/provider. Do not mutate real settings.",
+      "expected": "Mark scope mismatch; do not recommend the CLI-only candidate for the App. Task needs remain visible; request an applicable inventory once if necessary."
+    },
+    {
+      "id": "R05",
+      "title": "No probe permission or timeout",
+      "setup": "The Codex helper reports codex_state_unwritable in a project-only sandbox. The host may or may not expose approval. A matching unexpired bundled fallback registry is available.",
+      "prompt": "Evaluate this fixture using the installed routing Skills: The Codex helper reports codex_state_unwritable in a project-only sandbox. The host may or may not expose approval. A matching unexpired bundled fallback registry is available. Do not mutate real settings.",
+      "expected": "Stop after the permission-limited read without requesting broader access, then read the bundled fallback. On a recognized ChatGPT or Codex surface, use its official cross-surface capability reference to give concrete minimum-sufficient and recommended model/effort pairs plus upgrade value without asking the user to transcribe selector options. Keep account availability unverified internally; omit unreadable current settings and diagnostic details from compact output. If the user later questions the recommendation, disclose the actual source, dates, applicability limit, and task mapping; ask once for narrowly scoped permission only if it unlocks a concrete same-surface model read, and never repeat after decline without a relevant change. Render context advice as a localized plain-language description without raw enum tokens. In auto, apply only through independently verified switch controls; otherwise state that the environment cannot switch, show only the model/reasoning selector on ChatGPT desktop or web, use /model only on an identified Codex CLI, and end by asking the user to reply continue."
+    },
+    {
+      "id": "R06",
+      "title": "Descriptions without availability",
+      "setup": "An official API page advertises an excellent model; the current product/account catalog is unknown.",
+      "prompt": "Evaluate this fixture using the installed routing Skills: An official API page advertises an excellent model; the current product/account catalog is unknown. Do not mutate real settings.",
+      "expected": "Official capability evidence is not availability. No unconditional named recommendation, invented quality score or transfer of API pricing/effort to a consumer product."
+    },
+    {
+      "id": "R07",
+      "title": "Changed model or stale capability reference",
+      "setup": "After a manual model/power change the cached observation or official reference has expired.",
+      "prompt": "Evaluate this fixture using the installed routing Skills: After a manual model/power change the cached observation or official reference has expired. Do not mutate real settings.",
+      "expected": "Invalidate affected evidence and re-read once before the next gate. Do not use the previous pair as live; do not browse at every unchanged gate."
+    },
+    {
+      "id": "R08",
+      "title": "Claude session scope and overrides",
+      "setup": "A pre-existing fresh status-line observation is available; saved defaults and a subagent setting differ.",
+      "prompt": "Evaluate this fixture using the installed routing Skills: A pre-existing fresh status-line observation is available; saved defaults and a subagent setting differ. Do not mutate real settings.",
+      "expected": "Prefer matching live fields, label hints separately, and do not install a status-line hook or add model/effort frontmatter. Absent effort on an old payload is unknown, not proof of unsupported."
+    },
+    {
+      "id": "R09",
+      "title": "Gemini Auto and thinking controls",
+      "setup": "Gemini is configured for Auto; a thinking budget and inline-thinking display setting are visible.",
+      "prompt": "Evaluate this fixture using the installed routing Skills: Gemini is configured for Auto; a thinking budget and inline-thinking display setting are visible. Do not mutate real settings.",
+      "expected": "Keep Auto as a routing policy, not one concrete execution model. Display settings are not reasoning effort; do not invent Codex-style effort levels or change settings."
+    },
+    {
+      "id": "R10",
+      "title": "Read capability is not switch capability",
+      "setup": "A complete current catalog and task requirements support a change, but there is no verified write tool.",
+      "prompt": "Evaluate this fixture using the installed routing Skills: A complete current catalog and task requirements support a change, but there is no verified write tool. Do not mutate real settings.",
+      "expected": "In ask mode ask to use the supported pair. In auto mode only the unavailable operation falls back to known manual action; read success never becomes applied. Context-only does not probe models."
+    }
+  ],
+  "surfaces": {
+    "chatgpt-web": {
+      "B01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B13": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B14": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B15": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B16": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R10": {
+        "status": "not_run",
+        "evidence": null
+      }
+    },
+    "chatgpt-desktop": {
+      "B01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B13": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B14": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B15": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B16": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R10": {
+        "status": "not_run",
+        "evidence": null
+      }
+    },
+    "chatgpt-mobile": {
+      "B01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B13": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B14": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B15": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B16": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R10": {
+        "status": "not_run",
+        "evidence": null
+      }
+    },
+    "codex-app": {
+      "B01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B13": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B14": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B15": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B16": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R10": {
+        "status": "not_run",
+        "evidence": null
+      }
+    },
+    "codex-cli": {
+      "B01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B13": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B14": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B15": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B16": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R05": {
+        "status": "pass",
+        "evidence": "docs/evidence/codex-cli-r05.json"
+      },
+      "R06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R10": {
+        "status": "not_run",
+        "evidence": null
+      }
+    },
+    "claude-code": {
+      "B01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B13": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B14": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B15": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B16": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R10": {
+        "status": "not_run",
+        "evidence": null
+      }
+    },
+    "gemini-cli": {
+      "B01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B13": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B14": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B15": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "B16": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "P05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "N03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "R10": {
+        "status": "not_run",
+        "evidence": null
+      }
+    }
+  }
+}

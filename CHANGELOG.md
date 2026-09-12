@@ -1,0 +1,87 @@
+# Changelog
+
+All notable changes to this project are documented here.
+
+## Unreleased
+
+- Make `adaptive-task-routing` the primary description match for general substantial tasks. When a host selects a context-only or model-only child for such a task, dispatch once to the coordinator and use delegation markers to prevent recursion, preserving explicit component-only invocations.
+- Require a concrete supported model/effort recommendation when applicable catalog and capability evidence are sufficient, even if current settings are unknown. Keep comparison and application separate.
+- Continue scoped discovery after excluding a subagent-only menu; unverified retention must report the actual discovery outcome or access limitation. Update English/Traditional Chinese guidance and regression fixtures.
+- Resolve the probe's initial applicability label in the caller: an established same-environment CLI catalog supports recommendations independently of unknown live settings or other failed metadata reads. Keep App/CLI scope checks specific to their destination.
+- Add an explicit helper `--surface` scope. A fresh catalog requested from an identified Codex CLI task is candidate-availability evidence by default; only observed availability-changing launch mismatches invalidate it. Separate-process execution and unknown live settings no longer justify `CURRENT / CURRENT`.
+- Add bounded `--surface auto` detection using positive process or exact-thread origin evidence, and make the coordinator preserve the identified surface so an unnamed Codex CLI prompt is not treated as Codex App. Clarify plugin-root resolution for shared policy files.
+- Classify project-sandbox App Server startup failures without exposing stderr. Use the current execution's available capability: a successful read supplies current/catalog evidence, while a permission-limited read falls back immediately to the bundled registry without an extra permission interruption.
+- Refresh a complete six-model Codex CLI registry with runtime descriptions, official task-selection guidance, display names, defaults and all supported efforts, including Luna `ultra`.
+- Require separate minimum-sufficient and recommended model/effort settings, plus low/medium/high upgrade value and a task-specific explanation. Unknown current settings no longer collapse a useful decision to `CURRENT / CURRENT`.
+- Separate catalog reads from switch controls. In `auto`, apply a recommendation only through callable, authorized and verifiable model/effort operations; otherwise show the surface-appropriate control and wait for the user to reply “continue.” Omit unreadable current fields and discovery diagnostics from compact output.
+- Add a dedicated localized conversation block with a plain-language recommendation and an explicit yes/no window-switch answer before the two AI-setting blocks. Keep raw context enums in structured evidence only.
+- Use the visible model/reasoning selector in ChatGPT App and web instructions without mentioning the CLI-only `/model` command; identified Codex CLI instructions continue to use `/model` directly.
+- Treat the bundled, officially described OpenAI model inventory as cross-surface recommendation evidence when App runtime metadata is unavailable. Produce both concrete settings without requesting a copied selector; keep account availability unverified internally.
+- Defer permission escalation until a user questions a recommendation. Explain the evidence first, then ask once only when a narrowly scoped permission can unlock the same App/session model list; otherwise continue with the fallback without repeated prompts.
+- Add regression coverage for registry completeness, capability metadata, sandbox failure classification and permission-denial fallback behavior.
+
+## [0.4.0] - 2026-09-12
+
+### Evidence-based routing / 有依據的路由
+
+- Preserve all three Skill names, frontmatter and triggers; extend bodies and translations with task requirements independent of model availability.
+- Separate live configuration, persisted thread settings, disk defaults, scoped catalogs and capability descriptions. Unknown settings no longer suppress useful task guidance.
+- Add on-demand Codex/ChatGPT, Claude Code and Gemini CLI discovery references. Include an optional Python 3.10+ Codex read-only metadata helper, with bounded RPCs, no model calls and no setting writes; it does not run on installation or Skill loading.
+- Add capability-discovery regression fixtures and a seven-surface acceptance matrix. Official descriptions guide candidates, not account availability or unmeasured performance rankings.
+- Rebuild all three platform packages from the same canonical sources. No automatic model switch, hook, service, public publication or persistent installation is introduced.
+
+## [0.3.2] - 2026-09-11
+
+### Release preparation / 發布前重整
+
+- Consolidated three identical Skill/shared-policy trees into a single maintained source; preserved all Skill bodies and trigger descriptions. 合併單一來源並保留原觸發與內容。
+- Added deterministic three-platform builds, portable OpenAI manifest plus Codex compatibility, strict source/archive/checksum validation and regression tests.
+- Added a 24-case cross-platform evaluation matrix, including five positive and three negative OpenAI submission cases; live behavioral runs remain explicitly unexecuted until evidence is recorded.
+- Corrected platform installation, architecture and owner-controlled public submission instructions. No repository, release or platform submission was published.
+
+## [0.3.1] - 2026-09-07
+
+### Added / 新增
+
+- Thin `adaptive-task-routing` coordinator that reads the independent routers in order, with Traditional Chinese guidance. 新增薄型協調入口，依序讀取兩個獨立 Router，並提供繁體中文說明。
+- Plan-delivery, unknown-configuration, disabled-mode, deferred-destination, and duplicate-gate evaluation cases. 新增交付計畫、未知設定、關閉模式、目的地待定及重複 Gate 案例。
+- Full archive payload, relative dependency, manifest, and checksum validation. 完整驗證封裝內容、相對依賴、Manifest 與校驗碼。
+- First-use capability snapshots plus session/short-lived dynamic model-catalog caching. 新增首次能力快照及 Session／短期動態模型清單快取。
+
+### Changed / 調整
+
+- Extended model routing to implementation, debugging, architecture, validation, and substantial next phases proposed by improvement plans. 擴大 Model Router 至開發、除錯、架構、驗證與改善計畫的實質下一階段。
+- Required visible model/effort results for enabled invocations, including `CURRENT`, unknown and deferred state; `off` remains silent. 除 `off` 外，模型與強度必須明確顯示，涵蓋維持、未知及延後。
+- Documented implicit-invocation limitations and local reinstall checks without promising an always-on hook. 說明隱式觸發限制及本機重裝檢查，不承諾常駐觸發。
+- Reduced user modes to `off`, `ask`, and `auto`, with `ask` as the default and current conversation settings as the fallback. 模式收斂為 `off`、`ask`、`auto`，預設使用 `ask`，並以目前對話設定為備援。
+- Replaced the blanket App executor rule with per-operation capabilities, allowing mixed automatic and user-only actions. 移除 App 全面手動限制，改為逐項能力判斷，支援自動與使用者操作混合執行。
+- Kept model catalogs dynamic and separate from current configuration; scoring is task-based instead of permanently tied to model names. 模型清單改為動態資料並與目前設定分離；評分以任務需求為準，不永久綁定模型名稱。
+
+## [0.3.0] - 2026-09-07
+
+### Added
+
+- Cross-platform manifests for ChatGPT/Codex, Claude Code, and Gemini CLI.
+- English and Traditional Chinese public documentation.
+- Architecture and complete routing examples.
+- Portable validation and platform-specific release packaging.
+- Public contribution and security policies.
+
+### Changed
+
+- Prepared the two routers for a shared cross-platform release.
+- Kept `recommend` as the conservative default for both independent routers.
+
+## [0.2.0] - 2026-09-07
+
+### Added
+
+- Shared runtime capability detection and executor-resolution policy.
+- Environment baseline and routing-gate revalidation.
+- Independent `off`, `recommend`, `ask`, `auto_safe`, `auto`, and `locked` modes.
+
+## [0.1.0] - 2026-09-06
+
+### Added
+
+- Initial `task-context-router` and `research-model-router` Skills.

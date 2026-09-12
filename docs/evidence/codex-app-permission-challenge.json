@@ -1,0 +1,34 @@
+{
+  "case": "user questions fallback recommendation without a matching App read path",
+  "surface_fixture": "chatgpt-desktop",
+  "observed_at": "2026-09-12T12:08:51+08:00",
+  "host_version": "codex-cli 0.154.0 fixture harness",
+  "plugin_version": "0.4.0+codex.20260912040629",
+  "execution_host": {
+    "sandbox": "workspace-write",
+    "approval": "never",
+    "session": "ephemeral"
+  },
+  "fixture": {
+    "runtime_catalog": "unavailable",
+    "bundled_registry": "unexpired",
+    "matching_app_session_read_path": false,
+    "only_alternative_read": "separate Codex CLI process",
+    "main_task_execution_authorized": false
+  },
+  "result": {
+    "disclosed_reference_source": true,
+    "disclosed_observation_and_expiry": true,
+    "disclosed_account_availability_limit": true,
+    "explained_task_mapping": true,
+    "requested_permission": false,
+    "started_separate_cli_probe": false,
+    "offered_selector_only_for_account_specific_comparison": true,
+    "task_started": false
+  },
+  "status": "pass",
+  "limitations": [
+    "This was a controlled ChatGPT desktop surface fixture executed by the Codex CLI harness, not a live ChatGPT desktop conversation.",
+    "The fixture proves the installed Skill's deferred-permission response, not live App model-list access."
+  ]
+}

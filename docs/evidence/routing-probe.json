@@ -1,0 +1,56 @@
+{
+  "release_version": "0.4.0",
+  "observed_at": "2026-09-12T01:28:26.967084+00:00",
+  "local_date": "2026-09-12 Asia/Taipei",
+  "cli_version": "0.154.0",
+  "command": "python3 dist/openai/adaptive-task-routing/skills/research-model-router/scripts/probe_codex.py --surface codex-cli --cwd <project>",
+  "exit_code": 0,
+  "catalog": {
+    "status": "available",
+    "scope": "current_cli_environment",
+    "applicability": "verified",
+    "applicability_basis": "caller_identified_codex_cli",
+    "model_count": 6
+  },
+  "disk_defaults": {
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "high",
+    "evidence": "disk_defaults"
+  },
+  "thread_configuration": {
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "high",
+    "thread_state": "notLoaded",
+    "evidence": "persisted_or_unverified"
+  },
+  "current_configuration": {
+    "model": "unknown",
+    "reasoning_effort": "unknown"
+  },
+  "switch_capability": "not_tested",
+  "sandbox_regression": {
+    "surface": "codex-cli",
+    "sandbox": "workspace-write",
+    "approval": "never",
+    "status": "unavailable",
+    "reason": "codex_state_unwritable",
+    "stderr_exposed": false,
+    "approval_mechanism_available": false,
+    "permission_requested": false,
+    "retry_count": 0,
+    "fallback_registry": "shared/model-catalogs/openai-codex-cli.json",
+    "fallback_use": "Codex CLI reference catalog when product is Codex but exact surface is hidden",
+    "fallback_availability": "unverified",
+    "minimum_sufficient": "gpt-5.6-sol / high",
+    "recommended": "gpt-6-astra / xhigh",
+    "upgrade_value": "medium",
+    "disposition": "awaiting_user_action"
+  },
+  "limitations": [
+    "No inference or config-write RPC was sent.",
+    "No App live control-socket connection tested.",
+    "Does not establish App catalog applicability.",
+    "Installed-host conversational evidence is recorded separately in codex-cli-r01.json.",
+    "Normal host cache/log activity is possible."
+  ]
+}

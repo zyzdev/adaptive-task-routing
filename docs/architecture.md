@@ -1,0 +1,108 @@
+# Architecture
+
+## Design goal
+
+Adaptive Task Routing reduces avoidable context and compute use without allowing a routing recommendation to silently exceed user intent or host capability.
+
+The plugin contains one thin coordinator, two independent decision skills, and one shared execution policy:
+
+```text
+task request
+    │
+    ▼
+understand + rough plan
+    │
+    ▼
+adaptive-task-routing (loads and sequences the children)
+    │
+    ▼
+task-context-router ──► context recommendation
+    │                   CURRENT / HANDOFF / CLEAN
+    ▼
+resolve context using user mode + runtime capability
+    │
+    ▼
+research-model-router ─► minimum sufficient + recommended model/effort pairs
+    │
+    ▼
+resolve configuration using user mode + runtime capability
+    │
+    ▼
+execute the task
+```
+
+## Responsibility boundary
+
+| Component | Owns | Does not own |
+|---|---|---|
+| `adaptive-task-routing` | Gate timing, loading children, sequence, combined visible output | Context judgment, model judgment, independent autonomy mode |
+| `task-context-router` | Context continuity, handoff, isolation | Model choice, research execution |
+| `research-model-router` | Minimum sufficient and recommended model/effort pairs, plus upgrade value | Context creation, research execution |
+| Shared runtime policy | Capability detection, control modes, executor resolution, persistence | Task-specific routing judgment |
+
+Keeping the routers separate permits configurations such as `context_mode: auto` with `model_mode: ask` when context creation is callable but current-model changes are user-only.
+
+The coordinator follows relative links to the packaged child `SKILL.md` files, or host-provided skill resources when local files are unavailable. During a coordinated run, children do not call each other or the coordinator. A child selected directly for a general task dispatches once to the coordinator; coordinator-delegated markers prevent recursion. Explicit context-only or model-only requests stay scoped to that component. A missing child produces an explicit incomplete-gate status rather than a fabricated result.
+
+## Trigger and gate lifecycle
+
+Explicitly selecting the coordinator runs the full workflow. Implicit discovery remains a host decision based on the description; neither the manifest's default prompt nor the shared policy file is an always-on hook. The coordinator description is the primary general-task match, while each child description is limited to explicit component-only use and delegated calls. A child's one-time dispatch guard recovers when a host nevertheless selects it for a general task.
+
+Run an initial gate after a rough plan and before substantial work. Also route a substantial next phase when presenting an improvement plan, even if executing it awaits user approval. A final answer with no concrete substantial next phase ends normally. At later stage changes, re-run model routing alone unless context also needs reconsideration.
+
+Reuse a completed gate while phase, effective context, preferences, catalog, and capabilities are unchanged. If both modes are `off`, skip evaluation, probing, and output. If only one is off, the other remains active. Context-off uses the current context; model-off retains current settings. In the default `ask` mode, a `CURRENT` result proceeds immediately; a recommended change pauses for the user's decision.
+
+If the user declines a context change in `ask`, model routing evaluates the current effective context. If a destination is pending and its model catalog is unknown, display the model gate as deferred and show observable current settings; revalidate in the destination before work starts. Do not silently drop the second gate or call it complete.
+
+## Visible model result
+
+An enabled model invocation reports recommended model/effort, observed current values or availability, a short reason, mode, and actual action. `CURRENT` with known suitable settings is distinct from provisional retention with `assessment: unverified`. A supported catalog does not reveal the current running model. Unknown controls must not become invented names, settings, menu labels, or commands.
+
+The output schema can be rendered as a short note. Stable context enums remain in structured evidence; visible output renders a plain recommendation in the user's language without the raw enum. `off` is the deliberate exception to visibility; a disabled router makes no decision.
+
+## Three-layer resolution
+
+Every decision separates:
+
+1. **User policy** — what level of autonomy the user permits.
+2. **Runtime capability** — what the present surface and permissions can actually do.
+3. **Routing recommendation** — what best fits the upcoming task phase.
+
+Only after all three are known is an executor selected. Unknown capability falls back to user operation. A change is reported as `applied` only after the host confirms it.
+
+Version 0.3.1 resolves each operation separately instead of assigning one capability to an entire surface. An App may expose orchestrated context creation while keeping current-model and effort changes user-only; a CLI may also expose a mixed set. An explicit user command supplies authorization but not missing capability. Every automatic operation still must be callable and verifiable.
+
+## Environment lifecycle
+
+The first invocation loads a capability snapshot from a host- or user-managed settings store, then detects missing or stale operations. Each later routing gate checks only freshness. The affected capabilities are re-detected after surface, session, host/plugin, permission, tool, or result changes; a failed automatic operation invalidates its cached capability.
+
+The installed plugin package is not used as mutable state because upgrades may replace it.
+
+The available model catalog has a shorter lifecycle than the capability snapshot. Runtime metadata is preferred and cached for the session or another short host-defined lifetime. A user-provided list is labeled as such; a static fallback must be versioned and expiring. When an OpenAI App cannot expose runtime discovery, the router immediately uses the bundled official cross-surface reference to produce minimum-sufficient and recommended settings without asking for a copied selector. Account availability remains unverified. In `auto`, independently verified switch controls may apply the pair; otherwise it waits for the user's surface-appropriate control and “continue” response. Unreadable current fields are retained only in structured evidence and omitted from compact output. Catalog, running configuration, model capability evidence and switch capability remain separate.
+
+Permission escalation is deferred until the user questions the recommendation or requests an account-specific check. The router first discloses its evidence and limits. It may then ask once for the smallest useful read permission, but only when a concrete path can reach the same App or session model catalog. Access to a separate CLI process does not satisfy that condition. A refusal keeps the fallback result and suppresses repeat requests until the relevant environment or user request changes.
+
+## Cross-platform strategy
+
+Version 0.4.0 separates task requirements from candidate mapping. Discovery observations
+carry source/time/scope/status; persisted thread values and disk defaults never fill
+unknown live fields. Official descriptions are capability evidence, not account catalogs
+or measured task rankings. Only applicable options can become concrete recommendations.
+The [host guides](../shared/host-discovery.md) are loaded on demand. The optional Codex
+helper performs bounded read RPCs; it does not decide, resume threads or switch models.
+Claude/Gemini use their own live metadata or selector guidance. A new CLI process is
+not the App connection. Read and write capabilities are resolved independently.
+
+The repository root owns the only maintained `skills/` and `shared/` sources. Skill names remain stable; frontmatter descriptions and their checked trigger contract distinguish the primary coordinator from component-only children. Bodies and translations evolve together. `release.json` owns release identity, version and presentation. `scripts/release_lib.py` translates it into platform manifests at build time:
+
+- OpenAI: root `plugin.json` (Agent Plugins schema; `extensions.com.openai.interface`) and `.codex-plugin/plugin.json` compatibility fallback, generated from the same metadata.
+- Claude: `.claude-plugin/plugin.json`.
+- Gemini: root `gemini-extension.json`.
+
+`scripts/build_release.py` creates three staging trees at `dist/<platform>/adaptive-task-routing` and three root-layout ZIPs. Common documentation is included by explicit file list; each platform README comes from `packaging/<platform>/README.md`. Build/test executables are excluded. The one allowed executable source is the optional on-demand Skill helper; there is no startup hook, service or automatic execution.
+
+There is no fourth marketplace archive. Local marketplace registration is a separate host setup step. The validator checks relative references, frontmatter, preserved triggers, shared files, versions, platform manifest boundaries, staged bytes, ZIP members and SHA-256. Rebuilds use fixed archive metadata. Previous dist trees are preserved outside dist in `.release-backups/`. File validation does not prove implicit activation, permission to read a sibling Skill, or real model switching; the behavioral matrix records those host results separately.
+
+## Defaults
+
+Both routers default to `ask`. A recommendation that retains current state does not interrupt; a recommended change waits for the user's choice unless that router is explicitly set to `auto`.
