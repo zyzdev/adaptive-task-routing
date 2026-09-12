@@ -8,7 +8,7 @@
 
 ### `adaptive-task-routing` — 完整流程入口
 
-協調入口先讓 AI 完成並呈現使用者要求的分析或計畫。若交付內容定義了具體且有份量的下一階段，再依序讀取 Context Router、確定實際工作 Context，並為該階段讀取 Model Router。使用者已要求執行時，也先呈現精簡可執行計畫，再顯示 Routing 建議，尚不開始大量執行。Model `ask` 顯示後停止等待自然回覆；Model `auto` 才能套用支援的設定並繼續。只要求計畫不代表授權實作。
+協調入口先讓 AI 完成並呈現使用者要求的分析或計畫。若交付內容定義了具體且有份量的下一階段，再依序讀取 Context Router、確定實際工作 Context，並為該階段讀取 Model Router。使用者已要求執行時，也先呈現精簡可執行計畫，再顯示 Routing 建議，尚不開始大量執行。Model `ask` 只確認提議變更或關鍵阻礙；保留與非阻塞的暫緩可繼續已授權工作。Model `auto` 可套用值得、受支援且可驗證的變更。只要求計畫不代表授權實作。
 
 簡短解釋、狀態詢問、小修改，以及僅詢問 Plugin 功能時不必自動觸發。後續階段只載入必要的 Router；回答完整且沒有實質下一階段時，不必再加 Routing 訊息。
 
@@ -30,7 +30,7 @@
 
 ## 觸發與顯示
 
-三個平台產物現在都包含簡短的宿主原生啟動提醒。Codex 與 Claude Code 使用 `UserPromptSubmit` Plugin hook；Gemini CLI 在重啟後的每個工作階段載入 Extension 的 `GEMINI.md`。提醒要求宿主先呈現使用者要求的分析或計畫，再於下一個實質階段開始前呼叫協調 Skill，並保留 `ask` 等待與 `auto` 繼續的界線；它不會複製路由政策，也不會自行執行 Router。Codex 安裝的 hook 首次執行前可能需要一次審查；宿主或管理員仍可停用 hook 或 Extension。只讀取可攜式 Agent Plugins Manifest 的 ChatGPT 介面沒有本機 Prompt hook，因此仍要依賴描述匹配或明確選取 Skill。
+三個平台產物現在都包含簡短的宿主原生啟動提醒。Codex 與 Claude Code 使用 `UserPromptSubmit` Plugin hook；Gemini CLI 在重啟後的每個工作階段載入 Extension 的 `GEMINI.md`。提醒要求宿主先呈現使用者要求的分析或計畫，再於下一個實質階段開始前呼叫協調 Skill，並保留 `ask` 只確認變更及所有模式皆須遵守任務授權的界線；它不會複製路由政策，也不會自行執行 Router。Codex 安裝的 hook 首次執行前可能需要一次審查；宿主或管理員仍可停用 hook 或 Extension。只讀取可攜式 Agent Plugins Manifest 的 ChatGPT 介面沒有本機 Prompt hook，因此仍要依賴描述匹配或明確選取 Skill。
 
 需要明確觸發時，可在宿主的 Skill 選擇器選取 **adaptive-task-routing Skill**，或要求：「開始這項工作前，請使用 adaptive-task-routing Skill。」支援 `$` 提及的 Codex 介面可用 `$adaptive-task-routing`；Claude Code 可用 `/adaptive-task-routing:adaptive-task-routing`。一般實質任務仍以協調入口為主；誤選到子 Router 時，除非使用者明確只要 Context 或 Model，子 Router 只會轉交協調入口一次。
 
@@ -50,7 +50,7 @@
 
 ## 單一來源與三平台產物
 
-目前公開版本為 **0.4.2**。根目錄 skills/ 與 shared/ 是唯一維護來源。
+目前公開版本為 **0.5.0**。根目錄 skills/ 與 shared/ 是唯一維護來源。
 三個 Skill 名稱維持不變；描述已區分一般任務協調入口，以及 Context-only／Model-only 子 Router。主體與翻譯新增證據範圍與任務需求指引。release.json 統一管理版本與 metadata。
 
 Model Router 先提出任務能力需求，再映射為適用且可選的模型／強度；未知設定不抹去需求建議。官方描述是能力參考，不代表帳號可用，也不是固定排名。
@@ -86,7 +86,7 @@ gemini extensions validate dist/gemini/adaptive-task-routing
 發行包不含建置腳本、其他平台 Manifest、MCP 服務或常駐 Hook。
 
 [跨平台行為案例](tests/behavioral-cases.md) 保留原 24 案例，另加 10 個探測案例；包含 OpenAI 送審需要的五個正向、三個負向案例。
-[七介面矩陣](tests/surface-matrix.json) 共 329 格（47 案例）：ChatGPT 網頁／桌面／手機、Codex App／CLI、Claude Code 與 Gemini CLI。唯讀探測通過不等於對話驗收或自動切換通過。
+[七介面矩陣](tests/surface-matrix.json) 共 427 格（61 案例）：ChatGPT 網頁／桌面／手機、Codex App／CLI、Claude Code 與 Gemini CLI。唯讀探測通過不等於對話驗收或自動切換通過。
 結構驗證與本機清單載入不代表行為通過；隱式觸發、帳號模型控制，以及 Gemini 單次 coordinator 啟用是否能完整執行，仍須實測記錄。
 
 ## 文件與發布
@@ -98,7 +98,7 @@ gemini extensions validate dist/gemini/adaptive-task-routing
 - [發布及三平台提交步驟](docs/release.md)
 - [貢獻指南](CONTRIBUTING.md)、[安全政策](SECURITY.md)、[MIT 授權](LICENSE)
 
-[v0.4.2 Release](https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.4.2) 已提供三平台安裝包。
+[v0.5.0 Release](https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.5.0) 已提供三平台安裝包。
 [Gemini 專用 repository](https://github.com/zyzdev/adaptive-task-routing-gemini) 已可公開安裝；
 [Claude 專用 repository](https://github.com/zyzdev/adaptive-task-routing-claude) 已送交 Claude Code Directory 審查。
 OpenAI Directory 是否公開仍以平台審查結果為準。

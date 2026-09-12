@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "name": "adaptive-task-routing",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Recommend what to do next at task boundaries: keep, hand off, or change AI settings when worthwhile.",
   "author": {
     "name": "Adaptive Task Routing contributors"

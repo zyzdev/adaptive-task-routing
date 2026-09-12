@@ -8,8 +8,6 @@ Adaptive Task Routing 在重要工作阶段开始前，评估对话环境、模�
 
 判断会考虑任务需求、当前设置是否足够、剩余工作量、对话延续与切换成本。保留合适的设置也是正式结果；信息不足时会说“暂时沿用”，不声称已确认适合。实际节省与可靠性改善仍需要证据。
 
-> 本页说明尚未发布的 UX 更新。正式 v0.4.2 包仍采用原交互方式；测试此行为需使用开发分支构建。
-
 ## 运作方式
 
 1. AI 先交付你要求的发现，或提出可执行计划。
@@ -23,7 +21,7 @@ Adaptive Task Routing 在重要工作阶段开始前，评估对话环境、模�
 Claude Code 公开目录申请正在审核中。正式上架前，可克隆公开仓库并通过插件目录启动 Claude Code：
 
 ```bash
-git clone --branch v0.4.2 https://github.com/zyzdev/adaptive-task-routing-claude.git
+git clone --branch v0.5.0 https://github.com/zyzdev/adaptive-task-routing-claude.git
 claude --plugin-dir "$PWD/adaptive-task-routing-claude"
 ```
 

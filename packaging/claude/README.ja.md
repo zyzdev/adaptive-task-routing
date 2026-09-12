@@ -8,8 +8,6 @@ Adaptive Task Routing は作業段階の境界で会話・モデル・推論設�
 
 タスクの要件、現在の設定の適性、残りの作業量、会話の連続性、切り替えコストを考慮します。適切な設定の維持も有効な結果です。情報不足なら「暫定的に維持」とし、適性を確認済みとは表現しません。実際の節約や信頼性の向上には検証が必要です。
 
-> このページは未リリースの UX 更新を説明しています。公開済み v0.4.2 は以前の動作です。試す場合は開発ブランチのビルドを使用してください。
-
 ## 仕組み
 
 1. AI は依頼された分析結果、または実行可能な計画を先に提示します。
@@ -23,7 +21,7 @@ Adaptive Task Routing は作業段階の境界で会話・モデル・推論設�
 Claude Code 公開ディレクトリへの申請は審査中です。掲載されるまでは、公開リポジトリをクローンし、プラグインディレクトリを指定して起動できます。
 
 ```bash
-git clone --branch v0.4.2 https://github.com/zyzdev/adaptive-task-routing-claude.git
+git clone --branch v0.5.0 https://github.com/zyzdev/adaptive-task-routing-claude.git
 claude --plugin-dir "$PWD/adaptive-task-routing-claude"
 ```
 

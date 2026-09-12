@@ -40,8 +40,8 @@ models will obey them. The updated optional `smoke_gemini_routing.py` targets co
 was not run against a model for this update. Long-session adherence, actual model/context switches
 and measurable cost/quality improvements remain unverified.
 
-The numeric package version is still 0.4.2 with an Unreleased changelog. Published v0.4.2 packages
-and existing installations do not acquire these changes until rebuilt and installed or released.
+These checks were performed during development after v0.4.2. The changes are included in v0.5.0;
+existing v0.4.2 installations require an update.
 
 ## Local result — 2026-09-13
 

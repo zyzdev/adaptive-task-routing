@@ -2,7 +2,7 @@
 
 The repository root is source, not an installable plugin. Edit skills/ and shared/ once.
 Set release.json's version and update CHANGELOG.md. The current release candidate is
-0.4.2; no remote release or platform submission is created by any script.
+0.5.0; no remote release or platform submission is created by any script.
 
 ## Build and validate
 
@@ -49,10 +49,10 @@ may occur. Do not run it on Claude/Gemini or a ChatGPT sandbox as an App-setting
 In a project-only Codex sandbox it may return `codex_state_unwritable`; the routing
 Skill stops after that read and immediately uses the matching unexpired bundled registry
 to produce minimum-sufficient and recommended settings. It does not print unreadable
-current fields. In `ask`, it presents the applicable selector or `/model` control and stops for
-the user's natural decision. In `auto`, it applies only through independently verified model and
-effort controls; otherwise it shows the control as optional, retains the current setting, and
-continues.
+current fields. For a justified change, `ask` presents the applicable control and asks for the change decision.
+Retain and nonblocking defer omit switching controls and continue only authorized work. `auto`
+applies justified changes only through independently verified controls; otherwise it reports
+the actual fallback and proceeds only without a material blocker.
 `/status` can provide current settings as user-reported evidence.
 Installing a release enables the packaged host-native reminder where the host supports it.
 Codex can require one-time hook trust. No status line, daemon, or Python environment is configured.
@@ -71,7 +71,7 @@ local tree before reinstalling.
 Run [the behavioral matrix](../tests/behavioral-cases.md) on ChatGPT, Codex, Claude Code
 and Gemini CLI. Store actual evidence and observed model/effort in
 tests/behavioral-matrix.json and tests/surface-matrix.json; not_run is not a pass.
-The latter is the per-surface authority: 47 cases across seven surfaces (329 cells),
+The latter is the per-surface authority: 61 cases across seven surfaces (427 cells),
 including discovery regressions R01–R10 and switching cases S01–S12. Keep ChatGPT web/desktop/mobile and Codex App/CLI
 results separate. Rebuild after recording evidence.
 
@@ -124,6 +124,6 @@ do not drop shared dependencies just to make an upload pass.
    other platforms' ZIPs off this extension release to avoid multiple generic assets.
 5. Test installation from the actual remote URL/tag after publication.
 
-All repository creation, pushes, tags/releases, catalog submissions, topic edits and
-publishing are owner actions still awaiting confirmation. See
+Repository pushes, tags/releases, catalog submissions, topic edits and publishing require
+owner authorization for the requested scope. A release request does not submit to platform directories. See
 [verification results](release-verification.md) and [specification sources](platform-specs.md).

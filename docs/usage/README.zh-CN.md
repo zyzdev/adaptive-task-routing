@@ -8,8 +8,6 @@ Adaptive Task Routing 在重要工作阶段开始前，评估对话环境、模�
 
 判断会考虑任务需求、当前设置是否足够、剩余工作量、对话延续与切换成本。保留合适的设置也是正式结果；信息不足时会说“暂时沿用”，不声称已确认适合。实际节省与可靠性改善仍需要证据。
 
-> 本页说明尚未发布的 UX 更新。正式 v0.4.2 包仍采用原交互方式；测试此行为需使用开发分支构建。
-
 ## 运作方式
 
 1. AI 先交付你要求的发现，或提出可执行计划。
@@ -23,7 +21,7 @@ Adaptive Task Routing 在重要工作阶段开始前，评估对话环境、模�
 ### Gemini CLI
 
 ```bash
-gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini --ref v0.4.2
+gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini --ref v0.5.0
 ```
 
 安装完成后，请重新启动 Gemini CLI。
@@ -33,13 +31,13 @@ gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini
 公开目录申请正在审核中。正式上架前，可克隆专用仓库并通过插件目录启动 Claude Code：
 
 ```bash
-git clone --branch v0.4.2 https://github.com/zyzdev/adaptive-task-routing-claude.git
+git clone --branch v0.5.0 https://github.com/zyzdev/adaptive-task-routing-claude.git
 claude --plugin-dir "$PWD/adaptive-task-routing-claude"
 ```
 
 ### ChatGPT 和 Codex
 
-从 [v0.4.2 Release](https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.4.2) 下载 `adaptive-task-routing-openai-0.4.2.zip`。如果当前界面支持本地插件，请解压后通过插件或 Marketplace 功能添加。公开目录是否可用仍取决于 OpenAI 的审核结果。
+从 [v0.5.0 Release](https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.5.0) 下载 `adaptive-task-routing-openai-0.5.0.zip`。如果当前界面支持本地插件，请解压后通过插件或 Marketplace 功能添加。公开目录是否可用仍取决于 OpenAI 的审核结果。
 
 ## 第一次使用
 

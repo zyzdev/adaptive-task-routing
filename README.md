@@ -8,8 +8,6 @@ Adaptive Task Routing assesses the conversation, model and reasoning settings at
 
 It weighs task needs, current suitability, remaining work, context continuity and switching costs. Keeping an adequate setup is a valid outcome. Unknown settings warrant provisional wording, not a claim that they have been verified. Actual savings and reliability improvements require evidence.
 
-> This page describes the unreleased UX update. Published v0.4.2 packages retain the earlier interaction; test this behavior with a build from the development branch.
-
 ## How it works
 
 1. The AI delivers the findings you requested or presents an actionable plan.

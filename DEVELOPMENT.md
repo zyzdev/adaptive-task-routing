@@ -8,7 +8,7 @@
 
 ### `adaptive-task-routing` — start here
 
-The coordinator first lets the agent complete and present the requested analysis or plan. If that deliverable defines a concrete substantial next phase, it then reads the context router, resolves the effective working context, and reads the model router for that next phase. For an execution request, the agent presents a concise actionable plan before the routing note and does not begin substantial execution yet. Model `ask` stops after the note and waits for a natural user response; model `auto` may apply supported settings and continue. A plan-only request never authorizes implementation.
+The coordinator first lets the agent complete and present the requested analysis or plan. If that deliverable defines a concrete substantial next phase, it then reads the context router, resolves the effective working context, and reads the model router for that next phase. For an execution request, the agent presents a concise actionable plan before the routing note and does not begin substantial execution yet. Model `ask` confirms proposed changes or material blockers; retention and nonblocking defer continue already authorized work. Model `auto` may apply justified, supported and verified changes. A plan-only request never authorizes implementation.
 
 It skips brief explanations, status checks, tiny edits, and questions merely about the plugin. At later phase changes it loads only the needed router. A completed answer with no substantial next phase does not need a new routing note.
 
@@ -26,11 +26,11 @@ It does not select a model or perform the task. Direct context-only requests sta
 
 Recommends a model and reasoning-effort pair supported by the current environment. It considers task difficulty, ambiguity, error cost, validation needs, compute cost, and stage transitions.
 
-It does not decide where the task runs or perform the task. Direct model-only requests stay here; if a host selects this child for a general task before Context routing, it dispatches once to the coordinator. Every enabled invocation reports concrete minimum-sufficient and recommended settings when evidence supports them. Unreadable current values and discovery diagnostics stay out of compact output. `off` skips the decision and its output.
+It does not decide where the task runs or perform the task. Direct model-only requests stay here; if a host selects this child for a general task before Context routing, it dispatches once to the coordinator. Every enabled invocation computes both task settings when evidence supports them; compact output follows the shared UX contract. Unreadable current values and discovery diagnostics stay out of compact output. `off` skips the decision and its output.
 
 ## Invocation and visibility
 
-The generated packages now add a short host-native activation reminder. Codex and Claude Code run a `UserPromptSubmit` plugin hook; Gemini CLI loads the extension's `GEMINI.md` in every restarted session. The reminder tells the host to present the requested analysis or plan first, then invoke the coordinator for a qualifying next phase before that phase begins. It also preserves the `ask` hold and `auto` continuation boundary. It does not duplicate the routing policy or run the routers itself. Codex can require one-time review before an installed hook runs, and any host or administrator can disable hooks or extensions. ChatGPT surfaces that consume only the portable Agent Plugins manifest do not expose a local prompt hook, so their implicit activation still depends on description matching or explicit Skill selection.
+The generated packages now add a short host-native activation reminder. Codex and Claude Code run a `UserPromptSubmit` plugin hook; Gemini CLI loads the extension's `GEMINI.md` in every restarted session. The reminder tells the host to present the requested analysis or plan first, then invoke the coordinator for a qualifying next phase before that phase begins. It preserves change-only confirmation in `ask` and task authorization in every mode. It does not duplicate the routing policy or run the routers itself. Codex can require one-time review before an installed hook runs, and any host or administrator can disable hooks or extensions. ChatGPT surfaces that consume only the portable Agent Plugins manifest do not expose a local prompt hook, so their implicit activation still depends on description matching or explicit Skill selection.
 
 For explicit use, select the **adaptive-task-routing skill** in the host's skill picker, or ask: “Use the adaptive-task-routing skill before starting this work.” Codex surfaces supporting `$` mentions can use `$adaptive-task-routing`; Claude Code uses `/adaptive-task-routing:adaptive-task-routing`. Individual routers remain available for context-only or model-only requests. The coordinator remains the primary entrypoint; a child selected for a general task dispatches once to it unless the request is explicitly context-only or model-only.
 
@@ -62,13 +62,13 @@ It runs only on demand, not on installation or Skill loading. The activation hoo
 run this helper; they only print a fixed reminder. No daemon or MCP service is bundled.
 Claude and Gemini use their own host guides, not this helper.
 
-[Seven-surface acceptance records](tests/surface-matrix.json) cover 47 cases (329 cells):
+[Seven-surface acceptance records](tests/surface-matrix.json) cover 61 cases (427 cells):
 ChatGPT web/desktop/mobile, Codex App/CLI, Claude Code and Gemini CLI. Metadata probe
 success is not a conversational pass, live App verification, or switching capability.
 
 ## Source and releases
 
-Version **0.4.2** is the current public release. The only maintained Skill and
+Version **0.5.0** is the current public release. The only maintained Skill and
 policy sources are root skills/ and shared/. The three stable Skill names remain unchanged;
 their descriptions now distinguish the general coordinator from context-only and model-only children.
 Bodies and translations provide scoped discovery and task-needs guidance.
@@ -118,7 +118,7 @@ and Gemini's single-activation coordinator behavior need installed-host evidence
 - [Release and actual submission steps](docs/release.md)
 - [Contribution guide](CONTRIBUTING.md) and [security policy](SECURITY.md)
 
-Release packages are available from the [v0.4.2 release](https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.4.2).
+Release packages are available from the [v0.5.0 release](https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.5.0).
 The dedicated [Gemini repository](https://github.com/zyzdev/adaptive-task-routing-gemini)
 is publicly installable. The dedicated [Claude repository](https://github.com/zyzdev/adaptive-task-routing-claude)
 has been submitted for Claude Code directory review. OpenAI directory availability remains

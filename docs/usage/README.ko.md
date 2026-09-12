@@ -8,8 +8,6 @@ Adaptive Task Routing은 중요한 작업 단계가 바뀔 때 대화, 모델, �
 
 작업 요구, 현재 설정의 적합성, 남은 작업량, 맥락의 연속성과 전환 비용을 고려합니다. 적절한 설정 유지도 유효한 결과입니다. 정보가 부족하면 임시 유지로 표시하고 적합성이 확인됐다고 주장하지 않습니다. 실제 비용 절감과 신뢰성 개선에는 검증이 필요합니다.
 
-> 이 페이지는 아직 출시되지 않은 UX 변경을 설명합니다. 공개 v0.4.2는 이전 동작을 사용합니다. 테스트하려면 개발 브랜치 빌드를 사용하세요.
-
 ## 작동 방식
 
 1. AI가 요청한 분석 결과나 실행 가능한 계획을 먼저 제시합니다.
@@ -23,7 +21,7 @@ Adaptive Task Routing은 중요한 작업 단계가 바뀔 때 대화, 모델, �
 ### Gemini CLI
 
 ```bash
-gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini --ref v0.4.2
+gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini --ref v0.5.0
 ```
 
 설치 후 Gemini CLI를 다시 시작하세요.
@@ -33,13 +31,13 @@ gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini
 공개 디렉터리 신청은 심사 중입니다. 정식 등록 전에는 전용 저장소를 복제하고 플러그인 디렉터리를 지정해 Claude Code를 시작할 수 있습니다.
 
 ```bash
-git clone --branch v0.4.2 https://github.com/zyzdev/adaptive-task-routing-claude.git
+git clone --branch v0.5.0 https://github.com/zyzdev/adaptive-task-routing-claude.git
 claude --plugin-dir "$PWD/adaptive-task-routing-claude"
 ```
 
 ### ChatGPT 및 Codex
 
-[v0.4.2 Release](https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.4.2)에서 `adaptive-task-routing-openai-0.4.2.zip`을 다운로드하세요. 로컬 플러그인을 지원하는 화면에서는 압축을 푼 플러그인을 Plugin 또는 Marketplace 기능으로 추가합니다. 공개 디렉터리 제공 여부는 OpenAI 심사 결과에 따릅니다.
+[v0.5.0 Release](https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.5.0)에서 `adaptive-task-routing-openai-0.5.0.zip`을 다운로드하세요. 로컬 플러그인을 지원하는 화면에서는 압축을 푼 플러그인을 Plugin 또는 Marketplace 기능으로 추가합니다. 공개 디렉터리 제공 여부는 OpenAI 심사 결과에 따릅니다.
 
 ## 처음 사용하기
 

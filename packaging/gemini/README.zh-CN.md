@@ -8,8 +8,6 @@ Adaptive Task Routing 在重要工作阶段开始前，评估对话环境、模�
 
 判断会考虑任务需求、当前设置是否足够、剩余工作量、对话延续与切换成本。保留合适的设置也是正式结果；信息不足时会说“暂时沿用”，不声称已确认适合。实际节省与可靠性改善仍需要证据。
 
-> 本页说明尚未发布的 UX 更新。正式 v0.4.2 包仍采用原交互方式；测试此行为需使用开发分支构建。
-
 ## 运作方式
 
 1. AI 先交付你要求的发现，或提出可执行计划。
@@ -21,7 +19,7 @@ Adaptive Task Routing 在重要工作阶段开始前，评估对话环境、模�
 ## 安装
 
 ```bash
-gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini --ref v0.4.2
+gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini --ref v0.5.0
 ```
 
 安装后请重新启动 Gemini CLI，并通过 `gemini extensions list` 确认 Extension。

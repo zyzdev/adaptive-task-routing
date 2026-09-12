@@ -8,8 +8,6 @@ Adaptive Task Routing assesses the conversation, model and reasoning settings at
 
 It weighs task needs, current suitability, remaining work, context continuity and switching costs. Keeping an adequate setup is a valid outcome. Unknown settings warrant provisional wording, not a claim that they have been verified. Actual savings and reliability improvements require evidence.
 
-> This page describes the unreleased UX update. Published v0.4.2 packages retain the earlier interaction; test this behavior with a build from the development branch.
-
 ## How it works
 
 1. The AI delivers the findings you requested or presents an actionable plan.
@@ -23,7 +21,7 @@ Brief questions and unchanged phases skip routing. The plugin considers conversa
 ### Gemini CLI
 
 ```bash
-gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini --ref v0.4.2
+gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini --ref v0.5.0
 ```
 
 Restart Gemini CLI after installation.
@@ -33,13 +31,13 @@ Restart Gemini CLI after installation.
 The public directory submission is under review. Until it is listed, clone the dedicated repository and start Claude Code with the plugin directory:
 
 ```bash
-git clone --branch v0.4.2 https://github.com/zyzdev/adaptive-task-routing-claude.git
+git clone --branch v0.5.0 https://github.com/zyzdev/adaptive-task-routing-claude.git
 claude --plugin-dir "$PWD/adaptive-task-routing-claude"
 ```
 
 ### ChatGPT and Codex
 
-Download `adaptive-task-routing-openai-0.4.2.zip` from the [v0.4.2 release](https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.4.2). In a surface that supports local plugins, add the extracted plugin through its plugin or marketplace interface. Public directory availability is subject to OpenAI review.
+Download `adaptive-task-routing-openai-0.5.0.zip` from the [v0.5.0 release](https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.5.0). In a surface that supports local plugins, add the extracted plugin through its plugin or marketplace interface. Public directory availability is subject to OpenAI review.
 
 ## First use
 
