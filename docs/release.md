@@ -48,7 +48,8 @@ In a project-only Codex sandbox it may return `codex_state_unwritable`; the rout
 Skill stops after that read and immediately uses the matching unexpired bundled registry
 to produce minimum-sufficient and recommended settings. It does not print unreadable
 current fields. In `auto`, it applies only through independently verified model and
-effort controls; otherwise it shows `/model` and waits for the user to reply “continue.”
+effort controls; otherwise it shows `/model` as an optional action and continues authorized
+work with the current setting.
 `/status` can provide current settings as user-reported evidence.
 Installing a release enables the packaged host-native reminder where the host supports it.
 Codex can require one-time hook trust. No status line, daemon, or Python environment is configured.

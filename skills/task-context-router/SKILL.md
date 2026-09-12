@@ -44,7 +44,7 @@ Identify the effective execution destination separately from the visible client 
 Resolve this router's mode independently of the model router. A current-turn instruction wins over stored preferences. If no mode is available, default to `ask`.
 
 - `off`: do not evaluate; remain in the current context and emit no recommendation.
-- `ask`: when the result is `CURRENT`, continue without interrupting. Before a recommended context change, ask whether the user wants it. If declined, continue in the current context. If accepted, perform the approved operation when it is callable and verifiable; otherwise give the user known manual steps and wait for them to say to continue.
+- `ask`: when the result is `CURRENT`, continue without interrupting. Before a recommended context change, ask whether the user wants it. If declined, continue in the current context. If accepted, perform the approved operation when it is callable and verifiable; otherwise give the user known manual steps and let them resume naturally in the destination without requiring a confirmation word.
 - `auto`: apply automatically subject to availability, permissions, and safety constraints.
 
 `off` means the router does not run. `ask` is the default interactive mode. When both routers require confirmation, combine their choices into one concise prompt when accurate, while preserving independent controls.

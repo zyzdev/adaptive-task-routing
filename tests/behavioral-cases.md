@@ -16,9 +16,9 @@ Use these cases for manual or automated forward evaluation. Judge observable dec
 
 **Given:** The user asks for an improvement plan only, and the completed plan proposes a concrete, substantial implementation and validation phase.
 
-**Expect:** Before yielding, the enabled model router visibly recommends model and effort for the proposed next phase. If it recommends a change in default `ask` mode, it asks whether the user wants to adjust and waits; it states that the recommendation did not authorize or begin implementation.
+**Expect:** Before yielding, the enabled model router visibly recommends model and effort for the proposed next phase. If it recommends a change in default `ask` mode, it presents the known control as an option without requiring a confirmation word; it states that the recommendation did not authorize or begin implementation.
 
-**中文：** 使用者只要求改善計畫，而完成的計畫包含具體且有份量的實作與驗證下一階段時，啟用的 Model Router 應在回覆結束前顯示該階段的模型與強度建議。預設 `ask` 模式若建議改變，應詢問是否調整並等待；同時說明建議不代表已授權或開始實作。
+**中文：** 使用者只要求改善計畫，而完成的計畫包含具體且有份量的實作與驗證下一階段時，啟用的 Model Router 應在回覆結束前顯示該階段的模型與強度建議。預設 `ask` 模式若建議改變，應把已知控制列為可選操作，不要求回覆特定口令；同時說明建議不代表已授權或開始實作。
 
 ## 3. Context continuity with localized visible advice / 對話延續與在地化建議
 
@@ -32,9 +32,9 @@ Use these cases for manual or automated forward evaluation. Judge observable dec
 
 **Given:** The applicable model catalog, supported effort options and task-relevant capability descriptions are known, but the running model and reasoning effort cannot be read.
 
-**Expect:** Recommend a concrete supported model and effort for the task; do not retain CURRENT/CURRENT solely because current settings are unknown. Current fields and switch necessity remain unknown. In ask mode ask to use the pair without claiming an upgrade, a comparison with current settings, or an applied change.
+**Expect:** Recommend a concrete supported model and effort for the task; do not retain CURRENT/CURRENT solely because current settings are unknown. Current fields and switch necessity remain unknown. In ask mode present the pair and known control as options without claiming an upgrade, a comparison with current settings, or an applied change; continue authorized work with the retained current setting.
 
-**中文：** 適用清單、強度選項及任務相關能力依據已知，但目前模型與推理強度無法讀取時，應給出具體受支援組合，不能僅因現況未知就暫留 `CURRENT/CURRENT`。目前欄位及是否需要切換仍未知；`ask` 詢問是否使用該組合，不宣稱已比較、升級或套用。
+**中文：** 適用清單、強度選項及任務相關能力依據已知，但目前模型與推理強度無法讀取時，應給出具體受支援組合，不能僅因現況未知就暫留 `CURRENT/CURRENT`。目前欄位及是否需要切換仍未知；`ask` 把組合與已知控制列為可選項，不宣稱已比較、升級或套用，並沿用目前設定繼續已授權工作。
 
 ## 5. Unknown catalog / 模型清單未知
 
@@ -56,9 +56,9 @@ Use these cases for manual or automated forward evaluation. Judge observable dec
 
 **Given:** An App surface uses `auto`. Its orchestrator can create a new context and set a model for that new run, but it cannot switch the current model or effort.
 
-**Expect:** Each operation retains its own capability. Context creation may run automatically and be reported `applied` only after verification. Current-model and effort changes degrade to known user actions and remain awaiting; the App label does not cap all operations to `user_only`.
+**Expect:** Each operation retains its own capability. Context creation may run automatically and be reported `applied` only after verification. Current-model and effort changes degrade to optional known user actions while the retained current setting is recorded; the App label does not cap all operations to `user_only`.
 
-**中文：** App 使用 `auto`，其 Orchestrator 可建立新 Context 並設定新執行的模型，但不能切換目前模型或強度時，每項操作應保留自己的能力。Context 建立可自動執行，且只有驗證後才回報 `applied`；目前模型與強度降級為已知使用者動作並保持等待，不能因介面是 App 就把全部操作都限制為 `user_only`。
+**中文：** App 使用 `auto`，其 Orchestrator 可建立新 Context 並設定新執行的模型，但不能切換目前模型或強度時，每項操作應保留自己的能力。Context 建立可自動執行，且只有驗證後才回報 `applied`；目前模型與強度降級為可選的已知使用者動作，並記錄沿用目前設定，不能因介面是 App 就把全部操作都限制為 `user_only`。
 
 ## 8. Programmable CLI execution / 可程式化 CLI 執行
 

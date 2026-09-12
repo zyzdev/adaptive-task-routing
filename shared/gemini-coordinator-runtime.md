@@ -73,16 +73,17 @@ For Traditional Chinese, render both blocks exactly in this order:
 
 Omit unreadable current settings, diagnostics, confidence, registry details, and internal schema.
 
-## Required final action
+## Optional model action
 
 Gemini CLI does not expose an agent-callable, verifiable operation for changing the current model
-through this Skill. In `ask`, whenever the recommended model may differ from the current model or
-the current model is unreadable, the final paragraph in Traditional Chinese must be exactly:
+through this Skill. Whenever the recommended model may differ from the current model or the current
+model is unreadable, present `/model` as an option without blocking authorized downstream work. In
+Traditional Chinese use:
 
 ```text
-目前環境無法代為切換模型；Reasoning 使用模型預設。請用 /model 選擇建議的模型；完成後請回覆「繼續」。若決定不調整，也請回覆「繼續」。
+目前環境無法代為切換模型；Reasoning 使用模型預設。如需採用建議，可用 /model 選擇模型；我會先依目前設定繼續執行。
 ```
 
-End the response after that paragraph. Do not add a separator, next-step plan, permission question,
-or statement that scanning will begin. In another user language, translate the same action and keep
-`/model` unchanged.
+Continue authorized work in the same turn. For a model-advice-only or plan-only request, replace the
+continuation clause with the localized equivalent of “you may also keep the current setting.” In
+another user language, translate the same action and keep `/model` unchanged.

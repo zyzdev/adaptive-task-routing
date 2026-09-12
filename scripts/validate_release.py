@@ -367,7 +367,8 @@ def validate_source(root):
                 "A fresh one-prompt session is focused",
                 "【最低足夠 AI 設定】", "【建議 AI 設定】",
                 "Reasoning：使用模型預設", "Never output Gemini 1.5",
-                "請用 /model 選擇建議的模型", "End the response after that paragraph")),
+                "如需採用建議，可用 /model 選擇模型",
+                "Continue authorized work in the same turn")),
             "Gemini compact coordinator contract missing")
     model_skill = (root / "skills/research-model-router/SKILL.md").read_text()
     evidence_schema = (root / "skills/research-model-router/references/evidence-schema.md").read_text()
@@ -376,15 +377,17 @@ def validate_source(root):
                  "upgrade_value", "upgrade_reason")),
             "Model router two-tier recommendation contract missing")
     require("never print `Current: unknown / unknown`" in model_skill
-            and "完成後請回覆「繼續」" in model_skill
-            and "請使用介面中的模型與推理強度選單完成設定。完成後" in model_skill
+            and "Do not require a confirmation word" in model_skill
+            and "如需採用建議，可使用介面中的模型與推理強度選單調整" in model_skill
             and "do not include the CLI-only `/model` command" in model_skill
             and "Do not ask the user to transcribe selector options" in model_skill
             and "Never output bare Codex-style `low`, `medium`, or `high` as a Gemini setting" in model_skill
             and "* Reasoning：使用模型預設" in model_skill
             and "Traditional Chinese must use the exact literal headings" in model_skill
             and "目前環境無法代為切換模型；Reasoning 使用模型預設" in model_skill
-            and "Stop the response immediately after that instruction" in model_skill
+            and "Continue authorized downstream work in the same turn" in model_skill
+            and "reply “continue”" not in model_skill
+            and "回覆「繼續」" not in model_skill
             and "Never render the schema or internal evidence in ordinary compact output" in model_skill
             and "## When the user questions a recommendation" in model_skill
             and "ask once for narrowly scoped read permission only when the current host exposes a concrete path" in model_skill

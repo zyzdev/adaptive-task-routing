@@ -1,7 +1,7 @@
 # Release verification — 0.4.1
 
 Audit date: 2026-09-12 (Asia/Taipei). This release updates discovery, recommendation,
-and direct-selection dispatch guidance while preserving the three Skill names. Local automated checks passed;
+direct-selection dispatch and non-blocking setting guidance while preserving the three Skill names. Local automated checks passed;
 public submission and conversational acceptance remain outstanding.
 
 ## Automated results
@@ -14,7 +14,8 @@ public submission and conversational acceptance remain outstanding.
 | Reproducibility | PASS | Build-twice integration compares ZIP bytes and preserves old output |
 | Claude Code 2.1.269 | PASS | claude plugin validate dist/claude/adaptive-task-routing --strict |
 | Gemini CLI 0.59.0 | PASS | gemini extensions validate dist/gemini/adaptive-task-routing |
-| Codex compatibility validator | PASS | Bundled plugin-creator validate_plugin.py |
+| Codex runtime install | PASS | Installed and enabled `0.4.1+codex.20260912061656` from the personal marketplace |
+| Bundled Codex compatibility validator | KNOWN LIMITATION | Its older schema rejects the runtime-supported manifest `hooks` field |
 | Three Skill validators | PASS | Bundled skill-creator quick_validate.py |
 
 The helper tests cover catalog pagination/cycles, hidden models, malformed/duplicate
@@ -39,14 +40,12 @@ Gemini coordinator projection and the one allowed helper source.
   returned and the catalog was marked applicable to that CLI. Disk and saved thread
   settings were gpt-5.6-sol / high; the thread was notLoaded. Output correctly retained
   unknown current values. No inference, thread-start/resume or config-write RPC was called.
-- A fresh installed-host Codex CLI session with `workspace-write` and `approval: never`
-  reproduced `codex_state_unwritable`. It stopped after one attempt, requested no broader
-  access, and used the unexpired bundled inventory internally. The compact result showed
-  a plain-language conversation recommendation, no window switch, minimum GPT-5.6 Terra / high,
-  recommended GPT-5.6 Sol / high, and medium upgrade value. It omitted unreadable current values and all
-  probe, fallback, freshness, account/surface, confidence, assessment and mode details.
-  Since no verifiable switch operation existed, it directed the user to `/model` and
-  ended by asking them to reply “continue” after changing or retaining the setting.
+- A fresh installed-host Codex CLI 0.154.0 session loaded development build
+  `0.4.1+codex.20260912061656` through its `UserPromptSubmit` hook. It rendered the localized
+  conversation block, minimum and recommended model blocks, and an optional model-control
+  action. It did not request a confirmation word: in the same turn it retained the current
+  setting, inspected `release.json` and `CHANGELOG.md`, reported the comparison, and changed
+  no project files.
 - Two fresh installed-host dispatch runs used the updated Skill descriptions. An
   ordinary release-audit prompt selected `adaptive-task-routing` without naming a
   Skill and showed conversation plus Model routing. A second run explicitly started from
@@ -64,20 +63,14 @@ Gemini coordinator projection and the one allowed helper source.
   only possible read belonged to a separate CLI process. The response disclosed the actual
   source, observation and expiry dates, account-availability limit and task mapping. It did
   not start the probe or request permission that could not reach the same App/session.
-- A fresh Gemini CLI 0.59.0 model-only run used `Flash / model default` and
-  `Pro / model default`, preserved the exact Traditional Chinese bracket headings, named
-  `/model` only for the model change, and ended at the continue prompt. It did not emit a
-  legacy Gemini 1.5 name, invent Codex effort levels, expose internal YAML, or modify files.
-- Three fresh Gemini CLI 0.59.0 runs used a substantial Traditional Chinese prompt that did
-  not name any Skill. Every run automatically called `activate_skill` once, rendered the
-  conversation, minimum and recommended blocks, ended with the `/model` and “continue”
-  action, and changed zero file lines. The generated coordinator uses a compact runtime
-  projection because Gemini grants one activation access only to that Skill directory.
-  A fresh `1 + 1` negative control made zero `activate_skill` calls.
-- A fresh Codex CLI 0.154.0 run used the same unnamed-Skill task. With hook trust bypassed
-  for that reviewed local test invocation only, it automatically loaded the coordinator,
-  rendered all three blocks and stopped at the “continue” action without scanning the
-  project. Normal interactive use still presents one-time hook review.
+- Earlier Gemini CLI 0.59.0 runs established automatic `activate_skill` behavior, localized
+  blocks and a negative control for `1 + 1`. Their final action used the previous blocking
+  wording. The generated Gemini runtime now requires `/model` to be optional and continuation
+  to occur in the same turn; package validation passed. A fresh headless behavioral retest
+  produced no output within four minutes and was stopped, so post-change Gemini acceptance
+  remains pending.
+- The fresh Codex CLI run used hook trust bypass only for the reviewed local test invocation.
+  Normal interactive use still presents one-time hook review.
 
 Evidence: [sanitized native inventory](evidence/native-smoke.json) and
 [metadata-probe summary](evidence/routing-probe.json), plus the
@@ -93,7 +86,7 @@ Raw inventory is regenerated locally at build/native-smoke.json.
 Host startup may update its own logs/caches or contact its provider.
 
 The persistent personal plugin was updated and enabled as development build
-`0.4.1+codex.20260912055741`. A new conversation is still required to load it. No user
+`0.4.1+codex.20260912061656`. A new conversation is still required to load it. No user
 model/effort setting was changed.
 Native discovery is not behavioral execution, and no live App control socket was tested.
 
@@ -101,14 +94,14 @@ Native discovery is not behavioral execution, and no live App control socket was
 
 | Archive | Bytes |
 |---|---:|
-| adaptive-task-routing-openai-0.4.1.zip | 102026 |
-| adaptive-task-routing-claude-0.4.1.zip | 100723 |
-| adaptive-task-routing-gemini-0.4.1.zip | 102218 |
+| adaptive-task-routing-openai-0.4.1.zip | 102390 |
+| adaptive-task-routing-claude-0.4.1.zip | 101087 |
+| adaptive-task-routing-gemini-0.4.1.zip | 102585 |
 
 ```text
-1a8ff7758036584f68b93e35c5f89f17d3dbe924d8d534c6831a8d285aad8381  adaptive-task-routing-openai-0.4.1.zip
-351efe7e0f5903a1f26e2e3194b2cd9e70d78457aa1119a0c109f729c9cb5bb7  adaptive-task-routing-claude-0.4.1.zip
-1815dba32416364b624b2ff5460183d80604a7600660cb919acda0f6aeca13bb  adaptive-task-routing-gemini-0.4.1.zip
+d0e88682b2f5105475abc7ce6c58fed2c1bb485b9866543229b2a38bce4fd2fa  adaptive-task-routing-openai-0.4.1.zip
+6ca08a5c84cc7e1e0ad205f3b133d10b71e1e5d1d4723fbfab7e5a2b3a9d74ff  adaptive-task-routing-claude-0.4.1.zip
+15eeeac0a4334197b909209d189dc85664a6f5468ecaa6f90d2e31884afcaf1a  adaptive-task-routing-gemini-0.4.1.zip
 ```
 
 Each ZIP has manifests at its root without a wrapper. All three Skills, shared guides
@@ -147,6 +140,6 @@ frontmatter descriptions, their checked trigger contract, and relevant behaviora
 expectations now cover direct child selection. Unrelated existing content is retained.
 
 The final build moved the previous dist to
-.release-backups/dist-djx3yxhj/dist. It is recoverable and was not used as input.
+.release-backups/dist-evm3lh47/dist. It is recoverable and was not used as input.
 No Git index/history/remotes, remote repository, push, release or submission was changed.
 See [release and owner submission steps](release.md).

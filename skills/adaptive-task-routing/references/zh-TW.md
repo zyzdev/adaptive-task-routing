@@ -14,7 +14,7 @@
 
 1. 讀取共用政策及預設值。所有相對路徑都從目前 `SKILL.md` 所在目錄解析；Plugin 根目錄在主 Skill 檔往上三層，共用檔位於 `<plugin-root>/shared`，不是 `skills/shared`。分別解析 Context 與 Model 模式：`off`、`ask`、`auto`。沒有第三套協調入口模式或另一份固定路由策略。兩者均 `off` 時不評估、不探測能力、不輸出 Routing；只有一者關閉時，另一者照常運作。
 2. 在 Context Gate 載入 `task-context-router`，由它決定 `CURRENT`／`HANDOFF`／`CLEAN`。Gemini 產物會把完整依賴附錄加在協調入口末端；附錄存在時直接使用其中的 Context Router 指令，不再嘗試啟動第二個 Skill。其他宿主可讀取 `../task-context-router/SKILL.md` 或使用宿主提供的 Skill 資源。後續只有模型需求改變時，可以沿用已確認的 Context。
-3. 按模式確定實際工作 Context。`ask` 下建議 `CURRENT` 時直接繼續；建議改變時先暫停並詢問使用者。拒絕就沿用目前 Context；接受後，可呼叫且可驗證的操作由 AI 執行，只等使用者完成 `user_only` 的部分並回覆「繼續」。若目的地待確認且模型選項未知，明確顯示 Model Gate 延後，並顯示目前可取得的模型／強度或 `unknown`。
+3. 按模式確定實際工作 Context。`ask` 下建議 `CURRENT` 時直接繼續；建議改變時先暫停並詢問使用者。拒絕就沿用目前 Context；接受後，可呼叫且可驗證的操作由 AI 執行；`user_only` 的部分提供必要交接，讓使用者在目的地自然接續，不要求回覆特定口令。若目的地待確認且模型選項未知，明確顯示 Model Gate 延後，並顯示目前可取得的模型／強度或 `unknown`。
 4. 載入 `research-model-router`，由它決定下一階段模型與強度。Gemini 的依賴附錄存在時，直接使用其中完整的 Model Router、宿主、Registry 與共同政策；其他宿主可讀取 `../research-model-router/SKILL.md` 或使用宿主提供的 Skill 資源。不能只期待宿主自行選到第二個 Skill。若相關檔案、附錄及宿主資源都無法取得，就顯示該元件無法載入，絕不依協調入口摘要或記憶自行補出結果。
 5. 合併顯示精簡 Routing 訊息。先用獨立的【對話設定】區塊顯示使用者語言的白話建議，並明確回答是否切換視窗；`CURRENT`／`HANDOFF`／`CLEAN` 只留在結構化證據，不顯示在一般輸出，也不附在括號中。再列最低足夠模型／強度、建議模型／強度、升級價值及實際下一步。無法讀取的目前模型／強度不顯示。兩組符合已知目前設定時仍要顯示；延後或未載入不能當作已完成。
 6. 繼續已授權工作，或在模式／任務需要決定時等待。只要求計畫，不等於授權實作。手動切換或環境改變後、執行之前要重檢。

@@ -51,11 +51,11 @@ Model: fixture-balanced
 Reasoning: high
 Upgrade value: medium; extra checking helps with initialization ordering and regression interactions.
 
-Choose high effort in the known App selector, then reply “continue.” If you decide
-not to change it, reply “continue” to proceed unchanged. Implementation has not started.
+If desired, choose high effort in the known App selector; keeping the current setting is
+also valid. Implementation has not started.
 ```
 
-Advice does not authorize implementation. If the App selector location is unknown, the agent states that limitation instead of inventing an exact menu path. It asks only when a supported change is recommended; staying in the current conversation proceeds without interruption.
+Advice does not authorize implementation. If the App selector location is unknown, the agent states that limitation instead of inventing an exact menu path. Model guidance does not require a confirmation word; staying in the current conversation proceeds without interruption.
 
 ## 3. User approves the next phase
 
@@ -102,7 +102,7 @@ mode: ask
 disposition: awaiting_user_confirmation
 ```
 
-This is not a claim that the current model is sufficient. On a host without an applicable bundled reference, the agent can request actual selector options once if selecting a configuration becomes necessary. On a recognized OpenAI surface with a matching unexpired bundled reference, it gives two concrete availability-unverified pairs without requesting a copied selector, then waits for the user to adjust with the surface-appropriate control or choose to continue. A catalog alone must not be used to guess the running model.
+This is not a claim that the current model is sufficient. On a host without an applicable bundled reference, the agent can request actual selector options once if selecting a configuration becomes necessary. On a recognized OpenAI surface with a matching unexpired bundled reference, it gives two concrete availability-unverified pairs without requesting a copied selector, then presents the surface-appropriate control as an option. A catalog alone must not be used to guess the running model.
 
 ## Context and executor variants
 

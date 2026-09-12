@@ -1,7 +1,7 @@
 {
-  "observed_at": "2026-09-12T05:53:00Z",
+  "observed_at": "2026-09-12T06:27:25Z",
   "host": "Codex CLI 0.154.0",
-  "installed_plugin_version": "0.4.1+codex.20260912055311",
+  "installed_plugin_version": "0.4.1+codex.20260912061656",
   "prompt_named_skill": false,
   "hook_event": "UserPromptSubmit",
   "hook_test_mode": "dangerously-bypass-hook-trust for this reviewed local test invocation only",
@@ -10,11 +10,15 @@
     "context_block_rendered": true,
     "minimum_setting_block_rendered": true,
     "recommended_setting_block_rendered": true,
-    "continue_prompt_was_final": true,
-    "project_scan_started": false,
+    "optional_manual_action_rendered": true,
+    "confirmation_word_required": false,
+    "task_started_after_routing": true,
+    "task_completed_after_routing": true,
     "project_files_modified": false
   },
   "notes": [
+    "The task compared release.json with CHANGELOG.md after rendering the routing blocks in the same turn.",
+    "The output offered the model control as an option, retained the current setting, and proceeded without waiting for a reply.",
     "The installed runtime accepted the compatibility manifest hook even though the older bundled plugin-creator validator rejects that field.",
     "Normal interactive use still requires the user to review and trust the installed hook once."
   ]

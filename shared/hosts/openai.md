@@ -59,12 +59,12 @@ user-facing output unless the user explicitly asks for diagnostics.
 
 Catalog discovery never establishes switch capability. In `auto`, switch only when
 the exact model and effort controls are callable, authorized and verifiable. On an
-identified CLI, show `/model` as the primary manual action. On ChatGPT desktop or web
+identified CLI, show `/model` as an optional manual action. On ChatGPT desktop or web
 with a visible model/reasoning selector, show only that selector and do not include
-the CLI-only `/model` command. End with an explicit instruction to reply
-“continue” after setting it, or to reply “continue” without changing it. `/status` may
-supply useful user-reported current settings, but unreadable current values are omitted
-from the compact result. Do not make further probe attempts in the same gate.
+the CLI-only `/model` command. Retain the current setting and continue authorized work
+without requiring a confirmation word. `/status` may supply useful user-reported current
+settings, but unreadable current values are omitted from the compact result. Do not make
+further probe attempts in the same gate.
 
 Do not request broader permission during the normal fallback. If the user later
 questions the recommendation, explain whether the result used current runtime data or
