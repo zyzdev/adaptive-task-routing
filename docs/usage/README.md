@@ -44,14 +44,21 @@ In the default `ask` mode, the AI pauses after the recommendation and accepts a 
 
 ## What you will see
 
-Exact models and controls depend on the host and task, but the order and labels remain predictable. A typical English response looks like this after the requested plan:
+The example below uses the request “Review the plugin release process, cross-platform consistency, and test gaps.” Actual plans and recommendations vary by task and platform.
+
+### Example response
+
+#### 1. AI task plan
 
 ```text
-Plan
 1. Check the release scripts and manifests for all three platforms.
 2. Review CI, version consistency, and test gaps.
 3. Rank the risks and propose an implementation order.
+```
 
+#### 2. Adaptive Task Routing resource recommendation
+
+```text
 ---
 
 ### Adaptive Task Routing | Task resource guidance
