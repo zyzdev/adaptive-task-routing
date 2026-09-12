@@ -9,7 +9,7 @@
   "interface": {
     "displayName": "Adaptive Task Routing",
     "shortDescription": "Choose context, model, and reasoning for complex work.",
-    "longDescription": "The primary adaptive-task-routing skill coordinates independent context and model routers after substantial analyses identify actionable next work and before executing substantial phases. It covers multi-step audits, scans, research, planning, coding, debugging, architecture and validation. Directly selected child routers dispatch general tasks back to the coordinator while explicit context-only and model-only requests remain scoped. Concrete recommendations stay visible, and per-operation capability checks allow verified automation or clear user actions.",
+    "longDescription": "Adaptive Task Routing helps with multi-step audits, scans, research, planning, coding, debugging, architecture, and validation. The AI first presents the requested findings or actionable plan, then adds a clearly separated recommendation for conversation context, model, and reasoning effort before the next substantial phase. Independent controls support ask, auto, and off modes, while capability checks allow verified automation or clear user actions.",
     "developerName": "Adaptive Task Routing",
     "category": "Productivity",
     "capabilities": [],

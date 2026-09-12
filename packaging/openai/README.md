@@ -1,81 +1,72 @@
-# Adaptive Task Routing — OpenAI / ChatGPT / Codex
+# Adaptive Task Routing for ChatGPT and Codex
 
-[English](../../docs/usage/README.md) · [繁體中文](../../docs/usage/README.zh-TW.md) · [简体中文](../../docs/usage/README.zh-CN.md) · [日本語](../../docs/usage/README.ja.md) · [한국어](../../docs/usage/README.ko.md)
+[English](README.md) · [繁體中文](README.zh-TW.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [한국어](README.ko.md)
 
-This plugin contains three workflows with preserved triggers: adaptive-task-routing,
-task-context-router, and research-model-router. It suggests context, model and reasoning
-for substantial work; both routers default to ask. The Codex compatibility manifest includes
-a `UserPromptSubmit` reminder that asks the host to present the requested analysis or plan first,
-then invoke the coordinator before any qualifying next phase begins. For an execution request,
-the host presents an actionable plan before the gate.
+Adaptive Task Routing helps ChatGPT and Codex choose the conversation context, model, and reasoning effort for the next substantial phase. The AI presents the requested findings or plan first, then shows the resource recommendation.
 
-The root plugin.json targets Agent Plugins 1.0.0. OpenAI presentation is under
-extensions.com.openai. The generated .codex-plugin/plugin.json is the Codex compatibility
-fallback, with the same identity, version and presentation. The hook prints fixed text only;
-it does not inspect the prompt or run routing logic. Codex may require one-time hook review.
-There is no MCP or app connection. An optional Python 3.10+ read-only metadata helper lives
-inside the model Skill; it runs only on demand, never on installation or Skill loading.
+## Install
 
-The hook belongs to the Codex compatibility manifest. ChatGPT web, desktop, mobile, or
-Chrome surfaces that consume only the portable manifest do not execute this local hook;
-automatic selection there remains description-based and cannot be guaranteed by this ZIP.
+The public plugin submission is managed through the OpenAI Plugins portal. Until it is listed, download `adaptive-task-routing-openai-0.4.2.zip` from the [latest release](https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.4.2), extract it, and register the extracted directory as a local plugin source or marketplace.
 
-## Model discovery
+In Codex CLI, install it from the configured marketplace. In ChatGPT or the Codex app, select it from the Plugins Directory after the public listing becomes available.
 
-Follow the [OpenAI host guide](../../shared/hosts/openai.md). Task capability needs are
-reported even when the current pair is unknown. The helper reads a scoped CLI catalog,
-disk defaults and optional thread metadata; it does not prove App current settings,
-make inference calls or switch models. ChatGPT web/desktop/mobile and Codex App/CLI
-need separate acceptance records in the [surface matrix](../../tests/surface-matrix.json).
+## First use
 
-## Install and test locally
+Start a new conversation and ask a substantial question, such as:
 
-Extract the OpenAI ZIP into a directory named adaptive-task-routing. The manifest
-and skills/ must be directly inside that directory. Keep shared/ beside skills/;
-copying individual Skill directories loses shared references.
+> Audit this project's release workflow and propose an implementation plan for the main risks.
 
-Codex CLI 0.154.0 installs using a configured marketplace. Ask the built-in
-plugin-creator to register this extracted folder in a local marketplace. Once its
-actual marketplace name is confirmed, run
-`codex plugin add adaptive-task-routing@YOUR-CONFIRMED-MARKETPLACE`.
-For a non-default marketplace root, register it first with
-`codex plugin marketplace add /absolute/path/to/marketplace-root`.
+Explicit activation is available as `$adaptive-task-routing` on surfaces that support named skills.
 
-For desktop testing, use the built-in plugin-creator to register the extracted folder
-in a local marketplace, install from the local source in Plugins Directory, and start
-a new task. A plugin ZIP is not a marketplace root. This release provides three plugin
-archives; it does not provide a fourth marketplace archive. Local marketplace installation
-does not publish to your workspace or the public directory.
+## Change modes in conversation
 
-Check that all three Skill names appear in the new task's inventory and review/enable the
-plugin hook when Codex asks. Submit a substantial plan-only task without naming the Skill, then
-confirm the useful plan appears first, followed by the localized `Adaptive Task Routing` task-resource
-divider and routing note, and default `ask` ends the turn there.
-Submit a separate execution request and confirm only `auto` may continue through the gate. Also
-test explicit selection. Current conversation
-settings or user-only controls must never be claimed to have changed automatically.
+- “Set Adaptive Task Routing to auto for this conversation.”
+- “Set model routing to ask.”
+- “Turn context routing off for this task.”
+- “What routing modes are active?”
 
-## Contents and testing
+An unqualified mode change applies to both independent routers. The default is `ask`; `auto` applies only changes the current OpenAI surface can perform and verify; `off` skips the selected router.
 
-- [Architecture](../../docs/architecture.md)
-- [Traditional Chinese architecture](../../docs/architecture.zh-TW.md)
-- [Full example](../../docs/full-example.md)
-- [Behavioral cases and platform matrix](../../tests/behavioral-cases.md)
-- [Shared defaults](../../shared/defaults.yaml)
-- [Shared runtime policy](../../shared/runtime-routing-policy.md)
-- [Changelog](../../CHANGELOG.md)
+## What you will see
 
-Version is read from plugin.json. No personal data collection, network service or credential
-store is bundled; host/user-managed settings may hold preferences and capability hints.
-Public publisher identity and policy URLs still need the owner's final submission metadata.
+The example below uses the request “Review the plugin release process, cross-platform consistency, and test gaps.” Actual plans and recommendations vary by task and platform.
 
-## Public submission
+### Example response
 
-Use OpenAI Platform's Plugins portal, Create plugin → Skills only. Upload this OpenAI
-bundle, complete the verified developer identity, listing/logo/public policy and support URLs,
-starter prompts, five positive and three negative cases, availability and attestations.
-Run the matrix in the installed hosts before requesting review. Review and publishing
-are separate external actions performed by the owner.
+#### 1. AI task plan
 
-See the official [packaging guide](https://developers.openai.com/plugins/build/plugins)
-and [submission guide](https://developers.openai.com/plugins/deploy/submission).
+```text
+1. Inspect release scripts and manifests.
+2. Review CI and test gaps.
+```
+
+#### 2. Adaptive Task Routing resource recommendation
+
+```text
+---
+
+### Adaptive Task Routing | Task resource guidance
+
+[Conversation setting]
+* Recommendation: Stay in this conversation
+* Switch windows: No
+
+[Minimum sufficient AI setting]
+* Model: GPT-5.6 Sol
+* Reasoning: high
+
+[Recommended AI setting]
+* Model: GPT-6 Astra
+* Reasoning: high
+* Upgrade value: Medium. Better for subtle cross-file dependencies.
+
+This environment cannot change the settings for you. Use the model and reasoning controls in ChatGPT or the Codex app, or `/model` in Codex CLI, if desired; I will pause while you decide whether to adjust them or continue with the current setting.
+```
+
+The model names and effort values are illustrative. Actual recommendations use options evidenced for the current OpenAI environment. In `ask`, the AI stops after this block; `auto` may continue already authorized work.
+
+## Remove
+
+Remove the plugin through the Plugins Directory or the configured Codex marketplace. For a manually extracted local copy, remove its marketplace entry and delete the extracted directory.
+
+For packaging, validation, and publication details, see [Development notes](DEVELOPMENT.md).
