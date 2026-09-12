@@ -1,16 +1,12 @@
 # Changelog
 
-## [0.4.1] - 2026-09-12
-
-### Changed
-
-- Added host-native automatic activation reminders: a Codex `UserPromptSubmit` plugin hook, a Claude Code `UserPromptSubmit` plugin hook, and an extension `GEMINI.md` loaded through `contextFileName`.
-- Kept routing judgment inside the coordinator Skill. The startup integrations inject only a short eligibility reminder and skip ordinary chat, status checks, tiny operations, plugin-only questions, and unchanged phases.
-- Added package validation and regression coverage for all three automatic activation integrations. Codex may require one-time hook trust; Gemini loads the reminder after a CLI restart.
-
 All notable changes to this project are documented here.
 
 ## Unreleased
+
+## [0.4.2] - 2026-09-12
+
+### Changed
 
 - Separate task output from routing advice with a Markdown divider, a localized `Adaptive Task Routing` task-resource heading, and a one-sentence explanation that the settings apply to the planned next phase.
 - Make Gemini automatic routing self-contained in the extension startup context. Gemini CLI 0.59.0 can advertise `activate_skill` while returning `tool_not_registered` at execution, so `GEMINI.md` now embeds and applies the complete compact coordinator contract without depending on that failing call; explicit Skills remain packaged.
@@ -32,6 +28,14 @@ All notable changes to this project are documented here.
 - Defer permission escalation until a user questions a recommendation. Explain the evidence first, then ask once only when a narrowly scoped permission can unlock the same App/session model list; otherwise continue with the fallback without repeated prompts.
 - Add a Gemini CLI fallback registry using the current stable aliases and require model-native reasoning output, preventing legacy Gemini 1.5 names and unsupported Codex-style effort levels.
 - Add regression coverage for registry completeness, capability metadata, sandbox failure classification and permission-denial fallback behavior.
+
+## [0.4.1] - 2026-09-12
+
+### Changed
+
+- Added host-native automatic activation reminders: a Codex `UserPromptSubmit` plugin hook, a Claude Code `UserPromptSubmit` plugin hook, and an extension `GEMINI.md` loaded through `contextFileName`.
+- Kept routing judgment inside the coordinator Skill. The startup integrations inject only a short eligibility reminder and skip ordinary chat, status checks, tiny operations, plugin-only questions, and unchanged phases.
+- Added package validation and regression coverage for all three automatic activation integrations. Codex may require one-time hook trust; Gemini loads the reminder after a CLI restart.
 
 ## [0.4.0] - 2026-09-12
 

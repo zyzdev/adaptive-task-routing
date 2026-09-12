@@ -96,7 +96,7 @@ success is not a conversational pass, live App verification, or switching capabi
 
 ## Source and releases
 
-Version **0.4.1** is a locally prepared release candidate. The only maintained Skill and
+Version **0.4.2** is a locally prepared release candidate. The only maintained Skill and
 policy sources are root skills/ and shared/. The three stable Skill names remain unchanged;
 their descriptions now distinguish the general coordinator from context-only and model-only children.
 Bodies and translations provide scoped discovery and task-needs guidance.
