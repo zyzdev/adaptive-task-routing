@@ -361,6 +361,8 @@ class ValidateReleaseTests(unittest.TestCase):
         gemini_manifest = json.loads(gemini["gemini-extension.json"])
         self.assertEqual(gemini_manifest["contextFileName"], "GEMINI.md")
         self.assertIn(AUTO_ACTIVATION["gemini"], gemini["GEMINI.md"].decode())
+        self.assertIn("Embedded automatic coordinator contract",
+                      gemini["GEMINI.md"].decode())
 
     def test_rejects_modified_automatic_activation(self):
         from release_lib import payload

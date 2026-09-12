@@ -47,7 +47,8 @@ does not publish to your workspace or the public directory.
 
 Check that all three Skill names appear in the new task's inventory and review/enable the
 plugin hook when Codex asks. Submit a substantial plan-only task without naming the Skill, then
-confirm the useful plan appears before the routing note and default `ask` ends the turn there.
+confirm the useful plan appears first, followed by the localized `Adaptive Task Routing` task-resource
+divider and routing note, and default `ask` ends the turn there.
 Submit a separate execution request and confirm only `auto` may continue through the gate. Also
 test explicit selection. Current conversation
 settings or user-only controls must never be claimed to have changed automatically.

@@ -46,7 +46,7 @@ The coordinator follows relative links to the packaged child `SKILL.md` files, o
 
 ## Trigger and gate lifecycle
 
-Explicitly selecting the coordinator runs the full workflow. The generated packages also use a host-native reminder: Codex and Claude Code inject one short instruction on `UserPromptSubmit`, while Gemini CLI loads an extension `GEMINI.md` at session startup. The reminder asks the host to present the requested analysis or plan before routing advice, then invoke the coordinator for a qualifying next phase before that phase begins; the coordinator Skill still owns eligibility and routing. A child's one-time dispatch guard recovers when a host nevertheless selects it for a general task.
+Explicitly selecting the coordinator runs the full workflow. The generated packages also use a host-native reminder: Codex and Claude Code inject one short instruction on `UserPromptSubmit`, while Gemini CLI loads an extension `GEMINI.md` at session startup. Codex and Claude invoke the coordinator for a qualifying next phase. Gemini applies a complete compact coordinator contract embedded in its startup context because CLI 0.59.0 can expose `activate_skill` to the model while failing its execution with `tool_not_registered`. All three surfaces present the requested analysis or plan before routing advice. A child's one-time dispatch guard recovers when a host nevertheless selects it for a general task.
 
 For an analysis-only or plan-only request, finish and present the authorized deliverable first, then route a concrete substantial next phase before yielding. For an execution request, present a concise actionable plan first and route before mutation or substantial execution. Model `ask` ends the turn after the routing note and waits for a natural user response, even when the current pair is suitable. Model `auto` may apply supported changes and continue. A final answer with no concrete substantial next phase ends normally. At later stage changes, present the completed phase's results first, then re-run model routing alone unless context also needs reconsideration.
 
@@ -58,7 +58,7 @@ If the user declines a context change in `ask`, model routing evaluates the curr
 
 An enabled model invocation reports recommended model/effort, observed current values or availability, a short reason, mode, and actual action. `CURRENT` with known suitable settings is distinct from provisional retention with `assessment: unverified`. A supported catalog does not reveal the current running model. Unknown controls must not become invented names, settings, menu labels, or commands.
 
-The output schema can be rendered as a short note. Stable context enums remain in structured evidence; visible output renders a plain recommendation in the user's language without the raw enum. `off` is the deliberate exception to visibility; a disabled router makes no decision.
+The output schema can be rendered as a short note. After the task findings or plan, each note begins with a Markdown divider, a localized `Adaptive Task Routing` task-resource heading, and one sentence that explains the following advice applies to the planned next phase. Stable context enums remain in structured evidence; visible output renders a plain recommendation in the user's language without the raw enum. `off` is the deliberate exception to visibility; a disabled router makes no decision.
 
 ## Three-layer resolution
 
@@ -98,11 +98,11 @@ The repository root owns the only maintained `skills/` and `shared/` sources. Sk
 
 - OpenAI: root `plugin.json` (Agent Plugins schema; `extensions.com.openai.interface`) and `.codex-plugin/plugin.json` compatibility fallback with a `UserPromptSubmit` hook.
 - Claude: `.claude-plugin/plugin.json` plus `hooks/hooks.json`.
-- Gemini: root `gemini-extension.json` plus `GEMINI.md`, selected by `contextFileName`.
+- Gemini: root `gemini-extension.json` plus a self-contained `GEMINI.md`, selected by `contextFileName`.
 
 `scripts/build_release.py` creates three staging trees at `dist/<platform>/adaptive-task-routing` and three root-layout ZIPs. Common documentation is included by explicit file list; each platform README comes from `packaging/<platform>/README.md`. Build/test executables are excluded. The one allowed executable source is the optional on-demand Skill helper. Automatic activation uses declarative context or a fixed shell-output hook; it does not probe metadata, start a service, or execute the routers itself.
 
-There is no fourth marketplace archive. Local marketplace registration is a separate host setup step. The validator checks relative references, frontmatter, preserved triggers, automatic activation definitions, shared files, versions, platform manifest boundaries, staged bytes, ZIP members and SHA-256. Rebuilds use fixed archive metadata. Previous dist trees are preserved outside dist in `.release-backups/`. File validation proves that the reminder and Gemini dependency appendix are packaged, but installed-host tests are still required to prove that the host delivered the reminder, invoked the Skill, completed Gemini's single-activation gate, or switched settings.
+There is no fourth marketplace archive. Local marketplace registration is a separate host setup step. The validator checks relative references, frontmatter, preserved triggers, automatic activation definitions, shared files, versions, platform manifest boundaries, staged bytes, ZIP members and SHA-256. Rebuilds use fixed archive metadata. Previous dist trees are preserved outside dist in `.release-backups/`. File validation proves that the reminder and both Gemini contract projections are packaged, but installed-host tests are still required to prove that the host delivered and followed the reminder or switched settings.
 
 ## Defaults
 

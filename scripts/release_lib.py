@@ -24,40 +24,57 @@ MANIFESTS = {
 }
 AUTO_ACTIVATION = {
     "openai": (
-        "First complete any requested analysis or planning deliverable and present its useful "
-        "content before routing advice. When the result defines a substantial next phase, or the "
-        "user requested execution, decide whether that next phase constitutes substantial "
-        "multi-step coding, debugging, architecture, validation, research, or analysis work. "
-        "For every qualifying next phase you MUST invoke $adaptive-task-routing after the plan and "
+        "Treat substantial multi-step analysis, inspection, audits, scans, research, and planning "
+        "as qualifying work even when the user requested findings only and did not authorize "
+        "implementation. First complete that requested deliverable and present its useful content "
+        "before routing advice. If its findings identify actionable changes, validation, or "
+        "follow-on research, those actions are a concrete substantial next phase. A cross-file "
+        "release-flow, cross-platform consistency, or test-gap scan qualifies; do not classify it "
+        "as a merely informational query. When such a next phase exists, or the user requested "
+        "execution, you MUST invoke $adaptive-task-routing after the plan and "
         "before that phase begins, then follow its routing gate. In user-facing output, put the "
-        "requested plan or findings before the routing note. In ask mode stop after the note and "
+        "requested plan or findings before the routing note. Begin that note with a Markdown "
+        "divider and localized Adaptive Task Routing resource-guidance heading. In ask mode stop "
+        "after the note and "
         "wait for the user's natural response; only auto mode may continue automatically. Skip "
         "ordinary chat, status checks, "
         "tiny operations, questions only about this plugin, and an unchanged phase whose gate "
         "already completed."
     ),
     "claude": (
-        "First complete any requested analysis or planning deliverable and present its useful "
-        "content before routing advice. When the result defines a substantial next phase, or the "
-        "user requested execution, decide whether that next phase constitutes substantial "
-        "multi-step coding, debugging, architecture, validation, research, or analysis work. "
-        "For every qualifying next phase you MUST invoke "
+        "Treat substantial multi-step analysis, inspection, audits, scans, research, and planning "
+        "as qualifying work even when the user requested findings only and did not authorize "
+        "implementation. First complete that requested deliverable and present its useful content "
+        "before routing advice. If its findings identify actionable changes, validation, or "
+        "follow-on research, those actions are a concrete substantial next phase. A cross-file "
+        "release-flow, cross-platform consistency, or test-gap scan qualifies; do not classify it "
+        "as a merely informational query. When such a next phase exists, or the user requested "
+        "execution, you MUST invoke "
         "/adaptive-task-routing:adaptive-task-routing after the plan and before that phase begins, "
         "then follow its routing gate. In user-facing output, put the requested plan or findings "
-        "before the routing note. In ask mode stop after the note and wait for the user's natural "
+        "before the routing note. Begin that note with a Markdown divider and localized Adaptive "
+        "Task Routing resource-guidance heading. In ask mode stop after the note and wait for the user's natural "
         "response; only auto mode may continue automatically. Skip ordinary chat, status checks, "
         "tiny operations, questions only about this plugin, and an unchanged phase whose gate "
         "already completed."
     ),
     "gemini": (
-        "First complete any requested analysis or planning deliverable and present its useful "
-        "content before routing advice. When the result defines a substantial next phase, or the "
-        "user requested execution, decide whether that next phase constitutes substantial "
-        "multi-step coding, debugging, architecture, validation, research, or analysis work. "
-        "For every qualifying next phase you MUST call activate_skill with name "
-        "adaptive-task-routing after the plan and before that phase begins, then follow its routing "
-        "gate. In user-facing output, put the requested plan or findings before the routing note. "
-        "In ask mode stop after the note and wait for the user's natural response; only auto mode "
+        "Immediately classify the user's request before responding or using task tools. Treat "
+        "substantial multi-step analysis, inspection, audits, scans, research, and planning as "
+        "qualifying work even when the user requested findings only and did not authorize "
+        "implementation. This extension context is the automatic adaptive-task-routing coordinator; "
+        "for qualifying work, apply the complete embedded coordinator contract below directly. Do "
+        "not wait for, request, or simulate an activate_skill call for this automatic path. Complete "
+        "the requested analysis with permitted tools and prepare its useful findings or plan before "
+        "making the routing decision. If the findings identify actionable changes, validation, or "
+        "follow-on research, those actions are a concrete substantial next phase. A cross-file "
+        "release-flow, cross-platform consistency, or test-gap scan qualifies; do not classify it "
+        "as a merely informational query. "
+        "Compose one final user response with the requested plan or findings first and the routing "
+        "note last. Begin that note with a Markdown divider and localized Adaptive Task Routing "
+        "resource-guidance heading. "
+        "In ask mode include the applicable model-control and hold paragraph as the note's final "
+        "paragraph, then stop and wait for the user's natural response; only auto mode "
         "may continue automatically. Skip ordinary chat, status checks, tiny operations, questions "
         "only about this extension, and an unchanged phase whose gate already completed."
     ),
@@ -113,6 +130,18 @@ def gemini_coordinator(root, base):
         content = re.sub(r"\[([^\]]+)\]\([^\n)]+\)", r"\1", content)
         parts.extend((f"\n### Embedded dependency: `{name}`\n\n",
                       content, "\n"))
+    return "".join(parts).encode("utf-8")
+
+
+def gemini_context(root):
+    parts = [
+        "# Adaptive Task Routing startup instruction\n\n",
+        AUTO_ACTIVATION["gemini"],
+        "\n\n## Embedded automatic coordinator contract\n",
+    ]
+    for name in GEMINI_COORDINATOR_DEPENDENCIES:
+        content = (root / name).read_text(encoding="utf-8").rstrip()
+        parts.extend((f"\n### Embedded dependency: `{name}`\n\n", content, "\n"))
     return "".join(parts).encode("utf-8")
 
 
@@ -172,10 +201,7 @@ def payload(root, platform):
             }]}]},
         })
     if platform == "gemini":
-        result["GEMINI.md"] = (
-            "# Adaptive Task Routing startup instruction\n\n"
-            + AUTO_ACTIVATION["gemini"] + "\n"
-        ).encode("utf-8")
+        result["GEMINI.md"] = gemini_context(root)
     result.update(manifests(config, platform))
     return result
 

@@ -18,18 +18,21 @@ gemini skills list
 
 Linking changes the local extension registry. Use install instead of link if you
 want a copied installation. Start a new interactive session and inspect /skills list.
-The manifest loads the packaged `GEMINI.md` after restart. Submit a substantial plan-only task
-without naming the Skill and confirm Gemini presents the useful plan, requests or performs
-adaptive-task-routing activation for the next phase, then shows the routing note and ends the
+The manifest loads the packaged `GEMINI.md` after restart. Submit a cross-file release-flow,
+cross-platform consistency, and test-gap scan without naming the Skill. Confirm Gemini does not
+classify it as merely informational: the startup context applies the embedded coordinator contract,
+then renders one final response with the findings or plan before the localized `Adaptive Task Routing`
+task-resource divider and routing note, and ends the
 turn in default `ask`. Submit a separate execution request and confirm only `auto` may continue
-through the gate. Explicit activation remains available for comparison.
+through the gate. Explicit activation can be tested separately but remains host-dependent.
 
 Gemini can limit consent to an activated Skill's directory. The generated coordinator therefore
-contains a self-contained dependency appendix and must not activate sibling Skills during the
-coordinated gate. Verify that one coordinator activation can produce both decisions without an
-additional sibling/shared-resource permission prompt. A missing or truncated appendix must
-produce an incomplete gate, not an invented routing result. The startup context contains only
-the eligibility reminder; the Skill remains the source of routing policy and output rules.
+contains a self-contained dependency appendix and must not activate sibling Skills during an
+explicitly activated gate. The startup `GEMINI.md` also embeds the same compact contract because
+Gemini CLI 0.59.0 can advertise `activate_skill` to the model while returning
+`tool_not_registered` when that call executes. Automatic routing uses the startup contract directly;
+the packaged Skill remains available for hosts where explicit activation executes correctly. A
+missing or truncated appendix must produce an incomplete gate, not an invented routing result.
 
 ## Contents and evaluation
 

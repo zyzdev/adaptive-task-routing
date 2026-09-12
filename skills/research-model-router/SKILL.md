@@ -82,7 +82,7 @@ Resolve this router's mode independently of the context router. A current-turn i
 
 ## Output
 
-Every enabled invocation must visibly report the minimum sufficient model/effort, the recommended model/effort, upgrade value, a short reason, and what actually happened. Use the two headings `Minimum sufficient AI setting` and `Recommended AI setting`, translated to the user's language. Traditional Chinese must use the exact literal headings `【最低足夠 AI 設定】` and `【建議 AI 設定】`; do not replace them with Markdown `#` headings. Show a current-setting block only when matching live or user-provided values are known and useful for the switch decision; never print `Current: unknown / unknown` in the compact result. Unless the user asks for diagnostics, do not mention the probe, fallback/registry source, freshness, surface/account applicability, unreadable current values, confidence, assessment or mode in the compact result. The compact output contains only the task-specific setting blocks plus the useful capability outcome: either verified automatic application, an optional surface-appropriate control, or the `ask` hold. Put the requested plan or preceding findings before these blocks. In `ask`, stop after the blocks and wait for a natural user response without requiring a confirmation word. In `auto`, continue authorized downstream work after verified application or the documented current-setting fallback. A second gate in the same response may reuse an unchanged result, but cannot silently omit the enabled model result.
+Every enabled invocation must visibly report the minimum sufficient model/effort, the recommended model/effort, upgrade value, a short reason, and what actually happened. Put the requested plan or preceding findings before these blocks. For a standalone invocation, start the routing note with a Markdown horizontal rule, a localized level-three heading meaning `Adaptive Task Routing | Task resource guidance`, and one localized sentence saying the recommendations assess resources for the planned next phase. Keep the product name `Adaptive Task Routing` unchanged. For a coordinator-delegated invocation, return the setting blocks within the coordinator's single routing note and let the coordinator supply this shared introduction; never emit a second divider or heading. Use the two headings `Minimum sufficient AI setting` and `Recommended AI setting`, translated to the user's language. Traditional Chinese must use the exact literal headings `【最低足夠 AI 設定】` and `【建議 AI 設定】`; do not replace the two setting labels with Markdown `#` headings. It must also use the exact branded heading and introductory sentence shown below. Show a current-setting block only when matching live or user-provided values are known and useful for the switch decision; never print `Current: unknown / unknown` in the compact result. Unless the user asks for diagnostics, do not mention the probe, fallback/registry source, freshness, surface/account applicability, unreadable current values, confidence, assessment or mode in the compact result. The compact output contains only the branded resource-guidance introduction, task-specific setting blocks, and useful capability outcome: either verified automatic application, an optional surface-appropriate control, or the `ask` hold. In `ask`, stop after the blocks and wait for a natural user response without requiring a confirmation word. In `auto`, continue authorized downstream work after verified application or the documented current-setting fallback. A second gate in the same response may reuse an unchanged result, but cannot silently omit the enabled model result.
 
 Keep internal observations in the [structured evidence schema](references/evidence-schema.md). Read that reference only when the user requests diagnostics or when maintaining the router implementation. Never render the schema or internal evidence in ordinary compact output.
 
@@ -93,6 +93,12 @@ Keep persisted settings and disk defaults in structured evidence, not as verifie
 In Traditional Chinese, the compact result should follow this structure. This first example uses OpenAI values:
 
 ```text
+---
+
+### Adaptive Task Routing｜任務資源建議
+
+以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。
+
 【最低足夠 AI 設定】
 * Model：GPT-5.6 Sol
 * Reasoning：high
@@ -107,6 +113,12 @@ In Traditional Chinese, the compact result should follow this structure. This fi
 On Gemini CLI, keep the same headings but use Gemini-native values. When no independent thinking control is verified, use this form instead of inventing an effort level:
 
 ```text
+---
+
+### Adaptive Task Routing｜任務資源建議
+
+以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。
+
 【最低足夠 AI 設定】
 * Model：Flash
 * Reasoning：使用模型預設

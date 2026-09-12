@@ -14,7 +14,8 @@ public submission and conversational acceptance remain outstanding.
 | Reproducibility | PASS | Build-twice integration compares ZIP bytes and preserves old output |
 | Claude Code 2.1.269 | PASS | claude plugin validate dist/claude/adaptive-task-routing --strict |
 | Gemini CLI 0.59.0 | PASS | gemini extensions validate dist/gemini/adaptive-task-routing |
-| Codex runtime install | PASS | Installed and enabled `0.4.1+codex.20260912071849` from the personal marketplace |
+| Gemini installed-host startup coordinator | PASS | Unnamed three-file release audit produced findings and plan before routing; ordinary chat did not route |
+| Codex runtime install | PASS | Installed and enabled `0.4.1+codex.20260912100737` from the personal marketplace |
 | Bundled Codex compatibility validator | KNOWN LIMITATION | Its older schema rejects the runtime-supported manifest `hooks` field |
 | Three Skill validators | PASS | Bundled skill-creator quick_validate.py |
 
@@ -67,10 +68,15 @@ Gemini coordinator projection and the one allowed helper source.
   source, observation and expiry dates, account-availability limit and task mapping. It did
   not start the probe or request permission that could not reach the same App/session.
 - Earlier Gemini CLI 0.59.0 runs established automatic `activate_skill` behavior, localized
-  blocks and a negative control for `1 + 1`. Their final action predates the current order and
-  mode boundary. The generated Gemini runtime now requires plan-first output, an `ask` hold and
-  continuation only in `auto`; package validation passed. Fresh installed-host Gemini acceptance
-  for this exact change remains pending.
+  blocks and a negative control for `1 + 1`. A fresh 0.59.0 run then exposed a host regression:
+  the model received and called `activate_skill`, but execution returned `tool_not_registered` even
+  though `gemini skills list` showed all three Skills enabled. The generated `GEMINI.md` now embeds
+  and applies the compact coordinator contract directly for automatic routing. A fresh unnamed
+  three-file release audit then produced findings and a three-stage plan before the Markdown
+  divider, localized `Adaptive Task Routing｜任務資源建議` introduction and conversation/model
+  routing note. It included the model-control hold paragraph, made no project changes, and stopped
+  in default `ask`. A `1 + 1`
+  negative control returned only the answer with no tools or routing note.
 - The fresh Codex CLI run used hook trust bypass only for the reviewed local test invocation.
   Normal interactive use still presents one-time hook review.
 
@@ -83,6 +89,7 @@ Evidence: [sanitized native inventory](evidence/native-smoke.json) and
 [deferred-permission challenge fixture](evidence/codex-app-permission-challenge.json) and
 [Gemini CLI model-routing result](evidence/gemini-cli-model-routing.json), plus
 [Gemini automatic activation](evidence/gemini-cli-auto-activation.json) and
+[Gemini startup-coordinator fallback](evidence/gemini-cli-startup-coordinator.json) and
 [Codex CLI automatic activation](evidence/codex-cli-auto-activation.json), plus the
 [historical Codex CLI routing-order result](evidence/codex-cli-routing-order.json), and the
 [current plan-first ask-hold result](evidence/codex-cli-plan-first-ask-hold.json).
@@ -90,7 +97,7 @@ Raw inventory is regenerated locally at build/native-smoke.json.
 Host startup may update its own logs/caches or contact its provider.
 
 The persistent personal plugin was updated and enabled as development build
-`0.4.1+codex.20260912071849`. A new conversation is still required to load it. No user
+`0.4.1+codex.20260912100737`. A new conversation is still required to load it. No user
 model/effort setting was changed.
 Native discovery is not behavioral execution, and no live App control socket was tested.
 
@@ -98,14 +105,14 @@ Native discovery is not behavioral execution, and no live App control socket was
 
 | Archive | Bytes |
 |---|---:|
-| adaptive-task-routing-openai-0.4.1.zip | 105038 |
-| adaptive-task-routing-claude-0.4.1.zip | 103728 |
-| adaptive-task-routing-gemini-0.4.1.zip | 105337 |
+| adaptive-task-routing-openai-0.4.1.zip | 108409 |
+| adaptive-task-routing-claude-0.4.1.zip | 106978 |
+| adaptive-task-routing-gemini-0.4.1.zip | 111598 |
 
 ```text
-4b8de163f6c524fe2d1e3984eea594f1bcd36be5709e6887aa1f3cca62e65a52  adaptive-task-routing-openai-0.4.1.zip
-6540314ac792787c45aed8152b0f036b907cc1ebb03bf6fa6499f5df40b4fe32  adaptive-task-routing-claude-0.4.1.zip
-2074ab752ddecaa40202e4a63286614fed434d1930c75abf70f550ea8fcbc6f2  adaptive-task-routing-gemini-0.4.1.zip
+875917c506c78b313f09662588dfaffcd1a5d01e33a2e66bf9e793126e5f2eeb  adaptive-task-routing-openai-0.4.1.zip
+8b7291fcbf574c35196cace895e1f4dd4712622b0a8e8b6a83b38affc2f904f3  adaptive-task-routing-claude-0.4.1.zip
+91a1c77f178e832a9583841f87ddfd94eff56612cedd87032b01920f9c839fcb  adaptive-task-routing-gemini-0.4.1.zip
 ```
 
 Each ZIP has manifests at its root without a wrapper. All three Skills, shared guides
@@ -118,7 +125,7 @@ executables are excluded.
 ## Manual acceptance still required
 
 1. Run the remaining cases in [the seven-surface matrix](../tests/surface-matrix.json).
-   Codex CLI R05 passed; 237 of 238 cells remain not_run. The original 24 fixtures and five-positive/three-negative
+   Codex CLI R05 and Gemini CLI B02 passed; 236 of 238 cells remain not_run. The original 24 fixtures and five-positive/three-negative
    OpenAI submission set are retained in [behavioral cases](../tests/behavioral-cases.md).
 2. Test explicit and implicit activation independently in new installed-host sessions;
    record exact Skill paths, model/effort evidence, control mode, output and disposition.
@@ -129,7 +136,8 @@ executables are excluded.
    without assuming a local CLI. Do not treat a sandbox shell as the user's computer.
 5. On Claude Code, check live metadata/selector behavior and existing status-line
    payload scope; do not install instrumentation to make the test pass. On Gemini,
-   test Auto, actual thinking controls and the self-contained single-activation coordinator.
+   test Auto, actual thinking controls, the self-contained startup coordinator, and explicit
+   Skill activation again after the host fixes its `tool_not_registered` failure.
 6. Exercise ask/decline/auto/manual actions only with actual authorization and tools.
    Verify independent context-only/model-only/off behavior and no false applied claims.
 7. Complete publisher identity/assets/URLs, portal import, upload resource access and

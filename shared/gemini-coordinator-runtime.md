@@ -1,20 +1,30 @@
 # Gemini coordinator runtime projection
 
-This compact projection is appended to the coordinator in the generated Gemini package because
-Gemini CLI grants one activated Skill access to only that Skill directory. It is the complete
-runtime contract for the coordinated gate. Do not activate sibling Skills and do not infer rules
-from memory.
+This compact projection is appended both to the generated coordinator Skill and to the extension
+startup context. It is the complete runtime contract for the coordinated gate. The startup context
+applies it directly for automatic routing, so automatic behavior does not depend on Gemini CLI's
+`activate_skill` executor. Do not activate sibling Skills and do not infer rules from memory.
 
 ## Sequence
 
-1. Complete and present the requested findings or plan. If execution is already requested, present
-   a concise actionable plan first without starting mutation or substantial execution.
+1. Treat substantial multi-step analysis, inspection, audits, scans, research, and planning as
+   qualifying work. Complete and present the requested findings or plan first. When that deliverable
+   identifies actionable changes, validation, or follow-on research, those actions are the concrete
+   substantial next phase even if implementation was not requested. A cross-file release-flow,
+   cross-platform consistency, or test-gap scan is not merely informational. If execution is already
+   requested, present a concise actionable plan first without starting mutation or substantial execution.
 2. Assess conversation placement for the substantial next phase before model choice.
-3. Assess minimum-sufficient and recommended Gemini model settings for that next phase.
-4. Render the localized routing note after the requested plan or findings.
-5. In `ask`, stop after the note and wait for the user's natural response without requiring a fixed
-   keyword. In `auto`, apply any callable, authorized and verifiable setting, or retain the current
-   setting when switching is unavailable, then continue authorized execution.
+3. Assess minimum-sufficient and recommended Gemini model settings for that next phase. Both
+   setting blocks must evaluate the same concrete next phase, not the analysis or planning work
+   that has already finished.
+4. Render the localized routing note after the requested plan or findings. Begin it with a Markdown
+   horizontal rule, a localized level-three `Adaptive Task Routing` resource-guidance heading, and
+   one sentence explaining that the following recommendations assess resources for the planned
+   next phase.
+5. In `ask`, end the note with the applicable model-control and hold paragraph defined below, then
+   stop and wait for the user's natural response without requiring a fixed keyword. The note is incomplete if that final paragraph is omitted. In `auto`, apply any callable, authorized and
+   verifiable setting, or retain the current setting when switching is unavailable, then continue
+   authorized execution.
 
 Both routers default to `ask`. Skip a router only when its mode is explicitly `off`. Reuse a
 completed gate for an unchanged phase. Never claim a context or model change unless the host
@@ -31,6 +41,12 @@ operation was callable, authorized, performed, and verified.
 For Traditional Chinese, render exactly this structure with task-specific values and reason:
 
 ```text
+---
+
+### Adaptive Task Routing｜任務資源建議
+
+以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。
+
 【對話設定】
 * 建議：留在目前對話
 * 是否切換視窗：否
@@ -81,7 +97,8 @@ Omit unreadable current settings, diagnostics, confidence, registry details, and
 
 Gemini CLI does not expose an agent-callable, verifiable operation for changing the current model
 through this Skill. Whenever the recommended model may differ from the current model or the current
-model is unreadable, present `/model` as the user control. In Traditional Chinese `ask` mode use:
+model is unreadable, present `/model` as the user control. In Traditional Chinese `ask` mode, the
+routing note must end with:
 
 ```text
 目前環境無法代為切換模型；Reasoning 使用模型預設。如需採用建議，可用 /model 選擇模型；我先停在這裡，等你決定是否調整，或沿用目前設定開始下一階段。

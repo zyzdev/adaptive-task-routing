@@ -12,7 +12,10 @@ All notable changes to this project are documented here.
 
 ## Unreleased
 
+- Separate task output from routing advice with a Markdown divider, a localized `Adaptive Task Routing` task-resource heading, and a one-sentence explanation that the settings apply to the planned next phase.
+- Make Gemini automatic routing self-contained in the extension startup context. Gemini CLI 0.59.0 can advertise `activate_skill` while returning `tool_not_registered` at execution, so `GEMINI.md` now embeds and applies the complete compact coordinator contract without depending on that failing call; explicit Skills remain packaged.
 - Keep automatic activation on the host-native prompt boundary, but complete and present requested analysis or planning before routing the resulting substantial next phase. For execution requests, present an actionable plan before the gate. Default `ask` stops after its recommendation and waits for a natural user response; only `auto` may continue automatically.
+- Make multi-step analysis, inspection, audits, scans, research and planning explicitly eligible. A cross-file release-flow, cross-platform consistency or test-gap scan cannot be dismissed as informational when its findings identify actionable changes or validation work.
 - Make `adaptive-task-routing` the primary description match for general substantial tasks. When a host selects a context-only or model-only child for such a task, dispatch once to the coordinator and use delegation markers to prevent recursion, preserving explicit component-only invocations.
 - Require a concrete supported model/effort recommendation when applicable catalog and capability evidence are sufficient, even if current settings are unknown. Keep comparison and application separate.
 - Continue scoped discovery after excluding a subagent-only menu; unverified retention must report the actual discovery outcome or access limitation. Update English/Traditional Chinese guidance and regression fixtures.
