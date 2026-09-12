@@ -2,14 +2,14 @@
   "schema_version": 1,
   "name": "adaptive-task-routing",
   "version": "0.4.2",
-  "description": "Route complex work to an appropriate conversation context, model, and reasoning effort using shared runtime capability detection and independent user controls.",
+  "description": "Recommend when to start a new conversation and which model and reasoning effort fit the next phase, helping reduce unnecessary usage and rework.",
   "author": {
     "name": "Adaptive Task Routing contributors"
   },
   "interface": {
     "displayName": "Adaptive Task Routing",
-    "shortDescription": "Choose context, model, and reasoning for complex work.",
-    "longDescription": "Adaptive Task Routing helps with multi-step audits, scans, research, planning, coding, debugging, architecture, and validation. The AI first presents the requested findings or actionable plan, then adds a clearly separated recommendation for conversation context, model, and reasoning effort before the next substantial phase. Independent controls support ask, auto, and off modes, while capability checks allow verified automation or clear user actions.",
+    "shortDescription": "Help reduce wasted AI usage and rework.",
+    "longDescription": "Adaptive Task Routing helps reduce interference from previous tasks, unnecessary AI usage, and the risk of omissions and rework. Before the next substantial phase, it recommends whether to start a new conversation, with a concise handoff when needed, so old assumptions and constraints are less likely to affect new work. It then provides minimum-sufficient and recommended model and reasoning settings and explains the value of upgrading. The AI presents the requested analysis or plan first. Default ask mode waits for your decision; auto applies supported, verifiable changes and continues authorized work, retaining current settings when switching is unavailable. Actual savings and reliability depend on the task and settings adopted.",
     "developerName": "Adaptive Task Routing",
     "category": "Productivity",
     "capabilities": [],

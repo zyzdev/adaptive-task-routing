@@ -2,6 +2,25 @@
 
 [English](README.md) · [繁體中文](README.zh-TW.md) · [简体中文](docs/usage/README.zh-CN.md) · [日本語](docs/usage/README.ja.md) · [한국어](docs/usage/README.ko.md)
 
+**Put AI usage where it matters, and help reduce omissions and rework.**
+
+Adaptive Task Routing recommends whether to start a new conversation and which model and reasoning effort fit the next substantial phase, helping you balance usage with reliable work.
+
+- **Reduce interference from previous tasks:** Recommends when to start a new conversation so the AI is less likely to carry old assumptions or constraints into new work, reducing repeated corrections and rework. Relevant information is summarized for handoff when needed.
+- **Reduce unnecessary usage:** Provides minimum-sufficient and recommended model and reasoning settings, explaining whether an upgrade is worthwhile instead of using the highest settings for every task.
+- **Lower the risk of omissions and rework:** Assesses the capability needed before complex work begins, helping reduce errors caused by settings that are insufficient for the task.
+- **Keep the decision yours:** Review the recommendations before proceeding, or choose automatic application where the platform supports it.
+
+A change of topic alone does not require a new conversation. The benefit comes from reducing irrelevant history while preserving what the next task needs. Actual savings and reliability depend on the task and the settings adopted.
+
+## How it works
+
+1. The AI presents an actionable plan or completes the analysis or findings you requested.
+2. The plugin assesses the next phase: first whether to keep the conversation or start a new one, then the minimum-sufficient and recommended model and reasoning settings and the value of upgrading.
+3. By default, `ask` pauses for your decision. In `auto`, the AI applies supported changes when it can verify them; if switching is unavailable, it explains the limitation, retains the current settings, and continues already authorized work.
+
+Brief questions and tiny operations skip routing to avoid unnecessary overhead.
+
 ## User guides
 
 Choose a language for concise installation, first-use, mode, and removal instructions:
@@ -11,24 +30,6 @@ Choose a language for concise installation, first-use, mode, and removal instruc
 - [简体中文](docs/usage/README.zh-CN.md)
 - [日本語](docs/usage/README.ja.md)
 - [한국어](docs/usage/README.ko.md)
-
-Adaptive Task Routing is a cross-platform Agent Skills plugin that makes two decisions before expensive or context-heavy work begins:
-
-1. **Where should the work continue?** `task-context-router` recommends the current conversation, a new context with a compact handoff, or a clean context.
-2. **How much model capability should the next phase use?** `research-model-router` recommends a supported model and reasoning effort for coding, debugging, architecture, validation, research, and analysis.
-
-The routers stay independent. A third, thin `adaptive-task-routing` skill coordinates their order and visible results. All three read the shared runtime policy; the coordinator has no separate autonomy mode or decision algorithm.
-
-## Why it exists
-
-Long agentic sessions can waste context and compute when every phase stays in one conversation or always uses the strongest available model. This project adds a small routing gate after task understanding and before substantial execution:
-
-```text
-requested analysis or plan → context routing → resolve context
-→ model routing → ask: wait | auto: resolve configuration and execute
-```
-
-It never assumes that a host can perform a switch. A recommendation, user authorization, runtime capability, and verified execution are separate states.
 
 ## Included skills
 
