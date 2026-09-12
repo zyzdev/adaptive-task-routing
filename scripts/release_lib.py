@@ -201,10 +201,16 @@ def payload(root, platform):
         result[coordinator] = gemini_coordinator(root, result[coordinator])
     for name in COMMON_FILES:
         result[name] = (root / name).read_bytes()
-    # Installation text is also the packaged README: one maintained copy per platform.
-    readme = (root / f"packaging/{platform}/README.md").read_text(encoding="utf-8")
-    # Source READMEs link two levels up; rebasing keeps both source and ZIP links valid.
-    result["README.md"] = re.sub(r"(\]\()\.\./\.\./", r"\1", readme).encode("utf-8")
+    # Platform README files are maintained beside one another and moved to package root.
+    # Source links that reach two levels up are rebased for the generated package.
+    platform_docs = root / f"packaging/{platform}"
+    for source in sorted(platform_docs.glob("README*.md")):
+        readme = source.read_text(encoding="utf-8")
+        result[source.name] = re.sub(r"(\]\()\.\./\.\./", r"\1", readme).encode("utf-8")
+    development = platform_docs / "DEVELOPMENT.md"
+    if development.is_file():
+        content = development.read_text(encoding="utf-8")
+        result["DEVELOPMENT.md"] = re.sub(r"(\]\()\.\./\.\./", r"\1", content).encode("utf-8")
     if platform == "claude":
         result["hooks/hooks.json"] = json_bytes({
             "description": "Remind Claude to route qualifying substantial work.",

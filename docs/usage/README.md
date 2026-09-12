@@ -44,36 +44,36 @@ In the default `ask` mode, the AI pauses after the recommendation and accepts a 
 
 ## What you will see
 
-Exact models and controls depend on the host and task, but the order and labels remain predictable. A typical Traditional Chinese response looks like this after the requested plan:
+Exact models and controls depend on the host and task, but the order and labels remain predictable. A typical English response looks like this after the requested plan:
 
 ```text
-計畫
-1. 核對發布腳本與三平台 Manifest。
-2. 檢查 CI、版本與測試缺口。
-3. 整理風險並提出修改順序。
+Plan
+1. Check the release scripts and manifests for all three platforms.
+2. Review CI, version consistency, and test gaps.
+3. Rank the risks and propose an implementation order.
 
 ---
 
-### Adaptive Task Routing｜任務資源建議
+### Adaptive Task Routing | Task resource guidance
 
-以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。
+The following recommendations assess the conversation, model, and reasoning resources for the next phase of the plan above.
 
-【對話設定】
-* 建議：留在目前對話
-* 是否切換視窗：否
-目前對話保留了下一階段需要的需求與證據，因此直接繼續。
+[Conversation setting]
+* Recommendation: Stay in this conversation
+* Switch windows: No
+This conversation contains the requirements and evidence needed for the next phase.
 
-【最低足夠 AI 設定】
-* Model：GPT-5.6 Sol
-* Reasoning：high
-足以完成跨檔案核對與一般驗證。
+[Minimum sufficient AI setting]
+* Model: GPT-5.6 Sol
+* Reasoning: high
+This is sufficient for cross-file checks and standard validation.
 
-【建議 AI 設定】
-* Model：GPT-6 Astra
-* Reasoning：high
-* 升級價值：中。較適合追蹤跨平台設定之間的隱性關聯。
+[Recommended AI setting]
+* Model: GPT-6 Astra
+* Reasoning: high
+* Upgrade value: Medium. It is better suited to tracing subtle relationships between platform configurations.
 
-目前環境無法代為切換模型與推理強度。如需採用建議，可使用介面中的模型與推理強度選單調整；我先停在這裡，等你決定是否調整，或沿用目前設定開始下一階段。
+This environment cannot change the model or reasoning effort for you. Use the interface's model and reasoning controls if you want the recommended setting. I will pause here while you decide whether to adjust it or begin the next phase with the current setting.
 ```
 
 In `ask`, the response ends there. In `auto`, the AI applies only supported, verifiable changes and may continue with already authorized work. Gemini uses native model aliases and normally displays reasoning as “model default.”
