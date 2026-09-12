@@ -1,3 +1,5 @@
+<img src="../../assets/icon.png" width="96" height="96" alt="Adaptive Task Routing icon">
+
 # Adaptive Task Routing for ChatGPT 與 Codex
 
 [English](README.md) · [繁體中文](README.zh-TW.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [한국어](README.ko.md)

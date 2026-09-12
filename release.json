@@ -15,7 +15,10 @@
     "capabilities": [],
     "defaultPrompt": [
       "Use adaptive task routing before the next substantial phase."
-    ]
+    ],
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/icon.png",
+    "logoDark": "./assets/icon.png"
   },
   "license": "MIT",
   "keywords": [

@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### Added
+
+- Share one routing icon across platform READMEs and package assets, with OpenAI logo
+  and composer-icon metadata. Claude and Gemini manifests do not expose a documented
+  custom icon field; their repositories display the shared mark in the README.
+
 ## [0.5.0] - 2026-09-13
 
 ### Changed

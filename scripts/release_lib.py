@@ -13,7 +13,7 @@ SURFACES = ("chatgpt-web", "chatgpt-desktop", "chatgpt-mobile", "codex-app", "co
 SKILL_HELPER = "skills/research-model-router/scripts/probe_codex.py"
 SCHEMA = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
 COMMON_FILES = (
-    "LICENSE", "CHANGELOG.md", "docs/architecture.md", "docs/architecture.zh-TW.md",
+    "assets/icon.png", "LICENSE", "CHANGELOG.md", "docs/architecture.md", "docs/architecture.zh-TW.md",
     "docs/full-example.md", "docs/full-example.zh-TW.md",
     "docs/usage/README.md", "docs/usage/README.zh-TW.md", "docs/usage/README.zh-CN.md",
     "docs/usage/README.ja.md", "docs/usage/README.ko.md",
@@ -176,7 +176,7 @@ def payload(root, platform):
     # Source links that reach two levels up are rebased for the generated package.
     platform_docs = root / f"packaging/{platform}"
     for source in sorted(platform_docs.glob("README*.md")):
-        readme = source.read_text(encoding="utf-8")
+        readme = source.read_text(encoding="utf-8").replace('src="../../assets/', 'src="assets/')
         result[source.name] = re.sub(r"(\]\()\.\./\.\./", r"\1", readme).encode("utf-8")
     development = platform_docs / "DEVELOPMENT.md"
     if development.is_file():
