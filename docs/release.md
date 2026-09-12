@@ -71,7 +71,7 @@ local tree before reinstalling.
 Run [the behavioral matrix](../tests/behavioral-cases.md) on ChatGPT, Codex, Claude Code
 and Gemini CLI. Store actual evidence and observed model/effort in
 tests/behavioral-matrix.json and tests/surface-matrix.json; not_run is not a pass.
-The latter is the per-surface authority: 34 cases across seven surfaces (238 cells),
+The latter is the per-surface authority: 35 cases across seven surfaces (245 cells),
 including discovery regressions R01–R10. Keep ChatGPT web/desktop/mobile and Codex App/CLI
 results separate. Rebuild after recording evidence.
 

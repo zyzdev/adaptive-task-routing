@@ -1,6 +1,6 @@
 ---
 name: task-context-router
-description: Context-only child router that chooses CURRENT, HANDOFF, or CLEAN. Use when the user explicitly asks only for context advice or when adaptive-task-routing delegates. For a general substantial task needing both context and model routing, dispatch to adaptive-task-routing instead. Do not choose a model or reasoning effort.
+description: Context-only child router that chooses CURRENT, HANDOFF, or CLEAN and handles conversational inspection or changes of the context-routing mode. Use when the user explicitly asks only for context advice or mode control, or when adaptive-task-routing delegates. For a general substantial task needing both context and model routing, dispatch to adaptive-task-routing instead. Do not choose a model or reasoning effort.
 ---
 
 # Task Context Router
@@ -17,7 +17,7 @@ If the host cannot load a plugin-level reference, preserve these minimum invaria
 
 ## Direct-selection dispatch guard
 
-Before deciding Context or emitting output, determine why this Skill was loaded. Continue locally only when the user explicitly requested context-only routing or the `adaptive-task-routing` coordinator marked this call as coordinator-delegated. For any general substantial task where both Context and Model routing are expected, stop this child workflow, read [adaptive-task-routing](../adaptive-task-routing/SKILL.md), and follow that coordinator once. Do not emit a standalone Context result before dispatch. Pass an internal `delegated_from: task-context-router` marker; when the coordinator reads this Skill again with its coordinator-delegated marker, continue here and never dispatch again.
+Before deciding Context or emitting output, determine why this Skill was loaded. Continue locally only when the user explicitly requested context-only routing or context-mode control, or the `adaptive-task-routing` coordinator marked this call as coordinator-delegated. Handle a context-mode inspection/change immediately under the shared policy: confirm the effective value and scope without evaluating Context. For any general substantial task where both Context and Model routing are expected, stop this child workflow, read [adaptive-task-routing](../adaptive-task-routing/SKILL.md), and follow that coordinator once. Do not emit a standalone Context result before dispatch. Pass an internal `delegated_from: task-context-router` marker; when the coordinator reads this Skill again with its coordinator-delegated marker, continue here and never dispatch again.
 
 ## Routing gate
 

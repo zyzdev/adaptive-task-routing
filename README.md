@@ -76,6 +76,8 @@ Each router has one of three independent modes:
 
 The present conversation state is the fallback; no second fixed strategy is required. In `ask`, the user can request a change or explicitly continue with current settings without a prescribed reply keyword. `auto` is permission, not proof of capability. Capabilities are resolved per operation rather than per surface: an App may allow automatic context creation while current-model or effort changes remain user-only. Unknown controls are reported as unknown, not invented.
 
+Modes can be inspected or changed directly in conversation. For example, “Set Adaptive Task Routing to auto for this conversation” changes both independent routers, while “Set model routing to ask” changes only the model router. The AI confirms the effective values and scope without running a routing gate. Persistent defaults are written only through a host- or user-managed settings store; the installed package is never used as a preference store. See the [complete output example](docs/usage/README.md#what-you-will-see).
+
 ## Runtime behavior
 
 On first use, the plugin loads a capability snapshot from a host- or user-managed settings store. It detects and records missing or stale operations when persistence is available. Later gates perform only a lightweight freshness check; cached observations remain hints and are invalidated by surface, session, permission, tool, host, catalog, or operation-result changes.
@@ -100,7 +102,7 @@ It runs only on demand, not on installation or Skill loading. The activation hoo
 run this helper; they only print a fixed reminder. No daemon or MCP service is bundled.
 Claude and Gemini use their own host guides, not this helper.
 
-[Seven-surface acceptance records](tests/surface-matrix.json) cover 34 cases (238 cells):
+[Seven-surface acceptance records](tests/surface-matrix.json) cover 35 cases (245 cells):
 ChatGPT web/desktop/mobile, Codex App/CLI, Claude Code and Gemini CLI. Metadata probe
 success is not a conversational pass, live App verification, or switching capability.
 

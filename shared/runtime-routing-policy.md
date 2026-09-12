@@ -111,6 +111,15 @@ Use this precedence order:
 
 Persist only the two modes, user preferences such as latency/cost emphasis, and cache records with provenance. Do not require a second fixed model strategy: the current conversation settings are the fallback. If no settings store exists, use packaged defaults and session-local observations without repeatedly asking onboarding questions.
 
+Users may inspect or change routing modes directly in normal conversation. Treat a direct request such as “use auto mode for model routing,” “turn context routing off,” or “set Adaptive Task Routing to ask” as a configuration command, even though ordinary questions about the plugin do not trigger a routing gate.
+
+- A named router changes only that router. An unqualified Adaptive Task Routing mode change targets both independent routers; it is shorthand, not a third coordinator mode.
+- “For this task” or “this time” applies only to the current turn. “From now on” or “in this conversation” applies to the current conversation. “Make this my default” requests persistence in a host- or user-managed settings store.
+- If the requested persistence scope is unavailable, apply the setting to the current conversation and say that it will not carry into a new conversation. Never edit the installed package or `shared/defaults.yaml` as a runtime preference store.
+- Confirm the effective context and model modes plus their scope in one concise localized response. Do not run model discovery, emit a routing recommendation, or ask for a second confirmation merely to change a mode.
+- When the same message also contains a substantial task, apply the mode instruction first and use it for that task's gate. Changing a mode alone does not authorize implementation or any external action.
+- A request to inspect modes reports the two effective values and their scope without running either router.
+
 ## Interaction rules
 
 - Present the requested findings or plan before routing advice. The recommendation governs the next substantial phase, not work already completed to produce the plan.
@@ -127,3 +136,4 @@ Persist only the two modes, user preferences such as latency/cost emphasis, and 
 - A recommendation attached to an improvement plan does not authorize implementation.
 - Avoid repeated gates while phase, effective context, policy, capability snapshot, and catalog remain unchanged.
 - Routing never expands task scope, permissions, or authorization for external side effects.
+- Mode-control messages are configuration operations, not task-resource recommendations. Handle them before gate eligibility and keep their confirmation separate from the branded routing-note format.

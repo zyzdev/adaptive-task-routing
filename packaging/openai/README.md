@@ -1,5 +1,7 @@
 # Adaptive Task Routing — OpenAI / ChatGPT / Codex
 
+[English](../../docs/usage/README.md) · [繁體中文](../../docs/usage/README.zh-TW.md) · [简体中文](../../docs/usage/README.zh-CN.md) · [日本語](../../docs/usage/README.ja.md) · [한국어](../../docs/usage/README.ko.md)
+
 This plugin contains three workflows with preserved triggers: adaptive-task-routing,
 task-context-router, and research-model-router. It suggests context, model and reasoning
 for substantial work; both routers default to ask. The Codex compatibility manifest includes

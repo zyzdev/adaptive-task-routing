@@ -1,6 +1,6 @@
 ---
 name: adaptive-task-routing
-description: Primary routing entrypoint for substantial multi-step coding, debugging, architecture, validation, research, analysis, audits, and scans. Use after a requested analysis or plan identifies actionable next work, or before executing a substantial phase, when both conversation context and model/reasoning should be assessed. Prefer this coordinator over either child router for general tasks. Skip brief explanations, status checks, tiny edits, and plugin-only questions.
+description: Primary routing entrypoint for substantial multi-step coding, debugging, architecture, validation, research, analysis, audits, and scans, and for conversational commands that inspect or change both routing modes. Use after a requested analysis or plan identifies actionable next work, or before executing a substantial phase, when both conversation context and model/reasoning should be assessed. Prefer this coordinator over either child router for general tasks. Skip brief explanations, status checks, tiny edits, and ordinary plugin-only questions.
 ---
 
 # Adaptive Task Routing
@@ -10,6 +10,8 @@ Coordinate two independent decision skills. Do not choose a context, model, or r
 Read [references/zh-TW.md](references/zh-TW.md) when Chinese guidance is needed.
 
 ## Gate and controls
+
+Before testing gate eligibility, handle direct mode-inspection or mode-change commands under the shared policy. A user can switch `ask`, `auto`, or `off` in normal conversation. A command naming Context or Model changes only that child; an unqualified Adaptive Task Routing mode command changes both independent modes. Confirm the two effective values and scope concisely without emitting a routing note. If the same turn also requests substantial work, apply the new mode before routing that work. A mode change by itself does not authorize the work discussed earlier.
 
 Route a substantial next phase only after its plan or preceding analysis is ready and before that phase begins. Substantial multi-step analysis, inspection, audits, scans, research, and planning qualify even when the user requested findings only and did not authorize implementation. Complete that authorized deliverable first; when its findings identify actionable changes, validation, or follow-on research, treat those actions as a concrete substantial next phase and append routing advice. A cross-file release-flow, cross-platform consistency, or test-gap scan is not a merely informational query. When the user already authorized execution, first prepare a concise actionable plan, using bounded non-mutating discovery when needed, then route before mutation or other substantial execution. Do not invent extra work after a complete answer with no concrete follow-on phase. Reuse a gate already completed for the same phase, context, catalog, preferences, and capabilities.
 

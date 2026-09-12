@@ -1,5 +1,7 @@
 # Adaptive Task Routing — Claude Code
 
+[English](../../docs/usage/README.md) · [繁體中文](../../docs/usage/README.zh-TW.md) · [简体中文](../../docs/usage/README.zh-CN.md) · [日本語](../../docs/usage/README.ja.md) · [한국어](../../docs/usage/README.ko.md)
+
 Three Skills route substantial work through context, model and reasoning recommendations.
 Both independent routers default to ask. A packaged `UserPromptSubmit` hook injects a short
 reminder before each prompt so Claude first presents the requested analysis or plan, then invokes

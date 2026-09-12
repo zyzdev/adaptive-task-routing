@@ -7,6 +7,16 @@ applies it directly for automatic routing, so automatic behavior does not depend
 
 ## Sequence
 
+Before classifying a task, handle direct conversational mode commands. Users may inspect or set
+`ask`, `auto`, or `off` without editing files. A named Context or Model command changes only that
+router; an unqualified Adaptive Task Routing mode command changes both independent modes. “This
+time” is turn-local, “from now on” is conversation-local, and an explicit default request persists
+only through a host/user settings store. When persistence is unavailable, keep it conversation-local
+and state that limit. Confirm both effective modes and scope concisely. Do not run routing, model
+discovery, or the branded resource note for a mode-only command. A mode change does not authorize
+implementation. If the same prompt contains substantial work, apply the mode first and continue
+with the sequence below.
+
 1. Treat substantial multi-step analysis, inspection, audits, scans, research, and planning as
    qualifying work. Complete and present the requested findings or plan first. When that deliverable
    identifies actionable changes, validation, or follow-on research, those actions are the concrete

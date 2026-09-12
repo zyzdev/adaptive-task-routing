@@ -363,6 +363,11 @@ class ValidateReleaseTests(unittest.TestCase):
         self.assertIn(AUTO_ACTIVATION["gemini"], gemini["GEMINI.md"].decode())
         self.assertIn("Embedded automatic coordinator contract",
                       gemini["GEMINI.md"].decode())
+        for reminder in AUTO_ACTIVATION.values():
+            self.assertIn("configuration commands", reminder)
+            self.assertIn("mode change affects both", reminder)
+        self.assertIn("direct conversational mode commands",
+                      gemini["GEMINI.md"].decode())
 
     def test_rejects_modified_automatic_activation(self):
         from release_lib import payload

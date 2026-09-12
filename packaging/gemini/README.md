@@ -1,5 +1,7 @@
 # Adaptive Task Routing — Gemini CLI
 
+[English](../../docs/usage/README.md) · [繁體中文](../../docs/usage/README.zh-TW.md) · [简体中文](../../docs/usage/README.zh-CN.md) · [日本語](../../docs/usage/README.ja.md) · [한국어](../../docs/usage/README.ko.md)
+
 This skills-based extension contains adaptive-task-routing, task-context-router,
 and research-model-router under skills/. It uses the same descriptions and routing
 policy as the other platforms. Both independent routers default to ask.

@@ -435,6 +435,33 @@
       }
     },
     {
+      "id": "B17",
+      "kind": "boundary",
+      "openai_submission": false,
+      "title": "Conversational mode control / 對話模式控制",
+      "setup": "In a normal conversation, no writable persistent settings store is available. The user first asks to set Adaptive Task Routing to auto for this conversation, then changes only model routing to ask, and finally asks which modes are active.",
+      "prompt": "For this conversation, set Adaptive Task Routing to auto. Then set only model routing to ask and tell me which modes are active.",
+      "expected": "Treat mode requests as configuration commands before ordinary plugin-question skipping. The unqualified command sets both independent routers to auto for the conversation; the named command then changes only model routing to ask. Confirm context auto and model ask plus conversation scope concisely, without model discovery, a routing recommendation, or a second confirmation. Do not claim persistence into new conversations and do not treat the mode change as task authorization.",
+      "results": {
+        "chatgpt": {
+          "status": "not_run",
+          "evidence": null
+        },
+        "codex": {
+          "status": "not_run",
+          "evidence": null
+        },
+        "claude": {
+          "status": "not_run",
+          "evidence": null
+        },
+        "gemini": {
+          "status": "not_run",
+          "evidence": null
+        }
+      }
+    },
+    {
       "id": "N01",
       "kind": "negative",
       "openai_submission": true,
