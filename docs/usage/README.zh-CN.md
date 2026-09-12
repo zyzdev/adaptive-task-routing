@@ -102,12 +102,6 @@ AI 应先给出有效的检查结果或可执行计划。如果下一阶段符�
 
 `ask` 模式会停在这里；`auto` 模式只应用平台支持且能够验证的变更，并可继续已经授权的工作。Gemini 会使用平台原生模型别名，Reasoning 通常显示为“使用模型默认值”。
 
-## 明确启用
-
-- 支持 Skill 提及的 Codex 界面：`$adaptive-task-routing`
-- Claude Code：`/adaptive-task-routing:adaptive-task-routing`
-- 其他界面：输入“开始这项工作前，请使用 adaptive-task-routing Skill。”
-
 ## 模式
 
 - `ask`（默认）：显示建议，并在大量执行前等待用户回复。
@@ -122,6 +116,20 @@ AI 应先给出有效的检查结果或可执行计划。如果下一阶段符�
 - “当前两个路由模式是什么？”
 
 没有指定 Router 的 Adaptive Task Routing 模式会同时应用到两者。AI 会立即确认实际模式和作用范围，不会为了切换模式额外运行一次 Routing 建议。若要在新对话中继续使用，请明确要求设为默认；宿主没有可写入的用户设置区时，设置只保留在当前对话，AI 会说明这一限制。
+
+## 建议根据什么？
+
+- **对话环境：** 评估下一个任务需要沿用哪些信息，以及旧任务的假设或限制是否可能干扰新工作，再建议保留对话、整理信息后交接，或从新对话开始。
+- **模型和推理强度：** 考量任务难度、模糊程度、错误成本和验证需求，提供最低足够及建议设置，并说明提高设置是否值得。
+- **模型信息来源：** 优先使用当前环境可取得的信息；无法取得时，根据平台使用套件内有效的参考资料。参考资料不代表你的账号一定能选用该模型。
+
+完整判断原则与平台限制可查阅[设计与架构（英文）](../architecture.md)。
+
+## 明确启用
+
+- 支持 Skill 提及的 Codex 界面：`$adaptive-task-routing`
+- Claude Code：`/adaptive-task-routing:adaptive-task-routing`
+- 其他界面：输入“开始这项工作前，请使用 adaptive-task-routing Skill。”
 
 ## 移除
 
@@ -140,4 +148,4 @@ Claude Code 如果通过 `--plugin-dir` 启动，结束该会话并删除克隆�
 - 没有出现建议时，可先明确启用 Skill 测试一次。
 - 显示建议不代表宿主已经切换模型或对话；只有经过验证的自动变更才会报告为已应用。
 
-开发和验证细节请返回[项目 README](../../README.md)。
+开发和验证细节请返回[开发说明（英文）](https://github.com/zyzdev/adaptive-task-routing/blob/main/DEVELOPMENT.md)。

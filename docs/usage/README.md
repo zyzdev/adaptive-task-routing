@@ -102,12 +102,6 @@ This environment cannot change the model or reasoning effort for you. Use the in
 
 In `ask`, the response ends there. In `auto`, the AI applies only supported, verifiable changes and may continue with already authorized work. Gemini uses native model aliases and normally displays reasoning as “model default.”
 
-## Explicit activation
-
-- Codex surfaces with Skill mentions: `$adaptive-task-routing`
-- Claude Code: `/adaptive-task-routing:adaptive-task-routing`
-- Other surfaces: ask, “Use the adaptive-task-routing skill before starting this work.”
-
 ## Modes
 
 - `ask` (default): recommend and wait before substantial execution.
@@ -122,6 +116,20 @@ Context routing and model routing have independent modes. Change them directly i
 - “What routing modes are active?”
 
 An unqualified Adaptive Task Routing mode changes both routers. The AI confirms the effective values and scope immediately without running a routing recommendation. Ask for a persistent default explicitly; when the host has no writable user-settings store, the change remains in the current conversation and the AI states that limitation.
+
+## What are recommendations based on?
+
+- **Conversation context:** Assesses which information the next task needs and whether old assumptions or constraints might interfere, then recommends staying, handing off relevant information, or starting fresh.
+- **Model and reasoning effort:** Considers task difficulty, ambiguity, error cost, and verification needs to provide minimum-sufficient and recommended settings and explain whether an upgrade is worthwhile.
+- **Model information:** Prioritizes information available from the current environment. When unavailable, uses valid bundled references appropriate to the platform. A reference does not guarantee that your account can select that model.
+
+See [Design and architecture](../architecture.md) for the full decision principles and platform limitations.
+
+## Explicit activation
+
+- Codex surfaces with Skill mentions: `$adaptive-task-routing`
+- Claude Code: `/adaptive-task-routing:adaptive-task-routing`
+- Other surfaces: ask, “Use the adaptive-task-routing skill before starting this work.”
 
 ## Remove
 
@@ -140,4 +148,4 @@ For Claude Code started with `--plugin-dir`, exit the session and delete the clo
 - If no recommendation appears, try explicit activation once.
 - A recommendation does not prove that the host changed the model or conversation. Automatic changes are reported only after verification.
 
-For development and validation details, return to the [project README](../../README.md).
+For development and validation details, return to the [development guide](https://github.com/zyzdev/adaptive-task-routing/blob/main/DEVELOPMENT.md).

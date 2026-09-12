@@ -37,15 +37,6 @@ Start a new session and ask a substantial question, such as:
 
 If explicit activation is needed, ask Gemini to use the `adaptive-task-routing` Skill.
 
-## Change modes in conversation
-
-- “Set Adaptive Task Routing to auto for this conversation.”
-- “Set model routing to ask.”
-- “Turn context routing off for this task.”
-- “What routing modes are active?”
-
-An unqualified mode change applies to both independent routers. The default is `ask`; `auto` applies only changes Gemini can perform and verify; `off` skips the selected router.
-
 ## What you will see
 
 The example below uses the request “Review the plugin release process, cross-platform consistency, and test gaps.” Actual plans and recommendations vary by task and platform.
@@ -84,6 +75,23 @@ This environment cannot change the model for you. Use /model if you want the rec
 ```
 
 The model aliases are illustrative and resolve according to the current Gemini account. Gemini shows an exact thinking control only when the session exposes one; otherwise reasoning remains the model default. In `ask`, Gemini stops after this block; `auto` may continue already authorized work.
+
+## Change modes in conversation
+
+- “Set Adaptive Task Routing to auto for this conversation.”
+- “Set model routing to ask.”
+- “Turn context routing off for this task.”
+- “What routing modes are active?”
+
+An unqualified mode change applies to both independent routers. The default is `ask`; `auto` applies only changes Gemini can perform and verify; `off` skips the selected router.
+
+## What are recommendations based on?
+
+- **Conversation context:** Assesses which information the next task needs and whether old assumptions or constraints might interfere, then recommends staying, handing off relevant information, or starting fresh.
+- **Model and reasoning effort:** Considers task difficulty, ambiguity, error cost, and verification needs to provide minimum-sufficient and recommended settings and explain whether an upgrade is worthwhile.
+- **Model information:** Prioritizes information available from the current environment. When unavailable, uses valid bundled references appropriate to the platform. A reference does not guarantee that your account can select that model.
+
+See [Design and architecture](../../docs/architecture.md) for the full decision principles and platform limitations.
 
 ## Remove
 

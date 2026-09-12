@@ -35,15 +35,6 @@ Start a new conversation and ask a substantial question, such as:
 
 Explicit activation is available as `$adaptive-task-routing` on surfaces that support named skills.
 
-## Change modes in conversation
-
-- “Set Adaptive Task Routing to auto for this conversation.”
-- “Set model routing to ask.”
-- “Turn context routing off for this task.”
-- “What routing modes are active?”
-
-An unqualified mode change applies to both independent routers. The default is `ask`; `auto` applies only changes the current OpenAI surface can perform and verify; `off` skips the selected router.
-
 ## What you will see
 
 The example below uses the request “Review the plugin release process, cross-platform consistency, and test gaps.” Actual plans and recommendations vary by task and platform.
@@ -82,6 +73,23 @@ This environment cannot change the settings for you. Use the model and reasoning
 ```
 
 The model names and effort values are illustrative. Actual recommendations use options evidenced for the current OpenAI environment. In `ask`, the AI stops after this block; `auto` may continue already authorized work.
+
+## Change modes in conversation
+
+- “Set Adaptive Task Routing to auto for this conversation.”
+- “Set model routing to ask.”
+- “Turn context routing off for this task.”
+- “What routing modes are active?”
+
+An unqualified mode change applies to both independent routers. The default is `ask`; `auto` applies only changes the current OpenAI surface can perform and verify; `off` skips the selected router.
+
+## What are recommendations based on?
+
+- **Conversation context:** Assesses which information the next task needs and whether old assumptions or constraints might interfere, then recommends staying, handing off relevant information, or starting fresh.
+- **Model and reasoning effort:** Considers task difficulty, ambiguity, error cost, and verification needs to provide minimum-sufficient and recommended settings and explain whether an upgrade is worthwhile.
+- **Model information:** Prioritizes information available from the current environment. When unavailable, uses valid bundled references appropriate to the platform. A reference does not guarantee that your account can select that model.
+
+See [Design and architecture](../../docs/architecture.md) for the full decision principles and platform limitations.
 
 ## Remove
 

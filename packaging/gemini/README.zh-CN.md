@@ -37,15 +37,6 @@ gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini
 
 需要明确启用时，可要求 Gemini 使用 `adaptive-task-routing` Skill。
 
-## 在对话中切换模式
-
-- “这个对话的 Adaptive Task Routing 改用 auto。”
-- “模型路由改成 ask。”
-- “这次关闭对话路由。”
-- “当前两个路由模式是什么？”
-
-未指定 Router 的模式切换会同时应用到两者。默认为 `ask`；`auto` 只应用 Gemini 能执行并验证的变更；`off` 跳过指定 Router。
-
 ## 你会看到什么
 
 以下以“检查 Plugin 的发布流程、跨平台一致性和测试缺口”为例。实际的计划和建议会依任务及平台调整。
@@ -84,6 +75,23 @@ gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini
 ```
 
 模型别名仅为示例，会根据当前 Gemini 账号解析。只有会话提供明确思考控制时才显示该值，否则 Reasoning 使用模型默认值。`ask` 会停在此区块；`auto` 可以继续已经授权的工作。
+
+## 在对话中切换模式
+
+- “这个对话的 Adaptive Task Routing 改用 auto。”
+- “模型路由改成 ask。”
+- “这次关闭对话路由。”
+- “当前两个路由模式是什么？”
+
+未指定 Router 的模式切换会同时应用到两者。默认为 `ask`；`auto` 只应用 Gemini 能执行并验证的变更；`off` 跳过指定 Router。
+
+## 建议根据什么？
+
+- **对话环境：** 评估下一个任务需要沿用哪些信息，以及旧任务的假设或限制是否可能干扰新工作，再建议保留对话、整理信息后交接，或从新对话开始。
+- **模型和推理强度：** 考量任务难度、模糊程度、错误成本和验证需求，提供最低足够及建议设置，并说明提高设置是否值得。
+- **模型信息来源：** 优先使用当前环境可取得的信息；无法取得时，根据平台使用套件内有效的参考资料。参考资料不代表你的账号一定能选用该模型。
+
+完整判断原则与平台限制可查阅[设计与架构（英文）](../../docs/architecture.md)。
 
 ## 移除
 
