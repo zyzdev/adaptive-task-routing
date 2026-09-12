@@ -40,6 +40,7 @@ gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini
 ```text
 1. 检查发布脚本和 Manifest。
 2. 核对 CI 和测试缺口。
+3. 整理风险并提出修改顺序。
 ```
 
 #### 2. Adaptive Task Routing 的资源建议

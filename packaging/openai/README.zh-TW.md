@@ -38,6 +38,7 @@ Codex CLI 可從已設定的 Marketplace 安裝；公開上架後，ChatGPT 與 
 ```text
 1. 檢查發布腳本與 Manifest。
 2. 核對 CI 與測試缺口。
+3. 整理風險並提出修改順序。
 ```
 
 #### 2. Adaptive Task Routing 的資源建議
