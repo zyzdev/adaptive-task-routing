@@ -159,16 +159,16 @@
     {
       "id": "U01",
       "title": "Verified keep, authorized execution",
-      "setup": "Both routers ask; context suitable, current pair observed and adequate; short remaining validation already authorized.",
-      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Both routers ask; context suitable, current pair observed and adequate; short remaining validation already authorized.",
-      "expected": "Lead with verified keep and reason. Show one sentence saying no new conversation is needed and observed current AI. No confirmation or selector; proceed with authorized validation. Minimum and task-fit remain internal. Use the exact heading ### Adaptive Task Routing without a subtitle. Verified keep never shows a task-fit alternative in compact; detail requests can reveal it."
+      "setup": "Both routers ask; context suitable, current pair observed and adequate; short remaining validation already authorized. Also evaluate missing retention evidence and generic default-only current settings.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Both routers ask; context suitable, current pair observed and adequate; short remaining validation already authorized. Also evaluate missing retention evidence and generic default-only current settings.",
+      "expected": "Lead with verified keep and reason. Show one sentence saying no new conversation is needed and observed current AI. No confirmation or selector; proceed with authorized validation. Minimum and task-fit remain internal. Use the exact heading ### Adaptive Task Routing without a subtitle. Verified keep never shows a task-fit alternative in compact; detail requests can reveal it. Verified keep requires a reliably observed model and native reasoning setting, phase-specific quality evidence and evidence supporting retention. Evaluate variants missing each prerequisite; retention becomes provisional. Use the same canonical standalone action across hosts, with a separate one-to-two-sentence reason."
     },
     {
       "id": "U02",
       "title": "Provisional keep without a blocker",
-      "setup": "Current model unreadable; catalog applicable; routine bounded checking with validation already authorized. Also evaluate a known current pair with uncertain switching cost or benefit.",
-      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Current model unreadable; catalog applicable; routine bounded checking with validation already authorized. Also evaluate a known current pair with uncertain switching cost or benefit.",
-      "expected": "Provisional keep, no claim of suitability. Keep enabled conversation advice and useful task-fit pair. No unknown/unknown current fields, selector or routing confirmation; continue checks. Provisional retention is not limited to unknown model metadata; keep uncertainty in prose and omit a Current AI: Unknown field."
+      "setup": "Current model unreadable; catalog applicable; routine bounded checking with validation already authorized. Also evaluate a known current pair with uncertain switching cost or benefit. Also evaluate missing retention evidence and generic default-only current settings.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Current model unreadable; catalog applicable; routine bounded checking with validation already authorized. Also evaluate a known current pair with uncertain switching cost or benefit. Also evaluate missing retention evidence and generic default-only current settings.",
+      "expected": "Provisional keep, no claim of suitability. Keep enabled conversation advice and useful task-fit pair. No unknown/unknown current fields, selector or routing confirmation; continue checks. Provisional retention is not limited to unknown model metadata; keep uncertainty in prose and omit a Current AI: Unknown field. Also evaluate a Gemini default-only current AI label and an unresolved Auto backend: neither establishes current identity. Omit that field; native default reasoning paired with an observed model remains valid. Successful analysis alone cannot certify a different next phase."
     },
     {
       "id": "U03",
@@ -182,7 +182,7 @@
       "title": "Plan-only retention",
       "setup": "Only analysis and an improvement plan are requested; the resulting gate recommends retain.",
       "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Only analysis and an improvement plan are requested; the resulting gate recommends retain.",
-      "expected": "Deliver the plan first, then compact action-first advice with conversation advice. End without implementing or asking to keep current. Plan completion is not a pending routing confirmation."
+      "expected": "Deliver the plan first, then compact action-first advice with conversation advice. End without implementing or asking to keep current. Plan completion is not a pending routing confirmation. Present all requested findings and the complete plan before the divider; the routing note is the final section. A greeting before the note does not satisfy plan-first. Reject a note followed by the plan or a plan split around the note. Describe proposed implementation conditionally, not as authorized; do not substitute the completed analysis for the assessed future phase."
     },
     {
       "id": "U05",
@@ -203,7 +203,7 @@
       "title": "Handoff plus model change",
       "setup": "Context ask proposes handoff; destination model options are known and a model change is justified.",
       "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Context ask proposes handoff; destination model options are known and a model change is justified.",
-      "expected": "Lead with the handoff, show new-conversation proposal pending confirmation, carry only necessary facts and show destination settings. Combine valid pending choices; model retention must not hide context."
+      "expected": "Lead with the handoff, show new-conversation proposal pending confirmation, carry only necessary facts and show destination settings. Combine valid pending choices; model retention must not hide context. Traditional Chinese action is → 建議交接, on its own line."
     },
     {
       "id": "U08",
@@ -224,14 +224,14 @@
       "title": "Model off and both off",
       "setup": "First run Context ask and Model off; then run both off.",
       "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. First run Context ask and Model off; then run both off.",
-      "expected": "Model-off gives only context advice without probing or recommending models. Both-off emits no routing note and performs no discovery."
+      "expected": "Model-off gives only context advice without probing or recommending models. Both-off emits no routing note and performs no discovery. A verified context-only keep does not require AI identity or model evidence when model routing is off."
     },
     {
       "id": "U11",
       "title": "Clean start",
       "setup": "Context ask recommends clean because prior task history would interfere and no task-history handoff is required.",
       "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Context ask recommends clean because prior task history would interfere and no task-history handoff is required.",
-      "expected": "Lead with clean-start action and pending new-conversation proposal. Do not attach old decisions, failed hypotheses or task-history handoff. Supply a self-contained new-task request when needed."
+      "expected": "Lead with clean-start action and pending new-conversation proposal. Do not attach old decisions, failed hypotheses or task-history handoff. Supply a self-contained new-task request when needed. Traditional Chinese action is ↻ 全新開始, on its own line."
     },
     {
       "id": "U12",

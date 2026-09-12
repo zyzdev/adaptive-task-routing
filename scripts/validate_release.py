@@ -242,10 +242,17 @@ def validate_ux(root, defaults):
                 "Do not start implementation, regardless of mode or switch decision",
                 "Unknown current model metadata alone is not a quality blocker",
                 "Keep provisionally / 暫時沿用設定",
-                "Need your decision / 需要你決定",
+                "Need your decision / ? 需要你的決定",
                 "A handoff or clean start can also require a model change",
                 "不需開新對話", "Task-fit setting", "compact", "detailed")),
             "Incomplete routing UX contract")
+    require(all(label in ux for label in (
+                "✓ 維持目前設定", "暫時沿用設定", "→ 建議交接", "↻ 全新開始",
+                "↑ 建議調整 AI 設定", "? 需要你的決定")), "Canonical actions missing")
+    require(all(token in ux for token in (
+                "the routing note is the final section", "verified keep requires all three",
+                "not to the whole response", "Plan-only status alone is not")),
+            "Cross-platform output contract missing")
     for name in SKILLS:
         require("../../shared/routing-ux.md" in (root / "skills" / name / "SKILL.md").read_text(),
                 f"Missing UX consumer: {name}")

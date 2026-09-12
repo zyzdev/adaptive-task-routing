@@ -46,6 +46,7 @@ gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini
 ### Adaptive Task Routing
 
 ✓ 현재 설정 유지
+
 현재 설정으로 충분하며 남은 작업이 적어 전환의 이점이 제한적입니다.
 
 대화: 현재 대화를 유지하므로 새 대화는 필요하지 않습니다.
@@ -62,6 +63,7 @@ gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini
 ### Adaptive Task Routing
 
 AI 설정 변경
+
 다음 단계의 검증 요구가 관측된 현재 설정의 역량을 넘어섭니다.
 
 대화: 현재 대화를 유지하므로 새 대화는 필요하지 않습니다.

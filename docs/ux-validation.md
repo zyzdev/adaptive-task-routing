@@ -59,3 +59,23 @@ and context-off omission. Mutation checks protect current-only keep and target-o
 All three Skills passed structure validation. Rebuilt archives and SHA-256 checks passed; native
 metadata loading passed for Codex, Claude Code and Gemini CLI without inference or persistent
 installation. U01–U14 remain acceptance specifications, not live model results.
+
+## Cross-platform UI correction — 2026-09-13
+
+The user-reported Gemini example placed routing before the plan and displayed only a generic
+model-default current AI label. The previous output checker accepted both defects. Offline
+regressions now reject that example, a greeting followed by routing then a plan, a split plan,
+duplicate notes and noncanonical Chinese action lines. Positive fixtures preserve routing-only
+requests, native default reasoning with a named model, provisional retention without AI fields,
+context-off output and context/blocker actions.
+
+All 84 Python tests and the three Skill structure checks passed. Package/archive validation and
+native metadata loading passed for Codex, Claude Code and Gemini CLI. No new inference calls or
+persistent installations were performed for this correction. U01–U14 remain `not_run` acceptance
+contracts, with stronger order, phase scope and retention evidence expectations.
+
+The optional Gemini checker is scoped to Chinese compact output and the audit fixture's
+three-point plan. Its structural checks do not establish substantive plan completeness, a model's
+actual identity, phase quality or switching benefit. Live results explicitly retain
+`semantic_review_required`; per-call model statistics do not prove a stable current configuration.
+The new instructions still require fresh installed-host behavioral testing.

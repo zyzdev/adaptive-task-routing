@@ -27,6 +27,10 @@ Specification check: 2026-09-11. Prefer live metadata exposed by the current CLI
    unless it is the literal verified Gemini control value and is labeled with that
    control's native name.
 
+`Reasoning: model default` is a reasoning value, not proof of current model identity.
+An unresolved Auto backend or a generic default-only current AI label cannot certify verified
+keep; apply the evidence requirements in [the UX contract](../routing-ux.md).
+
 There is no assumed public non-interactive equivalent of the current selector in
 this guide. Do not invent `gemini models list`, start an inference prompt, write
 settings, install hooks, or invoke a routing model just to detect options. Use the

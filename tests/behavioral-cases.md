@@ -198,3 +198,13 @@ S01–S12 涵蓋適任模型維持、品質缺口、目前設定及成本未知�
 U01–U14 in `surface-matrix.json` cover authorized keep, provisional continuation, quality blockers, plan-only completion, justified changes, manual-only auto, handoff plus settings, unresolved destinations, independent modes, clean starts, detail requests and explicit targets. These are acceptance specifications, not recorded live passes.
 
 U01–U14 是驗收規格，涵蓋授權、保留、未知、阻礙、交接、獨立模式與詳細顯示；本次僅做離線契約及封裝檢查，不代表三平台模型已通過。
+
+### Cross-platform UI regression
+
+For plan-only audits, inspect the whole response: complete findings and plan, then divider and
+one final routing note. A greeting before the note or a plan split around it fails. The reported
+Gemini response put the note first and used a default-only current AI label; offline fixtures
+now reject both defects. They cannot verify whether a named model was actually observed.
+Review retention evidence for current identity, phase quality and the choice to retain, including
+Gemini native default reasoning versus unknown model identity. Use the exact shared Traditional
+Chinese action line and a separate short reason. Future implementation stays conditional.

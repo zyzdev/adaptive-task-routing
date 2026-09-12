@@ -47,6 +47,9 @@ Resolve every host operation separately. A desktop/web/mobile App may allow auto
 Use the exact heading `### Adaptive Task Routing` without a subtitle. Verified model keep shows
 only the observed current pair in compact; reserve task-fit alternatives for detailed output.
 Context advice is one sentence stating whether to open a new conversation, not a window field.
+For analysis/plan-only output, the complete findings and plan precede the divider; the routing
+note is the final section. Action-first applies inside the note. Use the shared canonical action
+line unchanged, with a separate short reason; any proposed implementation remains conditional.
 An ordinary change asks only about the target setting. Provisional keep also covers uncertain
 switch costs or benefits, not just an unknown current model. Follow the shared UX contract for
 independent modes, pending context decisions and task authorization.

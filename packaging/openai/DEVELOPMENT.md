@@ -49,7 +49,7 @@ does not publish to your workspace or the public directory.
 
 Check that all three Skill names appear in the new task's inventory and review/enable the
 plugin hook when Codex asks. Submit a substantial plan-only task without naming the Skill, then
-confirm the useful plan appears first, followed by the localized `Adaptive Task Routing` task-resource
+confirm the useful plan appears first, followed by the plain `Adaptive Task Routing`
 divider and routing note, and default `ask` ends the turn there.
 Submit a separate execution request and confirm retain/nonblocking defer may continue authorized work in `ask`, while proposed changes require confirmation. Also
 test explicit selection. Current conversation

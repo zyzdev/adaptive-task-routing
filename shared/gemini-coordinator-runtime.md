@@ -17,6 +17,10 @@ Use turn/conversation scope and persist defaults only through a host/user settin
    When findings propose concrete changes, validation or follow-on research, route that next phase
    even if implementation was not requested. Do not invent extra work after a complete answer with
    no substantial next phase. Reuse an unchanged gate rather than routing every response.
+   For analysis/plan-only output, finish the complete findings and plan before the divider;
+   the routing note is the final section, never an introduction to “以下為改善計畫”.
+   Action-first means the first line inside that note. Describe proposed implementation
+   conditionally (“若後續進入實作”), without implying it is authorized.
 2. Assess the conversation first when context routing is enabled. Stay when focused requirements
    or evidence remain useful. A fresh one-prompt session is focused; complexity alone does not
    justify a new conversation. Handoff preserves needed facts while dropping interfering history;
@@ -43,6 +47,13 @@ one of these aliases. Never output Gemini 1.5. Use `Reasoning: model default`, l
 `Reasoning：使用模型預設` in Traditional Chinese, unless the current session exposes an exact
 configurable `thinkingBudget` or `thinkingLevel`. Never invent Codex-style low, medium, or high
 Reasoning values for Gemini.
+
+`Reasoning：使用模型預設` describes reasoning only; it is not a current model identity.
+Do not render `目前 AI：使用模型預設`. Verified keep requires an observed current model,
+its native reasoning configuration, and evidence of quality-floor adequacy and retention value.
+An unresolved Auto backend, catalog availability or completed analysis cannot supply that evidence.
+Without it, a retention result is provisional; preserve independent context changes and blockers.
+Use the shared canonical action line verbatim, on its own line, then a short separate reason.
 
 Choose the minimum setting that can complete the phase reliably, then a recommended setting that
 offers meaningful value:

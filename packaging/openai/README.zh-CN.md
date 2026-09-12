@@ -44,6 +44,7 @@ Codex CLI 可从已设置的 Marketplace 安装；公开上架后，ChatGPT 和 
 ### Adaptive Task Routing
 
 ✓ 保持当前设置
+
 当前设置足够，而且剩余工作不多，切换带来的改善有限。
 
 对话：留在当前对话，无需新建对话。
@@ -60,6 +61,7 @@ Codex CLI 可从已设置的 Marketplace 安装；公开上架后，ChatGPT 和 
 ### Adaptive Task Routing
 
 调整 AI 设置
+
 下一阶段的验证需求超过当前已观察设置的能力。
 
 对话：留在当前对话，无需新建对话。

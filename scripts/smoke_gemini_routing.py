@@ -33,24 +33,48 @@ PROMPTS = {
 }
 
 
-def routing_output_checks(response, *, context_enabled=True):
-    """Check the compact smoke surface, not model quality or the decision's justification."""
-    heading = re.search(r"^### Adaptive Task Routing[ \t]*$", response, re.MULTILINE)
+CANONICAL_ACTIONS = (
+    "✓ 維持目前設定", "暫時沿用設定", "→ 建議交接", "↻ 全新開始",
+    "↑ 建議調整 AI 設定", "? 需要你的決定",
+)
+
+
+def routing_output_checks(response, *, context_enabled=True, require_plan=True):
+    """Check Chinese compact smoke fixtures, not model identity or quality evidence.
+
+    Plan checks target AUDIT's three-point plan. They are structural guards, not a
+    general prose evaluator. A passing result still requires semantic review.
+    """
+    headings = list(re.finditer(r"^### Adaptive Task Routing[ \t]*$", response, re.MULTILINE))
+    heading = headings[0] if headings else None
+    before = response[:heading.start()] if heading else ""
     note = response[heading.end():] if heading else ""
-    action = re.search(r"維持目前設定|暫時沿用設定|調整 AI 設定|需要你決定|開新對話|開啟全新對話", note)
+    lines = [line.strip() for line in note.splitlines() if line.strip()]
+    action = lines[0] if lines else ""
     setting = re.search(r"任務適配設定|目前 AI|目前設定[：:]|Model[：:]", note)
     conversation = re.search(r"^\s*(?:[-*]\s*)?對話[：:]([^\n]+)", note, re.MULTILINE)
     explicit_conversation = bool(conversation and re.search(
         r"不需開新對話|無需開新對話|建議開新對話|建議開啟全新對話|目的地.*待確認", conversation[1]))
-    verified_keep = bool(action and action[0] == "維持目前設定")
-    provisional_keep = bool(action and action[0] == "暫時沿用設定")
+    current = re.search(r"^(?:目前 AI|目前設定)[：:]\s*([^\n]+)", note, re.MULTILINE)
+    # A concrete-looking name is necessary for verified keep, never proof of observation.
+    default_only = bool(current and re.fullmatch(
+        r"(?:使用)?(?:模型|平台)?預設(?:值|設定)?[。.]?|(?:model |platform )?default[。.]?|Auto[。.]?",
+        current[1].strip(), re.IGNORECASE))
+    verified_keep = action == CANONICAL_ACTIONS[0]
+    provisional_keep = action == CANONICAL_ACTIONS[1]
+    plan_items = re.findall(r"^\s*(?:#{1,6}\s+)?(?:[-*]|[1-3][.、)])\s+\S.*$", before, re.MULTILINE)
+    # A plan-only note is last; numbered task sections after it reveal reversal/splitting.
+    later_plan = re.search(r"以下(?:為|是).*計畫|^\s*(?:#{1,6}\s+|[1-3][.、)]\s+)\S", note, re.MULTILINE)
     return {
-        "plain_heading": heading is not None,
-        "action_before_setting": bool(action and setting and action.start() < setting.start()),
+        "plain_heading": len(headings) == 1,
+        "canonical_action_line": action in CANONICAL_ACTIONS,
+        "plan_before_routing": not require_plan or (len(plan_items) >= 3 and later_plan is None),
+        "action_before_setting": action in CANONICAL_ACTIONS and (
+            setting is None or note.find(action) < setting.start()),
         "conversation_visibility": explicit_conversation if context_enabled else conversation is None,
         "no_window_field": "是否切換視窗" not in note,
-        "verified_keep_current_only": not verified_keep or (
-            bool(re.search(r"目前 AI|目前設定[：:]", note)) and "任務適配設定" not in note),
+        "verified_keep_current_only": not verified_keep or (current is not None and "任務適配設定" not in note),
+        "no_default_only_current": not default_only,
         "no_unknown_current_field": not re.search(
             r"(?:目前 AI|目前設定|Current AI)[：:]\s*(?:Unknown|unknown|未知|無法確認)", note),
         "retention_action_consistent": not ((verified_keep or provisional_keep) and "/model" in note),
@@ -75,7 +99,8 @@ def run(case):
             data = json.loads(completed.stdout)
             response = data.get("response", "")
             checks = {
-                **routing_output_checks(response, context_enabled=case != "context_off"),
+                **routing_output_checks(response, context_enabled=case != "context_off",
+                                        require_plan=case != "next_phase"),
                 "successful_response": completed.returncode == 0 and bool(response),
                 "fixtures_unchanged": all((workspace / name).read_text() == content
                     for name, content in FIXTURES.items()),
@@ -83,6 +108,7 @@ def run(case):
             }
             result.update(response=response, checks=checks,
                           observed_models=list(data.get("stats", {}).get("models", {})),
+                          semantic_review_required=True,
                           status="pass" if all(checks.values()) else "fail")
         except (subprocess.TimeoutExpired, json.JSONDecodeError, OSError) as error:
             result.update(status="blocked", error_type=type(error).__name__)

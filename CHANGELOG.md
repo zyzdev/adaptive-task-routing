@@ -6,6 +6,13 @@ All notable changes to this project are documented here.
 
 ### Changed
 
+- Require complete analysis/plan-only deliverables before the divider and one final routing
+  note; action-first applies inside the note. Keep proposed implementation conditional.
+- Require observed current AI, phase-specific quality evidence and retention evidence for
+  verified model keep. Gemini default reasoning is not a substitute for current model identity.
+- Standardize Traditional Chinese action lines across hosts, with a separate short reason.
+- Add offline regressions for the reported Gemini ordering/default-label defects and retain
+  explicit semantic-review requirements; passing output checks do not prove model adherence.
 - Simplify the heading to `Adaptive Task Routing` and merge context advice into one
   conversation sentence across all platforms and translated examples.
 - Show only the observed current AI for verified keep in compact output; reserve task-fit

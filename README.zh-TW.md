@@ -48,6 +48,7 @@ Adaptive Task Routing 在重要工作階段開始前，評估對話環境、模�
 ### Adaptive Task Routing
 
 ✓ 維持目前設定
+
 目前設定足夠，而且剩餘工作不多，切換帶來的改善有限。
 
 對話：留在目前對話，不需開新對話。
@@ -63,7 +64,8 @@ Adaptive Task Routing 在重要工作階段開始前，評估對話環境、模�
 
 ### Adaptive Task Routing
 
-調整 AI 設定
+↑ 建議調整 AI 設定
+
 下一階段的驗證需求超過目前已觀察設定的能力。
 
 對話：留在目前對話，不需開新對話。

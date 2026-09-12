@@ -42,26 +42,70 @@ handoff and wait for the user to resume there. `off` skips that router entirely.
 ## Compose one action-first routing note
 
 Present the user's requested findings or actionable plan first. Within the routing note, use:
-Markdown divider → exact `### Adaptive Task Routing` heading → action → one-sentence reason
+Markdown divider → exact `### Adaptive Task Routing` heading → action → short reason
 → conversation advice → useful AI setting → necessary control or next step.
 The heading has no localized subtitle. Localize the action and body instead.
-Do not put a second explanation of the plan before the action. Localize all labels and keep
-raw enums and internal scores out of ordinary output.
+For analysis/plan-only requests, the complete requested findings and plan precede the divider;
+the routing note is the final section. Never place the plan after the note or end the note with
+“以下為改善計畫”. Action-first applies inside the note, not to the whole response. For execution
+requests, present the actionable plan, then the gate, then continue authorized execution only
+when no decision remains. A routing-only request needs no invented findings or plan.
+Keep the action on its own line, followed by a separate reason of one or two short sentences.
+Localize labels using the canonical vocabulary below; keep raw enums and scores internal.
+
+For plan-only work, acknowledge the authorized analysis/planning scope. If the gate evaluates
+a proposed later implementation phase, say “若後續進入實作” / “If implementation is later
+authorized”. Do not describe that phase as already authorized, or substitute an assessment of
+completed analysis for the proposed next-phase assessment. Plan-only status alone is not
+evidence that the current AI is suitable or that switching offers little benefit.
 
 Select the action from the combined effective result, not just the model decision:
 
-- **Keep current / 維持目前設定**: no proposed environment change; claim suitability only
+- **Keep current / ✓ 維持目前設定**: no proposed environment change; claim suitability only
   for enabled components with supporting evidence. Context-off cannot certify the conversation.
 - **Keep provisionally / 暫時沿用設定**: uncertainty warrants retaining without certifying
   suitability. Explain the relevant uncertainty briefly, without dumping unreadable model fields.
-- **New conversation with handoff / 開新對話並交接**: carry the objective, confirmed facts,
+- **New conversation with handoff / → 建議交接**: carry the objective, confirmed facts,
   constraints, decisions, relevant artifacts and next step. Omit failed hypotheses and secrets.
-- **Start clean / 開啟全新對話**: explain why prior task context would interfere; do not carry
+- **Start clean / ↻ 全新開始**: explain why prior task context would interfere; do not carry
   a task-history handoff. Supply only the new task's self-contained request when needed.
-- **Change setting / 調整 AI 設定**: show the justified target and the next action. Show the
+- **Change AI setting / ↑ 建議調整 AI 設定**: show the justified target and the next action. Show the
   current pair only when actually observed or supplied by the user.
-- **Need your decision / 需要你決定**: a material blocker remains; name it and ask the useful
+- **Need your decision / ? 需要你的決定**: a material blocker remains; name it and ask the useful
   question. This is not a synonym for every deferred switch assessment.
+
+### Verified retention evidence
+
+When model routing is enabled, verified keep requires all three: a reliably observed current
+model and native reasoning configuration, evidence that it meets the assessed phase's quality
+floor, and evidence supporting retention over switching. Successful earlier analysis alone does
+not establish suitability for a different next phase. A catalog, saved default or generic
+“model default” label does not identify the running model. Native default reasoning is valid
+when paired with a reliably observed model; it must never substitute for the model identity.
+Keep evidence internal unless details are requested; merely printing a model name is not proof.
+
+If a retention result lacks any of these prerequisites, use provisional keep and explain the
+uncertainty without claiming “switching offers little benefit”. Omit unknown/default-only current
+AI fields. A useful supported task-fit setting may still be shown. This rule does not replace
+a pending context action, explicit user target or material blocker with provisional retention.
+Model-off can give a verified context-only keep without probing or displaying any AI setting.
+
+### Canonical action vocabulary
+
+These are fixed action lines, not new routing states. Traditional Chinese uses exactly:
+
+| Action | 繁體中文 |
+| --- | --- |
+| Verified keep | ✓ 維持目前設定 |
+| Provisional keep | 暫時沿用設定 |
+| Handoff | → 建議交接 |
+| Clean | ↻ 全新開始 |
+| Change | ↑ 建議調整 AI 設定 |
+| Material blocker | ? 需要你的決定 |
+
+Do not substitute synonyms such as “保留現況” or merge the action into its reason. All hosts
+use the same action line for the same decision in the same language. In other languages use
+the corresponding localized labels in the packaged examples; do not force Chinese on the user.
 
 A handoff or clean start can also require a model change. Lead with the context action and
 include the destination setting when known; otherwise say it will be assessed there. Combine
@@ -108,6 +152,7 @@ do not copy a positive suitability claim into an unknown-baseline result.
 ### Adaptive Task Routing
 
 ✓ 維持目前設定
+
 目前設定足以完成剩餘核對，切換帶來的改善有限。
 
 對話：留在目前對話，不需開新對話。
@@ -122,7 +167,8 @@ do not copy a positive suitability claim into an unknown-baseline result.
 ### Adaptive Task Routing
 
 暫時沿用設定
-切換效益尚未確立，先沿用設定完成可驗證的檢查。
+
+若後續授權執行檢查，切換效益仍需確認；本輪僅交付分析與計畫。
 
 對話：留在目前對話，不需開新對話。
 任務適配設定：<有依據的模型與原生推理設定>，不代表現在需要切換。

@@ -61,6 +61,7 @@ These are separate scenarios following the requested plan or findings. The keep 
 ### Adaptive Task Routing
 
 ✓ Keep current
+
 The current setup is sufficient, and little work remains to repay a switch.
 
 Conversation: Stay here; no new conversation needed.
@@ -77,6 +78,7 @@ No action needed. Continuing the already authorized checks.
 ### Adaptive Task Routing
 
 Change AI setting
+
 The next phase needs stronger validation than the observed setup provides.
 
 Conversation: Stay here; no new conversation needed.

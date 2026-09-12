@@ -7,18 +7,24 @@ requested by the user. Both routers use `ask` unless stated otherwise.
 ## Keep after a plan-only request
 
 The user requests a startup inspection and improvement plan, without implementation. The inspection
-finds serialized initialization. The observed `fixture-balanced / medium` meets the remaining
-phase's quality floor; a higher task-fit effort offers too little benefit to repay setup costs.
+finds serialized initialization. Reliable observations and validation establish that
+`fixture-balanced / medium` can handle the proposed follow-up checks if later authorized;
+their short duration makes a change unlikely to repay setup costs.
 
 ```text
-The plan is to defer optional services, parallelize independent reads and validate startup order.
+The inspection found independent reads being serialized. Improvement plan:
+1. Defer optional services.
+2. Parallelize independent reads.
+3. Test startup order and duration.
 
 ---
 
 ### Adaptive Task Routing
 
 ✓ Keep current
-The current setup meets the requirements; changing it offers little benefit for the remaining work.
+
+If the planned follow-up checks are later authorized, the current setup has sufficient validation
+evidence and switching offers little expected benefit.
 
 Conversation: Stay here; no new conversation needed.
 Current AI: fixture-balanced / medium.
@@ -37,11 +43,14 @@ check is already authorized and its results can be verified; no material quality
 A known current pair with uncertain switching cost or benefit can also warrant provisional retention.
 
 ```text
+Plan: compare version sources, inspect release artifacts, then run the relevant tests.
+
 ---
 
 ### Adaptive Task Routing
 
 Keep provisionally
+
 The benefit of switching is not established; the bounded checks can proceed with validation.
 
 Conversation: Stay here; no new conversation needed.
@@ -60,11 +69,14 @@ The current fixture model fails the next phase's quality requirement. A supporte
 justified advantage. In `ask`, propose the change before applying it:
 
 ```text
+Plan: compare version sources, inspect release artifacts, then run the relevant tests.
+
 ---
 
 ### Adaptive Task Routing
 
 Change AI setting
+
 The next phase requires validation that the observed current setup has not handled reliably.
 
 Conversation: Stay here; no new conversation needed.
@@ -91,3 +103,11 @@ The internal `recommended_setting` name stays compatible. Switch scores and diag
 are not ordinary detailed output. Context-off removes the entire conversation assessment;
 Model-off removes model guidance and controls; both-off emits no routing note. Compact/detailed
 are display preferences, not new modes.
+
+## Unknown Gemini model
+
+A native default reasoning value does not establish current model identity. If the model cannot
+be reliably identified, use provisional retention, omit the default-only current AI field and
+state uncertainty in prose. Keep the complete requested findings and plan before the routing
+note, and end a plan-only response by acknowledging delivery without implementation. Successful
+analysis alone cannot certify suitability for a different future phase.
