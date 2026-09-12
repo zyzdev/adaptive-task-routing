@@ -4,6 +4,17 @@ user_policy:
   context_mode: ask
   model_mode: ask
 
+presentation:
+  default: compact
+  detailed_on_request: true
+  keep_window_answer_visible: true
+
+interaction:
+  ask_before_change: true
+  retain_requires_confirmation: false
+  defer_requires_confirmation: material_blocker_only
+  continuation_requires_task_authorization: true
+
 environment_detection:
   first_use: load_snapshot_then_detect_missing_or_stale
   each_routing_gate: lightweight_freshness_check

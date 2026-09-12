@@ -63,7 +63,7 @@ Keep the task-scoring rubric stable and model-neutral: difficulty, ambiguity, de
 
 ### Capability evidence and task needs
 
-Describe the upcoming task's capability and reasoning needs even if configuration or catalog discovery fails. This is task guidance, not proof that the current model is suitable. Every enabled model decision has two task-based outputs: the **minimum sufficient setting**, which is the least costly supported pair likely to meet the phase's quality and validation needs, and the **recommended setting**, which is the best-value pair after considering ambiguity, error cost, validation depth, latency and usage. They may be identical. Always state `upgrade_value: low | medium | high` and explain what additional result quality the recommended pair is expected to buy over the minimum; when the pairs are identical, upgrade value is `low`.
+Describe the upcoming task's capability and reasoning needs even if configuration or catalog discovery fails. This is task guidance, not proof that the current model is suitable. Every enabled model decision has two task-based outputs: the **minimum sufficient setting**, which is the least costly supported pair likely to meet the phase's quality and validation needs, and the **recommended setting**, which is the best-value pair after considering ambiguity, error cost, validation depth, latency and usage. They may be identical. Always record in structured evidence `upgrade_value: low | medium | high` and explain what additional result quality the recommended pair is expected to buy over the minimum; when the pairs are identical, upgrade value is `low`.
 
 Map those needs to normal named settings after confirming destination availability when possible and always require relevant capability evidence. On a recognized OpenAI surface, a matching unexpired bundled registry may produce both named settings when runtime discovery cannot complete; its official cross-surface capability reference supports the recommendation, while account availability remains unverified. On Gemini CLI, its matching registry may recommend only the recorded stable aliases while leaving account-dependent backend resolution unverified. Do not ask the user to transcribe selector options before giving an applicable fallback recommendation. A fallback never authorizes or triggers a switch. If a model is known but its supported effort options are not, retain effort as `CURRENT` with an explicit unknown; do not invent an effort value.
 
@@ -79,7 +79,7 @@ Use the capabilities already available in the current execution. When the bounde
 
 Permission escalation is diagnostic, not part of the default recommendation path. When a user questions the recommendation or explicitly requests an account-specific check, explain the actual evidence source, relevant dates, applicability limit, and task mapping. Then request narrowly scoped read permission at most once only if that permission unlocks a concrete same-surface `model/list` or equivalent path. Do not request generic permission that can only inspect another process or cannot reach the current selector. After a decline, continue with the fallback and do not repeat the request until the environment or explicit user intent changes.
 
-Read capability and switch capability are separate. In `ask`, show the two settings and the surface-appropriate user control, then wait for the user's natural decision without requiring a fixed confirmation word. In `auto`, apply the recommended pair only when the exact model and effort operations are callable, authorized, and verifiable; otherwise retain the current setting, show the control as an optional action, and continue authorized work. ChatGPT desktop and web use their visible model/reasoning selector and must not be given the CLI-only `/model` command. Use `/model` only for an identified Codex CLI that documents it. Never claim a switch from catalog access alone.
+Read capability and switch capability are separate. Follow the [shared UX contract](routing-ux.md): `ask` waits before a justified change or a material blocker, not after every retention decision. In `auto`, apply the recommended pair only when the exact model and effort operations are callable, authorized, and verifiable; otherwise follow the UX contract for provisional retention, known controls and any material blocker. ChatGPT desktop and web use their visible model/reasoning selector and must not be given the CLI-only `/model` command. Use `/model` only for an identified Codex CLI that documents it. Never claim a switch from catalog access alone.
 
 ## Phase continuity and switching value
 
@@ -138,28 +138,16 @@ only `decision: change` permits a router-initiated configuration change, and the
 operations must still be authorized, callable and verified. For `retain` or `defer`,
 keep the configuration and continue authorized work, explaining any material quality
 limitation. An explicit user request to apply a particular setting takes precedence;
-do not force an additional routing confirmation. `ask` and `off` retain their existing
-interaction rules. Deferred switch assessment does not make a completed task-based
+do not force an additional routing confirmation. `ask` follows the shared UX contract; `off` skips its router. Deferred switch assessment does not make a completed task-based
 recommendation a deferred model gate; unresolved destination selection still does.
 
-In compact output, append one localized switch-assessment sentence after the two AI
-setting blocks and before the action paragraph. Distinguish recommendation from
-application: report retaining, a justified change, or deferring automatic change with
-a task-specific reason. Show a switch value when supported; for an uncertain decision,
-say that benefit is not established and retain provisionally, without printing unreadable
-current fields or diagnostic provenance. A retention action must not invite applying
-the recommended pair as though the switch had been justified. Select the action paragraph
-before using any host-control template. For `retain` or `defer`, omit `/model`, selectors
-and invitations to apply the target. In Traditional Chinese `ask`, use: “目前保留設定；
-我先停在這裡，等你決定是否沿用目前設定開始下一階段。” In `auto`, retain and
-continue without a question. Manual-switch templates apply only to `decision: change`
-or an explicit user-selected target; unreadable current settings do not select them.
+Read and follow the [routing interaction and presentation contract](routing-ux.md). It owns action-first output, compact/detailed presentation and the distinction between confirmation, provisional continuation and completed plan-only work. Keep switching scores internal; a task-fit recommendation is separate from the recommended action.
 
 ## Resolve the mode and executor
 
 - `off`: skip that router's evaluation and output; retain the current context or model settings.
-- `ask`: evaluate and present both settings, then stop and wait for the user's natural response even when the current setting appears suitable. Retain the current setting unless the user explicitly requests a change. Provide an exact manual action when useful, but never require a fixed reply keyword. If a verified change is requested, perform each authorized operation when callable and verifiable.
-- `auto`: evaluate and perform each permitted, callable, verifiable operation. Degrade unsupported, unavailable, or user-only operations to an optional user action while continuing authorized work with the current setting. Mixed capability may therefore produce a partially automatic result, but every reported result must identify what actually happened.
+- `ask`: follow [routing UX](routing-ux.md); ask before a justified change or material blocker. Retain and nonblocking defer continue only already authorized work without a routing confirmation. User-selected targets do not need a second confirmation.
+- `auto`: evaluate and perform each permitted, callable, verifiable operation. Use the actual fallback for unsupported, unavailable or user-only operations; continue authorized work only if no material quality or destination blocker remains. Mixed capability may therefore produce a partially automatic result, but every reported result must identify what actually happened.
 
 Only report `applied` after observing evidence that the host completed that exact operation. A direct user request to perform a particular host action is explicit authorization but still does not create missing capability.
 
@@ -196,15 +184,11 @@ Users may inspect or change routing modes directly in normal conversation. Treat
 
 ## Interaction rules
 
-- Present the requested findings or plan before routing advice. The recommendation governs the next substantial phase, not work already completed to produce the plan.
-- In model `ask`, the routing note ends the turn and downstream execution waits for a natural user response. In model `auto`, apply or retain settings according to capability and continue.
-
-- Keep stable context enums in structured evidence. In compact user-facing output, render the recommendation as a plain description in the user's language and omit the raw enum token.
-- Combine pending context and model questions when both recommendations are reliable for the same effective destination.
-- If the destination catalog is unknown, defer model selection visibly and evaluate it after the context is confirmed.
-- `off` emits no result for that router. Every enabled model invocation displays model and reasoning effort, including `CURRENT`, unknown, and deferred states.
-- Every enabled model invocation labels both the minimum sufficient and recommended settings, plus upgrade value and a task-specific reason. Do not collapse the result to one `CURRENT / CURRENT` line merely because current settings are unknown, and do not print unreadable current fields in the compact result.
-- Keep diagnostic provenance in structured evidence. Unless the user asks for diagnostics, the compact result must not mention the probe, fallback/registry source, freshness, surface/account applicability, unreadable current values, confidence scores, internal assessment labels, or mode names. Do not justify the recommendation with discovery mechanics. State only the useful capability outcome: whether the setting was applied automatically or requires the user's control.
+- Follow [routing-ux.md](routing-ux.md) after both enabled assessments. `ask` asks before a change or material blocker; retain and nonblocking defer continue only already authorized work.
+- Present requested findings or a plan before the action-first routing note. Compute both task settings internally; compact and detailed decide how much to display.
+- Keep localized context/window advice visible when context routing is enabled. Omit it for context-off or model-only. Preserve both independent mode decisions.
+- A destination awaiting confirmation is not an evaluated current context. Show deferred destination settings honestly and combine choices only when accurate.
+- Keep source/scope, scores and unreadable current values out of ordinary output; expose diagnostic evidence only on request.
 - When the user questions a recommendation, disclose its actual evidence and limitations. Offer one scoped permission request only if it can unlock a same-surface model read; otherwise do not ask for permission that cannot improve the result.
 - Provide only controls actually known for the current surface. Do not fabricate menu names or commands.
 - A recommendation attached to an improvement plan does not authorize implementation.

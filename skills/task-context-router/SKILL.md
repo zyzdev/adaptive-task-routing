@@ -53,6 +53,8 @@ Resolve this router's mode independently of the model router. A current-turn ins
 
 ## Output
 
+Follow [routing UX](../../shared/routing-ux.md): lead with the context action and reason, and always include a localized yes/no window-switch answer when enabled. A recommended change is not an applied change. In a coordinated run, return the result for one combined note; do not emit a separate block. Continue only authorized work, and never let a retained model suppress a pending handoff or missing destination decision.
+
 Keep `CURRENT`, `HANDOFF`, and `CLEAN` as stable values in structured evidence only. In compact user-facing output, show a plain-language description localized to the user's language and do not append the enum in parentheses. For Traditional Chinese use “留在目前對話,” “切換到新對話並帶入精簡交接,” or “開啟全新對話，不帶入目前脈絡,” as applicable.
 
 ```yaml
@@ -101,7 +103,7 @@ This skill decides **where work runs**. `research-model-router` decides **which 
 
 ```text
 requested analysis or actionable plan → task-context-router → resolve context
-→ research-model-router → resolve model configuration → ask: wait | auto: execute
+→ research-model-router → resolve action and authorization → execute or ask for a real decision
 ```
 
 The [coordinator](../adaptive-task-routing/SKILL.md) owns this full sequence and loads the model router after this Skill returns. This Skill dispatches to the coordinator only when the host selected it for a general task; it never chooses the model itself. A direct context-only request stays context-only.

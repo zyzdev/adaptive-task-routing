@@ -49,18 +49,17 @@ def run(case):
                                        text=True, timeout=180)
             data = json.loads(completed.stdout)
             response = data.get("response", "")
-            context = response.find("【對話設定】")
-            minimum = response.find("【最低足夠 AI 設定】")
-            recommended = response.find("【建議 AI 設定】")
+            note = response[response.find("### Adaptive Task Routing"):]
+            action = re.search(r"維持目前設定|暫時沿用設定|調整 AI 設定|需要你決定|開新對話|開啟全新對話", note)
+            setting = re.search(r"任務適配設定|目前 AI|目前設定[：:]|Model[：:]", note)
             window_answer = bool(re.search(r"是否切換視窗[：:]\s*(?:\*\*)?\s*[是否]", response))
             checks = {
                 "successful_response": completed.returncode == 0 and bool(response),
-                "both_model_settings": 0 <= minimum < recommended,
-                "conversation_visibility": (0 <= context < minimum and window_answer)
-                    if case != "context_off" else context == -1 and not window_answer,
-                "switch_assessment": "切換評估" in response,
+                "action_before_setting": bool(action and setting and action.start() < setting.start()),
+                "conversation_visibility": window_answer if case != "context_off" else not window_answer,
                 "retention_action_consistent": not (
-                    "效益尚未確立" in response and "/model" in response),
+                    ("暫時沿用設定" in note or "維持目前設定" in note) and "/model" in note),
+                "no_artificial_retention_hold": "等你決定是否沿用目前設定" not in note,
                 "fixtures_unchanged": all((workspace / name).read_text() == content
                     for name, content in FIXTURES.items()),
                 "no_execution_artifact": not (workspace / "artifact.txt").exists(),

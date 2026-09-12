@@ -1,5 +1,7 @@
 # Switch-aware routing behavioral tests
 
+> Historical pre-UX evidence. These runs exercised the earlier output and unconditional model-ask hold; they do not validate the action-first UX update. See [UX validation](ux-validation.md).
+
 Date: 2026-09-12 (UTC). Baseline: `8478e7c`. The evidence records hashes of the
 final contract files so the unreleased candidate is distinguishable from the published
 0.4.2 package. These runs use actual model inference; they complement the static tests.

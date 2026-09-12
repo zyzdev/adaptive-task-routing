@@ -1,5 +1,7 @@
 # Gemini conversation-routing regression
 
+> Historical pre-UX evidence. These runs exercised the earlier output and unconditional model-ask hold; they do not validate the action-first UX update. See [UX validation](ux-validation.md).
+
 The user reported a routing note containing both AI settings and a deferred model-switch
 decision, but no conversation recommendation or window-switch answer. The installed startup
 payload already contained the conversation rules. A fresh baseline installed-extension run

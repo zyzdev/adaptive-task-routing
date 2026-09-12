@@ -208,6 +208,7 @@ def validate_matrix(root):
     require(len(set(ids)) == len(ids), "Duplicate surface case ID")
     require({f"R{i:02}" for i in range(1, 11)} <= {c["id"] for c in extra}, "Missing discovery cases")
     require({f"S{i:02}" for i in range(1, 13)} <= {c["id"] for c in extra}, "Missing switching cases")
+    require({f"U{i:02}" for i in range(1, 15)} <= {c["id"] for c in extra}, "Missing UX cases")
     for case in extra:
         require(case["prompt"] and case["setup"] and case["expected"], "Incomplete discovery case")
     require(set(surface_matrix["surfaces"]) == set(SURFACES), "Missing test surface")
@@ -219,12 +220,50 @@ def validate_matrix(root):
                 require(result.get("evidence"), "Executed surface case requires evidence")
 
 
+def validate_ux(root, defaults):
+    """Protect the packaged instruction contract; this is not a behavioral benchmark."""
+    require(defaults.get("presentation") == {
+                "default": "compact", "detailed_on_request": True,
+                "keep_window_answer_visible": True}, "Invalid UX presentation defaults")
+    require(defaults.get("interaction") == {
+                "ask_before_change": True, "retain_requires_confirmation": False,
+                "defer_requires_confirmation": "material_blocker_only",
+                "continuation_requires_task_authorization": True}, "Invalid UX interaction defaults")
+    ux = (root / "shared/routing-ux.md").read_text()
+    require(all(token in ux for token in (
+                "Ask before a change, not after every decision",
+                "Continue already authorized work",
+                "Do not start implementation, regardless of mode or switch decision",
+                "Unknown current model metadata alone is not a quality blocker",
+                "Keep provisionally / 暫時沿用設定",
+                "Need your decision / 需要你決定",
+                "A handoff or clean start can also require a model change",
+                "是否切換視窗", "Task-fit setting", "compact", "detailed")),
+            "Incomplete routing UX contract")
+    for name in SKILLS:
+        require("../../shared/routing-ux.md" in (root / "skills" / name / "SKILL.md").read_text(),
+                f"Missing UX consumer: {name}")
+    require("shared/routing-ux.md" in GEMINI_COORDINATOR_DEPENDENCIES,
+            "Gemini UX dependency missing")
+    stale = ("In ask mode stop after the note", "In `ask`, stop after the blocks",
+             "If model mode is `ask`, stop after the routing note",
+             "目前保留設定；我先停在這裡", "even when the current pair appears suitable")
+    active = [*(root / "skills").rglob("*.md"), *(root / "shared").rglob("*.md")]
+    for path in active:
+        content = path.read_text()
+        require(not any(token in content for token in stale),
+                f"Legacy unconditional ask hold: {path.relative_to(root)}")
+    for reminder in AUTO_ACTIVATION.values():
+        require("retain and nonblocking defer continue already authorized work" in reminder
+                and not any(token in reminder for token in stale), "Host reminder UX mismatch")
+
+
 def validate_source(root):
     required = list(COMMON_FILES) + ["release.json", "shared/defaults.yaml",
                "shared/runtime-routing-policy.md", "shared/runtime-routing-policy.zh-TW.md",
                "tests/trigger-contract.json", "scripts/build_release.py", "scripts/validate_release.py",
                "shared/host-discovery.md", "shared/hosts/openai.md", "shared/hosts/claude.md",
-               "shared/hosts/gemini.md", "shared/gemini-coordinator-runtime.md",
+               "shared/hosts/gemini.md", "shared/gemini-coordinator-runtime.md", "shared/routing-ux.md",
                "shared/model-catalogs/openai-codex-cli.json", SKILL_HELPER]
     for name in required:
         require((root / name).is_file(), f"Missing required file: {name}")
@@ -401,14 +440,9 @@ def validate_source(root):
     gemini_runtime = (root / "shared/gemini-coordinator-runtime.md").read_text()
     require(all(token in gemini_runtime for token in (
                 "A fresh one-prompt session is focused",
-                "### Adaptive Task Routing｜任務資源建議",
-                "以下建議是根據上述計畫的下一階段",
-                "【最低足夠 AI 設定】", "【建議 AI 設定】",
                 "Reasoning：使用模型預設", "Never output Gemini 1.5",
-                "如需採用建議，可用 /model 選擇模型",
                 "Complete and present the requested findings or plan",
-                "The note is incomplete if that final paragraph is omitted",
-                "In `auto`, apply any callable")),
+                "In `auto`, apply any callable", "embedded shared UX contract")),
             "Gemini compact coordinator contract missing")
     model_skill = (root / "skills/research-model-router/SKILL.md").read_text()
     evidence_schema = (root / "skills/research-model-router/references/evidence-schema.md").read_text()
@@ -433,39 +467,28 @@ def validate_source(root):
             "Automatic downgrade conflicts with switching assessment")
     require("### Select the action paragraph" in gemini_runtime
             and "For `retain` or `defer`, do not append `/model`" in gemini_runtime
-            and "目前保留設定；我先停在這裡" in gemini_runtime
+            and "nonblocking defer" in gemini_runtime
             and "Whenever the recommended model may differ" not in gemini_runtime,
             "Gemini retention action conflicts with switch assessment")
     require("### Select the action paragraph" in model_skill
             and "For `retain` or `defer`, do not append `/model`" in model_skill
-            and "目前保留設定；我先停在這裡" in model_skill,
+            and "already authorized work" in model_skill,
             "Model retention action selection missing")
     require(all(token in model_skill for token in
                 ("minimum_sufficient_setting", "recommended_setting",
                  "upgrade_value", "upgrade_reason")),
             "Model router two-tier recommendation contract missing")
-    require("never print `Current: unknown / unknown`" in model_skill
-            and "### Adaptive Task Routing｜任務資源建議" in model_skill
-            and "never emit a second divider or heading" in model_skill
-            and "do not require a fixed confirmation word" in model_skill
-            and "如需採用建議，可使用介面中的模型與推理強度選單調整" in model_skill
-            and "do not include the CLI-only `/model` command" in model_skill
-            and "Do not ask the user to transcribe selector options" in model_skill
-            and "Never output bare Codex-style `low`, `medium`, or `high` as a Gemini setting" in model_skill
-            and "* Reasoning：使用模型預設" in model_skill
-            and "Traditional Chinese must use the exact literal headings" in model_skill
-            and "目前環境無法代為切換模型；Reasoning 使用模型預設" in model_skill
-            and "Put the requested plan or preceding findings before these blocks" in model_skill
-            and "In `ask`, stop after the blocks" in model_skill
-            and "In `auto`, continue authorized downstream work" in model_skill
-            and "reply “continue”" not in model_skill
-            and "回覆「繼續」" not in model_skill
-            and "Never render the schema or internal evidence in ordinary compact output" in model_skill
-            and "## When the user questions a recommendation" in model_skill
-            and "ask once for narrowly scoped read permission only when the current host exposes a concrete path" in model_skill
-            and "do not mention the probe, fallback/registry source" in model_skill
-            and "## Direct-selection dispatch guard" in model_skill
-            and "delegated_from: research-model-router" in model_skill,
+    require(all(token in model_skill for token in (
+                "never print `Current: unknown / unknown`",
+                "never emit a second divider or heading",
+                "do not require a fixed confirmation word",
+                "Do not ask the user to transcribe selector options",
+                "Never output bare Codex-style `low`, `medium`, or `high` as a Gemini setting",
+                "Never render the schema or internal evidence in ordinary compact output",
+                "## When the user questions a recommendation",
+                "ask once for narrowly scoped read permission only when the current host exposes a concrete path",
+                "## Direct-selection dispatch guard", "delegated_from: research-model-router",
+                "../../shared/routing-ux.md", "Task-fit setting / 任務適配設定")),
             "Model router compact action contract missing")
     require(all(token in evidence_schema for token in
                 ("current_configuration:", "model_catalog:", "assessment:",
@@ -473,19 +496,15 @@ def validate_source(root):
                  "runtime_capabilities:", "execution:")),
             "Model router evidence schema missing")
     coordinator = (root / "skills/adaptive-task-routing/SKILL.md").read_text()
-    require("### Adaptive Task Routing｜任務資源建議" in coordinator
-            and "以下建議是根據上述計畫的下一階段" in coordinator
-            and "【對話設定】" in coordinator and "* 建議：留在目前對話" in coordinator
-            and "是否切換視窗" in coordinator
-            and "For a plan-only or analysis-only request" in coordinator
-            and "Present the requested findings and plan before one compact routing note" in coordinator
-            and "If model mode is `ask`, stop after the routing note" in coordinator
-            and "Do not require a fixed confirmation word" in coordinator
-            and "Localize every label and description to the user's language" in coordinator
-            and "never show those English enum tokens" in coordinator
-            and "never surface the probe, fallback/registry source" in coordinator
-            and "coordinator-delegated" in coordinator,
+    require(all(token in coordinator for token in (
+                "### Adaptive Task Routing｜任務資源建議", "是否切換視窗",
+                "For a plan-only or analysis-only request",
+                "Present the requested findings and plan before one compact routing note",
+                "Localize every label and description to the user's language",
+                "coordinator-delegated", "../../shared/routing-ux.md",
+                "only before a proposed environment change or for a material blocker")),
             "Coordinator localized conversation-output contract missing")
+    validate_ux(root, defaults)
     context_skill = (root / "skills/task-context-router/SKILL.md").read_text()
     require("## Direct-selection dispatch guard" in context_skill
             and "delegated_from: task-context-router" in context_skill,

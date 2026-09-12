@@ -63,15 +63,14 @@ choosing those task-based settings. Do not present the registry as live App meta
 and do not mention its use, applicability, freshness, or unreadable values in compact
 user-facing output unless the user explicitly asks for diagnostics.
 
-Catalog discovery never establishes switch capability. In `auto`, switch only when
-the exact model and effort controls are callable, authorized and verifiable. On an
-identified CLI, show `/model` as an optional manual action. On ChatGPT desktop or web
-with a visible model/reasoning selector, show only that selector and do not include
-the CLI-only `/model` command. In `ask`, stop and wait for the user's natural decision without
-requiring a confirmation word. In `auto`, retain the current setting and continue when switching
-is unavailable. `/status` may supply useful user-reported current
-settings, but unreadable current values are omitted from the compact result. Do not make
-further probe attempts in the same gate.
+Catalog discovery never establishes switch capability. Follow [routing UX](../routing-ux.md).
+For retain or nonblocking defer, omit model controls and continue only authorized work without
+routing confirmation. A material blocker requires a useful question. For justified change or an
+explicit target, an identified CLI may show `/model`; ChatGPT desktop/web uses its visible selector.
+In ask, request the pending change once. In auto, use only authorized, callable, verified changes;
+report the actual fallback if unavailable and do not proceed through a material blocker.
+`/status` can supply user-reported settings, not an agent-controlled switch. Omit unreadable current
+values from compact output. Do not repeat discovery within an unchanged gate.
 
 Do not request broader permission during the normal fallback. If the user later
 questions the recommendation, explain whether the result used current runtime data or

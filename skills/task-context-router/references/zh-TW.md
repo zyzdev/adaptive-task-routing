@@ -44,9 +44,13 @@
 
 ```text
 要求的分析或可操作計畫 → task-context-router → 確定 Context
-→ research-model-router → 確定模型設定 → ask：等待｜auto：執行
+→ research-model-router → 確定模型設定 → 依授權與未決事項繼續或詢問
 ```
 
 這個 Skill 決定「在哪裡執行」；`research-model-router` 決定「用多少模型能力執行」。
 
 完整順序由 `adaptive-task-routing` 協調 Skill 負責；本 Skill 只有在宿主誤將一般任務直接分派給子 Skill 時轉交協調入口，本身不呼叫 Model Router。直接的 Context-only 請求只處理 Context。`ask` 的建議被拒絕時，實際工作 Context 仍是目前對話。App 與 CLI 都要逐項確認可操作與可驗證能力，不能只依介面名稱判斷。
+
+## 行動優先顯示
+
+依 [UX 契約](../../../shared/routing-ux.md)，先顯示對話動作及原因，再明確回答是否切換視窗。啟用時精簡版也不省略；關閉不宣稱目前對話適合。模型保留不能蓋過尚待使用者決定的交接。只繼續已授權工作；只要求計畫不代表可以實作。

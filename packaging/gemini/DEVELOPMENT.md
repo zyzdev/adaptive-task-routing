@@ -25,8 +25,7 @@ cross-platform consistency, and test-gap scan without naming the Skill. Confirm 
 classify it as merely informational: the startup context applies the embedded coordinator contract,
 then renders one final response with the findings or plan before the localized `Adaptive Task Routing`
 task-resource divider and routing note, and ends the
-turn in default `ask`. Submit a separate execution request and confirm only `auto` may continue
-through the gate. Explicit activation can be tested separately but remains host-dependent.
+plan-only turn without beginning implementation. Submit a separate execution request and confirm retain/nonblocking defer may continue authorized work in `ask`, while changes require confirmation. Explicit activation can be tested separately but remains host-dependent.
 
 Gemini can limit consent to an activated Skill's directory. The generated coordinator therefore
 contains a self-contained dependency appendix and must not activate sibling Skills during an

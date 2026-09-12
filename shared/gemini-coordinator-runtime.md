@@ -1,62 +1,39 @@
 # Gemini coordinator runtime projection
 
-This compact projection is appended both to the generated coordinator Skill and to the extension
-startup context. It is the complete runtime contract for the coordinated gate. The startup context
-applies it directly for automatic routing, so automatic behavior does not depend on Gemini CLI's
-`activate_skill` executor. Do not activate sibling Skills and do not infer rules from memory.
+This projection and the shared routing UX contract are embedded in both the generated coordinator
+Skill and extension startup context. Apply both directly; automatic routing does not depend on
+`activate_skill`. Do not activate sibling Skills or request external shared files from this path.
 
 ## Sequence
 
-Before classifying a task, handle direct conversational mode commands. Users may inspect or set
-`ask`, `auto`, or `off` without editing files. A named Context or Model command changes only that
-router; an unqualified Adaptive Task Routing mode command changes both independent modes. “This
-time” is turn-local, “from now on” is conversation-local, and an explicit default request persists
-only through a host/user settings store. When persistence is unavailable, keep it conversation-local
-and state that limit. Confirm both effective modes and scope concisely. Do not run routing, model
-discovery, or the branded resource note for a mode-only command. A mode change does not authorize
-implementation. If the same prompt contains substantial work, apply the mode first and continue
-with the sequence below.
+Handle direct conversational mode commands before task classification. A named router changes only
+that router; an unqualified mode command changes both. Both routers default to `ask`. Confirm scope
+and values without running routing for a mode-only command. A mode change does not authorize work.
+Use turn/conversation scope and persist defaults only through a host/user settings store.
 
-1. Treat substantial multi-step analysis, inspection, audits, scans, research, and planning as
-   qualifying work. Complete and present the requested findings or plan first. When that deliverable
-   identifies actionable changes, validation, or follow-on research, those actions are the concrete
-   substantial next phase even if implementation was not requested. A cross-file release-flow,
-   cross-platform consistency, or test-gap scan is not merely informational. If execution is already
-   requested, present a concise actionable plan first without starting mutation or substantial execution.
-2. If context routing is enabled, assess conversation placement for the substantial next phase
-   before model choice. If it is off, retain placement without assessing suitability or rendering
-   the conversation block or window-switch answer.
-3. If model routing is enabled, assess minimum-sufficient and recommended Gemini model settings for that next phase. Both
-   setting blocks must evaluate the same concrete next phase, not the analysis or planning work
-   that has already finished.
-4. Render one complete localized routing note after the requested plan or findings, in this order:
-   a Markdown horizontal rule, the localized level-three `Adaptive Task Routing` resource-guidance
-   heading and introduction, the conversation recommendation with an explicit yes/no window-switch
-   answer and task-specific reason, then both AI-setting blocks and the model switch assessment.
-   An enabled conversation decision must be visible even when it recommends staying. Model retention
-   or deferral does not replace the conversation result; these are independent decisions. Omit a
-   component only when its router is explicitly off or the user requested only the other component.
-5. In `ask`, end the note with the applicable model-control and hold paragraph defined below, then
-   stop and wait for the user's natural response without requiring a fixed keyword. The note is incomplete if that final paragraph is omitted. In `auto`, apply any callable, authorized and
-   verifiable setting, or retain the current setting when switching is unavailable, then continue
-   authorized execution.
-
-Both routers default to `ask`. Skip a router only when its mode is explicitly `off`. Reuse a
-completed gate for an unchanged phase. Never claim a context or model change unless the host
-operation was callable, authorized, performed, and verified.
-
-## Conversation decision
-
-- Stay in the current conversation when it is focused and contains useful requirements or evidence.
-  A fresh one-prompt session is focused; task complexity alone is not a reason to switch.
-- Switch with a concise handoff when relevant evidence exists but accumulated unrelated history,
-  conflicting instructions, or context pressure makes continued work materially less reliable.
-- Start clean only when carrying current content is harmful and no task-specific history is needed.
-
-Never show `CURRENT`, `HANDOFF`, or `CLEAN` in ordinary output.
-Use the complete note below. Staying means “是否切換視窗：否”; a handoff or clean start
-normally means “是否切換視窗：是”, with the appropriate reason and a concise handoff when needed.
-Do not silently treat unavailable context evidence as a completed recommendation to stay.
+1. Treat substantial multi-step analysis, inspection, audits, scans, research and planning as
+   qualifying work. Complete and present the requested findings or plan before its next-phase note.
+   For execution requests, present an actionable plan before mutation or substantial execution.
+   When findings propose concrete changes, validation or follow-on research, route that next phase
+   even if implementation was not requested. Do not invent extra work after a complete answer with
+   no substantial next phase. Reuse an unchanged gate rather than routing every response.
+2. Assess the conversation first when context routing is enabled. Stay when focused requirements
+   or evidence remain useful. A fresh one-prompt session is focused; complexity alone does not
+   justify changing windows. Handoff preserves needed facts while dropping interfering history;
+   clean starts avoid harmful task history. A handoff needs a concise summary, not a transcript.
+   Context-off skips this decision and its visible window answer. Never infer a suitable context
+   from its router being off. Defer unknown destination model choices until the destination is known.
+3. If model routing is enabled, compute both task-based Gemini settings and the switch assessment
+   below for the same concrete next phase. Use the effective context and its continuity rationale.
+4. Follow the embedded shared UX contract: action first inside one routing note, an enabled
+   conversation/window answer, useful native AI settings and the practical next step. Minimum and
+   upgrade value belong in detailed output; switch_value remains diagnostic. A provisional keep
+   must not claim that an unreadable current model is known to be suitable.
+5. In `ask`, pause before a proposed change or a material blocker, not every routing decision.
+   Retain and nonblocking defer continue already authorized work without a routing confirmation.
+   Only-plan requests end with their deliverable; do not implement the plan. In `auto`, apply any callable,
+   authorized, justified and verifiable operation; otherwise report the actual fallback, continuing
+   only when work is authorized and no quality or destination blocker remains. Both-off skips all routing.
 
 ## Gemini model decision
 
@@ -79,52 +56,6 @@ offers meaningful value:
 For substantial cross-platform release, CI, manifest, testing, or supply-chain analysis, use at
 least `Flash` and normally recommend `Pro`. Upgrade value is low, medium, or high based on whether
 the stronger model is likely to change reliability; localize the value and explain it in one sentence.
-
-## Complete routing note
-
-Select the visible blocks from the effective modes before using the example: context `off` removes
-the entire `【對話設定】` block, its window-switch answer and suitability reason; model `off`
-removes both AI-setting blocks, the model switch assessment and model hold. Both `off` produces
-no routing note. A mode confirmation does not substitute for applying these omissions.
-
-For Traditional Chinese with both routers enabled, use this complete example as one note, replacing decisions and reasons
-with the actual assessment. This example retains the conversation and defers a model change;
-choose the appropriate final action under the rules below. Keep every enabled component visible,
-including a no-switch conversation result. For other languages, localize the same structure.
-
-```text
----
-
-### Adaptive Task Routing｜任務資源建議
-
-以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。
-
-【對話設定】
-* 建議：留在目前對話
-* 是否切換視窗：否
-目前對話保留了完成下一階段所需的需求與證據，因此直接繼續。
-
-【最低足夠 AI 設定】
-* Model：Flash
-* Reasoning：使用模型預設
-<one task-specific sentence>
-
-【建議 AI 設定】
-* Model：Pro
-* Reasoning：使用模型預設
-* 升級價值：中。<one task-specific sentence>
-
-切換評估：效益尚未確立，暫不自動調整設定。
-
-目前保留設定；我先停在這裡，等你決定是否沿用目前設定開始下一階段。
-```
-
-Omit unreadable current settings, diagnostics, confidence, registry details, and internal schema.
-Before sending, check that the note contains the conversation recommendation, window-switch answer
-and reason before the two AI-setting blocks whenever both routers are enabled. A model-only note
-is incomplete in that case; repair it before sending, even if model switching is deferred.
-
-## Model action
 
 ### Phase continuity and switching value
 
@@ -149,7 +80,8 @@ actual rules. Unknown cache evidence is not zero cost or certain cache loss. Use
 official rules or actual usage when available; do not start paid probes or warm caches.
 Keep source/time/scope observations session-local and do not persist activity logs.
 
-Keep both task-based setting blocks even when retaining another suitable configuration.
+Keep both task-based settings in structured evidence even when retaining another suitable
+configuration; the shared UX contract controls compact versus detailed visibility.
 `upgrade_value` compares recommended versus minimum sufficient. Separately record
 `switch_assessment` against the observed current pair for that same next phase, with
 `switch_value: low | medium | high | unknown`, `decision: retain | change | defer`, and
@@ -163,50 +95,17 @@ decision require retention or deferral; a clear quality deficit may justify a ch
 despite unknown cache cost, with the tradeoff stated. A deferred switch assessment does
 not make a completed task recommendation an unresolved destination gate.
 
-In `auto`, only `decision: change` permits a router-initiated configuration change,
-still subject to authorized, callable, verifiable operations. For retain or defer, keep
-settings and continue authorized work, stating any material quality limitation. Explicit
-user requests for a particular setting take precedence without an additional routing
-confirmation, but do not create controls. Keep the existing `ask` hold and `off` skip.
-
-After the AI blocks and before the action, add one localized switch-assessment sentence
-with a task reason; use `切換評估：` in Traditional Chinese. For uncertain benefit, say
-“切換評估：效益尚未確立，暫不自動調整設定。” Do not print unreadable current values or
-diagnostic provenance. When retaining or deferring, the action must consistently say
-settings are retained; in `ask` wait for a natural choice without instructing a switch.
-The manual-switch paragraph below applies only to a justified change or an explicit
-user-selected target. Every `ask` note still requires a final action/hold paragraph.
-
 ### Select the action paragraph
 
-Choose the final paragraph from the switch decision, not from whether the current
-model is readable. Unknown current settings require `decision: defer`, so they use
-the retention paragraph. A concrete task-based recommendation alone never selects
-the manual-switch paragraph.
+For `retain` or `defer`, do not append `/model`, selectors or an invitation to apply the target.
+Use the embedded UX contract to distinguish verified keep, provisional keep and a material blocker.
+A nonblocking defer needs no routing confirmation. Unknown model metadata alone is not a blocker.
+A proposed handoff still requires its independent context decision even when the model is retained.
 
-For `retain` or `defer`, do not append `/model`, a selector instruction or an invitation
-to apply the target. In Traditional Chinese `ask`, end with:
-
-```text
-目前保留設定；我先停在這裡，等你決定是否沿用目前設定開始下一階段。
-```
-
-In `auto`, say that settings are retained and continue authorized work without a
-confirmation question. Explicit user requests for a particular setting override the
-retention advice and use the known control when no callable operation exists.
-
-### Manual control when changing
-
-Gemini CLI does not expose an agent-callable, verifiable operation for changing the current model
-through this Skill. Only for `decision: change` or an explicit user-selected target,
-present `/model` as the user control. For a justified change in Traditional Chinese
-`ask` mode, the routing note must end with:
-
-```text
-目前環境無法代為切換模型；Reasoning 使用模型預設。如需採用建議，可用 /model 選擇模型；我先停在這裡，等你決定是否調整，或沿用目前設定開始下一階段。
-```
-
-Stop after the note in `ask`; the user may respond naturally with a changed setting or a request to
-continue with the current one. In `auto`, show `/model` only as an optional control, retain the
-current setting and continue authorized work. In another user language, translate the same action
-and keep `/model` unchanged.
+Gemini CLI does not expose an agent-callable, verifiable current-model switch through this Skill.
+Only for `decision: change` or an explicit user target, provide `/model` as the user control.
+In `ask`, ask the useful change question once. In `auto`, retain the actual setting and continue
+only authorized work without material blockers. Never claim an application or a new conversation
+unless that exact operation was performed and verified. Reasoning uses the model default unless
+an exact native configurable thinking control is known. The shared UX examples are localized to
+Traditional Chinese with `### Adaptive Task Routing｜任務資源建議` and `是否切換視窗`.

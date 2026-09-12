@@ -66,6 +66,11 @@ confidence: 0.00-1.00
 reason: one concise phase-specific explanation
 mode: off | ask | auto
 disposition: skipped | awaiting_user_confirmation | awaiting_user_action | applied | kept_current
+interaction:
+  presentation: compact | detailed
+  continuation: authorized | not_authorized | blocked
+  material_blocker: null | concise quality or destination blocker
+  confirmation_required: true | false
 revisit_at: meaningful next stage transition | null
 runtime_capabilities:
   surface: identified surface or unknown
@@ -83,9 +88,7 @@ execution:
   manual_action: null | surface-specific instruction
 ```
 
-In `ask`, record `disposition: awaiting_user_confirmation` and the matching execution
-status after presenting the settings, even when the current pair appears suitable;
-`manual_action` may hold the surface-specific control. In `auto`, when switching is
+In `ask`, record `awaiting_user_confirmation` only for a pending justified change or a material blocker. Retain and nonblocking defer record `kept_current` / `retained_current`; `interaction.continuation` separately records whether work is authorized. A plan-only completion is not a pending routing confirmation. `manual_action` holds a control only for a justified change or explicit target. In `auto`, when switching is
 unavailable but downstream work remains authorized, record `disposition: kept_current`
 and `execution.status: retained_current` while continuing with the current setting.
 

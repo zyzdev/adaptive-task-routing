@@ -8,17 +8,17 @@ Use these cases for manual or automated forward evaluation. Judge observable dec
 
 **Given:** A substantial debugging request explicitly invokes `adaptive-task-routing`, with both child Skills and shared files available.
 
-**Expect:** For a plan-only or analysis-only request, the requested useful deliverable appears first. For an execution request, an actionable plan appears first. The coordinator then loads the context router, resolves the effective context, and loads the model router for the resulting substantial next phase. The single routing note starts with a divider, a localized `Adaptive Task Routing` task-resource heading, and a one-sentence explanation of its purpose. In default `ask`, the note ends the turn and waits for a natural user response; only `auto` may continue automatically. The coordinator does not make either child decision itself.
+**Expect:** Present the requested findings or actionable plan first. Load and delegate context then model decisions. The single routing note uses a divider, localized brand heading, action, reason, enabled window answer and useful AI setting. In ask, retain/nonblocking defer continue only authorized work; a proposed change or material blocker requires a real decision. The coordinator does not make either child decision itself.
 
-**中文：** 明確要求 `adaptive-task-routing` 處理實質除錯任務，且兩個子 Skill 與共用檔均可用時，只要求計畫或分析就先呈現完整且有用的交付內容；要求執行則先呈現可操作計畫。入口接著載入 Context Router、確定實際 Context，最後為實質下一階段載入 Model Router。單一路由訊息以分隔線、在地化的 `Adaptive Task Routing` 任務資源標題及一句用途說明開始。預設 `ask` 在該訊息後結束回合，等待使用者自然回覆；只有 `auto` 可自動繼續。入口本身不代替子元件做判斷。
+**中文：** 先交付要求的分析或計畫，再依序委派兩個 Router。單一路由区塊先動作、原因，再顯示啟用的視窗答案及有用 AI 設定。ask 只確認變更或關鍵阻礙；保留與非阻礙 defer 只繼續已授權工作。
 
 ## 2. Improvement-plan delivery / 交付改善計畫
 
 **Given:** The user asks only for a substantial cross-file release-flow, cross-platform consistency, and test-gap audit. The completed findings propose a concrete implementation and validation phase.
 
-**Expect:** Do not classify the audit as merely informational or skip routing because implementation was not requested. Present the completed findings and improvement plan first. Follow them with the branded task-resource divider and introduction, then visibly recommend model and effort for the proposed next phase. Default `ask` stops after the recommendation and waits for a natural user response, even when the current setting appears sufficient; it states that the recommendation did not authorize or begin implementation.
+**Expect:** Complete the substantial audit and plan first, then show action-first advice for its concrete next phase. A plan-only request ends with that deliverable without implementation or an artificial keep-current question. Compact preserves enabled conversation/window advice and useful model guidance; detailed can expose both task settings.
 
-**中文：** 使用者只要求實質的跨檔案發布流程、跨平台一致性及測試缺口稽核，而完成的發現包含具體實作與驗證下一階段時，不得把它歸為單純資訊查詢，也不能因尚未要求實作而略過 Routing。應先呈現完整發現與改善計畫，接著以品牌化的任務資源分隔線與說明開始路由區塊，再於回覆結束前顯示該階段的模型與強度建議。預設 `ask` 即使判斷目前設定足夠，也在建議後停止並等待自然回覆；同時說明建議不代表已授權或開始實作。
+**中文：** 完成稽核與計畫後給出精簡建議；只要求計畫不實作，也不製造保留確認問題。對話路由啟用時仍回答是否切換視窗。
 
 ## 3. Context continuity with localized visible advice / 對話延續與在地化建議
 
@@ -26,28 +26,28 @@ Use these cases for manual or automated forward evaluation. Judge observable dec
 no workspace `GEMINI.md`, and no explicit Skill or output-format request. Ask for a document
 consistency and test-gap audit with an improvement plan. With both routers enabled, the completed
 findings must be followed by a visible conversation recommendation, a yes/no window-switch answer
-and reason before the two AI settings, even when the model switch is retained or deferred. Repeat
+and reason before useful AI settings, even when the model switch is retained or deferred. Repeat
 with context routing explicitly off to verify that a conversation assessment is then omitted.
 Do not count a workspace projection test as installed-extension coverage.
 
 **Gemini 安裝版回歸：** 在已安裝 extension 的全新 CLI 對話中，不放工作目錄 `GEMINI.md`、
 不指定 Skill 或輸出格式，要求文件一致性與測試缺口分析及改善計畫。兩個路由均啟用時，
-完整發現之後、兩個 AI 設定之前，必須顯示對話建議、是否切換視窗與原因，即使模型切換
+完整發現之後、必要 AI 設定之前，必須顯示對話建議、是否切換視窗與原因，即使模型切換
 被保留或延後也不能省略。另測明確關閉 Context 時不評估對話；工作目錄投影測試不算安裝版覆蓋。
 
 **Given:** A follow-up depends on definitions and corrections from recent turns, and the running model and effort are both observed and suitable.
 
-**Expect:** Structured evidence records `CURRENT`, while visible output uses a localized plain-language recommendation without the raw context enum. Model routing keeps both task-based settings visible and reports retention of the observed suitable pair separately, without overwriting the minimum or recommended settings. Default model `ask` still ends the turn for the user's natural decision; it does not silently continue because no switch is needed.
+**Expect:** Preserve continuity using a localized window answer and a verified keep action. Keep both task settings in internal evidence; compact may show the observed current pair. Ask does not pause for retention; continue only authorized work. A pending context change remains independent.
 
-**中文：** 後續工作依賴最近回合的定義與修正，而且目前模型與強度均可觀察且適合時，結構化證據記錄留在目前對話的穩定代碼；畫面只顯示在地化白話建議，不顯示英文代碼。模型結果仍須顯示已觀察且適合的具體組合；預設 Model `ask` 仍結束回合等待自然決定，不能因不需切換就直接繼續。
+**中文：** 保留有用脈絡與已確認適任的設定；ask 不為保留而停下，只繼續已授權工作。模型保留不能蓋過未解決的對話決策。
 
 ## 4. Unknown current configuration / 目前設定未知
 
 **Given:** The applicable model catalog, supported effort options and task-relevant capability descriptions are known, but the running model and reasoning effort cannot be read.
 
-**Expect:** Recommend a concrete supported model and effort for the task; do not retain CURRENT/CURRENT solely because current settings are unknown. Current fields and switch necessity remain unknown. In `ask`, present the pair and known control without claiming an upgrade, comparison, or applied change, then stop and wait for a natural user response.
+**Expect:** Unknown current values do not erase an evidenced task-fit pair. Use provisional retention and defer automatic switching without claiming suitability or showing a selector. Ask continues already authorized work if no material blocker exists; a concrete quality/destination blocker requires a useful question, not a generic keep-current confirmation.
 
-**中文：** 適用清單、強度選項及任務相關能力依據已知，但目前模型與推理強度無法讀取時，應給出具體受支援組合，不能僅因現況未知就暫留 `CURRENT/CURRENT`。目前欄位及是否需要切換仍未知；`ask` 顯示組合與已知控制，不宣稱已比較、升級或套用，接著停止並等待自然回覆。
+**中文：** 目前模型未知時用暫時沿用並顯示有依據的任務適配設定，不宣稱適合或附選單。無關鍵阻礙則繼續已授權工作，否則問一個具體問題。
 
 ## 5. Unknown catalog / 模型清單未知
 
@@ -192,3 +192,9 @@ S01–S12 涵蓋適任模型維持、品質缺口、目前設定及成本未知�
 路由關閉／模型專用、推理調整、切回仍可用的快取、剩餘工作攤提、使用者指定設定，
 以及避免階段內反覆切換。新增結果均為 `not_run`；靜態封裝測試不能證明即時路由行為、
 快取命中率或工作成本節省。預期已變更的既有結果重設，歷史證據檔仍只代表當時觀察。
+
+## Action-first UX cases / 行動優先 UX 案例
+
+U01–U14 in `surface-matrix.json` cover authorized keep, provisional continuation, quality blockers, plan-only completion, justified changes, manual-only auto, handoff plus settings, unresolved destinations, independent modes, clean starts, detail requests and explicit targets. These are acceptance specifications, not recorded live passes.
+
+U01–U14 是驗收規格，涵蓋授權、保留、未知、阻礙、交接、獨立模式與詳細顯示；本次僅做離線契約及封裝檢查，不代表三平台模型已通過。

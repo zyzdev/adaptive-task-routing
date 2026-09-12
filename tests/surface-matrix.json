@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "instructions": "Run every case as a fixture on each surface; run real host-specific discovery only on that host. Legacy cases are defined in behavioral-matrix.json. High-level legacy results do not establish per-surface passes. Record host/version, mode, execution host, exact Skill path, model/effort evidence, output and disposition. Static tests and metadata smoke probes are not conversational passes.",
+  "instructions": "Run every case as a fixture on each surface; run real host-specific discovery only on that host. Legacy cases are defined in behavioral-matrix.json. High-level legacy results do not establish per-surface passes. Record host/version, mode, execution host, exact Skill path, model/effort evidence, output and disposition. Static tests and metadata smoke probes are not conversational passes. Current UX expectations are not live-validated; previous reports are historical evidence only. No model calls are needed for static package validation.",
   "cases": [
     {
       "id": "R01",
@@ -35,7 +35,7 @@
       "title": "No probe permission or timeout",
       "setup": "The Codex helper reports codex_state_unwritable in a project-only sandbox. The host may or may not expose approval. A matching unexpired bundled fallback registry is available.",
       "prompt": "Evaluate this fixture using the installed routing Skills: The Codex helper reports codex_state_unwritable in a project-only sandbox. The host may or may not expose approval. A matching unexpired bundled fallback registry is available. Do not mutate real settings.",
-      "expected": "Stop after the permission-limited read without requesting broader access, then read the bundled fallback. On a recognized ChatGPT or Codex surface, use its official cross-surface capability reference to give concrete minimum-sufficient and recommended model/effort pairs plus upgrade value without asking the user to transcribe selector options. Keep account availability unverified internally; omit unreadable current settings and diagnostic details from compact output. If the user later questions the recommendation, disclose the actual source, dates, applicability limit, and task mapping; ask once for narrowly scoped permission only if it unlocks a concrete same-surface model read, and never repeat after decline without a relevant change. Render context advice as a localized plain-language description without raw enum tokens. In auto, require a justified switch assessment before independently verified switch controls; unknown current settings defer automatic switching; otherwise state that the environment cannot switch, show only the model/reasoning selector on ChatGPT desktop or web, use /model only on an identified Codex CLI, retain the current setting, and continue authorized work without requiring a confirmation word."
+      "expected": "Stop after the permission-limited read without requesting broader access, then read the bundled fallback. On a recognized ChatGPT or Codex surface, use its official cross-surface capability reference to compute both task settings and upgrade value internally; show task-fit guidance in compact or both settings in detailed without asking the user to transcribe selector options. Keep account availability unverified internally; omit unreadable current settings and diagnostic details from compact output. If the user later questions the recommendation, disclose the actual source, dates, applicability limit, and task mapping; ask once for narrowly scoped permission only if it unlocks a concrete same-surface model read, and never repeat after decline without a relevant change. Render context advice as a localized plain-language description without raw enum tokens. In auto, require a justified switch assessment before independently verified switch controls; unknown current settings defer automatic switching; otherwise state that the environment cannot switch, show only the model/reasoning selector on ChatGPT desktop or web, use /model only on an identified Codex CLI, retain the current setting, and continue authorized work without requiring a confirmation word."
     },
     {
       "id": "R06",
@@ -70,14 +70,14 @@
       "title": "Read capability is not switch capability",
       "setup": "A complete current catalog and task requirements support a change, but there is no verified write tool.",
       "prompt": "Evaluate this fixture using the installed routing Skills: A complete current catalog and task requirements support a change, but there is no verified write tool. Do not mutate real settings.",
-      "expected": "In ask mode present task-based settings and a consistent switch assessment, then wait for a natural response. In auto require a justified switch before applying any callable verified operation; unavailable controls or retain/defer decisions keep settings while authorized work continues. Read success never becomes applied. Context-only does not probe models."
+      "expected": "A readable catalog is not switch capability. Ask confirms only a proposed change or material blocker. Auto requires justification and verified controls; unsupported operations use the actual fallback. Retain/nonblocking defer continue only authorized work. Plan-only requests end without execution. Context-only never probes models."
     },
     {
       "id": "S01",
       "title": "Suitable configuration / 適任設定",
       "setup": "Current pair is observed and meets the quality floor. A stronger recommended pair offers a modest gain, but setup cost exceeds the benefit over the short remaining phase. Also evaluate the variant where the current pair already equals the recommendation.",
       "prompt": "Evaluate this fixture under the installed routing Skills: Current pair is observed and meets the quality floor. A stronger recommended pair offers a modest gain, but setup cost exceeds the benefit over the short remaining phase. Also evaluate the variant where the current pair already equals the recommendation.",
-      "expected": "Keep both task-based settings independent. Retain the observed suitable pair, report low switch value and continue authorized work in auto even with callable switching tools. If already matching, retain without needing cache estimates. In ask, show the retention assessment and wait for a natural choice; do not instruct a switch."
+      "expected": "Keep both task settings independent in evidence. Retain the observed suitable pair, with low switch value recorded internally. Both ask and auto continue authorized work without retention confirmation, even when controls exist. An already matching pair needs no cache estimate. Compact still answers whether to switch windows when context routing is enabled."
     },
     {
       "id": "S02",
@@ -155,6 +155,104 @@
       "setup": "A completed gate is followed by several tool calls and ordinary follow-ups in the same phase. Later a demanding phase ends; a brief deterministic validation remains.",
       "prompt": "Evaluate this fixture under the installed routing Skills: A completed gate is followed by several tool calls and ordinary follow-ups in the same phase. Later a demanding phase ends; a brief deterministic validation remains.",
       "expected": "Reuse the unchanged gate without repeated discovery or switching. At the genuine boundary reassess remaining benefit, do not automatically downgrade, and prefer retention if savings do not repay costs. Keep observations session-local and do not create persistent activity logs."
+    },
+    {
+      "id": "U01",
+      "title": "Verified keep, authorized execution",
+      "setup": "Both routers ask; context suitable, current pair observed and adequate; short remaining validation already authorized.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Both routers ask; context suitable, current pair observed and adequate; short remaining validation already authorized.",
+      "expected": "Lead with verified keep and reason. Show window answer No and observed current AI. No confirmation or selector; proceed with authorized validation. Minimum and task-fit remain internal."
+    },
+    {
+      "id": "U02",
+      "title": "Provisional keep without a blocker",
+      "setup": "Current model unreadable; catalog applicable; routine bounded checking with validation already authorized.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Current model unreadable; catalog applicable; routine bounded checking with validation already authorized.",
+      "expected": "Provisional keep, no claim of suitability. Keep enabled window advice and useful task-fit pair. No unknown/unknown current fields, selector or routing confirmation; continue checks."
+    },
+    {
+      "id": "U03",
+      "title": "Deferred quality blocker",
+      "setup": "The current model is unknown and previous attempts failed the required validation; the next step cannot be responsibly chosen.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. The current model is unknown and previous attempts failed the required validation; the next step cannot be responsibly chosen.",
+      "expected": "Need your decision with the concrete missing choice and consequence. Pause despite defer, without inventing an observed current pair or asking a generic keep-current question."
+    },
+    {
+      "id": "U04",
+      "title": "Plan-only retention",
+      "setup": "Only analysis and an improvement plan are requested; the resulting gate recommends retain.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Only analysis and an improvement plan are requested; the resulting gate recommends retain.",
+      "expected": "Deliver the plan first, then compact action-first advice with window answer. End without implementing or asking to keep current. Plan completion is not a pending routing confirmation."
+    },
+    {
+      "id": "U05",
+      "title": "Justified change in ask",
+      "setup": "Current pair observed, quality floor unmet, supported target has a justified advantage; model mode ask.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Current pair observed, quality floor unmet, supported target has a justified advantage; model mode ask.",
+      "expected": "Show change action, reason, supported target and one actual change question. Preserve window advice. Do not apply before acceptance or claim application from recommendation."
+    },
+    {
+      "id": "U06",
+      "title": "Auto with a manual-only switch",
+      "setup": "Model auto, change justified; CLI has no callable current-model switch, but remaining bounded work can proceed with validation.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Model auto, change justified; CLI has no callable current-model switch, but remaining bounded work can proceed with validation.",
+      "expected": "Explain the real fallback; show the known manual control for this justified change if useful. Do not say applying or applied; continue only authorized work without a material blocker."
+    },
+    {
+      "id": "U07",
+      "title": "Handoff plus model change",
+      "setup": "Context ask proposes handoff; destination model options are known and a model change is justified.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Context ask proposes handoff; destination model options are known and a model change is justified.",
+      "expected": "Lead with the handoff, show window change pending confirmation, carry only necessary facts and show destination settings. Combine valid pending choices; model retention must not hide context."
+    },
+    {
+      "id": "U08",
+      "title": "Unresolved destination",
+      "setup": "Context change is proposed but destination model options are unknown.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Context change is proposed but destination model options are unknown.",
+      "expected": "Ask for the destination decision, keep the window answer pending and explicitly defer model selection. Do not fabricate current placement suitability or named destination settings."
+    },
+    {
+      "id": "U09",
+      "title": "Context off",
+      "setup": "Context off, Model ask, model decision retain; next-phase execution is authorized.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Context off, Model ask, model decision retain; next-phase execution is authorized.",
+      "expected": "No conversation suitability block or window answer. Show model-only keep with evidence and continue authorized work without claiming both components were assessed."
+    },
+    {
+      "id": "U10",
+      "title": "Model off and both off",
+      "setup": "First run Context ask and Model off; then run both off.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. First run Context ask and Model off; then run both off.",
+      "expected": "Model-off gives only context/window advice without probing or recommending models. Both-off emits no routing note and performs no discovery."
+    },
+    {
+      "id": "U11",
+      "title": "Clean start",
+      "setup": "Context ask recommends clean because prior task history would interfere and no task-history handoff is required.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Context ask recommends clean because prior task history would interfere and no task-history handoff is required.",
+      "expected": "Lead with clean-start action and pending window change. Do not attach old decisions, failed hypotheses or task-history handoff. Supply a self-contained new-task request when needed."
+    },
+    {
+      "id": "U12",
+      "title": "Details on request",
+      "setup": "An unchanged compact gate completed; user requests detailed explanation only.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. An unchanged compact gate completed; user requests detailed explanation only.",
+      "expected": "Reuse the gate without discovery or execution. Show minimum needed, task-fit setting and upgrade rationale. Retain internal recommended_setting field; switch_value appears only for explicit diagnostics."
+    },
+    {
+      "id": "U13",
+      "title": "Explicit target already authorized",
+      "setup": "User explicitly requests a supported setting change; context stays.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. User explicitly requests a supported setting change; context stays.",
+      "expected": "Do not ask another routing confirmation. Apply only if callable and verifiable; otherwise show the exact manual step. Never reinterpret the explicit target as the router recommendation."
+    },
+    {
+      "id": "U14",
+      "title": "Independent mixed modes",
+      "setup": "Context ask proposes handoff, Model auto chooses retain.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Context ask proposes handoff, Model auto chooses retain.",
+      "expected": "Keep the context question and window answer visible. Do not continue into the pending destination merely because the model is retained or auto. Continue only after the effective destination is resolved."
     }
   ],
   "surfaces": {
@@ -344,6 +442,62 @@
         "evidence": null
       },
       "S12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U13": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U14": {
         "status": "not_run",
         "evidence": null
       }
@@ -536,6 +690,62 @@
       "S12": {
         "status": "not_run",
         "evidence": null
+      },
+      "U01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U13": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U14": {
+        "status": "not_run",
+        "evidence": null
       }
     },
     "chatgpt-mobile": {
@@ -724,6 +934,62 @@
         "evidence": null
       },
       "S12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U13": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U14": {
         "status": "not_run",
         "evidence": null
       }
@@ -916,6 +1182,62 @@
       "S12": {
         "status": "not_run",
         "evidence": null
+      },
+      "U01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U13": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U14": {
+        "status": "not_run",
+        "evidence": null
       }
     },
     "codex-cli": {
@@ -1104,6 +1426,62 @@
         "evidence": null
       },
       "S12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U13": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U14": {
         "status": "not_run",
         "evidence": null
       }
@@ -1296,6 +1674,62 @@
       "S12": {
         "status": "not_run",
         "evidence": null
+      },
+      "U01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U13": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U14": {
+        "status": "not_run",
+        "evidence": null
       }
     },
     "gemini-cli": {
@@ -1304,8 +1738,8 @@
         "evidence": null
       },
       "B02": {
-        "status": "pass",
-        "evidence": "docs/evidence/gemini-cli-startup-coordinator.json"
+        "status": "not_run",
+        "evidence": null
       },
       "B03": {
         "status": "not_run",
@@ -1484,6 +1918,62 @@
         "evidence": null
       },
       "S12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U12": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U13": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "U14": {
         "status": "not_run",
         "evidence": null
       }
