@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ### Changed
 
+- Keep Gemini's conversation recommendation and explicit window-switch answer in the main
+  output sequence and a single complete routing example, including when model switching is deferred.
 - Live CLI testing exposed manual-switch prompts after a deferred switch decision.
   Select retention versus manual-control paragraphs explicitly in the model router,
   OpenAI guide and Gemini projection; cover the conflicting-template regression.

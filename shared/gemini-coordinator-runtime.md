@@ -23,14 +23,19 @@ with the sequence below.
    substantial next phase even if implementation was not requested. A cross-file release-flow,
    cross-platform consistency, or test-gap scan is not merely informational. If execution is already
    requested, present a concise actionable plan first without starting mutation or substantial execution.
-2. Assess conversation placement for the substantial next phase before model choice.
-3. Assess minimum-sufficient and recommended Gemini model settings for that next phase. Both
+2. If context routing is enabled, assess conversation placement for the substantial next phase
+   before model choice. If it is off, retain placement without assessing suitability or rendering
+   the conversation block or window-switch answer.
+3. If model routing is enabled, assess minimum-sufficient and recommended Gemini model settings for that next phase. Both
    setting blocks must evaluate the same concrete next phase, not the analysis or planning work
    that has already finished.
-4. Render the localized routing note after the requested plan or findings. Begin it with a Markdown
-   horizontal rule, a localized level-three `Adaptive Task Routing` resource-guidance heading, and
-   one sentence explaining that the following recommendations assess resources for the planned
-   next phase.
+4. Render one complete localized routing note after the requested plan or findings, in this order:
+   a Markdown horizontal rule, the localized level-three `Adaptive Task Routing` resource-guidance
+   heading and introduction, the conversation recommendation with an explicit yes/no window-switch
+   answer and task-specific reason, then both AI-setting blocks and the model switch assessment.
+   An enabled conversation decision must be visible even when it recommends staying. Model retention
+   or deferral does not replace the conversation result; these are independent decisions. Omit a
+   component only when its router is explicitly off or the user requested only the other component.
 5. In `ask`, end the note with the applicable model-control and hold paragraph defined below, then
    stop and wait for the user's natural response without requiring a fixed keyword. The note is incomplete if that final paragraph is omitted. In `auto`, apply any callable, authorized and
    verifiable setting, or retain the current setting when switching is unavailable, then continue
@@ -48,22 +53,10 @@ operation was callable, authorized, performed, and verified.
   conflicting instructions, or context pressure makes continued work materially less reliable.
 - Start clean only when carrying current content is harmful and no task-specific history is needed.
 
-For Traditional Chinese, render exactly this structure with task-specific values and reason:
-
-```text
----
-
-### Adaptive Task Routing｜任務資源建議
-
-以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。
-
-【對話設定】
-* 建議：留在目前對話
-* 是否切換視窗：否
-目前對話保留了完成下一階段所需的需求與證據，因此直接繼續。
-```
-
 Never show `CURRENT`, `HANDOFF`, or `CLEAN` in ordinary output.
+Use the complete note below. Staying means “是否切換視窗：否”; a handoff or clean start
+normally means “是否切換視窗：是”, with the appropriate reason and a concise handoff when needed.
+Do not silently treat unavailable context evidence as a completed recommendation to stay.
 
 ## Gemini model decision
 
@@ -87,9 +80,30 @@ For substantial cross-platform release, CI, manifest, testing, or supply-chain a
 least `Flash` and normally recommend `Pro`. Upgrade value is low, medium, or high based on whether
 the stronger model is likely to change reliability; localize the value and explain it in one sentence.
 
-For Traditional Chinese, render both blocks exactly in this order:
+## Complete routing note
+
+Select the visible blocks from the effective modes before using the example: context `off` removes
+the entire `【對話設定】` block, its window-switch answer and suitability reason; model `off`
+removes both AI-setting blocks, the model switch assessment and model hold. Both `off` produces
+no routing note. A mode confirmation does not substitute for applying these omissions.
+
+For Traditional Chinese with both routers enabled, use this complete example as one note, replacing decisions and reasons
+with the actual assessment. This example retains the conversation and defers a model change;
+choose the appropriate final action under the rules below. Keep every enabled component visible,
+including a no-switch conversation result. For other languages, localize the same structure.
 
 ```text
+---
+
+### Adaptive Task Routing｜任務資源建議
+
+以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。
+
+【對話設定】
+* 建議：留在目前對話
+* 是否切換視窗：否
+目前對話保留了完成下一階段所需的需求與證據，因此直接繼續。
+
 【最低足夠 AI 設定】
 * Model：Flash
 * Reasoning：使用模型預設
@@ -101,9 +115,14 @@ For Traditional Chinese, render both blocks exactly in this order:
 * 升級價值：中。<one task-specific sentence>
 
 切換評估：效益尚未確立，暫不自動調整設定。
+
+目前保留設定；我先停在這裡，等你決定是否沿用目前設定開始下一階段。
 ```
 
 Omit unreadable current settings, diagnostics, confidence, registry details, and internal schema.
+Before sending, check that the note contains the conversation recommendation, window-switch answer
+and reason before the two AI-setting blocks whenever both routers are enabled. A model-only note
+is incomplete in that case; repair it before sending, even if model switching is deferred.
 
 ## Model action
 

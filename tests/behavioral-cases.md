@@ -22,6 +22,19 @@ Use these cases for manual or automated forward evaluation. Judge observable dec
 
 ## 3. Context continuity with localized visible advice / 對話延續與在地化建議
 
+**Gemini installed-extension regression:** Run a fresh CLI session with the installed extension,
+no workspace `GEMINI.md`, and no explicit Skill or output-format request. Ask for a document
+consistency and test-gap audit with an improvement plan. With both routers enabled, the completed
+findings must be followed by a visible conversation recommendation, a yes/no window-switch answer
+and reason before the two AI settings, even when the model switch is retained or deferred. Repeat
+with context routing explicitly off to verify that a conversation assessment is then omitted.
+Do not count a workspace projection test as installed-extension coverage.
+
+**Gemini 安裝版回歸：** 在已安裝 extension 的全新 CLI 對話中，不放工作目錄 `GEMINI.md`、
+不指定 Skill 或輸出格式，要求文件一致性與測試缺口分析及改善計畫。兩個路由均啟用時，
+完整發現之後、兩個 AI 設定之前，必須顯示對話建議、是否切換視窗與原因，即使模型切換
+被保留或延後也不能省略。另測明確關閉 Context 時不評估對話；工作目錄投影測試不算安裝版覆蓋。
+
 **Given:** A follow-up depends on definitions and corrections from recent turns, and the running model and effort are both observed and suitable.
 
 **Expect:** Structured evidence records `CURRENT`, while visible output uses a localized plain-language recommendation without the raw context enum. Model routing keeps both task-based settings visible and reports retention of the observed suitable pair separately, without overwriting the minimum or recommended settings. Default model `ask` still ends the turn for the user's natural decision; it does not silently continue because no switch is needed.
