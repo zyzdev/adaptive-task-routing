@@ -78,6 +78,35 @@ The present conversation state is the fallback; no second fixed strategy is requ
 
 Modes can be inspected or changed directly in conversation. For example, “Set Adaptive Task Routing to auto for this conversation” changes both independent routers, while “Set model routing to ask” changes only the model router. The AI confirms the effective values and scope without running a routing gate. Persistent defaults are written only through a host- or user-managed settings store; the installed package is never used as a preference store. See the [complete output example](docs/usage/README.md#what-you-will-see).
 
+## What you will see
+
+The requested findings or plan appear first. A qualifying next phase then adds a clearly separated resource recommendation:
+
+```text
+Plan
+1. Check the release scripts and platform manifests.
+2. Review CI and test gaps.
+
+---
+
+### Adaptive Task Routing | Task resource guidance
+
+[Conversation setting]
+* Recommendation: Stay in this conversation
+* Switch windows: No
+
+[Minimum sufficient AI setting]
+* Model: GPT-5.6 Sol
+* Reasoning: high
+
+[Recommended AI setting]
+* Model: GPT-6 Astra
+* Reasoning: high
+* Upgrade value: Medium. Better for subtle cross-platform dependencies.
+```
+
+Exact values and the final action depend on the task, host, available models, and routing mode. See the [full English example](docs/usage/README.md#what-you-will-see).
+
 ## Runtime behavior
 
 On first use, the plugin loads a capability snapshot from a host- or user-managed settings store. It detects and records missing or stale operations when persistence is available. Later gates perform only a lightweight freshness check; cached observations remain hints and are invalidated by surface, session, permission, tool, host, catalog, or operation-result changes.

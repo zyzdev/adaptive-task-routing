@@ -1,76 +1,69 @@
-# Adaptive Task Routing — Gemini CLI
+# Adaptive Task Routing for Gemini CLI
 
-[English](../../docs/usage/README.md) · [繁體中文](../../docs/usage/README.zh-TW.md) · [简体中文](../../docs/usage/README.zh-CN.md) · [日本語](../../docs/usage/README.ja.md) · [한국어](../../docs/usage/README.ko.md)
+[English](README.md) · [繁體中文](README.zh-TW.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [한국어](README.ko.md)
 
-This skills-based extension contains adaptive-task-routing, task-context-router,
-and research-model-router under skills/. It uses the same descriptions and routing
-policy as the other platforms. Both independent routers default to ask.
+Adaptive Task Routing helps Gemini choose the conversation context and model for the next substantial phase. Gemini presents the requested findings or plan first, then shows the resource recommendation.
 
-## Local installation
-
-Extract this ZIP into an adaptive-task-routing directory, keeping gemini-extension.json
-at its root. Retain skills/ and shared/ together.
+## Install
 
 ```bash
-gemini extensions validate /absolute/path/to/adaptive-task-routing
-gemini extensions link /absolute/path/to/adaptive-task-routing
-gemini extensions list
-gemini skills list
+gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini --ref v0.4.2
 ```
 
-Linking changes the local extension registry. Use install instead of link if you
-want a copied installation. Start a new interactive session and inspect /skills list.
-The manifest loads the packaged `GEMINI.md` after restart. Submit a cross-file release-flow,
-cross-platform consistency, and test-gap scan without naming the Skill. Confirm Gemini does not
-classify it as merely informational: the startup context applies the embedded coordinator contract,
-then renders one final response with the findings or plan before the localized `Adaptive Task Routing`
-task-resource divider and routing note, and ends the
-turn in default `ask`. Submit a separate execution request and confirm only `auto` may continue
-through the gate. Explicit activation can be tested separately but remains host-dependent.
+Restart Gemini CLI after installation and confirm the extension with `gemini extensions list`.
 
-Gemini can limit consent to an activated Skill's directory. The generated coordinator therefore
-contains a self-contained dependency appendix and must not activate sibling Skills during an
-explicitly activated gate. The startup `GEMINI.md` also embeds the same compact contract because
-Gemini CLI 0.59.0 can advertise `activate_skill` to the model while returning
-`tool_not_registered` when that call executes. Automatic routing uses the startup contract directly;
-the packaged Skill remains available for hosts where explicit activation executes correctly. A
-missing or truncated appendix must produce an incomplete gate, not an invented routing result.
+## First use
 
-## Contents and evaluation
+Start a new session and ask a substantial question, such as:
 
-- [Architecture](../../docs/architecture.md)
-- [Traditional Chinese architecture](../../docs/architecture.zh-TW.md)
-- [Full example](../../docs/full-example.md)
-- [Behavioral cases and cross-platform matrix](../../tests/behavioral-cases.md)
-- [Shared policy](../../shared/runtime-routing-policy.md)
-- [Defaults](../../shared/defaults.yaml)
-- [Changelog](../../CHANGELOG.md)
+> Audit this project's release workflow and propose an implementation plan for the main risks.
 
-Version is in gemini-extension.json. No MCP service, executable hook or credential prompt is bundled.
-The common model Skill carries an optional Codex-only Python helper, not a Gemini
-probe or startup executable. Real model/context changes depend on observed host capabilities.
+If explicit activation is needed, ask Gemini to use the `adaptive-task-routing` Skill.
 
-## Model discovery
+## Change modes in conversation
 
-Follow the [Gemini guide](../../shared/hosts/gemini.md). Use current host metadata or the
-user's `/model` inventory, then the dated Gemini CLI alias registry when live metadata
-is unavailable. Auto is a configured policy, not a fixed execution model. Do not
-equate thinking budgets or display toggles with Codex reasoning levels; without an
-observed native control, Reasoning is reported as the model default.
-Unknown settings still yield task capability guidance. Record acceptance in the
-[surface matrix](../../tests/surface-matrix.json); do not run the Codex helper here.
+- “Set Adaptive Task Routing to auto for this conversation.”
+- “Set model routing to ask.”
+- “Turn context routing off for this task.”
+- “What routing modes are active?”
 
-## Distribution and gallery
+An unqualified mode change applies to both independent routers. The default is `ask`; `auto` applies only changes Gemini can perform and verify; `off` skips the selected router.
 
-After owner approval, publish only this generated extension tree at the root of a
-public GitHub repository. Add the topic gemini-cli-extension to request automatic
-gallery discovery. Keep gemini-extension.json at the absolute repository root.
-Users install the repository URL, optionally with --ref for a tag.
+## What you will see
 
-If using GitHub Releases, attach only the Gemini ZIP as the generic extension archive.
-Do not attach the OpenAI and Claude ZIPs to that extension release: multiple generic
-archives can make asset selection ambiguous. The ZIP has no wrapper folder, as required.
-Gallery listing depends on validation and crawler processing; no listing was submitted here.
+```text
+Plan
+1. Inspect release scripts and manifests.
+2. Review CI and test gaps.
 
-See the official [release guide](https://geminicli.com/docs/extensions/releasing/)
-and [extension reference](https://geminicli.com/docs/extensions/reference/).
+---
+
+### Adaptive Task Routing | Task resource guidance
+
+[Conversation setting]
+* Recommendation: Stay in this conversation
+* Switch windows: No
+
+[Minimum sufficient AI setting]
+* Model: Flash
+* Reasoning: Model default
+
+[Recommended AI setting]
+* Model: Pro
+* Reasoning: Model default
+* Upgrade value: Medium. Better for subtle cross-file dependencies.
+
+This environment cannot change the model for you. Use /model if you want the recommended model. I will pause while you decide whether to adjust it or continue with the current setting.
+```
+
+The model aliases are illustrative and resolve according to the current Gemini account. Gemini shows an exact thinking control only when the session exposes one; otherwise reasoning remains the model default. In `ask`, Gemini stops after this block; `auto` may continue already authorized work.
+
+## Remove
+
+```bash
+gemini extensions uninstall adaptive-task-routing
+```
+
+Restart Gemini CLI after removal.
+
+For validation and gallery details, see [Development notes](DEVELOPMENT.md). The canonical source is the [main project](https://github.com/zyzdev/adaptive-task-routing).
