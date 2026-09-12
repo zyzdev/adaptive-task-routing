@@ -186,7 +186,7 @@ Users may inspect or change routing modes directly in normal conversation. Treat
 
 - Follow [routing-ux.md](routing-ux.md) after both enabled assessments. `ask` asks before a change or material blocker; retain and nonblocking defer continue only already authorized work.
 - Present requested findings or a plan before the action-first routing note. Compute both task settings internally; compact and detailed decide how much to display.
-- Keep localized context/window advice visible when context routing is enabled. Omit it for context-off or model-only. Preserve both independent mode decisions.
+- Keep localized context/conversation advice visible when context routing is enabled. Omit it for context-off or model-only. Preserve both independent mode decisions.
 - A destination awaiting confirmation is not an evaluated current context. Show deferred destination settings honestly and combine choices only when accurate.
 - Keep source/scope, scores and unreadable current values out of ordinary output; expose diagnostic evidence only on request.
 - When the user questions a recommendation, disclose its actual evidence and limitations. Offer one scoped permission request only if it can unlock a same-surface model read; otherwise do not ask for permission that cannot improve the result.

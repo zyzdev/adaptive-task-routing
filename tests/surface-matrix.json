@@ -77,7 +77,7 @@
       "title": "Suitable configuration / 適任設定",
       "setup": "Current pair is observed and meets the quality floor. A stronger recommended pair offers a modest gain, but setup cost exceeds the benefit over the short remaining phase. Also evaluate the variant where the current pair already equals the recommendation.",
       "prompt": "Evaluate this fixture under the installed routing Skills: Current pair is observed and meets the quality floor. A stronger recommended pair offers a modest gain, but setup cost exceeds the benefit over the short remaining phase. Also evaluate the variant where the current pair already equals the recommendation.",
-      "expected": "Keep both task settings independent in evidence. Retain the observed suitable pair, with low switch value recorded internally. Both ask and auto continue authorized work without retention confirmation, even when controls exist. An already matching pair needs no cache estimate. Compact still answers whether to switch windows when context routing is enabled."
+      "expected": "Keep both task settings independent in evidence. Retain the observed suitable pair, with low switch value recorded internally. Both ask and auto continue authorized work without retention confirmation, even when controls exist. An already matching pair needs no cache estimate. Compact still answers whether a new conversation is needed when context routing is enabled."
     },
     {
       "id": "S02",
@@ -133,7 +133,7 @@
       "title": "Return to a warm model / 切回已有快取的模型",
       "setup": "A session switches from model A to B and considers returning to A. Scoped usage shows A still has an eligible matching unexpired prefix; conversation history is also supplied.",
       "prompt": "Evaluate this fixture under the installed routing Skills: A session switches from model A to B and considers returning to A. Scoped usage shows A still has an eligible matching unexpired prefix; conversation history is also supplied.",
-      "expected": "Do not equate each switch with full cold start or claim that a prior cache miss erased conversation content. Use the observed reusable prefix without promising all content is cached. Same conversation or new window alone does not determine reuse."
+      "expected": "Do not equate each switch with full cold start or claim that a prior cache miss erased conversation content. Use the observed reusable prefix without promising all content is cached. Same conversation or new conversation alone does not determine reuse."
     },
     {
       "id": "S10",
@@ -161,14 +161,14 @@
       "title": "Verified keep, authorized execution",
       "setup": "Both routers ask; context suitable, current pair observed and adequate; short remaining validation already authorized.",
       "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Both routers ask; context suitable, current pair observed and adequate; short remaining validation already authorized.",
-      "expected": "Lead with verified keep and reason. Show window answer No and observed current AI. No confirmation or selector; proceed with authorized validation. Minimum and task-fit remain internal."
+      "expected": "Lead with verified keep and reason. Show one sentence saying no new conversation is needed and observed current AI. No confirmation or selector; proceed with authorized validation. Minimum and task-fit remain internal. Use the exact heading ### Adaptive Task Routing without a subtitle. Verified keep never shows a task-fit alternative in compact; detail requests can reveal it."
     },
     {
       "id": "U02",
       "title": "Provisional keep without a blocker",
-      "setup": "Current model unreadable; catalog applicable; routine bounded checking with validation already authorized.",
-      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Current model unreadable; catalog applicable; routine bounded checking with validation already authorized.",
-      "expected": "Provisional keep, no claim of suitability. Keep enabled window advice and useful task-fit pair. No unknown/unknown current fields, selector or routing confirmation; continue checks."
+      "setup": "Current model unreadable; catalog applicable; routine bounded checking with validation already authorized. Also evaluate a known current pair with uncertain switching cost or benefit.",
+      "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Current model unreadable; catalog applicable; routine bounded checking with validation already authorized. Also evaluate a known current pair with uncertain switching cost or benefit.",
+      "expected": "Provisional keep, no claim of suitability. Keep enabled conversation advice and useful task-fit pair. No unknown/unknown current fields, selector or routing confirmation; continue checks. Provisional retention is not limited to unknown model metadata; keep uncertainty in prose and omit a Current AI: Unknown field."
     },
     {
       "id": "U03",
@@ -182,14 +182,14 @@
       "title": "Plan-only retention",
       "setup": "Only analysis and an improvement plan are requested; the resulting gate recommends retain.",
       "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Only analysis and an improvement plan are requested; the resulting gate recommends retain.",
-      "expected": "Deliver the plan first, then compact action-first advice with window answer. End without implementing or asking to keep current. Plan completion is not a pending routing confirmation."
+      "expected": "Deliver the plan first, then compact action-first advice with conversation advice. End without implementing or asking to keep current. Plan completion is not a pending routing confirmation."
     },
     {
       "id": "U05",
       "title": "Justified change in ask",
       "setup": "Current pair observed, quality floor unmet, supported target has a justified advantage; model mode ask.",
       "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Current pair observed, quality floor unmet, supported target has a justified advantage; model mode ask.",
-      "expected": "Show change action, reason, supported target and one actual change question. Preserve window advice. Do not apply before acceptance or claim application from recommendation."
+      "expected": "Show change action, reason, supported target and one actual change question. Preserve conversation advice. Do not apply before acceptance or claim application from recommendation. Ask only whether to use the named target, not whether to revise the plan. After a decline, extra validation is an option only when feasible and sufficient; otherwise identify the material blocker."
     },
     {
       "id": "U06",
@@ -203,35 +203,35 @@
       "title": "Handoff plus model change",
       "setup": "Context ask proposes handoff; destination model options are known and a model change is justified.",
       "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Context ask proposes handoff; destination model options are known and a model change is justified.",
-      "expected": "Lead with the handoff, show window change pending confirmation, carry only necessary facts and show destination settings. Combine valid pending choices; model retention must not hide context."
+      "expected": "Lead with the handoff, show new-conversation proposal pending confirmation, carry only necessary facts and show destination settings. Combine valid pending choices; model retention must not hide context."
     },
     {
       "id": "U08",
       "title": "Unresolved destination",
       "setup": "Context change is proposed but destination model options are unknown.",
       "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Context change is proposed but destination model options are unknown.",
-      "expected": "Ask for the destination decision, keep the window answer pending and explicitly defer model selection. Do not fabricate current placement suitability or named destination settings."
+      "expected": "Ask for the destination decision, keep the conversation advice pending and explicitly defer model selection. Do not fabricate current placement suitability or named destination settings."
     },
     {
       "id": "U09",
       "title": "Context off",
       "setup": "Context off, Model ask, model decision retain; next-phase execution is authorized.",
       "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Context off, Model ask, model decision retain; next-phase execution is authorized.",
-      "expected": "No conversation suitability block or window answer. Show model-only keep with evidence and continue authorized work without claiming both components were assessed."
+      "expected": "No conversation suitability block or conversation advice. Show model-only keep with evidence and continue authorized work without claiming both components were assessed."
     },
     {
       "id": "U10",
       "title": "Model off and both off",
       "setup": "First run Context ask and Model off; then run both off.",
       "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. First run Context ask and Model off; then run both off.",
-      "expected": "Model-off gives only context/window advice without probing or recommending models. Both-off emits no routing note and performs no discovery."
+      "expected": "Model-off gives only context advice without probing or recommending models. Both-off emits no routing note and performs no discovery."
     },
     {
       "id": "U11",
       "title": "Clean start",
       "setup": "Context ask recommends clean because prior task history would interfere and no task-history handoff is required.",
       "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Context ask recommends clean because prior task history would interfere and no task-history handoff is required.",
-      "expected": "Lead with clean-start action and pending window change. Do not attach old decisions, failed hypotheses or task-history handoff. Supply a self-contained new-task request when needed."
+      "expected": "Lead with clean-start action and pending new-conversation proposal. Do not attach old decisions, failed hypotheses or task-history handoff. Supply a self-contained new-task request when needed."
     },
     {
       "id": "U12",
@@ -252,7 +252,7 @@
       "title": "Independent mixed modes",
       "setup": "Context ask proposes handoff, Model auto chooses retain.",
       "prompt": "Evaluate this hypothetical fixture under the routing UX contract; do not change real settings. Context ask proposes handoff, Model auto chooses retain.",
-      "expected": "Keep the context question and window answer visible. Do not continue into the pending destination merely because the model is retained or auto. Continue only after the effective destination is resolved."
+      "expected": "Keep the context question and conversation advice visible. Do not continue into the pending destination merely because the model is retained or auto. Continue only after the effective destination is resolved."
     }
   ],
   "surfaces": {

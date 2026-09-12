@@ -65,6 +65,20 @@ class ValidateReleaseTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Invalid UX interaction defaults"):
             VALIDATOR.validate_source(self.root)
 
+    def test_rejects_losing_verified_keep_display_rule(self):
+        path = self.root / "shared/routing-ux.md"
+        path.write_text(path.read_text().replace(
+            "Verified keep in compact shows only the observed current AI pair", "Keep may show alternatives"))
+        with self.assertRaisesRegex(ValueError, "Incomplete compact polish contract"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_rejects_losing_target_only_question_rule(self):
+        path = self.root / "shared/routing-ux.md"
+        path.write_text(path.read_text().replace(
+            "ask only whether to use the named target", "ask about the setting and plan together"))
+        with self.assertRaisesRegex(ValueError, "Incomplete compact polish contract"):
+            VALIDATOR.validate_source(self.root)
+
     def test_rejects_compact_hiding_window_answer(self):
         import yaml
         path = self.root / "shared/defaults.yaml"

@@ -27,6 +27,12 @@ authorization means the requested deliverable is complete, not that routing need
 Do not require a fixed confirmation word. An explicit user-selected setting or acceptance is
 already authorization for that setting; do not ask for it again.
 
+For an ordinary setting change, ask only whether to use the named target: “Use <model / effort>?”
+or “要改用 <模型／推理設定> 嗎？” Do not also ask to revise the plan. Broader choices belong
+only to a material blocker. After a decline, continue only if the current approach can meet the
+quality requirement; promise extra validation only when a concrete feasible check addresses the
+limitation. More checking is not a blanket remedy for an inadequate model.
+
 `auto` still requires justified, authorized, callable and verifiable operations. A recommendation
 is not an applied change. When an operation cannot be performed, explain the practical fallback;
 continue in the effective context only if work is authorized and no material blocker remains.
@@ -36,8 +42,9 @@ handoff and wait for the user to resume there. `off` skips that router entirely.
 ## Compose one action-first routing note
 
 Present the user's requested findings or actionable plan first. Within the routing note, use:
-Markdown divider → localized `Adaptive Task Routing` heading → action → one-sentence reason
-→ conversation/window answer → useful AI setting → necessary control or next step.
+Markdown divider → exact `### Adaptive Task Routing` heading → action → one-sentence reason
+→ conversation advice → useful AI setting → necessary control or next step.
+The heading has no localized subtitle. Localize the action and body instead.
 Do not put a second explanation of the plan before the action. Localize all labels and keep
 raw enums and internal scores out of ordinary output.
 
@@ -59,10 +66,15 @@ Select the action from the combined effective result, not just the model decisio
 A handoff or clean start can also require a model change. Lead with the context action and
 include the destination setting when known; otherwise say it will be assessed there. Combine
 pending choices only when accurate for the same destination. Never hide an enabled context
-result behind model retention. The practical window answer stays visible in compact output:
-`是否切換視窗：否` for staying, `是，待你確認` for a proposed change, or `待確認` when unresolved.
-Distinguish a recommended window change from one already completed. Omit the entire conversation
-assessment and window answer for context-off or an explicit model-only request.
+result behind model retention. Compact includes one plain conversation sentence, not a separate
+new-conversation field. Use “對話：留在目前對話，不需開新對話。” for staying;
+“對話：建議開新對話並交接必要脈絡，待你確認。” for a proposed handoff; and
+“對話：建議開啟全新對話，不帶入目前脈絡，待你確認。” for a proposed clean start.
+Say the destination is awaiting a decision when unresolved. Translate these meanings for other
+languages using conversation/session terms appropriate to the host, not desktop window controls.
+Distinguish a proposal from a completed operation; “待你確認” applies only when confirmation is
+pending, not after acceptance or a verified auto change. Omit the entire conversation assessment
+for context-off or an explicit model-only request.
 
 ## Compact and detailed
 
@@ -71,11 +83,15 @@ preferences, not extra routing modes. Apply turn/conversation scope like other p
 persist a default only through an available host/user settings store, never in the installed
 package. Asking for details reuses the current gate and does not authorize work or repeat probing.
 
-- Compact shows the action, reason, enabled conversation/window answer and useful task-fit model
-  and native reasoning setting. For a verified keep, the observed current pair can replace the
-  task-fit line if showing an alternative would not help the user's decision. Otherwise keep
-  the supported task-fit pair visible, including provisional retention. Mark it “not a request
-  to switch now” when needed. An unavailable model component is reported, not silently omitted.
+- Verified keep in compact shows only the observed current AI pair, never a task-fit alternative.
+  Move task-fit settings and their comparison to detailed output. Keep the action, reason and
+  enabled conversation sentence. Model-off never adds an AI setting, even for a context keep.
+- Provisional keep can arise from unknown current settings or uncertain switching costs/benefits.
+  It is not limited to missing model metadata. Show a supported task-fit pair when useful; a known
+  current pair may also be shown without certifying suitability. If current settings are unknown,
+  explain that briefly in prose instead of a `Current AI: Unknown` field. Do not promise to wait
+  for metadata when other evidence could justify a later decision. An unavailable model component
+  is reported, not silently omitted.
 - Detailed adds the observed current pair when useful, **Minimum needed / 最低足夠設定**,
   **Task-fit setting / 任務適配設定**, upgrade value and concise comparison rationale. Both task
   settings are still computed and kept in structured evidence even when compact omits them.
@@ -89,12 +105,12 @@ do not copy a positive suitability claim into an unknown-baseline result.
 ```text
 ---
 
-### Adaptive Task Routing｜任務資源建議
+### Adaptive Task Routing
 
 ✓ 維持目前設定
 目前設定足以完成剩餘核對，切換帶來的改善有限。
 
-對話：留在目前對話；是否切換視窗：否。
+對話：留在目前對話，不需開新對話。
 目前 AI：<已觀察的模型與原生推理設定>。
 
 不需操作，接著執行已授權的核對。
@@ -103,12 +119,12 @@ do not copy a positive suitability claim into an unknown-baseline result.
 ```text
 ---
 
-### Adaptive Task Routing｜任務資源建議
+### Adaptive Task Routing
 
 暫時沿用設定
 切換效益尚未確立，先沿用設定完成可驗證的檢查。
 
-對話：留在目前對話；是否切換視窗：否。
+對話：留在目前對話，不需開新對話。
 任務適配設定：<有依據的模型與原生推理設定>，不代表現在需要切換。
 
 分析與計畫已交付；尚未開始實作。

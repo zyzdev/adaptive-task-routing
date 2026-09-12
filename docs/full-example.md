@@ -15,12 +15,12 @@ The plan is to defer optional services, parallelize independent reads and valida
 
 ---
 
-### Adaptive Task Routing | Task resource guidance
+### Adaptive Task Routing
 
 ✓ Keep current
 The current setup meets the requirements; changing it offers little benefit for the remaining work.
 
-Conversation: Stay here. Switch windows: No.
+Conversation: Stay here; no new conversation needed.
 Current AI: fixture-balanced / medium.
 
 The analysis and plan are complete. Implementation has not started.
@@ -34,16 +34,17 @@ approved check. A completed plan is not a material routing blocker.
 
 The catalog supports `fixture-balanced / high`, but the current model is unreadable. A bounded
 check is already authorized and its results can be verified; no material quality blocker exists.
+A known current pair with uncertain switching cost or benefit can also warrant provisional retention.
 
 ```text
 ---
 
-### Adaptive Task Routing | Task resource guidance
+### Adaptive Task Routing
 
 Keep provisionally
 The benefit of switching is not established; the bounded checks can proceed with validation.
 
-Conversation: Stay here. Switch windows: No.
+Conversation: Stay here; no new conversation needed.
 Task-fit setting: fixture-balanced / high; this is not a request to switch now.
 
 Continuing the authorized checks.
@@ -61,19 +62,19 @@ justified advantage. In `ask`, propose the change before applying it:
 ```text
 ---
 
-### Adaptive Task Routing | Task resource guidance
+### Adaptive Task Routing
 
 Change AI setting
 The next phase requires validation that the observed current setup has not handled reliably.
 
-Conversation: Stay here. Switch windows: No.
+Conversation: Stay here; no new conversation needed.
 Task-fit setting: fixture-balanced / high.
 
-Would you like to apply this setting, or revise the next phase?
+Use fixture-balanced / high?
 ```
 
 If a new conversation is also recommended, lead with **New conversation with handoff** and answer
-“Switch windows: Yes, pending your decision.” Carry only the objective, confirmed findings, API
+“Conversation: Start a new conversation with the necessary handoff, pending your decision.” Carry only the objective, confirmed findings, API
 constraints, relevant artifacts and next step. Show destination settings only when supported
 there; otherwise defer model selection explicitly. A retained model never settles the context
 question. A clean start carries no old task-history handoff.
@@ -87,6 +88,6 @@ routing confirmation.
 
 A detail request reuses the gate and adds minimum needed, task-fit settings and upgrade rationale.
 The internal `recommended_setting` name stays compatible. Switch scores and diagnostic provenance
-are not ordinary detailed output. Context-off removes the entire conversation/window assessment;
+are not ordinary detailed output. Context-off removes the entire conversation assessment;
 Model-off removes model guidance and controls; both-off emits no routing note. Compact/detailed
 are display preferences, not new modes.

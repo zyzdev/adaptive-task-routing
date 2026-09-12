@@ -19,14 +19,14 @@ Use turn/conversation scope and persist defaults only through a host/user settin
    no substantial next phase. Reuse an unchanged gate rather than routing every response.
 2. Assess the conversation first when context routing is enabled. Stay when focused requirements
    or evidence remain useful. A fresh one-prompt session is focused; complexity alone does not
-   justify changing windows. Handoff preserves needed facts while dropping interfering history;
+   justify a new conversation. Handoff preserves needed facts while dropping interfering history;
    clean starts avoid harmful task history. A handoff needs a concise summary, not a transcript.
-   Context-off skips this decision and its visible window answer. Never infer a suitable context
+   Context-off skips this decision and its visible conversation advice. Never infer a suitable context
    from its router being off. Defer unknown destination model choices until the destination is known.
 3. If model routing is enabled, compute both task-based Gemini settings and the switch assessment
    below for the same concrete next phase. Use the effective context and its continuity rationale.
-4. Follow the embedded shared UX contract: action first inside one routing note, an enabled
-   conversation/window answer, useful native AI settings and the practical next step. Minimum and
+4. Follow the embedded shared UX contract: action first inside one routing note, enabled
+   conversation advice, useful native AI settings and the practical next step. Minimum and
    upgrade value belong in detailed output; switch_value remains diagnostic. A provisional keep
    must not claim that an unreadable current model is known to be suitable.
 5. In `ask`, pause before a proposed change or a material blocker, not every routing decision.
@@ -104,8 +104,8 @@ A proposed handoff still requires its independent context decision even when the
 
 Gemini CLI does not expose an agent-callable, verifiable current-model switch through this Skill.
 Only for `decision: change` or an explicit user target, provide `/model` as the user control.
-In `ask`, ask the useful change question once. In `auto`, retain the actual setting and continue
+In `ask`, ask only whether to use the named target for an ordinary change, once. In `auto`, retain the actual setting and continue
 only authorized work without material blockers. Never claim an application or a new conversation
 unless that exact operation was performed and verified. Reasoning uses the model default unless
 an exact native configurable thinking control is known. The shared UX examples are localized to
-Traditional Chinese with `### Adaptive Task Routing｜任務資源建議` and `是否切換視窗`.
+Traditional Chinese with `### Adaptive Task Routing` and one plain sentence explaining whether a new conversation is needed.

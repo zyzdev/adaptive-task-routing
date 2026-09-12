@@ -13,7 +13,7 @@ It weighs task needs, current suitability, remaining work, context continuity an
 ## How it works
 
 1. The AI delivers the findings you requested or presents an actionable plan.
-2. The routing note leads with an action: keep, keep provisionally, start a new conversation, change settings, or request a necessary decision. It still answers whether to switch windows when context routing is enabled.
+2. The routing note leads with an action: keep, keep provisionally, start a new conversation, change settings, or request a necessary decision. It still answers whether a new conversation is needed when context routing is enabled.
 3. Default `ask` confirms changes and material blockers. Retention and nonblocking uncertainty do not interrupt already authorized work. A request for a plan never authorizes implementation.
 
 Brief questions and unchanged phases skip routing. The plugin considers conversation and model choices separately; a handoff can also need a different model.
@@ -44,12 +44,12 @@ These are separate scenarios following the requested plan or findings. The keep 
 ```text
 ---
 
-### Adaptive Task Routing | Task resource guidance
+### Adaptive Task Routing
 
 ✓ Keep current
 The current setup is sufficient, and little work remains to repay a switch.
 
-Conversation: Stay here. Switch windows: No.
+Conversation: Stay here; no new conversation needed.
 Current AI: Sonnet / high.
 
 No action needed. Continuing the already authorized checks.
@@ -60,20 +60,20 @@ No action needed. Continuing the already authorized checks.
 ```text
 ---
 
-### Adaptive Task Routing | Task resource guidance
+### Adaptive Task Routing
 
 Change AI setting
 The next phase needs stronger validation than the observed setup provides.
 
-Conversation: Stay here. Switch windows: No.
+Conversation: Stay here; no new conversation needed.
 Task-fit setting: Opus / high.
 
-Would you like to use this setting, or revise the next phase?
+Use Opus / high?
 ```
 
 The control depends on the host. `auto` reports an applied change only after verification; it explains the actual fallback when no control is available. Missing current metadata instead uses “Keep provisionally,” a useful task-fit setting and a short uncertainty reason. A material blocker gets a concrete question.
 
-For a plan-only request, the ending says the plan is complete and implementation has not started. For a handoff, the note answers “Switch windows: Yes, pending your decision” and supplies only the facts and constraints needed in the destination.
+For a plan-only request, the ending says the plan is complete and implementation has not started. For a handoff, the note answers “Conversation: Start a new conversation with the necessary handoff, pending your decision” and supplies only the facts and constraints needed in the destination.
 
 ## Modes and detail
 
@@ -86,6 +86,8 @@ For a plan-only request, the ending says the plan is complete and implementation
 Context and Model modes are independent. Say “Turn context routing off for this task,” “Set model routing to ask,” or “Use auto for both routers in this conversation.” A mode change alone does not authorize work.
 
 Compact is the default display. Ask “Show the details” to see **Minimum needed**, **Task-fit setting** and the upgrade rationale. Task fit answers what suits the phase; the action answers what to do now. Details reuse the current assessment. Switch scores remain diagnostic; compact/detailed are not additional routing modes.
+
+Verified keep shows only the observed current AI in compact; task-fit alternatives are reserved for details. Provisional keep can also reflect uncertain switching costs or benefits, even when the current AI is known.
 
 ## What are recommendations based on?
 

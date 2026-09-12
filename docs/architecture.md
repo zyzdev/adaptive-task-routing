@@ -15,7 +15,7 @@ has capability value. Reassessment after a hard phase does not mandate a downgra
 
 Account for remaining work, setup, cache reuse, latency, retries, rework and handoff costs.
 Prompt-cache state and supplied conversation content are distinct; a cache miss does not
-remove history, a new window is not a free switch, and changing effort can also affect cache
+remove history, a new conversation is not a free switch, and changing effort can also affect cache
 reuse under platform-specific rules. Unknown current settings defer automatic switching but
 do not suppress concrete task-based recommendations. Unknown cache cost is neither zero nor
 certain cache loss; a clear quality deficit can still justify change. Explicit user targets
@@ -88,9 +88,9 @@ If the user declines a context change in `ask`, model routing evaluates the curr
 
 ## Visible model result
 
-An enabled model invocation records both task settings and evidence internally, then renders an action, reason and useful native AI setting. Mode and diagnostic availability are omitted from ordinary compact output. `CURRENT` with known suitable settings is distinct from provisional retention with `assessment: unverified`. A supported catalog does not reveal the current running model. Unknown controls must not become invented names, settings, menu labels, or commands.
+An enabled model invocation records both task settings and evidence internally, then renders an action, reason and useful native AI setting. Mode and diagnostic availability are omitted from ordinary compact output. Verified keep shows only the observed current AI; task-fit alternatives belong in details. `CURRENT` with known suitable settings is distinct from provisional retention with `assessment: unverified`. A supported catalog does not reveal the current running model. Unknown controls must not become invented names, settings, menu labels, or commands.
 
-The output schema can be rendered as a short note. After the task findings or plan, each note begins with a Markdown divider, a localized `Adaptive Task Routing` task-resource heading, then the action and a short reason, followed by enabled conversation/window advice and useful settings. Stable context enums remain in structured evidence; visible output renders a plain recommendation in the user's language without the raw enum. `off` is the deliberate exception to visibility; a disabled router makes no decision.
+The output schema can be rendered as a short note. After the task findings or plan, each note begins with a Markdown divider, a plain `Adaptive Task Routing` heading, then the action and a short reason, followed by enabled conversation advice and useful settings. Stable context enums remain in structured evidence; visible output renders a plain recommendation in the user's language without the raw enum. `off` is the deliberate exception to visibility; a disabled router makes no decision.
 
 ## Three-layer resolution
 
@@ -142,4 +142,4 @@ Both routers default to `ask`, which confirms changes and material blockers. Ret
 
 ## Action-first UX contract
 
-[The shared UX contract](../shared/routing-ux.md) defines compact/detailed presentation without adding a routing mode. Detailed adds minimum needed, task-fit settings and upgrade rationale; both task settings remain in structured evidence. Unknown current metadata uses provisional retention, never a suitability claim. A material blocker is distinct from merely deferring a switch. Handoff/clean can coexist with model changes, and the enabled window answer stays visible. Gemini embeds this same contract in both its startup context and coordinator appendix.
+[The shared UX contract](../shared/routing-ux.md) defines compact/detailed presentation without adding a routing mode. Detailed adds minimum needed, task-fit settings and upgrade rationale; both task settings remain in structured evidence. Unknown current metadata uses provisional retention, never a suitability claim. A material blocker is distinct from merely deferring a switch. Handoff/clean can coexist with model changes, and the enabled conversation advice stays visible. Gemini embeds this same contract in both its startup context and coordinator appendix.

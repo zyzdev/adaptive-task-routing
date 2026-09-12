@@ -33,6 +33,31 @@ PROMPTS = {
 }
 
 
+def routing_output_checks(response, *, context_enabled=True):
+    """Check the compact smoke surface, not model quality or the decision's justification."""
+    heading = re.search(r"^### Adaptive Task Routing[ \t]*$", response, re.MULTILINE)
+    note = response[heading.end():] if heading else ""
+    action = re.search(r"維持目前設定|暫時沿用設定|調整 AI 設定|需要你決定|開新對話|開啟全新對話", note)
+    setting = re.search(r"任務適配設定|目前 AI|目前設定[：:]|Model[：:]", note)
+    conversation = re.search(r"^\s*(?:[-*]\s*)?對話[：:]([^\n]+)", note, re.MULTILINE)
+    explicit_conversation = bool(conversation and re.search(
+        r"不需開新對話|無需開新對話|建議開新對話|建議開啟全新對話|目的地.*待確認", conversation[1]))
+    verified_keep = bool(action and action[0] == "維持目前設定")
+    provisional_keep = bool(action and action[0] == "暫時沿用設定")
+    return {
+        "plain_heading": heading is not None,
+        "action_before_setting": bool(action and setting and action.start() < setting.start()),
+        "conversation_visibility": explicit_conversation if context_enabled else conversation is None,
+        "no_window_field": "是否切換視窗" not in note,
+        "verified_keep_current_only": not verified_keep or (
+            bool(re.search(r"目前 AI|目前設定[：:]", note)) and "任務適配設定" not in note),
+        "no_unknown_current_field": not re.search(
+            r"(?:目前 AI|目前設定|Current AI)[：:]\s*(?:Unknown|unknown|未知|無法確認)", note),
+        "retention_action_consistent": not ((verified_keep or provisional_keep) and "/model" in note),
+        "no_artificial_retention_hold": "等你決定是否沿用目前設定" not in note,
+    }
+
+
 def run(case):
     started = time.monotonic()
     result = {"case": case, "prompt": PROMPTS[case]}
@@ -49,17 +74,9 @@ def run(case):
                                        text=True, timeout=180)
             data = json.loads(completed.stdout)
             response = data.get("response", "")
-            note = response[response.find("### Adaptive Task Routing"):]
-            action = re.search(r"維持目前設定|暫時沿用設定|調整 AI 設定|需要你決定|開新對話|開啟全新對話", note)
-            setting = re.search(r"任務適配設定|目前 AI|目前設定[：:]|Model[：:]", note)
-            window_answer = bool(re.search(r"是否切換視窗[：:]\s*(?:\*\*)?\s*[是否]", response))
             checks = {
+                **routing_output_checks(response, context_enabled=case != "context_off"),
                 "successful_response": completed.returncode == 0 and bool(response),
-                "action_before_setting": bool(action and setting and action.start() < setting.start()),
-                "conversation_visibility": window_answer if case != "context_off" else not window_answer,
-                "retention_action_consistent": not (
-                    ("暫時沿用設定" in note or "維持目前設定" in note) and "/model" in note),
-                "no_artificial_retention_hold": "等你決定是否沿用目前設定" not in note,
                 "fixtures_unchanged": all((workspace / name).read_text() == content
                     for name, content in FIXTURES.items()),
                 "no_execution_artifact": not (workspace / "artifact.txt").exists(),

@@ -231,6 +231,12 @@ def validate_ux(root, defaults):
                 "continuation_requires_task_authorization": True}, "Invalid UX interaction defaults")
     ux = (root / "shared/routing-ux.md").read_text()
     require(all(token in ux for token in (
+                "Verified keep in compact shows only the observed current AI pair",
+                "uncertain switching costs/benefits",
+                "ask only whether to use the named target",
+                "The heading has no localized subtitle",
+                "not a separate\nnew-conversation field")), "Incomplete compact polish contract")
+    require(all(token in ux for token in (
                 "Ask before a change, not after every decision",
                 "Continue already authorized work",
                 "Do not start implementation, regardless of mode or switch decision",
@@ -238,7 +244,7 @@ def validate_ux(root, defaults):
                 "Keep provisionally / 暫時沿用設定",
                 "Need your decision / 需要你決定",
                 "A handoff or clean start can also require a model change",
-                "是否切換視窗", "Task-fit setting", "compact", "detailed")),
+                "不需開新對話", "Task-fit setting", "compact", "detailed")),
             "Incomplete routing UX contract")
     for name in SKILLS:
         require("../../shared/routing-ux.md" in (root / "skills" / name / "SKILL.md").read_text(),
@@ -301,7 +307,7 @@ def validate_source(root):
     require(all("A cross-file release-flow, cross-platform consistency, or test-gap scan qualifies" in
                 AUTO_ACTIVATION[platform] for platform in PLATFORMS),
             "Automatic activation may misclassify a substantial audit as informational")
-    require(all("resource-guidance heading" in AUTO_ACTIVATION[platform]
+    require(all("plain Adaptive Task Routing heading" in AUTO_ACTIVATION[platform]
                 for platform in PLATFORMS),
             "Automatic activation does not preserve the branded routing-note boundary")
     require(all("configuration commands" in AUTO_ACTIVATION[platform]
@@ -497,7 +503,7 @@ def validate_source(root):
             "Model router evidence schema missing")
     coordinator = (root / "skills/adaptive-task-routing/SKILL.md").read_text()
     require(all(token in coordinator for token in (
-                "### Adaptive Task Routing｜任務資源建議", "是否切換視窗",
+                "### Adaptive Task Routing", "whether to open a new conversation",
                 "For a plan-only or analysis-only request",
                 "Present the requested findings and plan before one compact routing note",
                 "Localize every label and description to the user's language",

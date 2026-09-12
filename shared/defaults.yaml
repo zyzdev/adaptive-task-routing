@@ -7,6 +7,7 @@ user_policy:
 presentation:
   default: compact
   detailed_on_request: true
+  # Compatibility key: keep conversation advice visible, without a separate window field.
   keep_window_answer_visible: true
 
 interaction:

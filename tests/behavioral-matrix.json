@@ -9,7 +9,7 @@
       "title": "Coordinator sequence / 協調入口順序",
       "setup": "A substantial debugging request explicitly invokes `adaptive-task-routing`, with both child Skills and shared files available.",
       "prompt": "Evaluate this fixture under the installed routing Skills: A substantial debugging request explicitly invokes `adaptive-task-routing`, with both child Skills and shared files available.",
-      "expected": "Present the requested findings or actionable plan first. Load and delegate context then model decisions. The single routing note uses a divider, localized brand heading, action, reason, enabled window answer and useful AI setting. In ask, retain/nonblocking defer continue only authorized work; a proposed change or material blocker requires a real decision. The coordinator does not make either child decision itself.",
+      "expected": "Present the requested findings or actionable plan first. Load and delegate context then model decisions. The single routing note uses a divider, plain Adaptive Task Routing heading, action, reason, enabled conversation advice and useful AI setting. In ask, retain/nonblocking defer continue only authorized work; a proposed change or material blocker requires a real decision. The coordinator does not make either child decision itself.",
       "results": {
         "chatgpt": {
           "status": "not_run",
@@ -36,7 +36,7 @@
       "title": "Improvement-plan delivery / 交付改善計畫",
       "setup": "The user asks only for a substantial cross-file release-flow, cross-platform consistency, and test-gap audit. The completed findings propose a concrete implementation and validation phase.",
       "prompt": "Evaluate this fixture under the installed routing Skills: The user asks only for a substantial cross-file release-flow, cross-platform consistency, and test-gap audit. The completed findings propose a concrete implementation and validation phase.",
-      "expected": "Complete the substantial audit and plan first, then show action-first advice for its concrete next phase. A plan-only request ends with that deliverable without implementation or an artificial keep-current question. Compact preserves enabled conversation/window advice and useful model guidance; detailed can expose both task settings.",
+      "expected": "Complete the substantial audit and plan first, then show action-first advice for its concrete next phase. A plan-only request ends with that deliverable without implementation or an artificial keep-current question. Compact preserves enabled conversation advice and useful model guidance; detailed can expose both task settings.",
       "results": {
         "chatgpt": {
           "status": "not_run",
@@ -63,7 +63,7 @@
       "title": "Context continuity with localized visible advice / 對話延續與在地化建議",
       "setup": "A follow-up depends on definitions and corrections from recent turns, and the running model and effort are both observed and suitable.",
       "prompt": "Evaluate this fixture under the installed routing Skills: A follow-up depends on definitions and corrections from recent turns, and the running model and effort are both observed and suitable.",
-      "expected": "Preserve continuity using a localized window answer and a verified keep action. Keep both task settings in internal evidence; compact may show the observed current pair. Ask does not pause for retention; continue only authorized work. A pending context change remains independent.",
+      "expected": "Preserve continuity using a localized conversation advice and a verified keep action. Keep both task settings in internal evidence; compact shows only the observed current pair, never a task-fit alternative. Ask does not pause for retention; continue only authorized work. A pending context change remains independent.",
       "results": {
         "chatgpt": {
           "status": "not_run",

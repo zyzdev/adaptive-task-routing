@@ -6,8 +6,14 @@ All notable changes to this project are documented here.
 
 ### Changed
 
+- Simplify the heading to `Adaptive Task Routing` and merge context advice into one
+  conversation sentence across all platforms and translated examples.
+- Show only the observed current AI for verified keep in compact output; reserve task-fit
+  alternatives for details. Provisional keep still covers uncertain switching costs or benefits.
+- Ask only whether to use the named target for an ordinary setting change. Broader questions
+  require a material blocker; extra validation after declining must be feasible and sufficient.
 - Lead routing notes with the action and reason. Default compact output preserves enabled
-  conversation/window advice and useful AI settings; detailed adds minimum needed, task-fit
+  conversation advice and useful AI settings; detailed adds minimum needed, task-fit
   settings and upgrade rationale without exposing internal switching scores.
 - Change `ask` to confirm proposed environment changes or material blockers. Retain and
   nonblocking defer continue only already authorized work; plan-only requests never authorize
@@ -16,7 +22,7 @@ All notable changes to this project are documented here.
   context/model modes and combined handoff/model decisions, and refresh multilingual examples.
 - Add offline contract/package regressions and U01–U14 acceptance specifications. Earlier live
   routing reports remain historical; no new model calls or savings benchmarks were run for this UX update.
-- Keep Gemini's conversation recommendation and explicit window-switch answer in the main
+- Keep Gemini's explicit conversation advice in the main
   output sequence and a single complete routing example, including when model switching is deferred.
 - Live CLI testing exposed manual-switch prompts after a deferred switch decision.
   Select retention versus manual-control paragraphs explicitly in the model router,

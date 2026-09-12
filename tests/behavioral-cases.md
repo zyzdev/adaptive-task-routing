@@ -8,36 +8,36 @@ Use these cases for manual or automated forward evaluation. Judge observable dec
 
 **Given:** A substantial debugging request explicitly invokes `adaptive-task-routing`, with both child Skills and shared files available.
 
-**Expect:** Present the requested findings or actionable plan first. Load and delegate context then model decisions. The single routing note uses a divider, localized brand heading, action, reason, enabled window answer and useful AI setting. In ask, retain/nonblocking defer continue only authorized work; a proposed change or material blocker requires a real decision. The coordinator does not make either child decision itself.
+**Expect:** Present the requested findings or actionable plan first. Load and delegate context then model decisions. The single routing note uses a divider, localized brand heading, action, reason, enabled conversation advice and useful AI setting. In ask, retain/nonblocking defer continue only authorized work; a proposed change or material blocker requires a real decision. The coordinator does not make either child decision itself.
 
-**中文：** 先交付要求的分析或計畫，再依序委派兩個 Router。單一路由区塊先動作、原因，再顯示啟用的視窗答案及有用 AI 設定。ask 只確認變更或關鍵阻礙；保留與非阻礙 defer 只繼續已授權工作。
+**中文：** 先交付要求的分析或計畫，再依序委派兩個 Router。單一路由区塊先動作、原因，再顯示啟用的對話去留建議及有用 AI 設定。ask 只確認變更或關鍵阻礙；保留與非阻礙 defer 只繼續已授權工作。
 
 ## 2. Improvement-plan delivery / 交付改善計畫
 
 **Given:** The user asks only for a substantial cross-file release-flow, cross-platform consistency, and test-gap audit. The completed findings propose a concrete implementation and validation phase.
 
-**Expect:** Complete the substantial audit and plan first, then show action-first advice for its concrete next phase. A plan-only request ends with that deliverable without implementation or an artificial keep-current question. Compact preserves enabled conversation/window advice and useful model guidance; detailed can expose both task settings.
+**Expect:** Complete the substantial audit and plan first, then show action-first advice for its concrete next phase. A plan-only request ends with that deliverable without implementation or an artificial keep-current question. Compact preserves enabled conversation advice and useful model guidance; detailed can expose both task settings.
 
-**中文：** 完成稽核與計畫後給出精簡建議；只要求計畫不實作，也不製造保留確認問題。對話路由啟用時仍回答是否切換視窗。
+**中文：** 完成稽核與計畫後給出精簡建議；只要求計畫不實作，也不製造保留確認問題。對話路由啟用時仍回答是否需要開新對話。
 
 ## 3. Context continuity with localized visible advice / 對話延續與在地化建議
 
 **Gemini installed-extension regression:** Run a fresh CLI session with the installed extension,
 no workspace `GEMINI.md`, and no explicit Skill or output-format request. Ask for a document
 consistency and test-gap audit with an improvement plan. With both routers enabled, the completed
-findings must be followed by a visible conversation recommendation, a yes/no window-switch answer
+findings must be followed by one visible conversation sentence explaining whether a new conversation is needed
 and reason before useful AI settings, even when the model switch is retained or deferred. Repeat
 with context routing explicitly off to verify that a conversation assessment is then omitted.
 Do not count a workspace projection test as installed-extension coverage.
 
 **Gemini 安裝版回歸：** 在已安裝 extension 的全新 CLI 對話中，不放工作目錄 `GEMINI.md`、
 不指定 Skill 或輸出格式，要求文件一致性與測試缺口分析及改善計畫。兩個路由均啟用時，
-完整發現之後、必要 AI 設定之前，必須顯示對話建議、是否切換視窗與原因，即使模型切換
+完整發現之後、必要 AI 設定之前，必須顯示對話建議、是否需要開新對話與原因，即使模型切換
 被保留或延後也不能省略。另測明確關閉 Context 時不評估對話；工作目錄投影測試不算安裝版覆蓋。
 
 **Given:** A follow-up depends on definitions and corrections from recent turns, and the running model and effort are both observed and suitable.
 
-**Expect:** Preserve continuity using a localized window answer and a verified keep action. Keep both task settings in internal evidence; compact may show the observed current pair. Ask does not pause for retention; continue only authorized work. A pending context change remains independent.
+**Expect:** Preserve continuity using a localized conversation advice and a verified keep action. Keep both task settings in internal evidence; compact may show the observed current pair. Ask does not pause for retention; continue only authorized work. A pending context change remains independent.
 
 **中文：** 保留有用脈絡與已確認適任的設定；ask 不為保留而停下，只繼續已授權工作。模型保留不能蓋過未解決的對話決策。
 

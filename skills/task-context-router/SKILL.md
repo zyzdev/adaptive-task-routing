@@ -53,7 +53,7 @@ Resolve this router's mode independently of the model router. A current-turn ins
 
 ## Output
 
-Follow [routing UX](../../shared/routing-ux.md): lead with the context action and reason, and always include a localized yes/no window-switch answer when enabled. A recommended change is not an applied change. In a coordinated run, return the result for one combined note; do not emit a separate block. Continue only authorized work, and never let a retained model suppress a pending handoff or missing destination decision.
+Follow [routing UX](../../shared/routing-ux.md): lead with the context action and reason, and always include one localized sentence explaining whether a new conversation is needed when enabled. A recommended change is not an applied change. In a coordinated run, return the result for one combined note; do not emit a separate block. Continue only authorized work, and never let a retained model suppress a pending handoff or missing destination decision.
 
 Keep `CURRENT`, `HANDOFF`, and `CLEAN` as stable values in structured evidence only. In compact user-facing output, show a plain-language description localized to the user's language and do not append the enum in parentheses. For Traditional Chinese use “留在目前對話,” “切換到新對話並帶入精簡交接,” or “開啟全新對話，不帶入目前脈絡,” as applicable.
 

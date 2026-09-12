@@ -92,9 +92,9 @@ A plan-only request never authorizes implementation. Respect an explicitly selec
 
 ## Output
 
-Use the [shared UX contract](../../shared/routing-ux.md). Keep `minimum_sufficient_setting`, `recommended_setting`, `upgrade_value` and `upgrade_reason` in structured evidence. `recommended_setting` is displayed as **Task-fit setting / 任務適配設定**. Compute both task-based settings even when compact output omits the minimum. Do not overwrite them with the current pair to justify retention.
+Use the [shared UX contract](../../shared/routing-ux.md). Keep `minimum_sufficient_setting`, `recommended_setting`, `upgrade_value` and `upgrade_reason` in structured evidence. `recommended_setting` is displayed as **Task-fit setting / 任務適配設定**. Compute both task-based settings internally. Verified keep in compact shows only the observed current pair; task-fit alternatives appear only in detailed output. Provisional keep can still show a useful task-fit pair, including when current settings are known but switching benefit or cost is uncertain. Do not overwrite them with the current pair to justify retention.
 
-Put the requested plan or preceding findings before the routing note. Lead with the action and one-sentence reason, then useful settings. A standalone invocation uses a divider and localized `Adaptive Task Routing` heading (`### Adaptive Task Routing｜任務資源建議`); a delegated invocation returns its result to the coordinator and must never emit a second divider or heading. Model-only output makes no conversation suitability claim.
+Put the requested plan or preceding findings before the routing note. Lead with the action and one-sentence reason, then useful settings. A standalone invocation uses a divider and plain `Adaptive Task Routing` heading (`### Adaptive Task Routing`); a delegated invocation returns its result to the coordinator and must never emit a second divider or heading. Model-only output makes no conversation suitability claim.
 
 Show current settings only when observed and useful; never print `Current: unknown / unknown`. Unless diagnostics are requested, do not mention the probe, fallback/registry source, freshness, scope or internal scores. Never render the schema or internal evidence in ordinary compact output. Read [the evidence schema](references/evidence-schema.md) only for diagnostics or maintenance. Detailed presentation adds minimum needed, task-fit setting and upgrade rationale; it is not a new gate.
 
@@ -108,7 +108,7 @@ For `decision: change` or an explicit user-selected target, use controls known f
 - Identified Codex CLI: `/model` is a user control, not an agent-callable operation.
 - Gemini CLI: 目前環境無法代為切換模型；Reasoning 使用模型預設。Only show `/model` for a justified change or explicit target. Native reasoning is `Reasoning：使用模型預設` unless an exact supported control is observed.
 
-In `ask`, request the actual change decision once; do not require a fixed confirmation word. In `auto`, report only verified application or the actual fallback, and continue authorized downstream work only when no material blocker remains. Never say “applying” merely because switching was recommended.
+In `ask`, ask only whether to use the named target for an ordinary change; reserve plan changes for a material blocker; do not require a fixed confirmation word. In `auto`, report only verified application or the actual fallback, and continue authorized downstream work only when no material blocker remains. Never say “applying” merely because switching was recommended.
 
 ## Coordination boundary
 
