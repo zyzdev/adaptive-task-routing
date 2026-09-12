@@ -1,6 +1,16 @@
 # Adaptive Task Routing
 
-[繁體中文](README.zh-TW.md)
+[English](README.md) · [繁體中文](README.zh-TW.md) · [简体中文使用指南](docs/usage/README.zh-CN.md) · [日本語ガイド](docs/usage/README.ja.md) · [한국어 가이드](docs/usage/README.ko.md)
+
+## User guides
+
+Choose a language for concise installation, first-use, mode, and removal instructions:
+
+- [English](docs/usage/README.md)
+- [繁體中文](docs/usage/README.zh-TW.md)
+- [简体中文](docs/usage/README.zh-CN.md)
+- [日本語](docs/usage/README.ja.md)
+- [한국어](docs/usage/README.ko.md)
 
 Adaptive Task Routing is a cross-platform Agent Skills plugin that makes two decisions before expensive or context-heavy work begins:
 
@@ -96,7 +106,7 @@ success is not a conversational pass, live App verification, or switching capabi
 
 ## Source and releases
 
-Version **0.4.2** is a locally prepared release candidate. The only maintained Skill and
+Version **0.4.2** is the current public release. The only maintained Skill and
 policy sources are root skills/ and shared/. The three stable Skill names remain unchanged;
 their descriptions now distinguish the general coordinator from context-only and model-only children.
 Bodies and translations provide scoped discovery and task-needs guidance.
@@ -146,6 +156,8 @@ and Gemini's single-activation coordinator behavior need installed-host evidence
 - [Release and actual submission steps](docs/release.md)
 - [Contribution guide](CONTRIBUTING.md) and [security policy](SECURITY.md)
 
-No remote repository, push, release, listing or review submission was performed.
-Public publisher identity, production listing URLs/assets and live behavioral results
-remain owner prerequisites. License: [MIT](LICENSE).
+Release packages are available from the [v0.4.2 release](https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.4.2).
+The dedicated [Gemini repository](https://github.com/zyzdev/adaptive-task-routing-gemini)
+is publicly installable. The dedicated [Claude repository](https://github.com/zyzdev/adaptive-task-routing-claude)
+has been submitted for Claude Code directory review. OpenAI directory availability remains
+subject to platform review. License: [MIT](LICENSE).

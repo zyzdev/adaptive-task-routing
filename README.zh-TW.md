@@ -1,6 +1,16 @@
 # Adaptive Task Routing
 
-[English](README.md)
+[English](README.md) · [繁體中文](README.zh-TW.md) · [简体中文使用指南](docs/usage/README.zh-CN.md) · [日本語ガイド](docs/usage/README.ja.md) · [한국어 가이드](docs/usage/README.ko.md)
+
+## 使用指南
+
+請選擇語言，查看精簡的安裝、首次使用、模式與移除說明：
+
+- [English](docs/usage/README.md)
+- [繁體中文](docs/usage/README.zh-TW.md)
+- [简体中文](docs/usage/README.zh-CN.md)
+- [日本語](docs/usage/README.ja.md)
+- [한국어](docs/usage/README.ko.md)
 
 Adaptive Task Routing 是跨平台的 Agent Skills Plugin，在高成本或大量消耗 Context 的工作開始前，處理兩個獨立決策：
 
@@ -78,7 +88,7 @@ Plugin 不會因為使用者允許自動操作，就假設宿主環境真的具�
 
 ## 單一來源與三平台產物
 
-目前版本為 **0.4.2** 本機發布候選。根目錄 skills/ 與 shared/ 是唯一維護來源。
+目前公開版本為 **0.4.2**。根目錄 skills/ 與 shared/ 是唯一維護來源。
 三個 Skill 名稱維持不變；描述已區分一般任務協調入口，以及 Context-only／Model-only 子 Router。主體與翻譯新增證據範圍與任務需求指引。release.json 統一管理版本與 metadata。
 
 Model Router 先提出任務能力需求，再映射為適用且可選的模型／強度；未知設定不抹去需求建議。官方描述是能力參考，不代表帳號可用，也不是固定排名。
@@ -126,5 +136,7 @@ gemini extensions validate dist/gemini/adaptive-task-routing
 - [發布及三平台提交步驟](docs/release.md)
 - [貢獻指南](CONTRIBUTING.md)、[安全政策](SECURITY.md)、[MIT 授權](LICENSE)
 
-本次僅準備本機產物，沒有建立遠端 repository、push、Release、平台送審或公開上架。
-實際發布身分、公開 listing 網址／圖像與行為測試證據由擁有者確認。
+[v0.4.2 Release](https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.4.2) 已提供三平台安裝包。
+[Gemini 專用 repository](https://github.com/zyzdev/adaptive-task-routing-gemini) 已可公開安裝；
+[Claude 專用 repository](https://github.com/zyzdev/adaptive-task-routing-claude) 已送交 Claude Code Directory 審查。
+OpenAI Directory 是否公開仍以平台審查結果為準。
