@@ -156,9 +156,19 @@ def validate_manifests(entries, platform, config):
         manifest = json.loads(entries["gemini-extension.json"])
         require(manifest.get("contextFileName") == "GEMINI.md",
                 "Gemini automatic context is not configured")
-        expected = "# Adaptive Task Routing startup instruction\n\n" + AUTO_ACTIVATION["gemini"] + "\n"
-        require(entries.get("GEMINI.md", b"").decode("utf-8") == expected,
+        expected = [
+            "# Adaptive Task Routing startup instruction\n\n",
+            AUTO_ACTIVATION["gemini"],
+            "\n\n## Embedded automatic coordinator contract\n",
+        ]
+        for name in GEMINI_COORDINATOR_DEPENDENCIES:
+            expected.extend((f"\n### Embedded dependency: `{name}`\n\n",
+                             entries[name].decode("utf-8").rstrip(), "\n"))
+        require(entries.get("GEMINI.md", b"").decode("utf-8") == "".join(expected),
                 "Gemini automatic routing context mismatch")
+        require("## Embedded automatic coordinator contract" in
+                entries["GEMINI.md"].decode("utf-8"),
+                "Gemini automatic coordinator contract missing")
         coordinator = entries["skills/adaptive-task-routing/SKILL.md"].decode("utf-8")
         require("## Generated Gemini dependency appendix" in coordinator
                 and all(f"### Embedded dependency: `{name}`" in coordinator
@@ -248,6 +258,15 @@ def validate_source(root):
         require(not any(p.isdigit() and len(p) > 1 and p.startswith("0") for p in match.group(4).split(".")),
                 "Invalid numeric prerelease version")
     require(f'## [{config["version"]}]' in (root / "CHANGELOG.md").read_text(), "Changelog version missing")
+    require(all("A cross-file release-flow, cross-platform consistency, or test-gap scan qualifies" in
+                AUTO_ACTIVATION[platform] for platform in PLATFORMS),
+            "Automatic activation may misclassify a substantial audit as informational")
+    require(all(token in AUTO_ACTIVATION["gemini"] for token in (
+                "before responding or using task tools",
+                "automatic adaptive-task-routing coordinator",
+                "embedded coordinator contract below directly",
+                "Compose one final user response")),
+            "Gemini automatic routing can depend on unavailable Skill activation")
     contract = json.loads((root / "tests/trigger-contract.json").read_text())
     actual = {p.parent.name for p in (root / "skills").glob("*/SKILL.md")}
     require(actual == set(SKILLS), f"Expected exactly three Skills: {actual}")

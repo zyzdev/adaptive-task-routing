@@ -14,11 +14,11 @@ Use these cases for manual or automated forward evaluation. Judge observable dec
 
 ## 2. Improvement-plan delivery / 交付改善計畫
 
-**Given:** The user asks for an improvement plan only, and the completed plan proposes a concrete, substantial implementation and validation phase.
+**Given:** The user asks only for a substantial cross-file release-flow, cross-platform consistency, and test-gap audit. The completed findings propose a concrete implementation and validation phase.
 
-**Expect:** Present the completed improvement plan first. Before yielding, the enabled model router visibly recommends model and effort for the proposed next phase. Default `ask` stops after the recommendation and waits for a natural user response, even when the current setting appears sufficient; it states that the recommendation did not authorize or begin implementation.
+**Expect:** Do not classify the audit as merely informational or skip routing because implementation was not requested. Present the completed findings and improvement plan first. Before yielding, the enabled model router visibly recommends model and effort for the proposed next phase. Default `ask` stops after the recommendation and waits for a natural user response, even when the current setting appears sufficient; it states that the recommendation did not authorize or begin implementation.
 
-**中文：** 使用者只要求改善計畫，而完成的計畫包含具體且有份量的實作與驗證下一階段時，應先呈現完整改善計畫，再於回覆結束前顯示該階段的模型與強度建議。預設 `ask` 即使判斷目前設定足夠，也在建議後停止並等待自然回覆；同時說明建議不代表已授權或開始實作。
+**中文：** 使用者只要求實質的跨檔案發布流程、跨平台一致性及測試缺口稽核，而完成的發現包含具體實作與驗證下一階段時，不得把它歸為單純資訊查詢，也不能因尚未要求實作而略過 Routing。應先呈現完整發現與改善計畫，再於回覆結束前顯示該階段的模型與強度建議。預設 `ask` 即使判斷目前設定足夠，也在建議後停止並等待自然回覆；同時說明建議不代表已授權或開始實作。
 
 ## 3. Context continuity with localized visible advice / 對話延續與在地化建議
 

@@ -908,8 +908,8 @@
         "evidence": null
       },
       "B02": {
-        "status": "not_run",
-        "evidence": null
+        "status": "pass",
+        "evidence": "docs/evidence/gemini-cli-startup-coordinator.json"
       },
       "B03": {
         "status": "not_run",

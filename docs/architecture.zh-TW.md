@@ -46,7 +46,7 @@ ask：等待使用者｜auto：依環境能力確定模型設定
 
 ## 觸發與 Gate 生命週期
 
-明確選取協調入口後會執行完整流程。三個平台產物也加入宿主原生提醒：Codex 與 Claude Code 在 `UserPromptSubmit` 注入一段簡短指令，Gemini CLI 則於工作階段啟動時載入 Extension 的 `GEMINI.md`。提醒要求宿主先呈現使用者要求的分析或計畫，再於符合條件的下一階段開始前呼叫協調入口；實際適用性與路由判斷仍由 Skill 負責。宿主誤選子元件時，由一次性轉交守門補回完整流程。
+明確選取協調入口後會執行完整流程。三個平台產物也加入宿主原生提醒：Codex 與 Claude Code 在 `UserPromptSubmit` 注入一段簡短指令，Gemini CLI 則於工作階段啟動時載入 Extension 的 `GEMINI.md`。Codex 與 Claude 會在符合條件的下一階段前呼叫協調入口；Gemini 則直接套用啟動 Context 內嵌的完整精簡契約，因為 CLI 0.59.0 可能向模型宣告 `activate_skill`，實際呼叫時卻回傳 `tool_not_registered`。三個平台都必須先呈現使用者要求的分析或計畫，再顯示路由建議。宿主誤選子元件時，由一次性轉交守門補回完整流程。
 
 只要求分析或計畫時，先完成並呈現已授權交付物，再於回覆結尾為具體實質下一階段執行 Gate。已要求執行時，先呈現精簡可執行計畫，再於修改或大量執行前路由。Model `ask` 在 Routing 訊息後結束回合並等待自然回覆，即使目前設定適合也相同；Model `auto` 才能套用支援的改變並繼續。完整答案沒有具體實質下一階段時正常結束；後續階段改變時先呈現已完成階段的結果，再只重跑 Model Router，除非 Context 也需要重新判斷。
 
@@ -90,11 +90,11 @@ ask：等待使用者｜auto：依環境能力確定模型設定
 
 - OpenAI：根層 `plugin.json`（Agent Plugins schema；展示資料在 `extensions.com.openai.interface`）及含 `UserPromptSubmit` hook 的 `.codex-plugin/plugin.json` 相容 Manifest。
 - Claude：`.claude-plugin/plugin.json` 與 `hooks/hooks.json`。
-- Gemini：根層 `gemini-extension.json` 與由 `contextFileName` 指定的 `GEMINI.md`。
+- Gemini：根層 `gemini-extension.json` 與由 `contextFileName` 指定、內容自足的 `GEMINI.md`。
 
 `scripts/build_release.py` 建立 `dist/<平台>/adaptive-task-routing` 三個解壓目錄與三個 ZIP；ZIP 沒有外包目錄。共同文件以明確清單封裝，平台 README 來自 `packaging/<平台>/README.md`；排除建置及測試程式，唯一允許封裝的執行程式來源是選用的 Skill helper。自動啟動使用宣告式 Context 或輸出固定文字的 hook，不探測 metadata、不啟動服務，也不自行執行 Router。
 
-沒有第四個 Marketplace ZIP，本機登錄是獨立的宿主設定步驟。驗證涵蓋相對連結、frontmatter、觸發契約、自動啟動定義、共用檔、版本、平台隔離、目錄與 ZIP 內容及 SHA-256。檔案驗證可證明提醒與 Gemini 依賴附錄已封裝；宿主是否實際送入提醒、呼叫 Skill、以單次 Gemini coordinator 啟用完成 Gate 或完成設定切換，仍須用已安裝環境測試。
+沒有第四個 Marketplace ZIP，本機登錄是獨立的宿主設定步驟。驗證涵蓋相對連結、frontmatter、觸發契約、自動啟動定義、共用檔、版本、平台隔離、目錄與 ZIP 內容及 SHA-256。檔案驗證可證明提醒與兩份 Gemini 契約投影已封裝；宿主是否實際送入並遵循提醒或完成設定切換，仍須用已安裝環境測試。
 
 ## 預設值
 

@@ -45,8 +45,10 @@ The [extension reference](https://geminicli.com/docs/extensions/reference/) requ
 root gemini-extension.json and supports persistent extension context through
 `contextFileName` and `GEMINI.md`. [Agent Skills](https://geminicli.com/docs/cli/skills/)
 describes extension Skill discovery and activation consent scoped to the Skill directory.
-Cross-Skill and plugin-level shared reference access therefore remains an installed-host
-permission test; file existence alone does not establish access.
+Gemini CLI 0.59.0 can advertise `activate_skill` while its executor returns
+`tool_not_registered`, so the automatic path uses a complete coordinator contract embedded in
+`GEMINI.md`. Explicit Skill activation and its directory-scoped access remain installed-host
+tests; file discovery alone does not establish executable activation.
 
 The [release guide](https://geminicli.com/docs/extensions/releasing/) requires manifests
 at the absolute archive/repository root. Public GitHub repositories tagged

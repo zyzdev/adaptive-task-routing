@@ -34,9 +34,9 @@
       "kind": "boundary",
       "openai_submission": false,
       "title": "Improvement-plan delivery / 交付改善計畫",
-      "setup": "The user asks for an improvement plan only, and the completed plan proposes a concrete, substantial implementation and validation phase.",
-      "prompt": "Evaluate this fixture under the installed routing Skills: The user asks for an improvement plan only, and the completed plan proposes a concrete, substantial implementation and validation phase.",
-      "expected": "Present the completed improvement plan first. Before yielding, the enabled model router visibly recommends model and effort for the proposed next phase. Default `ask` stops after the recommendation and waits for a natural user response, even when the current setting appears sufficient; it states that the recommendation did not authorize or begin implementation.",
+      "setup": "The user asks only for a substantial cross-file release-flow, cross-platform consistency, and test-gap audit. The completed findings propose a concrete implementation and validation phase.",
+      "prompt": "Evaluate this fixture under the installed routing Skills: The user asks only for a substantial cross-file release-flow, cross-platform consistency, and test-gap audit. The completed findings propose a concrete implementation and validation phase.",
+      "expected": "Do not classify the audit as merely informational or skip routing because implementation was not requested. Present the completed findings and improvement plan first. Before yielding, the enabled model router visibly recommends model and effort for the proposed next phase. Default `ask` stops after the recommendation and waits for a natural user response, even when the current setting appears sufficient; it states that the recommendation did not authorize or begin implementation.",
       "results": {
         "chatgpt": {
           "status": "not_run",

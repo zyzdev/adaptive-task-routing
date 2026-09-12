@@ -1,16 +1,22 @@
 # Gemini coordinator runtime projection
 
-This compact projection is appended to the coordinator in the generated Gemini package because
-Gemini CLI grants one activated Skill access to only that Skill directory. It is the complete
-runtime contract for the coordinated gate. Do not activate sibling Skills and do not infer rules
-from memory.
+This compact projection is appended both to the generated coordinator Skill and to the extension
+startup context. It is the complete runtime contract for the coordinated gate. The startup context
+applies it directly for automatic routing, so automatic behavior does not depend on Gemini CLI's
+`activate_skill` executor. Do not activate sibling Skills and do not infer rules from memory.
 
 ## Sequence
 
-1. Complete and present the requested findings or plan. If execution is already requested, present
-   a concise actionable plan first without starting mutation or substantial execution.
+1. Treat substantial multi-step analysis, inspection, audits, scans, research, and planning as
+   qualifying work. Complete and present the requested findings or plan first. When that deliverable
+   identifies actionable changes, validation, or follow-on research, those actions are the concrete
+   substantial next phase even if implementation was not requested. A cross-file release-flow,
+   cross-platform consistency, or test-gap scan is not merely informational. If execution is already
+   requested, present a concise actionable plan first without starting mutation or substantial execution.
 2. Assess conversation placement for the substantial next phase before model choice.
-3. Assess minimum-sufficient and recommended Gemini model settings for that next phase.
+3. Assess minimum-sufficient and recommended Gemini model settings for that next phase. Both
+   setting blocks must evaluate the same concrete next phase, not the analysis or planning work
+   that has already finished.
 4. Render the localized routing note after the requested plan or findings.
 5. In `ask`, stop after the note and wait for the user's natural response without requiring a fixed
    keyword. In `auto`, apply any callable, authorized and verifiable setting, or retain the current

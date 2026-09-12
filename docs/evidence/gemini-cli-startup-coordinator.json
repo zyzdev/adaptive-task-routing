@@ -1,0 +1,44 @@
+{
+  "observed_at": "2026-09-12T09:50:48Z",
+  "host": "Gemini CLI 0.59.0",
+  "extension_version": "0.4.1",
+  "extension_path": "/Users/xiaozhudemacmini/development/adaptive-task-routing/dist/gemini/adaptive-task-routing",
+  "serving_model": "gemini-3.1-flash-lite",
+  "automatic_routing": {
+    "session_id": "9bd3cc06-1970-445a-a363-2664ebc8167c",
+    "prompt_named_skill": false,
+    "fixture": "three-file release script, manifest, and placeholder test",
+    "task_tools_before_response": [
+      "update_topic",
+      "read_file"
+    ],
+    "activate_skill_calls": 0,
+    "findings_before_routing_note": true,
+    "improvement_plan_before_routing_note": true,
+    "localized_conversation_block": true,
+    "minimum_setting": "Flash / model default",
+    "recommended_setting": "Pro / model default",
+    "ask_stopped_after_routing_note": true,
+    "project_files_changed": 0
+  },
+  "negative_control": {
+    "session_id": "170f3789-d018-4725-bc05-2644f06c2cf3",
+    "prompt": "1 + 1 等於多少？",
+    "tool_calls": 0,
+    "routing_note": false,
+    "response": "1 + 1 等於 2。"
+  },
+  "host_activation_regression": {
+    "session_id": "0a96db9f-cb52-4ca5-b870-b22c1b40f872",
+    "prompt_named_skill": true,
+    "activate_skill_call_emitted": true,
+    "execution_status": "tool_not_registered",
+    "skills_list_showed_enabled": true,
+    "reason_for_startup_fallback": "The CLI advertised activate_skill to the model but its executor registry rejected the call."
+  },
+  "fixture_sha256": {
+    "manifest.json": "ace578d72bad39e87afa27e388c76a98c10bbed36a3b523e8f92a6c6c935a64f",
+    "release.sh": "8264556e842ea646c28b5a42bf5ea59ab62a60f168ff9ab2faa89421475b5ef2",
+    "test_release.py": "ac2013dfd8a1cc1eeb0f751efc83cf76b1034a13e66ab3bcaf65b2b81c8e0432"
+  }
+}
