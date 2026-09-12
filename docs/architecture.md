@@ -58,7 +58,7 @@ If the user declines a context change in `ask`, model routing evaluates the curr
 
 An enabled model invocation reports recommended model/effort, observed current values or availability, a short reason, mode, and actual action. `CURRENT` with known suitable settings is distinct from provisional retention with `assessment: unverified`. A supported catalog does not reveal the current running model. Unknown controls must not become invented names, settings, menu labels, or commands.
 
-The output schema can be rendered as a short note. Stable context enums remain in structured evidence; visible output renders a plain recommendation in the user's language without the raw enum. `off` is the deliberate exception to visibility; a disabled router makes no decision.
+The output schema can be rendered as a short note. After the task findings or plan, each note begins with a Markdown divider, a localized `Adaptive Task Routing` task-resource heading, and one sentence that explains the following advice applies to the planned next phase. Stable context enums remain in structured evidence; visible output renders a plain recommendation in the user's language without the raw enum. `off` is the deliberate exception to visibility; a disabled router makes no decision.
 
 ## Three-layer resolution
 

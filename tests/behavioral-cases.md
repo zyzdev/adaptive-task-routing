@@ -8,17 +8,17 @@ Use these cases for manual or automated forward evaluation. Judge observable dec
 
 **Given:** A substantial debugging request explicitly invokes `adaptive-task-routing`, with both child Skills and shared files available.
 
-**Expect:** For a plan-only or analysis-only request, the requested useful deliverable appears first. For an execution request, an actionable plan appears first. The coordinator then loads the context router, resolves the effective context, and loads the model router for the resulting substantial next phase. In default `ask`, the compact routing note ends the turn and waits for a natural user response; only `auto` may continue automatically. The coordinator does not make either child decision itself.
+**Expect:** For a plan-only or analysis-only request, the requested useful deliverable appears first. For an execution request, an actionable plan appears first. The coordinator then loads the context router, resolves the effective context, and loads the model router for the resulting substantial next phase. The single routing note starts with a divider, a localized `Adaptive Task Routing` task-resource heading, and a one-sentence explanation of its purpose. In default `ask`, the note ends the turn and waits for a natural user response; only `auto` may continue automatically. The coordinator does not make either child decision itself.
 
-**中文：** 明確要求 `adaptive-task-routing` 處理實質除錯任務，且兩個子 Skill 與共用檔均可用時，只要求計畫或分析就先呈現完整且有用的交付內容；要求執行則先呈現可操作計畫。入口接著載入 Context Router、確定實際 Context，最後為實質下一階段載入 Model Router。預設 `ask` 在精簡路由訊息後結束回合，等待使用者自然回覆；只有 `auto` 可自動繼續。入口本身不代替子元件做判斷。
+**中文：** 明確要求 `adaptive-task-routing` 處理實質除錯任務，且兩個子 Skill 與共用檔均可用時，只要求計畫或分析就先呈現完整且有用的交付內容；要求執行則先呈現可操作計畫。入口接著載入 Context Router、確定實際 Context，最後為實質下一階段載入 Model Router。單一路由訊息以分隔線、在地化的 `Adaptive Task Routing` 任務資源標題及一句用途說明開始。預設 `ask` 在該訊息後結束回合，等待使用者自然回覆；只有 `auto` 可自動繼續。入口本身不代替子元件做判斷。
 
 ## 2. Improvement-plan delivery / 交付改善計畫
 
 **Given:** The user asks only for a substantial cross-file release-flow, cross-platform consistency, and test-gap audit. The completed findings propose a concrete implementation and validation phase.
 
-**Expect:** Do not classify the audit as merely informational or skip routing because implementation was not requested. Present the completed findings and improvement plan first. Before yielding, the enabled model router visibly recommends model and effort for the proposed next phase. Default `ask` stops after the recommendation and waits for a natural user response, even when the current setting appears sufficient; it states that the recommendation did not authorize or begin implementation.
+**Expect:** Do not classify the audit as merely informational or skip routing because implementation was not requested. Present the completed findings and improvement plan first. Follow them with the branded task-resource divider and introduction, then visibly recommend model and effort for the proposed next phase. Default `ask` stops after the recommendation and waits for a natural user response, even when the current setting appears sufficient; it states that the recommendation did not authorize or begin implementation.
 
-**中文：** 使用者只要求實質的跨檔案發布流程、跨平台一致性及測試缺口稽核，而完成的發現包含具體實作與驗證下一階段時，不得把它歸為單純資訊查詢，也不能因尚未要求實作而略過 Routing。應先呈現完整發現與改善計畫，再於回覆結束前顯示該階段的模型與強度建議。預設 `ask` 即使判斷目前設定足夠，也在建議後停止並等待自然回覆；同時說明建議不代表已授權或開始實作。
+**中文：** 使用者只要求實質的跨檔案發布流程、跨平台一致性及測試缺口稽核，而完成的發現包含具體實作與驗證下一階段時，不得把它歸為單純資訊查詢，也不能因尚未要求實作而略過 Routing。應先呈現完整發現與改善計畫，接著以品牌化的任務資源分隔線與說明開始路由區塊，再於回覆結束前顯示該階段的模型與強度建議。預設 `ask` 即使判斷目前設定足夠，也在建議後停止並等待自然回覆；同時說明建議不代表已授權或開始實作。
 
 ## 3. Context continuity with localized visible advice / 對話延續與在地化建議
 

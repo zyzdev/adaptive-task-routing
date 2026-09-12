@@ -13,6 +13,12 @@ Suppose the inspection finds serialized initialization and proposes three depend
 ```text
 The inspection found serialized initialization. The plan is to defer optional services, parallelize independent reads, and add startup-ordering tests. No implementation has started.
 
+---
+
+### Adaptive Task Routing | Task resource guidance
+
+The following recommendations assess the conversation, model, and reasoning resources for the next phase of the plan above.
+
 Conversation setting
 Recommendation: Stay in this conversation
 Switch window: no

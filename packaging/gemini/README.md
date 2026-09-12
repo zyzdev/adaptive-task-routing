@@ -21,7 +21,8 @@ want a copied installation. Start a new interactive session and inspect /skills 
 The manifest loads the packaged `GEMINI.md` after restart. Submit a cross-file release-flow,
 cross-platform consistency, and test-gap scan without naming the Skill. Confirm Gemini does not
 classify it as merely informational: the startup context applies the embedded coordinator contract,
-then renders one final response with the findings or plan before the routing note and ends the
+then renders one final response with the findings or plan before the localized `Adaptive Task Routing`
+task-resource divider and routing note, and ends the
 turn in default `ask`. Submit a separate execution request and confirm only `auto` may continue
 through the gate. Explicit activation can be tested separately but remains host-dependent.
 

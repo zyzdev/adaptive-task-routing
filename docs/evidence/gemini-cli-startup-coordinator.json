@@ -1,11 +1,11 @@
 {
-  "observed_at": "2026-09-12T09:50:48Z",
+  "observed_at": "2026-09-12T10:06:30Z",
   "host": "Gemini CLI 0.59.0",
   "extension_version": "0.4.1",
   "extension_path": "/Users/xiaozhudemacmini/development/adaptive-task-routing/dist/gemini/adaptive-task-routing",
   "serving_model": "gemini-3.1-flash-lite",
   "automatic_routing": {
-    "session_id": "9bd3cc06-1970-445a-a363-2664ebc8167c",
+    "session_id": "3342b35e-11a2-4689-b88b-787be5016acb",
     "prompt_named_skill": false,
     "fixture": "three-file release script, manifest, and placeholder test",
     "task_tools_before_response": [
@@ -19,7 +19,11 @@
     "minimum_setting": "Flash / model default",
     "recommended_setting": "Pro / model default",
     "ask_stopped_after_routing_note": true,
-    "project_files_changed": 0
+    "project_files_changed": 0,
+    "markdown_divider_before_routing": true,
+    "localized_resource_heading": "Adaptive Task Routing｜任務資源建議",
+    "resource_purpose_sentence": true,
+    "model_control_and_hold_paragraph": true
   },
   "negative_control": {
     "session_id": "170f3789-d018-4725-bc05-2644f06c2cf3",

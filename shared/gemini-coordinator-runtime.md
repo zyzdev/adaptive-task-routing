@@ -17,10 +17,14 @@ applies it directly for automatic routing, so automatic behavior does not depend
 3. Assess minimum-sufficient and recommended Gemini model settings for that next phase. Both
    setting blocks must evaluate the same concrete next phase, not the analysis or planning work
    that has already finished.
-4. Render the localized routing note after the requested plan or findings.
-5. In `ask`, stop after the note and wait for the user's natural response without requiring a fixed
-   keyword. In `auto`, apply any callable, authorized and verifiable setting, or retain the current
-   setting when switching is unavailable, then continue authorized execution.
+4. Render the localized routing note after the requested plan or findings. Begin it with a Markdown
+   horizontal rule, a localized level-three `Adaptive Task Routing` resource-guidance heading, and
+   one sentence explaining that the following recommendations assess resources for the planned
+   next phase.
+5. In `ask`, end the note with the applicable model-control and hold paragraph defined below, then
+   stop and wait for the user's natural response without requiring a fixed keyword. The note is incomplete if that final paragraph is omitted. In `auto`, apply any callable, authorized and
+   verifiable setting, or retain the current setting when switching is unavailable, then continue
+   authorized execution.
 
 Both routers default to `ask`. Skip a router only when its mode is explicitly `off`. Reuse a
 completed gate for an unchanged phase. Never claim a context or model change unless the host
@@ -37,6 +41,12 @@ operation was callable, authorized, performed, and verified.
 For Traditional Chinese, render exactly this structure with task-specific values and reason:
 
 ```text
+---
+
+### Adaptive Task Routing｜任務資源建議
+
+以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。
+
 【對話設定】
 * 建議：留在目前對話
 * 是否切換視窗：否
@@ -87,7 +97,8 @@ Omit unreadable current settings, diagnostics, confidence, registry details, and
 
 Gemini CLI does not expose an agent-callable, verifiable operation for changing the current model
 through this Skill. Whenever the recommended model may differ from the current model or the current
-model is unreadable, present `/model` as the user control. In Traditional Chinese `ask` mode use:
+model is unreadable, present `/model` as the user control. In Traditional Chinese `ask` mode, the
+routing note must end with:
 
 ```text
 目前環境無法代為切換模型；Reasoning 使用模型預設。如需採用建議，可用 /model 選擇模型；我先停在這裡，等你決定是否調整，或沿用目前設定開始下一階段。

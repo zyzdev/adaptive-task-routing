@@ -261,6 +261,9 @@ def validate_source(root):
     require(all("A cross-file release-flow, cross-platform consistency, or test-gap scan qualifies" in
                 AUTO_ACTIVATION[platform] for platform in PLATFORMS),
             "Automatic activation may misclassify a substantial audit as informational")
+    require(all("resource-guidance heading" in AUTO_ACTIVATION[platform]
+                for platform in PLATFORMS),
+            "Automatic activation does not preserve the branded routing-note boundary")
     require(all(token in AUTO_ACTIVATION["gemini"] for token in (
                 "before responding or using task tools",
                 "automatic adaptive-task-routing coordinator",
@@ -384,11 +387,13 @@ def validate_source(root):
     gemini_runtime = (root / "shared/gemini-coordinator-runtime.md").read_text()
     require(all(token in gemini_runtime for token in (
                 "A fresh one-prompt session is focused",
+                "### Adaptive Task Routing｜任務資源建議",
+                "以下建議是根據上述計畫的下一階段",
                 "【最低足夠 AI 設定】", "【建議 AI 設定】",
                 "Reasoning：使用模型預設", "Never output Gemini 1.5",
                 "如需採用建議，可用 /model 選擇模型",
                 "Complete and present the requested findings or plan",
-                "In `ask`, stop after the note",
+                "The note is incomplete if that final paragraph is omitted",
                 "In `auto`, apply any callable")),
             "Gemini compact coordinator contract missing")
     model_skill = (root / "skills/research-model-router/SKILL.md").read_text()
@@ -398,6 +403,8 @@ def validate_source(root):
                  "upgrade_value", "upgrade_reason")),
             "Model router two-tier recommendation contract missing")
     require("never print `Current: unknown / unknown`" in model_skill
+            and "### Adaptive Task Routing｜任務資源建議" in model_skill
+            and "never emit a second divider or heading" in model_skill
             and "do not require a fixed confirmation word" in model_skill
             and "如需採用建議，可使用介面中的模型與推理強度選單調整" in model_skill
             and "do not include the CLI-only `/model` command" in model_skill
@@ -424,7 +431,9 @@ def validate_source(root):
                  "runtime_capabilities:", "execution:")),
             "Model router evidence schema missing")
     coordinator = (root / "skills/adaptive-task-routing/SKILL.md").read_text()
-    require("【對話設定】" in coordinator and "* 建議：留在目前對話" in coordinator
+    require("### Adaptive Task Routing｜任務資源建議" in coordinator
+            and "以下建議是根據上述計畫的下一階段" in coordinator
+            and "【對話設定】" in coordinator and "* 建議：留在目前對話" in coordinator
             and "是否切換視窗" in coordinator
             and "For a plan-only or analysis-only request" in coordinator
             and "Present the requested findings and plan before one compact routing note" in coordinator
