@@ -41,6 +41,7 @@ claude --plugin-dir "$PWD/adaptive-task-routing-claude"
 ```text
 1. 檢查發布腳本與 Manifest。
 2. 核對 CI 與測試缺口。
+3. 整理風險並提出修改順序。
 ```
 
 #### 2. Adaptive Task Routing 的資源建議

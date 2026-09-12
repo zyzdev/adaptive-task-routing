@@ -1,6 +1,6 @@
 # Adaptive Task Routing
 
-[English](README.md) · [繁體中文](README.zh-TW.md) · [简体中文使用指南](docs/usage/README.zh-CN.md) · [日本語ガイド](docs/usage/README.ja.md) · [한국어 가이드](docs/usage/README.ko.md)
+[English](README.md) · [繁體中文](README.zh-TW.md) · [简体中文](docs/usage/README.zh-CN.md) · [日本語](docs/usage/README.ja.md) · [한국어](docs/usage/README.ko.md)
 
 ## User guides
 
@@ -89,6 +89,7 @@ The example below uses the request “Review the plugin release process, cross-p
 ```text
 1. Check the release scripts and platform manifests.
 2. Review CI and test gaps.
+3. Rank the risks and propose an implementation order.
 ```
 
 #### 2. Adaptive Task Routing resource recommendation

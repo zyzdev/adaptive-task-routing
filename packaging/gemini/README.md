@@ -40,6 +40,7 @@ The example below uses the request “Review the plugin release process, cross-p
 ```text
 1. Inspect release scripts and manifests.
 2. Review CI and test gaps.
+3. Rank the risks and propose an implementation order.
 ```
 
 #### 2. Adaptive Task Routing resource recommendation
