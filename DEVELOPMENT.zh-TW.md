@@ -86,7 +86,7 @@ gemini extensions validate dist/gemini/adaptive-task-routing
 發行包不含建置腳本、其他平台 Manifest、MCP 服務或常駐 Hook。
 
 [跨平台行為案例](tests/behavioral-cases.md) 保留原 24 案例，另加 10 個探測案例；包含 OpenAI 送審需要的五個正向、三個負向案例。
-[七介面矩陣](tests/surface-matrix.json) 共 245 格：ChatGPT 網頁／桌面／手機、Codex App／CLI、Claude Code 與 Gemini CLI。唯讀探測通過不等於對話驗收或自動切換通過。
+[七介面矩陣](tests/surface-matrix.json) 共 329 格（47 案例）：ChatGPT 網頁／桌面／手機、Codex App／CLI、Claude Code 與 Gemini CLI。唯讀探測通過不等於對話驗收或自動切換通過。
 結構驗證與本機清單載入不代表行為通過；隱式觸發、帳號模型控制，以及 Gemini 單次 coordinator 啟用是否能完整執行，仍須實測記錄。
 
 ## 文件與發布
@@ -102,3 +102,5 @@ gemini extensions validate dist/gemini/adaptive-task-routing
 [Gemini 專用 repository](https://github.com/zyzdev/adaptive-task-routing-gemini) 已可公開安裝；
 [Claude 專用 repository](https://github.com/zyzdev/adaptive-task-routing-claude) 已送交 Claude Code Directory 審查。
 OpenAI Directory 是否公開仍以平台審查結果為準。
+
+切換評估新增 S01–S12 驗收素材。任務完成、修正、返工、延遲與整體成本需與靜態契約檢查分開驗證；新增案例在取得宿主證據前維持未執行。

@@ -39,6 +39,15 @@ recommendation:
     - medium
     - high
   prefer_lowest_effort_that_meets_requirements: true
+  require_switch_assessment: true
+
+switching:
+  granularity: meaningful_phase_boundary
+  prefer_stickiness_when_suitable: true
+  quality_floor_overrides_stickiness: true
+  unknown_cost_is_zero: false
+  automatic_change_requires: justified_switch
+  observations_scope: session_only
 
 discovery:
   guide: host-discovery.md

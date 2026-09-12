@@ -35,6 +35,8 @@ Return one recommendation:
 
 Judge dependency on prior turns, relevance of accumulated context, stale-instruction or anchoring risk, whether a concise handoff preserves all requirements, expected next-phase complexity, isolation needs, switching cost, and actual host capabilities.
 
+Return the effective context and a continuity rationale for the coordinator to pass to model routing: what information remains useful, what must be reconstructed, and any handoff/setup cost. This informs switching value but does not choose a model. A retained conversation is not proof of a prompt-cache hit; a new conversation does not make configuration changes cost-free. If the user declines a handoff, pass the retained context, not the proposed destination. When this router is off, the coordinator reports current placement without claiming it was assessed.
+
 Do not recommend a new context merely because the task is difficult. Do not use `CLEAN` when losing prior requirements creates avoidable risk. If the host cannot create a new context, report the recommendation without claiming it was applied.
 
 Identify the effective execution destination separately from the visible client (web, desktop, phone or terminal). A local shell or a new CLI process does not prove the current App can create or transfer a conversation. Preserve source/time/scope on capability observations; a destination's unreadable model settings must not block context-only advice. Do not fetch a model catalog for this router. A handoff may carry labeled configuration hints, never assume they remain current or supported in the destination.

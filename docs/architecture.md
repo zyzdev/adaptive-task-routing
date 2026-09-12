@@ -1,5 +1,37 @@
 # Architecture
 
+## Switching value and task continuity
+
+Routing occurs at meaningful task boundaries, not every prompt. Context placement remains
+owned by the context router; the model router consumes the effective placement and continuity
+rationale. A declined handoff uses the retained conversation, and context-off does not imply
+that its suitability was assessed. Neither router is renamed.
+
+The model router first selects minimum-sufficient and recommended settings for the task.
+`upgrade_value` compares those two settings. It then evaluates `switch_assessment`: the
+benefit of moving from the observed current pair to the recommended pair versus retaining it
+for the same remaining phase. Suitable settings may be retained even if a stronger candidate
+has capability value. Reassessment after a hard phase does not mandate a downgrade.
+
+Account for remaining work, setup, cache reuse, latency, retries, rework and handoff costs.
+Prompt-cache state and supplied conversation content are distinct; a cache miss does not
+remove history, a new window is not a free switch, and changing effort can also affect cache
+reuse under platform-specific rules. Unknown current settings defer automatic switching but
+do not suppress concrete task-based recommendations. Unknown cache cost is neither zero nor
+certain cache loss; a clear quality deficit can still justify change. Explicit user targets
+take precedence without creating missing host controls.
+
+In `auto`, only a justified `decision: change` can proceed to authorized, callable, verified
+application. `retain` and `defer` keep settings while authorized work continues. `ask` still
+waits after the note; `off` skips its router. Add one localized switch-assessment sentence
+after the AI blocks and make the action paragraph agree with it. This applies to the shared
+policy and both Gemini runtime projections, without a new service or persistent activity log.
+
+Evaluation should compare task completion, quality, corrections, rework, latency and total
+workflow cost, including cache usage when observable. Separate API billing from subscription
+usage, avoid double-counting cache processing, and report unknown measurements honestly.
+The new switch cases are acceptance fixtures, not proof of live host behavior or savings.
+
 ## Design goal
 
 Adaptive Task Routing reduces avoidable context and compute use without allowing a routing recommendation to silently exceed user intent or host capability.

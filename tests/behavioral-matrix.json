@@ -63,7 +63,7 @@
       "title": "Context continuity with localized visible advice / 對話延續與在地化建議",
       "setup": "A follow-up depends on definitions and corrections from recent turns, and the running model and effort are both observed and suitable.",
       "prompt": "Evaluate this fixture under the installed routing Skills: A follow-up depends on definitions and corrections from recent turns, and the running model and effort are both observed and suitable.",
-      "expected": "Structured evidence records `CURRENT`, while visible output uses a localized plain-language recommendation without the raw context enum. Model routing remains visible and identifies the observed suitable pair. Default model `ask` still ends the turn for the user's natural decision; it does not silently continue because no switch is needed.",
+      "expected": "Structured evidence records `CURRENT`, while visible output uses a localized plain-language recommendation without the raw context enum. Model routing keeps both task-based settings visible and reports retention of the observed suitable pair separately, without overwriting the minimum or recommended settings. Default model `ask` still ends the turn for the user's natural decision; it does not silently continue because no switch is needed.",
       "results": {
         "chatgpt": {
           "status": "not_run",
@@ -90,7 +90,7 @@
       "title": "Unknown current configuration / 目前設定未知",
       "setup": "The applicable model catalog, supported effort options and task-relevant capability descriptions are known, but the running model and reasoning effort cannot be read.",
       "prompt": "Evaluate this fixture under the installed routing Skills: The applicable model catalog, supported effort options and task-relevant capability descriptions are known, but the running model and reasoning effort cannot be read.",
-      "expected": "Recommend a concrete supported model and effort for the task; do not retain CURRENT/CURRENT solely because current settings are unknown. Current fields and switch necessity remain unknown. In `ask`, present the pair and known control without claiming an upgrade, comparison, or applied change, then stop and wait for a natural user response.",
+      "expected": "Recommend a concrete supported model and effort for the task; do not retain CURRENT/CURRENT solely because current settings are unknown. Current fields and switch necessity remain unknown; switch assessment defers automatic changes while keeping concrete task recommendations. In `ask`, present the pair and known control without claiming an upgrade, comparison, or applied change, then stop and wait for a natural user response.",
       "results": {
         "chatgpt": {
           "status": "not_run",
@@ -198,7 +198,7 @@
       "title": "Programmable CLI execution / 可程式化 CLI 執行",
       "setup": "A CLI uses `auto`.",
       "prompt": "Evaluate this fixture under the installed routing Skills: A CLI uses `auto`.",
-      "expected": "Automatic execution occurs only when the exact operation is callable, authorized, and verifiable. An interactive command or launch flag alone is not capability evidence. After one failed automatic attempt, the router stops retrying and returns an accurate manual fallback without an `applied` claim.",
+      "expected": "A router-initiated model/effort change additionally requires a justified switch assessment. Automatic execution occurs only when the exact operation is callable, authorized, and verifiable. An interactive command or launch flag alone is not capability evidence. After one failed automatic attempt, the router stops retrying and returns an accurate manual fallback without an `applied` claim.",
       "results": {
         "chatgpt": {
           "status": "not_run",

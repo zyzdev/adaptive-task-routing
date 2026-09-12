@@ -24,7 +24,7 @@ Use these cases for manual or automated forward evaluation. Judge observable dec
 
 **Given:** A follow-up depends on definitions and corrections from recent turns, and the running model and effort are both observed and suitable.
 
-**Expect:** Structured evidence records `CURRENT`, while visible output uses a localized plain-language recommendation without the raw context enum. Model routing remains visible and identifies the observed suitable pair. Default model `ask` still ends the turn for the user's natural decision; it does not silently continue because no switch is needed.
+**Expect:** Structured evidence records `CURRENT`, while visible output uses a localized plain-language recommendation without the raw context enum. Model routing keeps both task-based settings visible and reports retention of the observed suitable pair separately, without overwriting the minimum or recommended settings. Default model `ask` still ends the turn for the user's natural decision; it does not silently continue because no switch is needed.
 
 **中文：** 後續工作依賴最近回合的定義與修正，而且目前模型與強度均可觀察且適合時，結構化證據記錄留在目前對話的穩定代碼；畫面只顯示在地化白話建議，不顯示英文代碼。模型結果仍須顯示已觀察且適合的具體組合；預設 Model `ask` 仍結束回合等待自然決定，不能因不需切換就直接繼續。
 
@@ -142,7 +142,7 @@ Use these cases for manual or automated forward evaluation. Judge observable dec
 
 ## Cross-platform release matrix / 跨平台發布矩陣
 
-Machine-readable source: [behavioral-matrix.json](behavioral-matrix.json). B01–B17 preserve the scenarios above; P01–P05 and N01–N03 are the OpenAI submission set. The [surface matrix](surface-matrix.json) adds R01–R10 and records all 35 cases separately on seven surfaces: ChatGPT web/desktop/mobile, Codex App/CLI, Claude Code and Gemini CLI (245 cells). Its per-surface results are authoritative; the legacy four-host summary below does not establish individual surface passes. All results start as `not_run`; native validation or inventory discovery does not prove behavioral success.
+Machine-readable source: [behavioral-matrix.json](behavioral-matrix.json). B01–B17 preserve the scenarios above; P01–P05 and N01–N03 are the OpenAI submission set. The [surface matrix](surface-matrix.json) adds R01–R10 and S01–S12 and records all 47 cases separately on seven surfaces: ChatGPT web/desktop/mobile, Codex App/CLI, Claude Code and Gemini CLI (329 cells). Its per-surface results are authoritative; the legacy four-host summary below does not establish individual surface passes. All results start as `not_run`; native validation or inventory discovery does not prove behavioral success.
 
 Use a fresh conversation for each independent case. P05 and B11 require a controlled multi-turn sequence. Record host version, observed model/effort (or unknown), invocation mode, loaded resource paths, result and evidence. Synthetic capability fixtures must never be treated as authority to call real operations. Use the host's actual controls for manual tests; unknown or user-only operations must remain honestly reported.
 
@@ -164,3 +164,18 @@ Use a fresh conversation for each independent case. P05 and B11 require a contro
 | B01–B17 (17 boundary cases) | not_run | not_run | not_run | not_run |
 
 Explicit invocation: select the coordinator Skill in ChatGPT/Codex; Claude uses `/adaptive-task-routing:adaptive-task-routing`; Gemini asks to use the named Skill and may require activation consent. Test P02, N01–N03 without naming any Skill. Evaluate trigger accuracy separately from correctness after explicit activation. The generated Gemini coordinator is self-contained: its normal gate must not request additional sibling Skill or plugin-level shared-resource access, and a missing dependency appendix leaves the gate incomplete.
+
+## Switching acceptance cases / 切換驗收案例
+
+S01–S12 in `surface-matrix.json` cover suitable-model retention, quality deficits,
+unknown current settings and costs, new or declined handoffs, router-off/model-only
+paths, reasoning changes, returning to a warm cache, remaining-work amortization,
+explicit user targets and phase-boundary churn. These are forward-evaluation fixtures;
+all new results are `not_run`. Static package tests do not establish live routing
+behavior, cache hit rates or workflow savings. Changed expectations reset affected
+results; historical evidence files remain historical observations.
+
+S01–S12 涵蓋適任模型維持、品質缺口、目前設定及成本未知、新建或拒絕交接、
+路由關閉／模型專用、推理調整、切回仍可用的快取、剩餘工作攤提、使用者指定設定，
+以及避免階段內反覆切換。新增結果均為 `not_run`；靜態封裝測試不能證明即時路由行為、
+快取命中率或工作成本節省。預期已變更的既有結果重設，歷史證據檔仍只代表當時觀察。

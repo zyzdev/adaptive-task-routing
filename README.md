@@ -13,6 +13,10 @@ Adaptive Task Routing recommends whether to start a new conversation and which m
 
 A change of topic alone does not require a new conversation. The benefit comes from reducing irrelevant history while preserving what the next task needs. Actual savings and reliability depend on the task and the settings adopted.
 
+**Route at task boundaries, not every prompt.** Preserve useful context and keep a suitable model when changing it would not repay setup, cache, latency or rework costs over the remaining phase. A stronger recommendation does not automatically mean switching now is worthwhile. In `auto`, the router changes settings only when switching is justified and the operation is supported and verifiable. The goal is reliable task completion at a reasonable total cost; actual savings require evidence.
+
+The right model in the wrong context is still the wrong setup.
+
 ## How it works
 
 1. The AI presents an actionable plan or completes the analysis or findings you requested.
@@ -82,7 +86,9 @@ Sufficient for reviewing release scripts, platform differences, and existing tes
 - Reasoning: high
 - Upgrade value: Medium. Better suited to tracing release workflows, platform-specific branches, and subtle failure paths together.
 
-This environment cannot change the model or reasoning effort for you. Use the interface's model and reasoning controls if you want the recommendation. I will pause here while you decide whether to adjust the settings or continue with the current ones.
+Switch assessment: Benefit is not established, so automatic changes are deferred.
+
+I will keep the current settings and pause here while you decide how to proceed.
 ```
 
 This example shows `ask` mode when automatic switching is unavailable. Claude and Gemini use their own model options; control instructions also vary by interface.

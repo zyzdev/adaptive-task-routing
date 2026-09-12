@@ -2,14 +2,14 @@
   "schema_version": 1,
   "name": "adaptive-task-routing",
   "version": "0.4.2",
-  "description": "Recommend when to start a new conversation and which model and reasoning effort fit the next phase, helping reduce unnecessary usage and rework.",
+  "description": "Recommend context, model and reasoning at task boundaries, weighing whether a configuration change is worth its cost.",
   "author": {
     "name": "Adaptive Task Routing contributors"
   },
   "interface": {
     "displayName": "Adaptive Task Routing",
-    "shortDescription": "Help reduce wasted AI usage and rework.",
-    "longDescription": "Adaptive Task Routing helps reduce interference from previous tasks, unnecessary AI usage, and the risk of omissions and rework. Before the next substantial phase, it recommends whether to start a new conversation, with a concise handoff when needed, so old assumptions and constraints are less likely to affect new work. It then provides minimum-sufficient and recommended model and reasoning settings and explains the value of upgrading. The AI presents the requested analysis or plan first. Default ask mode waits for your decision; auto applies supported, verifiable changes and continues authorized work, retaining current settings when switching is unavailable. Actual savings and reliability depend on the task and settings adopted.",
+    "shortDescription": "Preserve useful context and change AI settings when worthwhile.",
+    "longDescription": "Adaptive Task Routing helps reduce interference from previous tasks, unnecessary AI usage, and the risk of omissions and rework. Before the next substantial phase, it recommends whether to start a new conversation, with a concise handoff when needed, so old assumptions and constraints are less likely to affect new work. It then provides minimum-sufficient and recommended model and reasoning settings and explains the value of upgrading. The AI presents the requested analysis or plan first. Default ask mode waits for your decision; auto applies supported, verifiable changes and continues authorized work, retaining current settings when switching is unavailable. Actual savings and reliability depend on the task and settings adopted. Routing runs at meaningful task boundaries, not every prompt. A separate switch assessment weighs remaining-phase benefits against setup, cache, latency and rework costs; suitable settings can be retained even when a stronger task-based recommendation exists. Unknown costs are not treated as zero, and automatic changes require a justified switch as well as supported, verifiable controls.",
     "developerName": "Adaptive Task Routing",
     "category": "Productivity",
     "capabilities": [],

@@ -4,6 +4,20 @@ All notable changes to this project are documented here.
 
 ## Unreleased
 
+### Changed
+
+- Evaluate model and reasoning changes at task boundaries using remaining-phase benefit,
+  switching cost and context continuity; retain suitable settings rather than automatically
+  downgrading after demanding work.
+- Separate task-based upgrade value from switch value against the observed current setup.
+  Unknown baselines defer automatic changes; cache uncertainty is not treated as zero cost,
+  and quality deficits can outweigh continuity benefits.
+- Carry effective context and handoff costs into model routing, including declined handoffs
+  and context-off/model-only paths. Apply the same contract to both Gemini projections.
+- Require a justified switch before router-initiated automatic application, preserve explicit
+  user setting requests, and show a concise switch assessment with a consistent action.
+- Update multilingual product guidance and add switch acceptance cases and release checks.
+
 ## [0.4.2] - 2026-09-12
 
 ### Changed

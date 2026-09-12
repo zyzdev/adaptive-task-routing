@@ -81,6 +81,75 @@ Permission escalation is diagnostic, not part of the default recommendation path
 
 Read capability and switch capability are separate. In `ask`, show the two settings and the surface-appropriate user control, then wait for the user's natural decision without requiring a fixed confirmation word. In `auto`, apply the recommended pair only when the exact model and effort operations are callable, authorized, and verifiable; otherwise retain the current setting, show the control as an optional action, and continue authorized work. ChatGPT desktop and web use their visible model/reasoning selector and must not be given the CLI-only `/model` command. Use `/model` only for an identified Codex CLI that documents it. Never claim a switch from catalog access alone.
 
+## Phase continuity and switching value
+
+Route at task boundaries, not every prompt. Reuse a completed gate within an unchanged
+phase; a phase transition permits reassessment, not an automatic upgrade or downgrade.
+Optimize total task cost and reliability, including expected remaining work, latency,
+retries, rework, handoff effort and user corrections. Do not optimize cheap-model turn
+share or promise savings from model prices alone. When estimating money, distinguish
+API billing from subscription usage and avoid counting cache processing twice.
+
+The context router owns conversation placement. Pass its **effective** decision and
+continuity rationale to the model router; if a handoff is declined, use the retained
+context. Context routing being off means use the current conversation, not that its
+suitability has been assessed. Explicit model-only routing also uses the effective
+conversation without inventing a completed context gate.
+
+- `CURRENT`: prefer model stickiness when the observed configuration meets the next
+  phase's quality floor and continuity has value. A clear capability deficit or failed
+  validation outweighs preserving a cache; do not pin an inadequate model.
+- `HANDOFF` or `CLEAN`: reassess configuration for the new destination, including
+  remaining work, handoff/setup cost, compatibility and available controls. A new
+  conversation is not a zero-cost switch and does not require a different model.
+
+Conversation continuity, prompt-cache reuse and host switch capability are separate
+observations. A cache miss does not erase supplied conversation content; staying in
+one conversation does not prove a cache hit. Switching back may reuse an unexpired
+matching prefix; do not assume every model change is a full cold start. Provider,
+model, prefix, TTL, tool/thinking compatibility and reasoning-only changes can affect
+reuse. Use scoped official rules and actual usage when available; absent telemetry
+means unknown, not zero cost or certain cache loss. Never launch paid inference or
+warm caches just to assess switching. Keep observations session-local with source,
+time and scope; never persist routing activity logs.
+
+Keep the two task-based settings independent of the switch decision:
+
+- `upgrade_value` compares `recommended_setting` with `minimum_sufficient_setting`.
+  Do not replace both settings with the current pair merely to justify staying.
+- `switch_assessment` compares moving from the observed current configuration to the
+  recommended pair against retaining it for the same next phase. Record
+  `switch_value: low | medium | high | unknown`, a reason and
+  `decision: retain | change | defer`. The target is the recommended pair; an explicit
+  user-selected target is a separate authorized operation, not a fabricated recommendation.
+- Weigh capability/reliability gains and expected savings over the remaining phase
+  against setup, cache, latency and context disruption costs. This is a qualitative
+  judgment unless measured inputs support calculation; do not invent numeric scores.
+  If benefits do not meaningfully exceed costs, retain the current configuration.
+- If the current pair is unknown, mark switch value unknown and defer automatic
+  switching while still giving evidenced task-based settings. Missing cost evidence
+  is not evidence of a cheap switch: retain or defer when it could change the decision.
+  A clear quality deficit may justify change despite unknown cache cost; record that
+  tradeoff instead of inventing a cache estimate. If the observed pair already equals
+  the recommendation, retain with low switch value; no cache estimate is needed.
+
+This assessment precedes model/effort application in every host contract. In `auto`,
+only `decision: change` permits a router-initiated configuration change, and the exact
+operations must still be authorized, callable and verified. For `retain` or `defer`,
+keep the configuration and continue authorized work, explaining any material quality
+limitation. An explicit user request to apply a particular setting takes precedence;
+do not force an additional routing confirmation. `ask` and `off` retain their existing
+interaction rules. Deferred switch assessment does not make a completed task-based
+recommendation a deferred model gate; unresolved destination selection still does.
+
+In compact output, append one localized switch-assessment sentence after the two AI
+setting blocks and before the action paragraph. Distinguish recommendation from
+application: report retaining, a justified change, or deferring automatic change with
+a task-specific reason. Show a switch value when supported; for an uncertain decision,
+say that benefit is not established and retain provisionally, without printing unreadable
+current fields or diagnostic provenance. A retention action must not invite applying
+the recommended pair as though the switch had been justified.
+
 ## Resolve the mode and executor
 
 - `off`: skip that router's evaluation and output; retain the current context or model settings.

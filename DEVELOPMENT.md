@@ -62,7 +62,7 @@ It runs only on demand, not on installation or Skill loading. The activation hoo
 run this helper; they only print a fixed reminder. No daemon or MCP service is bundled.
 Claude and Gemini use their own host guides, not this helper.
 
-[Seven-surface acceptance records](tests/surface-matrix.json) cover 35 cases (245 cells):
+[Seven-surface acceptance records](tests/surface-matrix.json) cover 47 cases (329 cells):
 ChatGPT web/desktop/mobile, Codex App/CLI, Claude Code and Gemini CLI. Metadata probe
 success is not a conversational pass, live App verification, or switching capability.
 
@@ -123,3 +123,5 @@ The dedicated [Gemini repository](https://github.com/zyzdev/adaptive-task-routin
 is publicly installable. The dedicated [Claude repository](https://github.com/zyzdev/adaptive-task-routing-claude)
 has been submitted for Claude Code directory review. OpenAI directory availability remains
 subject to platform review. License: [MIT](LICENSE).
+
+Switch-aware routing adds S01–S12 acceptance fixtures. Test task completion, corrections, rework, latency and total workflow cost separately from static contract checks. New cases remain unexecuted until host evidence is recorded.

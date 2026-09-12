@@ -99,11 +99,66 @@ For Traditional Chinese, render both blocks exactly in this order:
 * Model：Pro
 * Reasoning：使用模型預設
 * 升級價值：中。<one task-specific sentence>
+
+切換評估：效益尚未確立，暫不自動調整設定。
 ```
 
 Omit unreadable current settings, diagnostics, confidence, registry details, and internal schema.
 
 ## Model action
+
+### Phase continuity and switching value
+
+Route at task boundaries, not every prompt. Reuse the completed gate within an unchanged
+phase; reassess after difficult work instead of automatically lowering settings. Optimize
+total task cost and reliability over the remaining phase, including retries, rework,
+latency, handoff/setup and user corrections; cheap-model turn share is not the objective.
+Do not equate API prices with subscription usage or double-count cache processing costs.
+
+Pass the effective context and continuity rationale into this decision. A declined
+handoff uses the retained conversation; context-off or model-only uses current placement
+without claiming a suitability assessment. Prefer model stickiness when the observed
+pair meets the quality floor and continuity has value. A clear capability deficit or
+failed validation outweighs cache preservation. A handoff or clean conversation permits
+reassessment, but still has setup cost and does not require a different model.
+
+Keep conversation continuity, prompt-cache reuse and switch capability separate. A cache
+miss does not erase supplied history, and a retained conversation does not prove a hit.
+Switching back may reuse a matching unexpired prefix. Provider, model, prefix, TTL,
+tool/thinking compatibility and reasoning-only changes affect reuse under the host's
+actual rules. Unknown cache evidence is not zero cost or certain cache loss. Use scoped
+official rules or actual usage when available; do not start paid probes or warm caches.
+Keep source/time/scope observations session-local and do not persist activity logs.
+
+Keep both task-based setting blocks even when retaining another suitable configuration.
+`upgrade_value` compares recommended versus minimum sufficient. Separately record
+`switch_assessment` against the observed current pair for that same next phase, with
+`switch_value: low | medium | high | unknown`, `decision: retain | change | defer`, and
+a reason. The target is `recommended_setting`. Weigh capability/reliability and savings
+over remaining work against switching cost and context disruption; use qualitative
+judgment unless measured inputs support calculation. If gains do not meaningfully
+exceed costs, retain. If the observed pair already matches, retain with low switch value.
+Unknown current settings require unknown switch value and deferred automatic switching
+while still giving both evidenced task settings. Unknown costs that could reverse the
+decision require retention or deferral; a clear quality deficit may justify a change
+despite unknown cache cost, with the tradeoff stated. A deferred switch assessment does
+not make a completed task recommendation an unresolved destination gate.
+
+In `auto`, only `decision: change` permits a router-initiated configuration change,
+still subject to authorized, callable, verifiable operations. For retain or defer, keep
+settings and continue authorized work, stating any material quality limitation. Explicit
+user requests for a particular setting take precedence without an additional routing
+confirmation, but do not create controls. Keep the existing `ask` hold and `off` skip.
+
+After the AI blocks and before the action, add one localized switch-assessment sentence
+with a task reason; use `切換評估：` in Traditional Chinese. For uncertain benefit, say
+“切換評估：效益尚未確立，暫不自動調整設定。” Do not print unreadable current values or
+diagnostic provenance. When retaining or deferring, the action must consistently say
+settings are retained; in `ask` wait for a natural choice without instructing a switch.
+The manual-switch paragraph below applies only to a justified change or an explicit
+user-selected target. Every `ask` note still requires a final action/hold paragraph.
+
+### Manual control when changing
 
 Gemini CLI does not expose an agent-callable, verifiable operation for changing the current model
 through this Skill. Whenever the recommended model may differ from the current model or the current

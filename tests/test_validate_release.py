@@ -54,6 +54,60 @@ class ValidateReleaseTests(unittest.TestCase):
         ):
             VALIDATOR.main()
 
+    def test_rejects_unsafe_switching_defaults(self):
+        import yaml
+
+        path = self.root / "shared/defaults.yaml"
+        original = path.read_text()
+        for key, value in (("unknown_cost_is_zero", True),
+                           ("automatic_change_requires", "callable_control"),
+                           ("quality_floor_overrides_stickiness", False)):
+            with self.subTest(key=key):
+                defaults = yaml.safe_load(original)
+                defaults["switching"][key] = value
+                path.write_text(yaml.safe_dump(defaults))
+                with self.assertRaisesRegex(ValueError, "Unsafe switching defaults"):
+                    VALIDATOR.validate_source(self.root)
+
+    def test_rejects_missing_gemini_switch_gate(self):
+        path = self.root / "shared/gemini-coordinator-runtime.md"
+        path.write_text(path.read_text().replace("decision: change", "decision: any"))
+        with self.assertRaisesRegex(ValueError, "Switching contract missing: Gemini projection"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_rejects_switch_schema_without_unknown_value(self):
+        path = self.root / "skills/research-model-router/references/evidence-schema.md"
+        path.write_text(path.read_text().replace(
+            "switch_value: low | medium | high | unknown",
+            "switch_value: low | medium | high"))
+        with self.assertRaisesRegex(ValueError, "Switching evidence schema missing"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_rejects_missing_switch_acceptance_case(self):
+        path = self.root / "tests/surface-matrix.json"
+        matrix = json.loads(path.read_text())
+        matrix["cases"] = [case for case in matrix["cases"] if case["id"] != "S03"]
+        for results in matrix["surfaces"].values():
+            del results["S03"]
+        path.write_text(json.dumps(matrix))
+        with self.assertRaisesRegex(ValueError, "Missing switching cases"):
+            VALIDATOR.validate_matrix(self.root)
+
+    def test_switch_contract_reaches_all_platforms_and_gemini_entrypoints(self):
+        from release_lib import payload
+
+        for platform in ("openai", "claude", "gemini"):
+            with self.subTest(platform=platform):
+                entries = payload(self.root, platform)
+                self.assertIn(b"switch_assessment", entries["shared/runtime-routing-policy.md"])
+                self.assertIn(b"decision: change", entries["skills/research-model-router/SKILL.md"])
+                self.assertIn(b"switch_value", entries[
+                    "skills/research-model-router/references/evidence-schema.md"])
+                if platform == "gemini":
+                    projection = (self.root / "shared/gemini-coordinator-runtime.md").read_bytes()
+                    for entry in ("GEMINI.md", "skills/adaptive-task-routing/SKILL.md"):
+                        self.assertIn(projection, entries[entry])
+
     def test_source_validation_rejects_stale_fallback_registry(self) -> None:
         path = self.root / "shared/model-catalogs/openai-codex-cli.json"
         registry = json.loads(path.read_text())

@@ -207,6 +207,7 @@ def validate_matrix(root):
     ids = [case["id"] for case in cases + extra]
     require(len(set(ids)) == len(ids), "Duplicate surface case ID")
     require({f"R{i:02}" for i in range(1, 11)} <= {c["id"] for c in extra}, "Missing discovery cases")
+    require({f"S{i:02}" for i in range(1, 13)} <= {c["id"] for c in extra}, "Missing switching cases")
     for case in extra:
         require(case["prompt"] and case["setup"] and case["expected"], "Incomplete discovery case")
     require(set(surface_matrix["surfaces"]) == set(SURFACES), "Missing test surface")
@@ -286,6 +287,15 @@ def validate_source(root):
     defaults = yaml.load((root / "shared/defaults.yaml").read_text(), Loader=UniqueLoader)
     require(defaults["user_policy"] == {"context_mode": "ask", "model_mode": "ask"}, "Default modes changed")
     require(defaults.get("schema_version") == 3, "Discovery defaults schema mismatch")
+    require(defaults.get("recommendation", {}).get("require_switch_assessment") is True
+            and defaults.get("switching") == {
+                "granularity": "meaningful_phase_boundary",
+                "prefer_stickiness_when_suitable": True,
+                "quality_floor_overrides_stickiness": True,
+                "unknown_cost_is_zero": False,
+                "automatic_change_requires": "justified_switch",
+                "observations_scope": "session_only",
+            }, "Unsafe switching defaults")
     require(defaults["discovery"]["persisted_settings_are_live"] is False
             and defaults["discovery"]["unknown_does_not_skip_task_requirements"] is True,
             "Unsafe discovery defaults")
@@ -402,6 +412,25 @@ def validate_source(root):
             "Gemini compact coordinator contract missing")
     model_skill = (root / "skills/research-model-router/SKILL.md").read_text()
     evidence_schema = (root / "skills/research-model-router/references/evidence-schema.md").read_text()
+    # These checks protect instruction payloads, not measured host behavior.
+    shared_policy = (root / "shared/runtime-routing-policy.md").read_text()
+    for label, instruction in (("shared policy", shared_policy),
+                               ("model skill", model_skill),
+                               ("Gemini projection", gemini_runtime)):
+        require(all(token in instruction for token in (
+                    "Route at task boundaries, not every prompt",
+                    "switch_assessment", "switch_value", "decision: change",
+                    "quality", "Unknown", "remaining", "reasoning-only")),
+                f"Switching contract missing: {label}")
+    require(all(token in evidence_schema for token in (
+                "switch_assessment:", "baseline: current_configuration",
+                "target: recommended_setting", "cache_evidence:",
+                "switching_cost: low | medium | high | unknown",
+                "switch_value: low | medium | high | unknown",
+                "decision: retain | change | defer")),
+            "Switching evidence schema missing")
+    require("Lower the setting again after the demanding phase ends" not in model_skill,
+            "Automatic downgrade conflicts with switching assessment")
     require(all(token in model_skill for token in
                 ("minimum_sufficient_setting", "recommended_setting",
                  "upgrade_value", "upgrade_reason")),

@@ -7,7 +7,7 @@
       "title": "Readable catalog, unknown current pair",
       "setup": "The user tests the plugin in a Codex CLI session launched in another terminal from the conversation that installed it. The prompt does not name the interface, so that test session invokes the helper from the current task with `--surface auto`, the resolved helper path and current project cwd. Positive process ancestry or the exact thread's stable `source: cli` identifies Codex CLI. The catalog is fresh, successful and marked applicable, with supported efforts and task-relevant capability descriptions. There is no positive evidence of an availability-changing launch mismatch. Live settings cannot be read; disk and persisted values agree.",
       "prompt": "Evaluate this fixture using the installed routing Skills: The user tests the plugin in a Codex CLI session launched in another terminal from the conversation that installed it. The prompt does not name the interface, so that test session invokes the helper from the current task with `--surface auto`, the resolved helper path and current project cwd. Positive process ancestry or the exact thread's stable `source: cli` identifies Codex CLI. The catalog is fresh, successful and marked applicable, with supported efforts and task-relevant capability descriptions. There is no positive evidence of an availability-changing launch mismatch. Live settings cannot be read; disk and persisted values agree. Do not mutate real settings.",
-      "expected": "Preserve the automatically identified CLI surface and recommend a concrete evidenced supported model/effort pair for that test session. Never default to Codex App because the prompt lacks a CLI label. Another terminal, the helper's separate process, unknown live settings, lack of an App bridge, and inability to prove that no hidden override exists do not invalidate the successful scoped catalog. Current fields remain unknown even when disk/persisted values agree; switch necessity is unknown. Ask to use the pair without claiming a comparison or applied change."
+      "expected": "Preserve the automatically identified CLI surface and recommend a concrete evidenced supported model/effort pair for that test session. Never default to Codex App because the prompt lacks a CLI label. Another terminal, the helper's separate process, unknown live settings, lack of an App bridge, and inability to prove that no hidden override exists do not invalidate the successful scoped catalog. Current fields remain unknown even when disk/persisted values agree; switch necessity is unknown. Keep the pair as task guidance; unknown baseline defers automatic switching without claiming a comparison or applied change."
     },
     {
       "id": "R02",
@@ -35,7 +35,7 @@
       "title": "No probe permission or timeout",
       "setup": "The Codex helper reports codex_state_unwritable in a project-only sandbox. The host may or may not expose approval. A matching unexpired bundled fallback registry is available.",
       "prompt": "Evaluate this fixture using the installed routing Skills: The Codex helper reports codex_state_unwritable in a project-only sandbox. The host may or may not expose approval. A matching unexpired bundled fallback registry is available. Do not mutate real settings.",
-      "expected": "Stop after the permission-limited read without requesting broader access, then read the bundled fallback. On a recognized ChatGPT or Codex surface, use its official cross-surface capability reference to give concrete minimum-sufficient and recommended model/effort pairs plus upgrade value without asking the user to transcribe selector options. Keep account availability unverified internally; omit unreadable current settings and diagnostic details from compact output. If the user later questions the recommendation, disclose the actual source, dates, applicability limit, and task mapping; ask once for narrowly scoped permission only if it unlocks a concrete same-surface model read, and never repeat after decline without a relevant change. Render context advice as a localized plain-language description without raw enum tokens. In auto, apply only through independently verified switch controls; otherwise state that the environment cannot switch, show only the model/reasoning selector on ChatGPT desktop or web, use /model only on an identified Codex CLI, retain the current setting, and continue authorized work without requiring a confirmation word."
+      "expected": "Stop after the permission-limited read without requesting broader access, then read the bundled fallback. On a recognized ChatGPT or Codex surface, use its official cross-surface capability reference to give concrete minimum-sufficient and recommended model/effort pairs plus upgrade value without asking the user to transcribe selector options. Keep account availability unverified internally; omit unreadable current settings and diagnostic details from compact output. If the user later questions the recommendation, disclose the actual source, dates, applicability limit, and task mapping; ask once for narrowly scoped permission only if it unlocks a concrete same-surface model read, and never repeat after decline without a relevant change. Render context advice as a localized plain-language description without raw enum tokens. In auto, require a justified switch assessment before independently verified switch controls; unknown current settings defer automatic switching; otherwise state that the environment cannot switch, show only the model/reasoning selector on ChatGPT desktop or web, use /model only on an identified Codex CLI, retain the current setting, and continue authorized work without requiring a confirmation word."
     },
     {
       "id": "R06",
@@ -70,7 +70,91 @@
       "title": "Read capability is not switch capability",
       "setup": "A complete current catalog and task requirements support a change, but there is no verified write tool.",
       "prompt": "Evaluate this fixture using the installed routing Skills: A complete current catalog and task requirements support a change, but there is no verified write tool. Do not mutate real settings.",
-      "expected": "In ask mode present the supported pair and known control as options while retaining the current setting. In auto mode only the unavailable operation falls back to an optional known manual action; read success never becomes applied. Neither mode pauses authorized work solely for model configuration. Context-only does not probe models."
+      "expected": "In ask mode present task-based settings and a consistent switch assessment, then wait for a natural response. In auto require a justified switch before applying any callable verified operation; unavailable controls or retain/defer decisions keep settings while authorized work continues. Read success never becomes applied. Context-only does not probe models."
+    },
+    {
+      "id": "S01",
+      "title": "Suitable configuration / 適任設定",
+      "setup": "Current pair is observed and meets the quality floor. A stronger recommended pair offers a modest gain, but setup cost exceeds the benefit over the short remaining phase. Also evaluate the variant where the current pair already equals the recommendation.",
+      "prompt": "Evaluate this fixture under the installed routing Skills: Current pair is observed and meets the quality floor. A stronger recommended pair offers a modest gain, but setup cost exceeds the benefit over the short remaining phase. Also evaluate the variant where the current pair already equals the recommendation.",
+      "expected": "Keep both task-based settings independent. Retain the observed suitable pair, report low switch value and continue authorized work in auto even with callable switching tools. If already matching, retain without needing cache estimates. In ask, show the retention assessment and wait for a natural choice; do not instruct a switch."
+    },
+    {
+      "id": "S02",
+      "title": "Quality overrides stickiness / 品質優先",
+      "setup": "The current model is observed to fail required validation; the supported target addresses the demonstrated capability deficit. Existing cache may be valuable, but its cost is unknown.",
+      "prompt": "Evaluate this fixture under the installed routing Skills: The current model is observed to fail required validation; the supported target addresses the demonstrated capability deficit. Existing cache may be valuable, but its cost is unknown.",
+      "expected": "A clear quality deficit can justify decision change despite cache uncertainty. State the tradeoff without inventing cache amounts. Auto applies only authorized callable verifiable operations; an unavailable operation retains current settings, reports the quality limitation, and never claims applied."
+    },
+    {
+      "id": "S03",
+      "title": "Unknown baseline / 目前設定未知",
+      "setup": "The model catalog and capability evidence support concrete recommendations, but current model or effort is unreadable. Model mode is auto and setting tools are callable.",
+      "prompt": "Evaluate this fixture under the installed routing Skills: The model catalog and capability evidence support concrete recommendations, but current model or effort is unreadable. Model mode is auto and setting tools are callable.",
+      "expected": "Give both concrete task-based settings and upgrade value. Record unknown switch value and decision defer, retain the configuration and continue authorized work. Do not apply a target merely because controls exist or promote disk defaults to live values. Compact output gives provisional retention without unreadable fields."
+    },
+    {
+      "id": "S04",
+      "title": "Unknown switching cost / 切換成本未知",
+      "setup": "Current and target pairs are observed and sufficient. Cache and setup costs are unmeasured, and plausible costs could reverse the modest expected benefit.",
+      "prompt": "Evaluate this fixture under the installed routing Skills: Current and target pairs are observed and sufficient. Cache and setup costs are unmeasured, and plausible costs could reverse the modest expected benefit.",
+      "expected": "Retain or defer; unknown cost is not zero or certain cache loss. Do not invent net savings, price scores or paid cache probes. Report that switching benefit is not established. Do not treat this as a missing task-based recommendation."
+    },
+    {
+      "id": "S05",
+      "title": "New destination / 新目的地",
+      "setup": "A handoff or clean context is approved. Destination model options are known, but summarization, rereading and setup have a material cost.",
+      "prompt": "Evaluate this fixture under the installed routing Skills: A handoff or clean context is approved. Destination model options are known, but summarization, rereading and setup have a material cost.",
+      "expected": "Reassess the destination while accounting for remaining work and handoff/setup cost. Do not force a different model or assume a free switch. Reconfirm destination controls and observed configuration before automatic application; an unresolved destination still defers the model gate."
+    },
+    {
+      "id": "S06",
+      "title": "Declined handoff / 拒絕交接",
+      "setup": "Context router proposed a handoff, but the user declined it. The current model remains suitable and switching benefit is insufficient.",
+      "prompt": "Evaluate this fixture under the installed routing Skills: Context router proposed a handoff, but the user declined it. The current model remains suitable and switching benefit is insufficient.",
+      "expected": "Pass the effective retained context and continuity rationale to model routing. Retain settings; do not optimize for the rejected destination or describe its setup as already performed."
+    },
+    {
+      "id": "S07",
+      "title": "Context off and model only / 對話路由關閉及模型專用",
+      "setup": "Evaluate context-off with model routing enabled, then explicit model-only routing. The current conversation is retained and the pair is known. Also evaluate model-off and both-off.",
+      "prompt": "Evaluate this fixture under the installed routing Skills: Evaluate context-off with model routing enabled, then explicit model-only routing. The current conversation is retained and the pair is known. Also evaluate model-off and both-off.",
+      "expected": "For enabled model routing use current placement without claiming a completed context assessment; evaluate switch value without invoking context routing or inventing a handoff. Model-off emits no model or switch result; both-off skips all routing and discovery."
+    },
+    {
+      "id": "S08",
+      "title": "Reasoning-only change / 僅調整推理",
+      "setup": "The model stays the same but a different supported reasoning setting is proposed. Provider-specific evidence says that this change affects the reusable prefix.",
+      "prompt": "Evaluate this fixture under the installed routing Skills: The model stays the same but a different supported reasoning setting is proposed. Provider-specific evidence says that this change affects the reusable prefix.",
+      "expected": "Assess reasoning-only switching costs and quality needs with the same gate as model changes. Do not assume same model means preserved cache or universally apply another provider's invalidation rules. Respect Gemini-native reasoning controls."
+    },
+    {
+      "id": "S09",
+      "title": "Return to a warm model / 切回已有快取的模型",
+      "setup": "A session switches from model A to B and considers returning to A. Scoped usage shows A still has an eligible matching unexpired prefix; conversation history is also supplied.",
+      "prompt": "Evaluate this fixture under the installed routing Skills: A session switches from model A to B and considers returning to A. Scoped usage shows A still has an eligible matching unexpired prefix; conversation history is also supplied.",
+      "expected": "Do not equate each switch with full cold start or claim that a prior cache miss erased conversation content. Use the observed reusable prefix without promising all content is cached. Same conversation or new window alone does not determine reuse."
+    },
+    {
+      "id": "S10",
+      "title": "Remaining-phase amortization / 剩餘階段攤提",
+      "setup": "A cheaper target meets the quality floor and measured setup costs and task usage are available. Compare a short remainder with a long remainder where net savings exceed switching cost.",
+      "prompt": "Evaluate this fixture under the installed routing Skills: A cheaper target meets the quality floor and measured setup costs and task usage are available. Compare a short remainder with a long remainder where net savings exceed switching cost.",
+      "expected": "Retain for the short remainder; justify change for the long remainder only when net benefit is supported. Distinguish API money from subscription usage, include retries/rework and avoid counting cache processing twice. Preserve capability-based upgrade value independently."
+    },
+    {
+      "id": "S11",
+      "title": "Explicit target / 使用者指定設定",
+      "setup": "A switch assessment suggested retention, then the user explicitly requests a supported exact model and effort. Callable verifiable controls are available; repeat with only user controls available.",
+      "prompt": "Evaluate this fixture under the installed routing Skills: A switch assessment suggested retention, then the user explicitly requests a supported exact model and effort. Callable verifiable controls are available; repeat with only user controls available.",
+      "expected": "Honor the explicit target without a second routing confirmation, verify actual operations, and distinguish user selection from the router recommendation. With only user controls give the exact manual action and do not claim application. User authorization cannot create missing capability."
+    },
+    {
+      "id": "S12",
+      "title": "Phase boundary and no churn / 階段邊界與避免反覆切換",
+      "setup": "A completed gate is followed by several tool calls and ordinary follow-ups in the same phase. Later a demanding phase ends; a brief deterministic validation remains.",
+      "prompt": "Evaluate this fixture under the installed routing Skills: A completed gate is followed by several tool calls and ordinary follow-ups in the same phase. Later a demanding phase ends; a brief deterministic validation remains.",
+      "expected": "Reuse the unchanged gate without repeated discovery or switching. At the genuine boundary reassess remaining benefit, do not automatically downgrade, and prefer retention if savings do not repay costs. Keep observations session-local and do not create persistent activity logs."
     }
   ],
   "surfaces": {
@@ -212,6 +296,54 @@
         "evidence": null
       },
       "R10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S12": {
         "status": "not_run",
         "evidence": null
       }
@@ -356,6 +488,54 @@
       "R10": {
         "status": "not_run",
         "evidence": null
+      },
+      "S01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S12": {
+        "status": "not_run",
+        "evidence": null
       }
     },
     "chatgpt-mobile": {
@@ -496,6 +676,54 @@
         "evidence": null
       },
       "R10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S12": {
         "status": "not_run",
         "evidence": null
       }
@@ -640,6 +868,54 @@
       "R10": {
         "status": "not_run",
         "evidence": null
+      },
+      "S01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S12": {
+        "status": "not_run",
+        "evidence": null
       }
     },
     "codex-cli": {
@@ -760,8 +1036,8 @@
         "evidence": null
       },
       "R05": {
-        "status": "pass",
-        "evidence": "docs/evidence/codex-cli-r05.json"
+        "status": "not_run",
+        "evidence": null
       },
       "R06": {
         "status": "not_run",
@@ -780,6 +1056,54 @@
         "evidence": null
       },
       "R10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S12": {
         "status": "not_run",
         "evidence": null
       }
@@ -924,6 +1248,54 @@
       "R10": {
         "status": "not_run",
         "evidence": null
+      },
+      "S01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S12": {
+        "status": "not_run",
+        "evidence": null
       }
     },
     "gemini-cli": {
@@ -1064,6 +1436,54 @@
         "evidence": null
       },
       "R10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S01": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S02": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S03": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S04": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S05": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S06": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S07": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S08": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S09": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S10": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S11": {
+        "status": "not_run",
+        "evidence": null
+      },
+      "S12": {
         "status": "not_run",
         "evidence": null
       }
