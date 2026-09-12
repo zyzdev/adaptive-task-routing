@@ -4,6 +4,12 @@ Specification check: 2026-09-12. Recheck interfaces against the installed versio
 
 ## Codex CLI and App
 
+Before presenting model controls, follow the model router's action-paragraph selection.
+For `retain` or `defer`, use its retention/hold paragraph without `/model`, a selector
+instruction or an invitation to apply the target. Unknown current settings alone never
+trigger manual-switch advice. The control examples below apply only to a justified
+`decision: change` or an explicit user-selected target, including the fallback path.
+
 Prefer metadata or a documented read tool exposed by the current host. A catalog
 must describe the effective destination, not the subagent menu or a different account.
 If a local shell, Python 3.10+ and Codex CLI are available and permitted, run the
@@ -57,15 +63,14 @@ choosing those task-based settings. Do not present the registry as live App meta
 and do not mention its use, applicability, freshness, or unreadable values in compact
 user-facing output unless the user explicitly asks for diagnostics.
 
-Catalog discovery never establishes switch capability. In `auto`, switch only when
-the exact model and effort controls are callable, authorized and verifiable. On an
-identified CLI, show `/model` as an optional manual action. On ChatGPT desktop or web
-with a visible model/reasoning selector, show only that selector and do not include
-the CLI-only `/model` command. In `ask`, stop and wait for the user's natural decision without
-requiring a confirmation word. In `auto`, retain the current setting and continue when switching
-is unavailable. `/status` may supply useful user-reported current
-settings, but unreadable current values are omitted from the compact result. Do not make
-further probe attempts in the same gate.
+Catalog discovery never establishes switch capability. Follow [routing UX](../routing-ux.md).
+For retain or nonblocking defer, omit model controls and continue only authorized work without
+routing confirmation. A material blocker requires a useful question. For justified change or an
+explicit target, an identified CLI may show `/model`; ChatGPT desktop/web uses its visible selector.
+In ask, request the pending change once. In auto, use only authorized, callable, verified changes;
+report the actual fallback if unavailable and do not proceed through a material blocker.
+`/status` can supply user-reported settings, not an agent-controlled switch. Omit unreadable current
+values from compact output. Do not repeat discovery within an unchanged gate.
 
 Do not request broader permission during the normal fallback. If the user later
 questions the recommendation, explain whether the result used current runtime data or

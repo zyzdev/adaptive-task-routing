@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "instructions": "Run in fresh installed-host sessions. Fixtures are hypothetical, not authority to change real settings. Record CLI/app version, actual model and effort or unknown, explicit/implicit invocation, Skill paths, output, disposition and evidence. Static/native validation is not a behavioral pass.",
+  "instructions": "Run in fresh installed-host sessions. Fixtures are hypothetical, not authority to change real settings. Record CLI/app version, actual model and effort or unknown, explicit/implicit invocation, Skill paths, output, disposition and evidence. Static/native validation is not a behavioral pass. Current UX expectations are not live-validated; previous reports are historical evidence only. No model calls are needed for static package validation.",
   "cases": [
     {
       "id": "B01",
@@ -9,7 +9,7 @@
       "title": "Coordinator sequence / 協調入口順序",
       "setup": "A substantial debugging request explicitly invokes `adaptive-task-routing`, with both child Skills and shared files available.",
       "prompt": "Evaluate this fixture under the installed routing Skills: A substantial debugging request explicitly invokes `adaptive-task-routing`, with both child Skills and shared files available.",
-      "expected": "For a plan-only or analysis-only request, the requested useful deliverable appears first. For an execution request, an actionable plan appears first. The coordinator then loads the context router, resolves the effective context, and loads the model router for the resulting substantial next phase. The single routing note starts with a divider, a localized `Adaptive Task Routing` task-resource heading, and a one-sentence explanation of its purpose. In default `ask`, the note ends the turn and waits for a natural user response; only `auto` may continue automatically. The coordinator does not make either child decision itself.",
+      "expected": "Present the requested findings or actionable plan first. Load and delegate context then model decisions. The single routing note uses a divider, plain Adaptive Task Routing heading, action, reason, enabled conversation advice and useful AI setting. In ask, retain/nonblocking defer continue only authorized work; a proposed change or material blocker requires a real decision. The coordinator does not make either child decision itself.",
       "results": {
         "chatgpt": {
           "status": "not_run",
@@ -36,7 +36,7 @@
       "title": "Improvement-plan delivery / 交付改善計畫",
       "setup": "The user asks only for a substantial cross-file release-flow, cross-platform consistency, and test-gap audit. The completed findings propose a concrete implementation and validation phase.",
       "prompt": "Evaluate this fixture under the installed routing Skills: The user asks only for a substantial cross-file release-flow, cross-platform consistency, and test-gap audit. The completed findings propose a concrete implementation and validation phase.",
-      "expected": "Do not classify the audit as merely informational or skip routing because implementation was not requested. Present the completed findings and improvement plan first. Follow them with the branded task-resource divider and introduction, then visibly recommend model and effort for the proposed next phase. Default `ask` stops after the recommendation and waits for a natural user response, even when the current setting appears sufficient; it states that the recommendation did not authorize or begin implementation.",
+      "expected": "Complete the substantial audit and plan first, then show action-first advice for its concrete next phase. A plan-only request ends with that deliverable without implementation or an artificial keep-current question. Compact preserves enabled conversation advice and useful model guidance; detailed can expose both task settings.",
       "results": {
         "chatgpt": {
           "status": "not_run",
@@ -63,7 +63,7 @@
       "title": "Context continuity with localized visible advice / 對話延續與在地化建議",
       "setup": "A follow-up depends on definitions and corrections from recent turns, and the running model and effort are both observed and suitable.",
       "prompt": "Evaluate this fixture under the installed routing Skills: A follow-up depends on definitions and corrections from recent turns, and the running model and effort are both observed and suitable.",
-      "expected": "Structured evidence records `CURRENT`, while visible output uses a localized plain-language recommendation without the raw context enum. Model routing remains visible and identifies the observed suitable pair. Default model `ask` still ends the turn for the user's natural decision; it does not silently continue because no switch is needed.",
+      "expected": "Preserve continuity using a localized conversation advice and a verified keep action. Keep both task settings in internal evidence; compact shows only the observed current pair, never a task-fit alternative. Ask does not pause for retention; continue only authorized work. A pending context change remains independent.",
       "results": {
         "chatgpt": {
           "status": "not_run",
@@ -90,7 +90,7 @@
       "title": "Unknown current configuration / 目前設定未知",
       "setup": "The applicable model catalog, supported effort options and task-relevant capability descriptions are known, but the running model and reasoning effort cannot be read.",
       "prompt": "Evaluate this fixture under the installed routing Skills: The applicable model catalog, supported effort options and task-relevant capability descriptions are known, but the running model and reasoning effort cannot be read.",
-      "expected": "Recommend a concrete supported model and effort for the task; do not retain CURRENT/CURRENT solely because current settings are unknown. Current fields and switch necessity remain unknown. In `ask`, present the pair and known control without claiming an upgrade, comparison, or applied change, then stop and wait for a natural user response.",
+      "expected": "Unknown current values do not erase an evidenced task-fit pair. Use provisional retention and defer automatic switching without claiming suitability or showing a selector. Ask continues already authorized work if no material blocker exists; a concrete quality/destination blocker requires a useful question, not a generic keep-current confirmation.",
       "results": {
         "chatgpt": {
           "status": "not_run",
@@ -198,7 +198,7 @@
       "title": "Programmable CLI execution / 可程式化 CLI 執行",
       "setup": "A CLI uses `auto`.",
       "prompt": "Evaluate this fixture under the installed routing Skills: A CLI uses `auto`.",
-      "expected": "Automatic execution occurs only when the exact operation is callable, authorized, and verifiable. An interactive command or launch flag alone is not capability evidence. After one failed automatic attempt, the router stops retrying and returns an accurate manual fallback without an `applied` claim.",
+      "expected": "A router-initiated model/effort change additionally requires a justified switch assessment. Automatic execution occurs only when the exact operation is callable, authorized, and verifiable. An interactive command or launch flag alone is not capability evidence. After one failed automatic attempt, the router stops retrying and returns an accurate manual fallback without an `applied` claim.",
       "results": {
         "chatgpt": {
           "status": "not_run",

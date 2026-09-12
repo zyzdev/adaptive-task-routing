@@ -1,97 +1,113 @@
-# Complete routing example
+# Complete routing examples
 
-## 1. Request and first gate
+These are designed UX examples, not model-test results. Model names below are fictional fixture
+labels, not selectable product options. All routing notes follow the findings or actionable plan
+requested by the user. Both routers use `ask` unless stated otherwise.
 
-> Inspect this app's slow startup and give me an improvement plan. Do not implement it yet. Use the adaptive-task-routing skill.
+## Keep after a plan-only request
 
-The agent performs the authorized read-only inspection first: it traces startup entry points, examines existing timing evidence, and presents a concrete improvement plan. The routers do not inspect the app themselves. Before the proposed implementation phase begins, the coordinator loads the context router and then the model router. Both modes default to `ask`. This example runs in an App whose orchestrator can create contexts but cannot change the current model or effort.
-
-The following model names are **fictional test-fixture labels**, not installable models or real recommendations. The example runtime reports current `fixture-balanced` / `medium`, and lists `fixture-fast` and `fixture-balanced`, each supporting `low`, `medium`, and `high`.
-
-Suppose the inspection finds serialized initialization and proposes three dependent changes: defer optional services, parallelize independent reads, and test startup ordering. The agent first explains that evidence and the complete improvement plan. It then identifies a substantial **next phase**: implementing and validating those changes. The context router finds recent requirements relevant and recommends staying in this conversation. The model router recommends more reasoning effort for that next phase. The routing note follows the plan:
+The user requests a startup inspection and improvement plan, without implementation. The inspection
+finds serialized initialization. Reliable observations and validation establish that
+`fixture-balanced / medium` can handle the proposed follow-up checks if later authorized;
+their short duration makes a change unlikely to repay setup costs.
 
 ```text
-The inspection found serialized initialization. The plan is to defer optional services, parallelize independent reads, and add startup-ordering tests. No implementation has started.
+The inspection found independent reads being serialized. Improvement plan:
+1. Defer optional services.
+2. Parallelize independent reads.
+3. Test startup order and duration.
 
 ---
 
-### Adaptive Task Routing | Task resource guidance
+### Adaptive Task Routing
 
-The following recommendations assess the conversation, model, and reasoning resources for the next phase of the plan above.
+✓ Keep current
 
-Conversation setting
-Recommendation: Stay in this conversation
-Switch window: no
-Recent requirements are still relevant.
+If the planned follow-up checks are later authorized, the current setup has sufficient validation
+evidence and switching offers little expected benefit.
 
-Minimum sufficient AI setting
-Model: fixture-balanced
-Reasoning: medium
-Enough to implement the defined edits and tests.
+Conversation: Stay here; no new conversation needed.
+Current AI: fixture-balanced / medium.
 
-Recommended AI setting
-Model: fixture-balanced
-Reasoning: high
-Upgrade value: medium; extra checking helps with initialization ordering and regression interactions.
-
-If desired, choose high effort in the known App selector. I will stop here while you decide whether to adjust it or keep the current setting for the next phase.
+The analysis and plan are complete. Implementation has not started.
 ```
 
-Default `ask` ends the turn here even though the current pair might already be sufficient. The user can reply naturally; no fixed confirmation word is required. Advice does not authorize implementation, and the plan-only request does not start it.
+No “keep current?” question is needed, and no implementation is authorized by retention.
+When execution has already been requested, the ending instead identifies and performs the next
+approved check. A completed plan is not a material routing blocker.
 
-## 2. User authorizes the next phase
+## Provisional retention
 
-> I selected high effort. Implement the plan.
+The catalog supports `fixture-balanced / high`, but the current model is unreadable. A bounded
+check is already authorized and its results can be verified; no material quality blocker exists.
+A known current pair with uncertain switching cost or benefit can also warrant provisional retention.
 
-The agent revalidates the current setting using runtime metadata if available; otherwise it records the user-provided value and its source without claiming independent verification. It does not repeat unchanged context analysis. A brief model note confirms the intended pair or reports any mismatch, then implementation proceeds under the user's authorization.
+```text
+Plan: compare version sources, inspect release artifacts, then run the relevant tests.
 
-If the user instead says “Use the current setting and start,” that is also a valid natural response. If the App selector location is unknown, the agent describes the available control without inventing an exact menu path.
+---
 
-If the user had instead said only “What does deferred initialization mean?”, the agent would answer without starting another gate or implementing anything.
+### Adaptive Task Routing
 
-## 3. Completion
+Keep provisionally
 
-Before a demanding final interpretation of benchmark results, the model router may run again if the phase materially changes. When the agent finishes with a complete conclusion and no substantial next phase, it stops normally. No artificial next task or new window is proposed solely to keep routing active.
+The benefit of switching is not established; the bounded checks can proceed with validation.
 
-## Unknown configuration variant
+Conversation: Stay here; no new conversation needed.
+Task-fit setting: fixture-balanced / high; this is not a request to switch now.
 
-If the host exposes neither current settings nor a model catalog, the model result still appears:
-
-```yaml
-skill: research-model-router
-phase: proposed implementation and validation
-current_configuration:
-  model: unknown
-  reasoning_effort: unknown
-  evidence: unavailable
-model_catalog:
-  availability: unknown
-  source: unavailable
-  observed_at: unknown
-  cache_scope: none
-assessment: unverified
-minimum_sufficient_setting:
-  model: null
-  reasoning_effort: null
-  availability: unknown
-  reason: No applicable catalog exists from which to name a supported pair.
-recommended_setting:
-  model: null
-  reasoning_effort: null
-  availability: unknown
-upgrade_value: low
-upgrade_reason: Capability cannot compensate for missing candidate evidence.
-confidence: 0.30
-mode: ask
-disposition: awaiting_user_confirmation
+Continuing the authorized checks.
 ```
 
-This is not a claim that the current model is sufficient. On a host without an applicable bundled reference, the agent can request actual selector options once if selecting a configuration becomes necessary. On a recognized OpenAI surface with a matching unexpired bundled reference, it gives two concrete availability-unverified pairs without requesting a copied selector, then presents the surface-appropriate control as an option. A catalog alone must not be used to guess the running model.
+If failed validation makes responsible progress impossible, replace this action with **Need your
+decision**, name the blocking choice and ask one concrete question. Unknown metadata alone is not
+such a blocker. Do not certify an unreadable pair as suitable.
 
-## Context and executor variants
+## Change and mixed handoff
 
-- With context `ask` and a `HANDOFF` recommendation, ask whether to move. A decline keeps work current; acceptance uses an available context-creation operation or provides a user action when none is callable.
-- With context `ask` and an unresolved destination catalog, show the model gate as deferred, then evaluate it in the confirmed destination. Do not mark the gate complete.
-- With both modes `off`, skip routing and its output. Model-off alone suppresses model recommendations while leaving the context router active.
-- In a CLI with `auto`, each callable, authorized configuration operation may be executed and verified. An interactive command alone does not establish that capability. A failed automatic operation gets a manual fallback after one attempt.
-- In an App with `auto`, an exposed context operation may run automatically while current-model or effort changes degrade to user action. Capability is resolved per operation, not from the App label.
+The current fixture model fails the next phase's quality requirement. A supported target has a
+justified advantage. In `ask`, propose the change before applying it:
+
+```text
+Plan: compare version sources, inspect release artifacts, then run the relevant tests.
+
+---
+
+### Adaptive Task Routing
+
+Change AI setting
+
+The next phase requires validation that the observed current setup has not handled reliably.
+
+Conversation: Stay here; no new conversation needed.
+Task-fit setting: fixture-balanced / high.
+
+Use fixture-balanced / high?
+```
+
+If a new conversation is also recommended, lead with **New conversation with handoff** and answer
+“Conversation: Start a new conversation with the necessary handoff, pending your decision.” Carry only the objective, confirmed findings, API
+constraints, relevant artifacts and next step. Show destination settings only when supported
+there; otherwise defer model selection explicitly. A retained model never settles the context
+question. A clean start carries no old task-history handoff.
+
+`auto` can apply only justified, authorized, callable and verifiable changes. Without those
+controls, state the actual fallback rather than “applying.” Continue authorized work only if no
+material quality or destination blocker remains. Explicitly accepted targets need no second
+routing confirmation.
+
+## Details and disabled components
+
+A detail request reuses the gate and adds minimum needed, task-fit settings and upgrade rationale.
+The internal `recommended_setting` name stays compatible. Switch scores and diagnostic provenance
+are not ordinary detailed output. Context-off removes the entire conversation assessment;
+Model-off removes model guidance and controls; both-off emits no routing note. Compact/detailed
+are display preferences, not new modes.
+
+## Unknown Gemini model
+
+A native default reasoning value does not establish current model identity. If the model cannot
+be reliably identified, use provisional retention, omit the default-only current AI field and
+state uncertainty in prose. Keep the complete requested findings and plan before the routing
+note, and end a plan-only response by acknowledging delivery without implementation. Successful
+analysis alone cannot certify suitability for a different future phase.

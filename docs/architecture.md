@@ -1,5 +1,37 @@
 # Architecture
 
+## Switching value and task continuity
+
+Routing occurs at meaningful task boundaries, not every prompt. Context placement remains
+owned by the context router; the model router consumes the effective placement and continuity
+rationale. A declined handoff uses the retained conversation, and context-off does not imply
+that its suitability was assessed. Neither router is renamed.
+
+The model router first selects minimum-sufficient and recommended settings for the task.
+`upgrade_value` compares those two settings. It then evaluates `switch_assessment`: the
+benefit of moving from the observed current pair to the recommended pair versus retaining it
+for the same remaining phase. Suitable settings may be retained even if a stronger candidate
+has capability value. Reassessment after a hard phase does not mandate a downgrade.
+
+Account for remaining work, setup, cache reuse, latency, retries, rework and handoff costs.
+Prompt-cache state and supplied conversation content are distinct; a cache miss does not
+remove history, a new conversation is not a free switch, and changing effort can also affect cache
+reuse under platform-specific rules. Unknown current settings defer automatic switching but
+do not suppress concrete task-based recommendations. Unknown cache cost is neither zero nor
+certain cache loss; a clear quality deficit can still justify change. Explicit user targets
+take precedence without creating missing host controls.
+
+In `auto`, only a justified `decision: change` can proceed to authorized, callable, verified
+application. `ask` confirms proposed changes or material blockers; retain and nonblocking
+defer continue only authorized work. `off` skips its router. The action-first UX contract
+separates task-fit settings from the action now and keeps switch scoring internal. This applies to the shared
+policy and both Gemini runtime projections, without a new service or persistent activity log.
+
+Evaluation should compare task completion, quality, corrections, rework, latency and total
+workflow cost, including cache usage when observable. Separate API billing from subscription
+usage, avoid double-counting cache processing, and report unknown measurements honestly.
+The new switch cases are acceptance fixtures, not proof of live host behavior or savings.
+
 ## Design goal
 
 Adaptive Task Routing reduces avoidable context and compute use without allowing a routing recommendation to silently exceed user intent or host capability.
@@ -25,7 +57,7 @@ resolve context using user mode + runtime capability
 research-model-router ─► minimum sufficient + recommended model/effort pairs
     │
     ▼
-ask: wait for user | auto: resolve configuration
+resolve action + pending decision + task authorization
     │
     ▼
 execute the next phase when authorized
@@ -48,17 +80,17 @@ The coordinator follows relative links to the packaged child `SKILL.md` files, o
 
 Explicitly selecting the coordinator runs the full workflow. The generated packages also use a host-native reminder: Codex and Claude Code inject one short instruction on `UserPromptSubmit`, while Gemini CLI loads an extension `GEMINI.md` at session startup. Codex and Claude invoke the coordinator for a qualifying next phase. Gemini applies a complete compact coordinator contract embedded in its startup context because CLI 0.59.0 can expose `activate_skill` to the model while failing its execution with `tool_not_registered`. All three surfaces present the requested analysis or plan before routing advice. A child's one-time dispatch guard recovers when a host nevertheless selects it for a general task.
 
-For an analysis-only or plan-only request, finish and present the authorized deliverable first, then route a concrete substantial next phase before yielding. For an execution request, present a concise actionable plan first and route before mutation or substantial execution. Model `ask` ends the turn after the routing note and waits for a natural user response, even when the current pair is suitable. Model `auto` may apply supported changes and continue. A final answer with no concrete substantial next phase ends normally. At later stage changes, present the completed phase's results first, then re-run model routing alone unless context also needs reconsideration.
+For an analysis-only or plan-only request, finish and present the authorized deliverable first, then route a concrete substantial next phase before yielding. For an execution request, present a concise actionable plan first and route before mutation or substantial execution. `ask` pauses only before a proposed change or a material blocker; retain and nonblocking defer continue authorized work. Model `auto` may apply supported changes and continue. A final answer with no concrete substantial next phase ends normally. At later stage changes, present the completed phase's results first, then re-run model routing alone unless context also needs reconsideration.
 
-Reuse a completed gate while phase, effective context, preferences, catalog, and capabilities are unchanged. If both modes are `off`, skip evaluation, probing, and output. If only one is off, the other remains active. Context-off uses the current context; model-off retains current settings. In the default model `ask` mode, every displayed setting recommendation pauses before the next phase; a context `CURRENT` result alone does not force a pause when model routing is off.
+Reuse a completed gate while phase, effective context, preferences, catalog, and capabilities are unchanged. If both modes are `off`, skip evaluation, probing, and output. If only one is off, the other remains active. Context-off uses the current context; model-off retains current settings. Retaining a setting does not request confirmation; task authorization is checked separately.
 
 If the user declines a context change in `ask`, model routing evaluates the current effective context. If a destination is pending and its model catalog is unknown, display the model gate as deferred and show observable current settings; revalidate in the destination before work starts. Do not silently drop the second gate or call it complete.
 
 ## Visible model result
 
-An enabled model invocation reports recommended model/effort, observed current values or availability, a short reason, mode, and actual action. `CURRENT` with known suitable settings is distinct from provisional retention with `assessment: unverified`. A supported catalog does not reveal the current running model. Unknown controls must not become invented names, settings, menu labels, or commands.
+An enabled model invocation records both task settings and evidence internally, then renders an action, reason and useful native AI setting. Mode and diagnostic availability are omitted from ordinary compact output. Verified keep shows only the observed current AI; task-fit alternatives belong in details. `CURRENT` with known suitable settings is distinct from provisional retention with `assessment: unverified`. A supported catalog does not reveal the current running model. Unknown controls must not become invented names, settings, menu labels, or commands.
 
-The output schema can be rendered as a short note. After the task findings or plan, each note begins with a Markdown divider, a localized `Adaptive Task Routing` task-resource heading, and one sentence that explains the following advice applies to the planned next phase. Stable context enums remain in structured evidence; visible output renders a plain recommendation in the user's language without the raw enum. `off` is the deliberate exception to visibility; a disabled router makes no decision.
+The output schema can be rendered as a short note. After the task findings or plan, each note begins with a Markdown divider, a plain `Adaptive Task Routing` heading, then the action and a short reason, followed by enabled conversation advice and useful settings. Stable context enums remain in structured evidence; visible output renders a plain recommendation in the user's language without the raw enum. `off` is the deliberate exception to visibility; a disabled router makes no decision.
 
 ## Three-layer resolution
 
@@ -78,7 +110,7 @@ The first invocation loads a capability snapshot from a host- or user-managed se
 
 The installed plugin package is not used as mutable state because upgrades may replace it.
 
-The available model catalog has a shorter lifecycle than the capability snapshot. Runtime metadata is preferred and cached for the session or another short host-defined lifetime. A user-provided list is labeled as such; a static fallback must be versioned and expiring. When an OpenAI App cannot expose runtime discovery, the router immediately uses the bundled official cross-surface reference to produce minimum-sufficient and recommended settings without asking for a copied selector. Gemini CLI uses a separate registry of stable aliases and preserves model-native reasoning controls; without an observed `thinkingBudget` or `thinkingLevel`, compact output says the model default is used. Account availability remains unverified. In `ask`, the surface-appropriate control is shown and the next phase waits for the user. In `auto`, independently verified switch controls may apply the pair; otherwise the control is optional and authorized work continues with the current setting. Unreadable current fields are retained only in structured evidence and omitted from compact output. Catalog, running configuration, model capability evidence and switch capability remain separate.
+The available model catalog has a shorter lifecycle than the capability snapshot. Runtime metadata is preferred and cached for the session or another short host-defined lifetime. A user-provided list is labeled as such; a static fallback must be versioned and expiring. When an OpenAI App cannot expose runtime discovery, the router immediately uses the bundled official cross-surface reference to produce minimum-sufficient and recommended settings without asking for a copied selector. Gemini CLI uses a separate registry of stable aliases and preserves model-native reasoning controls; without an observed `thinkingBudget` or `thinkingLevel`, compact output says the model default is used. Account availability remains unverified. In `ask`, show a control only for a justified change or explicit target; follow the UX contract for continuation or a material blocker. In `auto`, independently verified switch controls may apply the pair; otherwise the control is optional and authorized work continues with the current setting. Unreadable current fields are retained only in structured evidence and omitted from compact output. Catalog, running configuration, model capability evidence and switch capability remain separate.
 
 Permission escalation is deferred until the user questions the recommendation or requests an account-specific check. The router first discloses its evidence and limits. It may then ask once for the smallest useful read permission, but only when a concrete path can reach the same App or session model catalog. Access to a separate CLI process does not satisfy that condition. A refusal keeps the fallback result and suppresses repeat requests until the relevant environment or user request changes.
 
@@ -106,4 +138,8 @@ There is no fourth marketplace archive. Local marketplace registration is a sepa
 
 ## Defaults
 
-Both routers default to `ask`. A model recommendation ends the turn before the next phase regardless of switching availability; no fixed reply keyword is required. Model `auto` is the only mode that may continue automatically after routing. A context change still waits for the user's choice unless the context router is explicitly set to `auto`.
+Both routers default to `ask`, which confirms changes and material blockers. Retain/nonblocking defer continue only authorized work. A plan-only request ends with its deliverable, never implementation. Independent context decisions remain pending even when model settings are retained.
+
+## Action-first UX contract
+
+[The shared UX contract](../shared/routing-ux.md) defines compact/detailed presentation without adding a routing mode. Detailed adds minimum needed, task-fit settings and upgrade rationale; both task settings remain in structured evidence. Unknown current metadata uses provisional retention, never a suitability claim. A material blocker is distinct from merely deferring a switch. Handoff/clean can coexist with model changes, and the enabled conversation advice stays visible. Gemini embeds this same contract in both its startup context and coordinator appendix.

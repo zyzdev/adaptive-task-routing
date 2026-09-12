@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
   "name": "adaptive-task-routing",
-  "version": "0.4.2",
-  "description": "Recommend when to start a new conversation and which model and reasoning effort fit the next phase, helping reduce unnecessary usage and rework.",
+  "version": "0.5.0",
+  "description": "Recommend what to do next at task boundaries: keep, hand off, or change AI settings when worthwhile.",
   "author": {
     "name": "Adaptive Task Routing contributors"
   },
   "interface": {
     "displayName": "Adaptive Task Routing",
-    "shortDescription": "Help reduce wasted AI usage and rework.",
-    "longDescription": "Adaptive Task Routing helps reduce interference from previous tasks, unnecessary AI usage, and the risk of omissions and rework. Before the next substantial phase, it recommends whether to start a new conversation, with a concise handoff when needed, so old assumptions and constraints are less likely to affect new work. It then provides minimum-sufficient and recommended model and reasoning settings and explains the value of upgrading. The AI presents the requested analysis or plan first. Default ask mode waits for your decision; auto applies supported, verifiable changes and continues authorized work, retaining current settings when switching is unavailable. Actual savings and reliability depend on the task and settings adopted.",
+    "shortDescription": "See what to do next, including when no change is needed.",
+    "longDescription": "Adaptive Task Routing assesses conversation, model and reasoning resources at meaningful task boundaries. It shows the action to take now before a concise reason, distinguishing task-fit settings from whether a switch is worthwhile. Keeping a suitable setup and retaining provisionally under uncertainty are separate outcomes. Default ask confirms proposed changes or material blockers; retention and nonblocking defer continue only already authorized work. Plan-only requests never authorize implementation. Auto applies only justified, authorized, callable and verifiable changes. Compact uses a plain heading and one conversation sentence. Verified keep shows only the observed current AI; detailed adds task-fit alternatives, minimum settings and upgrade rationale. Ordinary changes ask only about the target setting. Actual savings and reliability improvements require evidence.",
     "developerName": "Adaptive Task Routing",
     "category": "Productivity",
     "capabilities": [],

@@ -1,8 +1,35 @@
-# Release verification — 0.4.2
+# Release verification — 0.5.0
+
+Release date: 2026-09-13 (Asia/Taipei). This release includes switch-aware decisions,
+action-first routing notes, plan-first response ordering and cross-platform UI consistency.
+
+- Automated validation: 84 Python tests, source/package/archive checks and three Skill validators.
+- Native discovery: Codex, Claude Code and Gemini CLI load all three packaged Skills.
+- The owner reported testing complete after installing commit `a9f3cb6` on all three platforms
+  and authorized PR merge and publication. No case-by-case transcripts were supplied; this is
+  user-reported acceptance, not a pass for every cell of the seven-surface matrix.
+- Detailed offline scope and limitations: [UX validation](ux-validation.md).
+- No new paid inference is required for release packaging. Directory review and publication
+  remain separate from the GitHub release.
+
+The release preparation updates version metadata and installation documentation without changing
+routing behavior after the owner's test. The 0.4.2 record below is preserved as historical evidence.
+
+---
+
+## Historical verification — 0.4.2
 
 Audit date: 2026-09-12 (Asia/Taipei). This release updates discovery, recommendation,
 direct-selection dispatch, plan-first routing and the `ask` hold while preserving the three Skill names. Local automated checks passed;
 public submission and conversational acceptance remain outstanding.
+
+## Historical switch-aware follow-up
+
+The [switch-aware behavioral report](switch-aware-testing.md) records 17 fresh live-model
+fixture evaluations and three CLI loading/output smoke tests, with the manual-control
+conflict found during native testing and its verified correction. This follow-up has
+61 passing Python tests. Its scoped results do not retroactively change the historical
+release results or establish full seven-surface acceptance.
 
 ## Automated results
 

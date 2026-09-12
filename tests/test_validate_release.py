@@ -47,12 +47,151 @@ class ValidateReleaseTests(unittest.TestCase):
         with self.temporary_root():
             self.assertEqual(VALIDATOR.main(), 0)
 
+    def test_rejects_ux_defaults_that_resume_without_authorization(self):
+        import yaml
+        path = self.root / "shared/defaults.yaml"
+        defaults = yaml.safe_load(path.read_text())
+        defaults["interaction"]["continuation_requires_task_authorization"] = False
+        path.write_text(yaml.safe_dump(defaults))
+        with self.assertRaisesRegex(ValueError, "Invalid UX interaction defaults"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_rejects_unconditional_retention_confirmation(self):
+        import yaml
+        path = self.root / "shared/defaults.yaml"
+        defaults = yaml.safe_load(path.read_text())
+        defaults["interaction"]["retain_requires_confirmation"] = True
+        path.write_text(yaml.safe_dump(defaults))
+        with self.assertRaisesRegex(ValueError, "Invalid UX interaction defaults"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_rejects_losing_verified_keep_display_rule(self):
+        path = self.root / "shared/routing-ux.md"
+        path.write_text(path.read_text().replace(
+            "Verified keep in compact shows only the observed current AI pair", "Keep may show alternatives"))
+        with self.assertRaisesRegex(ValueError, "Incomplete compact polish contract"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_rejects_losing_target_only_question_rule(self):
+        path = self.root / "shared/routing-ux.md"
+        path.write_text(path.read_text().replace(
+            "ask only whether to use the named target", "ask about the setting and plan together"))
+        with self.assertRaisesRegex(ValueError, "Incomplete compact polish contract"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_rejects_compact_hiding_window_answer(self):
+        import yaml
+        path = self.root / "shared/defaults.yaml"
+        defaults = yaml.safe_load(path.read_text())
+        defaults["presentation"]["keep_window_answer_visible"] = False
+        path.write_text(yaml.safe_dump(defaults))
+        with self.assertRaisesRegex(ValueError, "Invalid UX presentation defaults"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_rejects_legacy_hold_in_active_translation(self):
+        path = self.root / "skills/research-model-router/references/zh-TW.md"
+        path.write_text(path.read_text() + "\n目前保留設定；我先停在這裡\n")
+        with self.assertRaisesRegex(ValueError, "Legacy unconditional ask hold"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_rejects_missing_context_ux_consumer(self):
+        path = self.root / "skills/task-context-router/SKILL.md"
+        path.write_text(path.read_text().replace("../../shared/routing-ux.md", ""))
+        with self.assertRaisesRegex(ValueError, "Missing UX consumer"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_ux_contract_reaches_both_gemini_entrypoints_and_all_packages(self):
+        from release_lib import payload
+        contract = (self.root / "shared/routing-ux.md").read_bytes()
+        for platform in ("openai", "claude", "gemini"):
+            with self.subTest(platform=platform):
+                entries = payload(self.root, platform)
+                self.assertEqual(entries["shared/routing-ux.md"], contract)
+                if platform == "gemini":
+                    for entry in ("GEMINI.md", "skills/adaptive-task-routing/SKILL.md"):
+                        self.assertIn(contract, entries[entry])
+
+    def test_rejects_gemini_package_with_removed_ux_dependency(self):
+        from release_lib import payload, metadata
+        entries = payload(self.root, "gemini")
+        contract = (self.root / "shared/routing-ux.md").read_bytes()
+        entries["GEMINI.md"] = entries["GEMINI.md"].replace(contract, b"")
+        with self.assertRaisesRegex(ValueError, "Gemini automatic routing context mismatch"):
+            VALIDATOR.validate_manifests(entries, "gemini", metadata(self.root))
+
     def test_source_validation_rejects_missing_shared_file(self) -> None:
         (self.root / "shared/defaults.yaml").unlink()
         with self.temporary_root(), self.assertRaisesRegex(
             ValueError, "Missing required file: shared/defaults.yaml"
         ):
             VALIDATOR.main()
+
+    def test_rejects_unsafe_switching_defaults(self):
+        import yaml
+
+        path = self.root / "shared/defaults.yaml"
+        original = path.read_text()
+        for key, value in (("unknown_cost_is_zero", True),
+                           ("automatic_change_requires", "callable_control"),
+                           ("quality_floor_overrides_stickiness", False)):
+            with self.subTest(key=key):
+                defaults = yaml.safe_load(original)
+                defaults["switching"][key] = value
+                path.write_text(yaml.safe_dump(defaults))
+                with self.assertRaisesRegex(ValueError, "Unsafe switching defaults"):
+                    VALIDATOR.validate_source(self.root)
+
+    def test_rejects_missing_gemini_switch_gate(self):
+        path = self.root / "shared/gemini-coordinator-runtime.md"
+        path.write_text(path.read_text().replace("decision: change", "decision: any"))
+        with self.assertRaisesRegex(ValueError, "Switching contract missing: Gemini projection"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_rejects_gemini_unknown_model_forcing_manual_switch(self):
+        path = self.root / "shared/gemini-coordinator-runtime.md"
+        path.write_text(path.read_text() +
+                        "\nWhenever the recommended model may differ, present /model.\n")
+        with self.assertRaisesRegex(ValueError, "Gemini retention action conflicts"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_rejects_missing_model_retention_action_selection(self):
+        path = self.root / "skills/research-model-router/SKILL.md"
+        path.write_text(path.read_text().replace("### Select the action paragraph", "### Actions"))
+        with self.assertRaisesRegex(ValueError, "Model retention action selection missing"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_rejects_switch_schema_without_unknown_value(self):
+        path = self.root / "skills/research-model-router/references/evidence-schema.md"
+        path.write_text(path.read_text().replace(
+            "switch_value: low | medium | high | unknown",
+            "switch_value: low | medium | high"))
+        with self.assertRaisesRegex(ValueError, "Switching evidence schema missing"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_rejects_missing_switch_acceptance_case(self):
+        path = self.root / "tests/surface-matrix.json"
+        matrix = json.loads(path.read_text())
+        matrix["cases"] = [case for case in matrix["cases"] if case["id"] != "S03"]
+        for results in matrix["surfaces"].values():
+            del results["S03"]
+        path.write_text(json.dumps(matrix))
+        with self.assertRaisesRegex(ValueError, "Missing switching cases"):
+            VALIDATOR.validate_matrix(self.root)
+
+    def test_switch_contract_reaches_all_platforms_and_gemini_entrypoints(self):
+        from release_lib import payload
+
+        for platform in ("openai", "claude", "gemini"):
+            with self.subTest(platform=platform):
+                entries = payload(self.root, platform)
+                self.assertIn(b"switch_assessment", entries["shared/runtime-routing-policy.md"])
+                self.assertIn(b"decision: change", entries["skills/research-model-router/SKILL.md"])
+                self.assertIn(b"switch_value", entries[
+                    "skills/research-model-router/references/evidence-schema.md"])
+                if platform == "gemini":
+                    projection = (self.root / "shared/gemini-coordinator-runtime.md").read_bytes()
+                    for entry in ("GEMINI.md", "skills/adaptive-task-routing/SKILL.md"):
+                        self.assertIn(projection, entries[entry])
 
     def test_source_validation_rejects_stale_fallback_registry(self) -> None:
         path = self.root / "shared/model-catalogs/openai-codex-cli.json"

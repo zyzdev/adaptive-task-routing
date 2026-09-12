@@ -24,6 +24,8 @@
 - `HANDOFF`：下一階段只需已確認的結論、限制、檔案及未決問題。
 - `CLEAN`：獨立性、盲測或避免資訊污染比延續性更重要。
 
+將實際 Context 與延續理由交給協調入口，再傳給 Model Router：哪些資訊仍有用、哪些需要重建，以及交接／設定成本。此資訊影響切換價值，但不選擇模型。保留對話不證明快取命中，新對話也不代表設定變更沒有成本。使用者拒絕交接時傳入實際保留的對話；Router 關閉時只記錄目前位置，不宣稱已評估適合程度。
+
 ## 控制模式
 
 - `off`：不執行 Router，留在目前 Context。
@@ -42,9 +44,13 @@
 
 ```text
 要求的分析或可操作計畫 → task-context-router → 確定 Context
-→ research-model-router → 確定模型設定 → ask：等待｜auto：執行
+→ research-model-router → 確定模型設定 → 依授權與未決事項繼續或詢問
 ```
 
 這個 Skill 決定「在哪裡執行」；`research-model-router` 決定「用多少模型能力執行」。
 
 完整順序由 `adaptive-task-routing` 協調 Skill 負責；本 Skill 只有在宿主誤將一般任務直接分派給子 Skill 時轉交協調入口，本身不呼叫 Model Router。直接的 Context-only 請求只處理 Context。`ask` 的建議被拒絕時，實際工作 Context 仍是目前對話。App 與 CLI 都要逐項確認可操作與可驗證能力，不能只依介面名稱判斷。
+
+## 行動優先顯示
+
+依 [UX 契約](../../../shared/routing-ux.md)，先顯示對話動作及原因，再明確回答是否需要開新對話。啟用時精簡版也不省略；關閉不宣稱目前對話適合。模型保留不能蓋過尚待使用者決定的交接。只繼續已授權工作；只要求計畫不代表可以實作。

@@ -2,7 +2,49 @@
 
 All notable changes to this project are documented here.
 
-## Unreleased
+## [0.5.0] - 2026-09-13
+
+### Changed
+
+- Require complete analysis/plan-only deliverables before the divider and one final routing
+  note; action-first applies inside the note. Keep proposed implementation conditional.
+- Require observed current AI, phase-specific quality evidence and retention evidence for
+  verified model keep. Gemini default reasoning is not a substitute for current model identity.
+- Standardize Traditional Chinese action lines across hosts, with a separate short reason.
+- Add offline regressions for the reported Gemini ordering/default-label defects and retain
+  explicit semantic-review requirements; passing output checks do not prove model adherence.
+- Simplify the heading to `Adaptive Task Routing` and merge context advice into one
+  conversation sentence across all platforms and translated examples.
+- Show only the observed current AI for verified keep in compact output; reserve task-fit
+  alternatives for details. Provisional keep still covers uncertain switching costs or benefits.
+- Ask only whether to use the named target for an ordinary setting change. Broader questions
+  require a material blocker; extra validation after declining must be feasible and sufficient.
+- Lead routing notes with the action and reason. Default compact output preserves enabled
+  conversation advice and useful AI settings; detailed adds minimum needed, task-fit
+  settings and upgrade rationale without exposing internal switching scores.
+- Change `ask` to confirm proposed environment changes or material blockers. Retain and
+  nonblocking defer continue only already authorized work; plan-only requests never authorize
+  implementation. Provisional retention does not certify unknown settings as suitable.
+- Share one UX contract across both Skills and Gemini runtime entrypoints, preserve independent
+  context/model modes and combined handoff/model decisions, and refresh multilingual examples.
+- Add offline contract/package regressions and U01–U14 acceptance specifications. Earlier live
+  routing reports remain historical; no new model calls or savings benchmarks were run for this UX update.
+- Keep Gemini's explicit conversation advice in the main
+  output sequence and a single complete routing example, including when model switching is deferred.
+- Live CLI testing exposed manual-switch prompts after a deferred switch decision.
+  Select retention versus manual-control paragraphs explicitly in the model router,
+  OpenAI guide and Gemini projection; cover the conflicting-template regression.
+- Evaluate model and reasoning changes at task boundaries using remaining-phase benefit,
+  switching cost and context continuity; retain suitable settings rather than automatically
+  downgrading after demanding work.
+- Separate task-based upgrade value from switch value against the observed current setup.
+  Unknown baselines defer automatic changes; cache uncertainty is not treated as zero cost,
+  and quality deficits can outweigh continuity benefits.
+- Carry effective context and handoff costs into model routing, including declined handoffs
+  and context-off/model-only paths. Apply the same contract to both Gemini projections.
+- Require a justified switch before router-initiated automatic application, preserve explicit
+  user setting requests, and show a concise switch assessment with a consistent action.
+- Update multilingual product guidance and add switch acceptance cases and release checks.
 
 ## [0.4.2] - 2026-09-12
 

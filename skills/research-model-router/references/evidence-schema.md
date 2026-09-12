@@ -44,10 +44,33 @@ recommended_setting:
   availability: verified | unverified | unknown
 upgrade_value: low | medium | high
 upgrade_reason: additional value over the minimum, or why a stronger pair would not help
+switch_assessment:
+  effective_context: CURRENT | HANDOFF | CLEAN | null
+  context_basis: resolved_gate | context_off | model_only
+  continuity_reason: value preserved and setup or handoff cost
+  baseline: current_configuration
+  target: recommended_setting
+  remaining_phase: expected work and opportunity to amortize switching costs
+  cache_evidence:
+    status: observed | inferred | unknown
+    source: scoped usage or official host rules | unavailable
+    observed_at: timestamp | unknown
+    scope: provider, model, prefix and relevant settings | unknown
+    reuse: supported | at_risk | unknown
+  quality_floor: met | unmet | unknown
+  switching_cost: low | medium | high | unknown
+  switch_value: low | medium | high | unknown
+  decision: retain | change | defer
+  reason: net next-phase benefit versus retaining, with material uncertainty
 confidence: 0.00-1.00
 reason: one concise phase-specific explanation
 mode: off | ask | auto
 disposition: skipped | awaiting_user_confirmation | awaiting_user_action | applied | kept_current
+interaction:
+  presentation: compact | detailed
+  continuation: authorized | not_authorized | blocked
+  material_blocker: null | concise quality or destination blocker
+  confirmation_required: true | false
 revisit_at: meaningful next stage transition | null
 runtime_capabilities:
   surface: identified surface or unknown
@@ -65,8 +88,17 @@ execution:
   manual_action: null | surface-specific instruction
 ```
 
-In `ask`, record `disposition: awaiting_user_confirmation` and the matching execution
-status after presenting the settings, even when the current pair appears suitable;
-`manual_action` may hold the surface-specific control. In `auto`, when switching is
+In `ask`, record `awaiting_user_confirmation` only for a pending justified change or a material blocker. Retain and nonblocking defer record `kept_current` / `retained_current`; `interaction.continuation` separately records whether work is authorized. A plan-only completion is not a pending routing confirmation. `manual_action` holds a control only for a justified change or explicit target. In `auto`, when switching is
 unavailable but downstream work remains authorized, record `disposition: kept_current`
 and `execution.status: retained_current` while continuing with the current setting.
+
+`upgrade_value` compares the two task-based settings; `switch_value` compares the
+observed current pair with the recommended target. Unknown baseline means unknown
+switch value and `decision: defer`. Cost uncertainty may coexist with `change` only
+when a clear quality deficit justifies the tradeoff. An already matching pair means
+`retain` with low switch value. Context-off and model-only use the current conversation
+without claiming a context suitability assessment. Keep cache observations scoped and
+session-local; never log activity or start paid probes. In `auto`, `retain` and `defer`
+mean `execution.status: retained_current`; only `change` can proceed to independently
+verified application. An unresolved destination still uses `assessment: deferred`
+and null model fields under the existing contract, rather than inventing a context.

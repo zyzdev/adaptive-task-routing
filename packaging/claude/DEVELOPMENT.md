@@ -19,9 +19,9 @@ claude --plugin-dir /absolute/path/to/adaptive-task-routing
 ```
 
 In the new session, first submit a substantial plan-only task without naming the Skill and confirm
-the useful plan appears before the localized `Adaptive Task Routing` task-resource divider and
+the useful plan appears before the plain `Adaptive Task Routing` divider and
 routing note, and default `ask` ends the turn there. Submit a
-separate execution request and confirm only `auto` may continue through the gate. Explicit
+separate execution request and confirm retain/nonblocking defer may continue authorized work in `ask`, while proposed changes require confirmation. Explicit
 invocation is /adaptive-task-routing:adaptive-task-routing.
 The individual routers are /adaptive-task-routing:task-context-router and
 /adaptive-task-routing:research-model-router. Verify all three are discovered.

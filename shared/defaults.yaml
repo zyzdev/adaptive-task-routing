@@ -4,6 +4,18 @@ user_policy:
   context_mode: ask
   model_mode: ask
 
+presentation:
+  default: compact
+  detailed_on_request: true
+  # Compatibility key: keep conversation advice visible, without a separate window field.
+  keep_window_answer_visible: true
+
+interaction:
+  ask_before_change: true
+  retain_requires_confirmation: false
+  defer_requires_confirmation: material_blocker_only
+  continuation_requires_task_authorization: true
+
 environment_detection:
   first_use: load_snapshot_then_detect_missing_or_stale
   each_routing_gate: lightweight_freshness_check
@@ -39,6 +51,15 @@ recommendation:
     - medium
     - high
   prefer_lowest_effort_that_meets_requirements: true
+  require_switch_assessment: true
+
+switching:
+  granularity: meaningful_phase_boundary
+  prefer_stickiness_when_suitable: true
+  quality_floor_overrides_stickiness: true
+  unknown_cost_is_zero: false
+  automatic_change_requires: justified_switch
+  observations_scope: session_only
 
 discovery:
   guide: host-discovery.md

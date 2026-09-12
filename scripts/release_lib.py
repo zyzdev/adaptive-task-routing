@@ -24,77 +24,48 @@ MANIFESTS = {
     "claude": {".claude-plugin/plugin.json"},
     "gemini": {"gemini-extension.json"},
 }
+ROUTING_REMINDER = (
+    'Treat direct requests to inspect or change Adaptive Task Routing modes as configuration '
+    'commands before ordinary plugin-question skipping. A named router changes only that router; an '
+    'unqualified mode change affects both. Confirm effective modes and scope without a routing '
+    'note. Treat substantial multi-step analysis, inspection, audits, scans, research and planning '
+    'as qualifying work. Complete the requested findings or plan before routing its concrete next '
+    'phase. A cross-file release-flow, cross-platform consistency, or test-gap scan qualifies; do '
+    'not classify it as merely informational. '
+    'For analysis/plan-only output, put the complete findings and plan before the divider and '
+    'make the routing note the final section. Action-first applies only inside that note. '
+    'An execution request needs an actionable plan before '
+    'mutation or substantial execution. Begin the routing note with a Markdown divider and '
+    'plain Adaptive Task Routing heading, then action and reason. Preserve '
+    'enabled conversation advice. Default compact output distinguishes task fit from the '
+    'action now. In ask, pause only before a proposed change or for a material blocker; retain and '
+    'nonblocking defer continue already authorized work without a routing confirmation. A plan-only '
+    'request never authorizes implementation. Auto changes require justification and supported, '
+    'authorized, verified operations. Skip ordinary chat, status checks, tiny operations, ordinary '
+    'plugin-only questions and an unchanged completed gate. '
+)
 AUTO_ACTIVATION = {
-    "openai": (
-        "Treat direct requests to inspect or change Adaptive Task Routing modes as configuration "
-        "commands. Handle them through $adaptive-task-routing before ordinary plugin-question "
-        "skipping: named Context or Model changes affect only that router, while an unqualified "
-        "mode change affects both. Confirm the effective modes and scope without a routing note. "
-        "Treat substantial multi-step analysis, inspection, audits, scans, research, and planning "
-        "as qualifying work even when the user requested findings only and did not authorize "
-        "implementation. First complete that requested deliverable and present its useful content "
-        "before routing advice. If its findings identify actionable changes, validation, or "
-        "follow-on research, those actions are a concrete substantial next phase. A cross-file "
-        "release-flow, cross-platform consistency, or test-gap scan qualifies; do not classify it "
-        "as a merely informational query. When such a next phase exists, or the user requested "
-        "execution, you MUST invoke $adaptive-task-routing after the plan and "
-        "before that phase begins, then follow its routing gate. In user-facing output, put the "
-        "requested plan or findings before the routing note. Begin that note with a Markdown "
-        "divider and localized Adaptive Task Routing resource-guidance heading. In ask mode stop "
-        "after the note and "
-        "wait for the user's natural response; only auto mode may continue automatically. Skip "
-        "ordinary chat, status checks, "
-        "tiny operations, questions only about this plugin, and an unchanged phase whose gate "
-        "already completed."
+    "openai": ROUTING_REMINDER + (
+        'For a qualifying gate invoke $adaptive-task-routing after the plan and before the next phase; '
+        'follow its shared UX contract.'
     ),
-    "claude": (
-        "Treat direct requests to inspect or change Adaptive Task Routing modes as configuration "
-        "commands. Handle them through /adaptive-task-routing:adaptive-task-routing before ordinary "
-        "plugin-question skipping: named Context or Model changes affect only that router, while an "
-        "unqualified mode change affects both. Confirm the effective modes and scope without a routing note. "
-        "Treat substantial multi-step analysis, inspection, audits, scans, research, and planning "
-        "as qualifying work even when the user requested findings only and did not authorize "
-        "implementation. First complete that requested deliverable and present its useful content "
-        "before routing advice. If its findings identify actionable changes, validation, or "
-        "follow-on research, those actions are a concrete substantial next phase. A cross-file "
-        "release-flow, cross-platform consistency, or test-gap scan qualifies; do not classify it "
-        "as a merely informational query. When such a next phase exists, or the user requested "
-        "execution, you MUST invoke "
-        "/adaptive-task-routing:adaptive-task-routing after the plan and before that phase begins, "
-        "then follow its routing gate. In user-facing output, put the requested plan or findings "
-        "before the routing note. Begin that note with a Markdown divider and localized Adaptive "
-        "Task Routing resource-guidance heading. In ask mode stop after the note and wait for the user's natural "
-        "response; only auto mode may continue automatically. Skip ordinary chat, status checks, "
-        "tiny operations, questions only about this plugin, and an unchanged phase whose gate "
-        "already completed."
+    "claude": ROUTING_REMINDER + (
+        'For a qualifying gate invoke /adaptive-task-routing:adaptive-task-routing after the plan and '
+        'before the next phase; follow its shared UX contract.'
     ),
     "gemini": (
-        "Immediately classify the user's request before responding or using task tools. Treat "
-        "direct requests to inspect or change Adaptive Task Routing modes as configuration commands "
-        "before ordinary extension-question skipping. Named Context or Model changes affect only that "
-        "router; an unqualified mode change affects both. Confirm effective modes and scope without a "
-        "routing note. "
-        "substantial multi-step analysis, inspection, audits, scans, research, and planning as "
-        "qualifying work even when the user requested findings only and did not authorize "
-        "implementation. This extension context is the automatic adaptive-task-routing coordinator; "
-        "for qualifying work, apply the complete embedded coordinator contract below directly. Do "
-        "not wait for, request, or simulate an activate_skill call for this automatic path. Complete "
-        "the requested analysis with permitted tools and prepare its useful findings or plan before "
-        "making the routing decision. If the findings identify actionable changes, validation, or "
-        "follow-on research, those actions are a concrete substantial next phase. A cross-file "
-        "release-flow, cross-platform consistency, or test-gap scan qualifies; do not classify it "
-        "as a merely informational query. "
-        "Compose one final user response with the requested plan or findings first and the routing "
-        "note last. Begin that note with a Markdown divider and localized Adaptive Task Routing "
-        "resource-guidance heading. "
-        "In ask mode include the applicable model-control and hold paragraph as the note's final "
-        "paragraph, then stop and wait for the user's natural response; only auto mode "
-        "may continue automatically. Skip ordinary chat, status checks, tiny operations, questions "
-        "only about this extension, and an unchanged phase whose gate already completed."
+        'Immediately classify the request before responding or using task tools. '
+    ) + ROUTING_REMINDER + (
+        'This extension context is the automatic adaptive-task-routing coordinator. Apply the embedded '
+        'coordinator contract below directly, including its shared UX contract, without waiting for or '
+        'simulating activate_skill. Compose one final user response for a completed findings/plan '
+        'request; for authorized execution, show the action-first note before continuing when no '
+        'decision remains.'
     ),
 }
 GEMINI_COORDINATOR_DEPENDENCIES = (
     "shared/gemini-coordinator-runtime.md",
+    "shared/routing-ux.md",
 )
 FORBIDDEN_PARTS = {".DS_Store", "__MACOSX", "__pycache__", ".git", "dist", "node_modules", ".venv"}
 

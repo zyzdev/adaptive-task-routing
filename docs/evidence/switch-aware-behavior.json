@@ -1,0 +1,656 @@
+{
+  "observed_at": "2026-09-12T15:29:54.805720+00:00",
+  "source_base_commit": "8478e7c",
+  "final_contract_sha256": {
+    "shared/gemini-coordinator-runtime.md": "df489d1e02a7c15ce14ac83d6ad6b0c6905f3c167e0a068ead6a6319071a6424",
+    "shared/runtime-routing-policy.md": "2a8b15a718e760a4fc49fe291bf7a3f0833c3ac615c2203436e4d15ff1510b91",
+    "shared/runtime-routing-policy.zh-TW.md": "0011940e772a7be1aec0f9a810ef0d1c57492bcb17e3a8ad97aff5832d3edbbf",
+    "shared/hosts/openai.md": "0442f1fad500297dcb8dd7de0eece7c0edb79f451f3efa759581f9445a8d4942",
+    "skills/research-model-router/SKILL.md": "ae6580525c6beb2aebd1900f5e39777240ebeff067b28eb7081d17f28edce84d",
+    "skills/research-model-router/references/zh-TW.md": "61324bd3d488fd41cc41e339873bee51a802b7472cea4b649220b30b09512acd"
+  },
+  "scope": {
+    "decision_fixtures": "17 fresh Codex CLI live-model evaluations of synthetic host scenarios. Full canonical policy, context/model Skills and schema supplied as test instructions; hypothetical operations planned only. Expected answers were not supplied to the model. One sample per scenario, not a statistical reliability estimate.",
+    "native_smoke": "Read-only three-file audit and plan using real CLI tool calls and candidate instruction loading; checks findings-before-routing, localized setting blocks, switch/action consistency and no artifact or fixture changes. Does not verify actual setting controls.",
+    "native_activation": {
+      "codex": "Explicit .agents local Skill loading, not an installed-plugin hook test. Successful retry limited to static reading after a 180-second timeout.",
+      "claude": "Session-only --plugin-dir candidate release, Read/Glob/Grep/Skill tools; streaming assistant text reviewed. An earlier final-only JSON response could not establish full delivery order.",
+      "gemini": "Workspace GEMINI.md copied byte-for-byte from candidate release startup projection, installed extensions disabled; not an extension-installation test."
+    }
+  },
+  "execution_models": {
+    "decision_fixtures": "gpt-5.6-sol / high",
+    "codex_cli": "gpt-5.6-sol / high",
+    "claude_code": "Serving models recorded in native metadata; display choices are not independently verified selector controls.",
+    "gemini_cli": "gemini-3.1-flash-lite"
+  },
+  "unit_tests": {
+    "passed": 61
+  },
+  "summary": {
+    "decision_fixtures_passed": 17,
+    "decision_fixtures_total": 17,
+    "native_smokes_passed": 3,
+    "native_smokes_total": 3
+  },
+  "initial_failures": [
+    {
+      "host": "gemini",
+      "status": "fail",
+      "reason": "Deferred switch assessment was followed by the legacy /model invitation; this conflicts with retention.",
+      "response_tail": "檔案生成與內容驗證）進行測試。\n\n---\n\n### 三點具體改善計畫\n\n1.  **建立版本來源單一化：**\n    修改 `release.py`，使其在執行時直接讀取 `manifest.json` 來取得正確的版本號，而非依賴硬編碼的變數，確保兩個檔案的同步。\n2.  **增強發布腳本的穩健性：**\n    為 `release.py` 加入異常處理（try-except 區塊）與路徑檢查，在寫入產出物（artifact）前進行驗證，確保發布過程透明且可追蹤。\n3.  **實現真實的自動化測試：**\n    將 `test_release.py` 改寫為整合測試。測試應包含：執行 `release()` 函數、檢查 `artifact.txt` 是否被建立、確認檔案內容是否與 `manifest.json` 的版本號完全一致，並在測試後清理產出物。\n\n---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n【對話設定】\n* 建議：留在目前對話\n* 是否切換視窗：否\n目前對話保留了完成下一階段所需的需求與證據，因此直接繼續。\n\n【最低足夠 AI 設定】\n* Model：Flash\n* Reasoning：使用模型預設\n針對重構版本讀取邏輯與編寫測試案例，Flash 模型已足夠應對。\n\n【建議 AI 設定】\n* Model：Pro\n* Reasoning：使用模型預設\n* 升級價值：中。若後續涉及複雜的發布流水線自動化與跨檔案驗證，Pro 模型在邏輯完整性上較為穩妥。\n\n切換評估：效益尚未確立，暫不自動調整設定。\n\n目前環境無法代為切換模型；Reasoning 使用模型預設。如需採用建議，可用 /model 選擇模型；我先停在這裡，等你決定是否調整，或沿用目前設定開始下一階段。",
+      "elapsed_seconds": 12.33
+    },
+    {
+      "host": "codex",
+      "status": "fail",
+      "reason": "Native fallback output invited selector changes after deferring the switch. Action-template selection needs to be explicit.",
+      "response_tail": "析 `manifest.json` 的 `version`，移除硬編碼的 `VERSION`；同時驗證 manifest 存在、JSON 合法且版本欄位是有效的非空字串，錯誤時以非零狀態結束。\n\n2. **讓發布命令可預期且可驗證**  \n   加入明確 CLI 入口；以腳本所在目錄或顯式輸出參數決定產物位置，避免依賴目前工作目錄；成功時回報版本與產物路徑，失敗時避免留下不完整產物。\n\n3. **用真正的行為測試取代恆真測試**  \n   使用隔離的暫存目錄，至少覆蓋：manifest 版本正確寫入、從不同工作目錄執行仍輸出到預期位置、CLI 確實產生檔案，以及 manifest 缺失／格式錯誤／版本欄位缺失時正確失敗。另在專案或 CI 設定中明確宣告並執行 pytest。\n\n本次未修改任何檔案，也沒有產生 `artifact.txt`。\n\n---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n【對話設定】\n* 建議：留在目前對話\n* 是否切換視窗：否\n\n目前對話已保留問題證據、限制與改善計畫，直接延續可避免重新建立背景。\n\n【最低足夠 AI 設定】\n* Model：GPT-5.6 Luna\n* Reasoning：medium\n\n下一階段修改範圍明確，主要是版本來源、CLI 入口及行為測試，這個設定足以完成。\n\n【建議 AI 設定】\n* Model：GPT-5.6 Terra\n* Reasoning：medium\n* 升級價值：中。可更穩健地處理工作目錄、失敗狀態及測試隔離等跨檔案邊界情況。\n\n切換評估：效益尚未確立，暫不自動調整設定。\n\n目前環境無法代為切換模型與推理強度。如需採用建議，可使用介面中的模型控制調整；我先停在這裡，等你決定是否調整，或沿用目前設定開始下一階段。",
+      "elapsed_seconds": 163.83
+    },
+    {
+      "host": "codex",
+      "status": "blocked",
+      "reason": "180 second timeout",
+      "response_tail": "",
+      "elapsed_seconds": 180.01
+    }
+  ],
+  "decision_fixtures": [
+    {
+      "case_id": "S01-matching",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true
+      },
+      "response": {
+        "case_id": "S01-matching",
+        "minimum_model": "fixture-strong/high",
+        "recommended_model": "fixture-strong/high",
+        "decision": "retain",
+        "switch_value": "low",
+        "effective_context": "CURRENT",
+        "context_basis": "resolved_gate",
+        "rerun_gate": false,
+        "planned_action": "No user-selected target or configuration change is planned or performed; retain fixture-strong/high and continue the authorized validation phase.",
+        "visible_response": "---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n【最低足夠 AI 設定】\n* Model：fixture-strong\n* Reasoning：high\n此困難驗證階段需要高強度的相依推理與嚴謹核對，此設定足夠。\n\n【建議 AI 設定】\n* Model：fixture-strong\n* Reasoning：high\n* 升級價值：低。最低足夠設定已能滿足本階段的推理與驗證需求，更高設定不會帶來明顯額外價值。\n\n切換評估：低。目前設定已與建議完全相符，因此維持不變；無須估算快取成本。\n\n已保留目前設定，現在繼續執行已授權的驗證階段。",
+        "reason": "The completed gate remains valid because the phase, context, policy, catalog, and configuration are unchanged. The current pair already equals the recommendation, so no rerun or switch is justified; unavailable cache telemetry does not affect this matching-pair retention decision."
+      },
+      "elapsed_seconds": 26.01,
+      "scenario": "Current pair fixture-strong/high exactly matches both the minimum sufficient and recommended pair for this difficult validation phase. Cache telemetry is unavailable. Mode auto."
+    },
+    {
+      "case_id": "S01-short",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true
+      },
+      "response": {
+        "case_id": "S01-short",
+        "minimum_model": "fixture-balanced/medium",
+        "recommended_model": "fixture-strong/high",
+        "decision": "retain",
+        "switch_value": "low",
+        "effective_context": "CURRENT",
+        "context_basis": "已完成的情境閘門決定沿用；近期脈絡仍有用，且階段與條件未改變。",
+        "rerun_gate": false,
+        "planned_action": "維持 fixture-balanced/medium，並規劃在目前對話執行兩項已授權的例行編輯；本診斷未實際切換設定或執行編輯。",
+        "visible_response": "---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n對話環境：留在目前對話；近期脈絡仍有用。\n\n【最低足夠 AI 設定】\n* Model：fixture-balanced\n* Reasoning：medium\n目前設定已足以可靠完成剩餘兩項例行編輯。\n\n【建議 AI 設定】\n* Model：fixture-strong\n* Reasoning：high\n* 升級價值：低。只能增加有限的額外核對，對這個短小且明確的階段幫助不大。\n\n切換評估：低。已驗證的設定成本為 10 分鐘，而預期收益最多 1 分鐘，因此維持目前設定。\n\n已保留目前設定。本診斷僅規劃接著執行兩項例行編輯，未實際執行切換或編輯。",
+        "reason": "目前配對已達品質門檻；剩餘工作短且例行，額外核對收益明顯低於已驗證的切換成本，因此保留既有決定且不重跑閘門。"
+      },
+      "elapsed_seconds": 31.22,
+      "scenario": "Current pair fixture-balanced/medium satisfies all acceptance criteria; fixture-strong/high offers modest additional checking. The remaining phase is two routine edits. Verified setup cost is 10 minutes versus at most 1 minute expected benefit. Useful recent context remains. Mode auto."
+    },
+    {
+      "case_id": "S02-quality",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true
+      },
+      "response": {
+        "case_id": "S02-quality",
+        "minimum_model": "fixture-strong/high",
+        "recommended_model": "fixture-strong/high",
+        "decision": "change",
+        "switch_value": "high",
+        "effective_context": "CURRENT",
+        "context_basis": "resolved_gate_retained",
+        "rerun_gate": true,
+        "planned_action": "在假設執行中，自動切換至 fixture-strong/high，分別驗證模型與推理強度已套用後繼續工作；本診斷未實際執行切換。",
+        "visible_response": "---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n對話環境：留在目前對話。\n\n【最低足夠 AI 設定】\n* Model：fixture-strong\n* Reasoning：high\n目前設定已連續兩次未通過必要的並行驗證；下一階段需要更強的相依推理，因此此設定是品質下限。\n\n【建議 AI 設定】\n* Model：fixture-strong\n* Reasoning：high\n* 升級價值：低。最低足夠設定已符合已知的推理與驗證需求，再提高設定沒有已證實的額外收益。\n\n切換評估：高。雖然快取成本未知，但目前設定已重複驗證失敗，明確的品質缺口足以支持切換。\n\n依 auto 模式，假設執行的下一步是自動套用並驗證建議設定後繼續；本診斷僅回報計畫，未實際切換。",
+        "reason": "既有對話脈絡仍有效，因此保留已完成的 CURRENT 決定；連續兩次必要驗證失敗構成新的品質證據，觸發模型閘門重跑，且明確能力缺口高於未知快取成本。"
+      },
+      "elapsed_seconds": 29.44,
+      "scenario": "Current pair fixture-balanced/medium has failed the required concurrency validation twice. The upcoming work requires stronger dependent reasoning, supported by fixture-strong/high capability evidence. Cache cost is unknown. Mode auto."
+    },
+    {
+      "case_id": "S03-unknown",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true,
+        "task_settings_visible": true
+      },
+      "response": {
+        "case_id": "S03-unknown",
+        "minimum_model": "fixture-strong/high",
+        "recommended_model": "fixture-strong/high",
+        "decision": "defer",
+        "switch_value": "unknown",
+        "effective_context": "CURRENT",
+        "context_basis": "resolved_gate",
+        "rerun_gate": true,
+        "planned_action": "保留目前無法讀取的模型與推理設定並繼續下一階段；雖然控制可呼叫且可驗證，但因切換效益無法與未知基準比較，不規劃或執行設定變更。此情境沒有明確的使用者指定目標。",
+        "visible_response": "---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n【最低足夠 AI 設定】\n* Model：fixture-strong\n* Reasoning：high\n困難的並行處理審查涉及相互依賴的執行路徑、競態條件判斷與嚴格驗證，我判斷此設定才足以可靠完成。\n\n【建議 AI 設定】\n* Model：fixture-strong\n* Reasoning：high\n* 升級價值：低。最低足夠設定已涵蓋本階段所需的困難推理與驗證能力，更高設定不會帶來明確的額外收益。\n\n切換評估：效益尚未確立，暫不自動調整設定。\n\n目前設定維持不變，並沿用目前對話繼續下一階段；本次未執行模型或推理強度切換。",
+        "reason": "下一階段是新的高難度並行處理審查，因此觸發新模型閘門；既有脈絡決定仍為留在目前對話。磁碟預設不是目前執行設定的證據，所以基準未知，依政策必須延後自動切換，即使控制本身可呼叫並可驗證。"
+      },
+      "elapsed_seconds": 48.83,
+      "scenario": "Current model and effort cannot be read; a saved disk default says fixture-balanced/medium. The next phase is a difficult concurrency review. Mode auto, and the hypothetical host has callable verified setting controls."
+    },
+    {
+      "case_id": "S04-cost",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true
+      },
+      "response": {
+        "case_id": "S04-cost",
+        "minimum_model": "fixture-balanced/medium",
+        "recommended_model": "fixture-strong/high",
+        "decision": "retain",
+        "switch_value": "unknown",
+        "effective_context": "CURRENT",
+        "context_basis": "resolved_gate",
+        "rerun_gate": false,
+        "planned_action": "不重新執行路由閘門；沿用 fixture-balanced/medium，不執行模型或推理強度切換。fixture-strong/high 是先前的路由建議目標，並非本次另行要求套用的使用者指定操作。",
+        "visible_response": "---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n【最低足夠 AI 設定】\n* Model：fixture-balanced\n* Reasoning：medium\n目前設定已能滿足驗收標準。\n\n【建議 AI 設定】\n* Model：fixture-strong\n* Reasoning：high\n* 升級價值：中。較強設定可增加額外檢查，但預期改善有限。\n\n切換評估：效益尚未確立。設定與快取成本未知，合理估計可能扭轉有限收益，因此維持目前設定。\n\n本次追問未觸發新的路由閘門，也未執行任何設定切換。",
+        "reason": "兩組設定皆達品質門檻；較強設定僅提供有限的額外檢查，而未知且可能具影響力的設定與快取成本使淨切換效益無法成立，因此保留已完成閘門的維持決定。"
+      },
+      "elapsed_seconds": 41.69,
+      "scenario": "Observed current fixture-balanced/medium and target fixture-strong/high both satisfy acceptance criteria. Extra checking has modest benefit. Setup/cache costs are unknown and plausible estimates could reverse that benefit. Mode auto."
+    },
+    {
+      "case_id": "S05-handoff",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true
+      },
+      "response": {
+        "case_id": "S05-handoff",
+        "minimum_model": "fixture-balanced",
+        "recommended_model": "fixture-strong",
+        "decision": "retain",
+        "switch_value": "low",
+        "effective_context": "HANDOFF",
+        "context_basis": "resolved_gate",
+        "rerun_gate": false,
+        "planned_action": "依使用者明確指定，計畫在已接受的交接新對話中將設定改為 fixture-strong/high；這是獨立於先前保留建議的使用者選定操作。本診斷未實際執行切換。",
+        "visible_response": "已保留先前完成且獲接受的決定：切換到新對話並帶入精簡交接；本次同一階段的後續不重跑路由閘門。\n\n【最低足夠 AI 設定】\n* Model：fixture-balanced\n* Reasoning：medium\n短暫的剩餘工作使用此設定即可達到品質要求。\n\n【建議 AI 設定】\n* Model：fixture-strong\n* Reasoning：high\n* 升級價值：低。較強設定可能帶來些微額外驗證能力，但兩種設定都符合品質門檻。\n\n切換評估：低。經驗證的交接與設定成本高於短暫剩餘階段的預期收益，因此先前路由建議保留 fixture-balanced/medium。\n\n你已明確選擇 fixture-strong/high，因此後續計畫會把它視為獨立的使用者指定操作，而不是先前路由器的切換建議；此診斷未實際執行該操作。",
+        "reason": "交接閘門已完成並被接受，同一工作階段的這次後續不構成新閘門。基準 fixture-balanced/medium 與目標 fixture-strong/high 都可觀察且符合品質門檻；剩餘工作短，已驗證的交接／設定成本超過目標收益，所以原切換評估為保留。明確指定的目標另列為已授權但尚未執行的計畫操作。"
+      },
+      "elapsed_seconds": 40.53,
+      "scenario": "A handoff to a new context is accepted. Both destination settings and the baseline fixture-balanced/medium are observable. The target is fixture-strong/high. The remaining task is short and either model meets the quality floor; verified handoff/setup cost exceeds the target benefit. Mode auto."
+    },
+    {
+      "case_id": "S06-declined",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true,
+        "effective_current": true
+      },
+      "response": {
+        "case_id": "S06-declined",
+        "minimum_model": "fixture-balanced / medium",
+        "recommended_model": "fixture-strong / medium",
+        "decision": "retain",
+        "switch_value": "low",
+        "effective_context": "CURRENT",
+        "context_basis": "resolved_gate: HANDOFF was declined, so the completed context gate retained the current conversation",
+        "rerun_gate": false,
+        "planned_action": "Retain fixture-balanced/medium and plan to continue the authorized phase in the current conversation. No user-selected target exists, and no context or model operation was actually performed.",
+        "visible_response": "目前對話保留既有且仍有用的證據；先前建議的交接已被婉拒，因此沿用目前對話。\n\n【最低足夠 AI 設定】\n* Model：fixture-balanced\n* Reasoning：medium\n目前設定足以可靠完成下一階段。\n\n【建議 AI 設定】\n* Model：fixture-strong\n* Reasoning：medium\n* 升級價值：低。較強模型僅帶來有限的額外驗證能力。\n\n切換評估：低。有限收益不足以抵銷已確認的設定與交接成本，因此維持目前設定。\n\n預計沿用 fixture-balanced／medium 繼續已授權階段；本次實際未切換對話、模型或推理強度。",
+        "reason": "The declined handoff makes CURRENT the effective context. The observed fixture-balanced/medium pair meets the quality floor, while the modest gain from fixture-strong/medium does not exceed verified setup cost. This follow-up does not create a meaningful phase transition, so the completed gate is retained without rerouting."
+      },
+      "elapsed_seconds": 31.17,
+      "scenario": "Context router proposed HANDOFF but user declined it. Actual current conversation contains relevant useful evidence and current fixture-balanced/medium is suitable. A stronger target offers only a modest benefit less than verified setup cost. Mode auto."
+    },
+    {
+      "case_id": "S07-both-off",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true,
+        "no_model_result": true,
+        "no_model_note": true,
+        "no_gate": true
+      },
+      "response": {
+        "case_id": "S07-both-off",
+        "minimum_model": null,
+        "recommended_model": null,
+        "decision": "retain",
+        "switch_value": "unknown",
+        "effective_context": "CURRENT",
+        "context_basis": "context_off",
+        "rerun_gate": false,
+        "planned_action": "沿用目前對話與模型設定，接著執行先前已授權的下一步；此處僅記錄預定操作，尚未實際執行。",
+        "visible_response": "對話與模型路由皆已關閉，因此不重新評估；目前保留既有對話與模型設定，並將繼續已授權的下一步。此診斷回覆本身尚未執行該步驟。",
+        "reason": "此 follow-up 未形成新的任務或階段邊界，且兩個路由均為 off；因此沿用已完成閘門的保留決定，不觸發新閘門。"
+      },
+      "elapsed_seconds": 15.43,
+      "scenario": "Both context and model routers are off. User asks to proceed with the next already authorized step. No routing evaluation is requested."
+    },
+    {
+      "case_id": "S07-context-off",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true,
+        "not_assessed": true
+      },
+      "response": {
+        "case_id": "S07-context-off",
+        "minimum_model": "fixture-balanced/medium",
+        "recommended_model": "fixture-strong/medium",
+        "decision": "retain",
+        "switch_value": "low",
+        "effective_context": "CURRENT",
+        "context_basis": "context_off；未評估脈絡適用性",
+        "rerun_gate": false,
+        "planned_action": "不切換模型或推理強度，保留已觀察到的 fixture-balanced/medium；後續三項機械式編輯是已授權的假想下一步，本次診斷未實際執行。",
+        "visible_response": "---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n【最低足夠 AI 設定】\n* Model：fixture-balanced\n* Reasoning：medium\n此設定足以可靠完成三項機械式編輯。\n\n【建議 AI 設定】\n* Model：fixture-strong\n* Reasoning：medium\n* 升級價值：低。較強模型只能增加有限的驗證能力，對機械式編輯的實質改善不大。\n\n切換評估：低。有限收益不足以抵銷已驗證的切換成本，因此維持目前設定。\n\n本次僅記錄後續將執行三項機械式編輯，未實際執行編輯。",
+        "reason": "這是同一階段的診斷追問，不觸發新路由閘門；沿用已完成的保留決策。脈絡路由已關閉，因此使用目前對話但不宣稱其適用性已受評估。"
+      },
+      "elapsed_seconds": 42.52,
+      "review_note": "The original exact-string check rejected context_off followed by a Chinese explanation. Semantic review confirms context-off and no suitability claim; corrected the overly strict test assertion.",
+      "scenario": "Context mode off, model mode auto. Current fixture-balanced/medium is observed and sufficient for three mechanical edits. Stronger setting benefit is less than verified switching cost. Context suitability has not been assessed."
+    },
+    {
+      "case_id": "S07-model-off",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true,
+        "no_model_result": true,
+        "no_model_note": true
+      },
+      "response": {
+        "case_id": "S07-model-off",
+        "minimum_model": null,
+        "recommended_model": null,
+        "decision": "retain",
+        "switch_value": "unknown",
+        "effective_context": "CURRENT",
+        "context_basis": "resolved_gate",
+        "rerun_gate": false,
+        "planned_action": "沿用目前對話進入下一階段；不評估或變更模型與推理設定。這是後續預定操作，尚未在本診斷中執行。",
+        "visible_response": "保留目前對話。這個後續階段仍需要近期脈絡，且沒有出現需要重新評估的階段變化；模型路由已停用，因此不產生模型建議或診斷設定。",
+        "reason": "既有脈絡仍然相關且連貫，無須切換對話；此 follow-up 不構成新的路由關卡。"
+      },
+      "elapsed_seconds": 26.51,
+      "scenario": "Model router is off and context router is ask. The next phase depends on useful recent context and no context change is needed. No model evaluation or model diagnostic settings should be produced for a disabled router."
+    },
+    {
+      "case_id": "S07-model-only",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true,
+        "model_only_basis": true
+      },
+      "response": {
+        "case_id": "S07-model-only",
+        "minimum_model": "fixture-balanced/low",
+        "recommended_model": "fixture-balanced/medium",
+        "decision": "retain",
+        "switch_value": "low",
+        "effective_context": "CURRENT",
+        "context_basis": "model_only；未執行 context gate，沿用目前對話",
+        "rerun_gate": true,
+        "planned_action": "保留已觀察到的 fixture-balanced/medium；若後續開始已授權的短階段，沿用該設定執行。這是規劃中的後續動作，本診斷未執行切換或工作階段。",
+        "visible_response": "---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n【最低足夠 AI 設定】\n* Model：fixture-balanced\n* Reasoning：low\n此短階段的工作量有限，balanced 搭配 low 已可處理基本執行。\n\n【建議 AI 設定】\n* Model：fixture-balanced\n* Reasoning：medium\n* 升級價值：低。medium 可增加少量核對餘裕，但短階段不需要更強模型的困難相依推理與驗證能力。\n\n切換評估：低。目前的 fixture-balanced／medium 已符合品質門檻，且短階段的額外收益不足以抵銷已知設定成本，因此維持目前設定。\n\n目前保留設定；本診斷未執行任何切換。",
+        "reason": "這次明確要求 model/reasoning-only routing，因此沿用目前對話並執行新的模型路由 gate。現行 fixture-balanced/medium 已符合建議設定；剩餘階段短且設定成本已知，沒有足以支持切換的淨收益。"
+      },
+      "elapsed_seconds": 47.81,
+      "scenario": "The user explicitly requests only model/reasoning routing. Current conversation is effective but no context gate was performed. Observed current fixture-balanced/medium meets the quality floor; the short phase offers less benefit than known setup costs. Mode auto."
+    },
+    {
+      "case_id": "S08-reasoning",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true
+      },
+      "response": {
+        "case_id": "S08-reasoning",
+        "minimum_model": "fixture-strong/medium",
+        "recommended_model": "fixture-strong/high",
+        "decision": "retain",
+        "switch_value": "low",
+        "effective_context": "CURRENT",
+        "context_basis": "resolved_gate",
+        "rerun_gate": false,
+        "planned_action": "不執行任何模型或推理強度變更；沿用 fixture-strong/medium 繼續短階段。沒有另行提出使用者指定的目標操作。",
+        "visible_response": "---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n【最低足夠 AI 設定】\n* Model：fixture-strong\n* Reasoning：medium\n目前設定足以可靠完成剩餘的短階段。\n\n【建議 AI 設定】\n* Model：fixture-strong\n* Reasoning：high\n* 升級價值：中。較高推理強度可增加一些額外核對，但改善幅度有限。\n\n切換評估：低。變更推理強度會使可重用前綴失效，實測重寫成本高於剩餘短階段的核對收益，因此維持目前設定。\n\n已保留 fixture-strong／medium，未執行切換，並可沿用目前設定繼續執行。",
+        "reason": "這是同一短階段內已完成的路由閘門，條件未變，因此不重新評估；目前設定已達品質門檻，而已測得的前綴重寫成本超過 high 所帶來的有限額外核對價值。"
+      },
+      "elapsed_seconds": 30.22,
+      "scenario": "Current pair fixture-strong/medium is sufficient. Recommended pair fixture-strong/high has modest extra checking value. Matching official host evidence states this effort change invalidates the reusable prefix; measured rewrite cost exceeds the benefit over the remaining short phase. Mode auto."
+    },
+    {
+      "case_id": "S09-warm",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true
+      },
+      "response": {
+        "case_id": "S09-warm",
+        "minimum_model": "fixture-balanced/medium",
+        "recommended_model": "fixture-balanced/medium",
+        "decision": "change",
+        "switch_value": "high",
+        "effective_context": "CURRENT",
+        "context_basis": "scenario default；沿用目前對話且所有相關內容均已提供",
+        "rerun_gate": false,
+        "planned_action": "依已完成且保留的路由決策，原計畫會自動切換至 fixture-balanced/medium；這是路由器建議的假設操作，並非使用者另行指定的目標，本次診斷未實際切換。",
+        "visible_response": "---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n【最低足夠 AI 設定】\n* Model：fixture-balanced\n* Reasoning：medium\n此設定足以維持相同的驗證結果。\n\n【建議 AI 設定】\n* Model：fixture-balanced\n* Reasoning：medium\n* 升級價值：低。最低足夠與建議設定相同，更強設定不會改善驗證結果。\n\n切換評估：高。目標設定已有未到期且可重用的相符前綴，經驗證的剩餘階段節省效益高於小幅設定成本，因此保留先前的變更決策。\n\n依自動模式，原計畫會切換至 fixture-balanced／medium；本次是診斷測試，未實際執行切換。",
+        "reason": "這是同一階段的追蹤診斷，不觸發新路由閘門；保留既有 change 決策。目標具可重用的暖前綴、驗證品質相同，且已確認節省效益超過設定成本。"
+      },
+      "elapsed_seconds": 39.76,
+      "scenario": "Current pair fixture-strong/high is sufficient. Recommended pair fixture-balanced/medium is also sufficient. Earlier use of the target left an observed matching unexpired reusable prefix; all relevant conversation content is supplied. Verified remaining-phase savings exceed small setup cost, with equal validation outcomes. Mode auto."
+    },
+    {
+      "case_id": "S10-long",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true
+      },
+      "response": {
+        "case_id": "S10-long",
+        "minimum_model": "fixture-balanced/medium",
+        "recommended_model": "fixture-balanced/medium",
+        "decision": "change",
+        "switch_value": "high",
+        "effective_context": "CURRENT",
+        "context_basis": "先前完成的脈絡閘門決定維持目前對話；本次僅重跑新批次階段的模型閘門",
+        "rerun_gate": true,
+        "planned_action": "假設性計畫：由協調器將 fixture-strong/high 切換為 fixture-balanced/medium，驗證成功後執行其餘 100 個轉換；本診斷未實際切換。這不是使用者另行指定的目標。",
+        "visible_response": "---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n留在目前對話。\n\n【最低足夠 AI 設定】\n* Model：fixture-balanced\n* Reasoning：medium\n這 100 個獨立且確定性的轉換，以此設定即可符合相同的驗證標準。\n\n【建議 AI 設定】\n* Model：fixture-balanced\n* Reasoning：medium\n* 升級價值：低。更強設定不會改善已相同的驗證結果。\n\n切換評估：高。預計節省 $10，扣除全部 $1 切換成本後仍有 $9 淨效益，且不增加重試或重工，因此建議切換。\n\n在此假設情境中，規劃自動切換並驗證後繼續執行；本診斷未實際執行切換。",
+        "reason": "進入 100 個獨立轉換的擴大量階段構成新的模型路由閘門；balanced/medium 已達品質下限，且可在無額外可靠性損失下取得明確且可攤提的淨節省。"
+      },
+      "elapsed_seconds": 45.02,
+      "scenario": "Current fixture-strong/high and recommended fixture-balanced/medium both meet identical validation criteria. For the remaining 100 independent transformations, measured target API savings are $10, all incremental switching costs together are $1, with no extra retries or rework. Current context stays. Mode auto."
+    },
+    {
+      "case_id": "S11-explicit",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true
+      },
+      "response": {
+        "case_id": "S11-explicit",
+        "minimum_model": "fixture-balanced/medium",
+        "recommended_model": "fixture-balanced/medium",
+        "decision": "retain",
+        "switch_value": "low",
+        "effective_context": "CURRENT",
+        "context_basis": "resolved_gate",
+        "rerun_gate": false,
+        "planned_action": "依使用者明確指定，透過可呼叫且可驗證的控制將設定改為 fixture-strong/high，然後開始已授權階段；這是獨立於先前路由建議的使用者指定操作，本診斷未實際執行。",
+        "visible_response": "先前的路由決策仍是保留 fixture-balanced/medium，且本次不需重跑閘門。依你的明確指定，接下來會改用 fixture-strong/high，並開始已授權階段；此診斷僅描述預定操作，尚未實際切換。",
+        "reason": "階段、任務與對話脈絡均未改變，因此沿用已完成閘門的保留決策；model ask 模式不要求對明確的使用者設定指令再確認，但該指令是獨立覆寫操作，不改寫先前的路由判斷。"
+      },
+      "elapsed_seconds": 19.84,
+      "scenario": "A previous gate advised retaining fixture-balanced/medium. The user now explicitly says: Set fixture-strong/high and begin the already authorized phase. The hypothetical host has callable verified controls. There has been no other context or task change. Model mode ask."
+    },
+    {
+      "case_id": "S12-phase-end",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true
+      },
+      "response": {
+        "case_id": "S12-phase-end",
+        "minimum_model": "fixture-balanced/medium",
+        "recommended_model": "fixture-balanced/medium",
+        "decision": "retain",
+        "switch_value": "low",
+        "effective_context": "CURRENT",
+        "context_basis": "先前已完成的對話脈絡決策維持不變；本次僅在真正的階段轉換重新評估模型設定。",
+        "rerun_gate": true,
+        "planned_action": "保留已觀察到的 fixture-strong/high，並依既定計畫進行剩餘兩項簡單檢查；這是後續計畫，本診斷未執行模型切換或檢查。",
+        "visible_response": "---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n對話環境：留在目前對話。\n\n【最低足夠 AI 設定】\n* Model：fixture-balanced\n* Reasoning：medium\n兩項後續檢查都很簡單，此設定已足以可靠完成。\n\n【建議 AI 設定】\n* Model：fixture-balanced\n* Reasoning：medium\n* 升級價值：低。更強設定不會對這段短且明確的剩餘工作帶來實質品質提升。\n\n切換評估：低。切換需 5 分鐘，剩餘階段僅能節省約 5 秒，因此維持目前的 fixture-strong/high。\n\n目前保留設定；本診斷未實際執行切換，後續將依既定計畫進行兩項簡單檢查。",
+        "reason": "階段轉換觸發新的模型路由閘門，但不重跑已完成的對話脈絡閘門。雖然 fixture-balanced/medium 足夠且是任務導向建議，5 分鐘的切換成本遠高於約 5 秒的剩餘收益，因此保留 fixture-strong/high。"
+      },
+      "elapsed_seconds": 23.83,
+      "scenario": "A demanding phase has just completed and a genuine next phase consists of two simple checks. Current fixture-strong/high is observed and suitable; fixture-balanced/medium would also be sufficient. Verified switching setup cost is 5 minutes versus 5 seconds saved over the remainder. Mode auto."
+    },
+    {
+      "case_id": "S12-unchanged",
+      "status": "pass",
+      "checks": {
+        "decision": true,
+        "switch_value": true,
+        "no_reroute": true
+      },
+      "response": {
+        "case_id": "S12-unchanged",
+        "minimum_model": "fixture-balanced/medium",
+        "recommended_model": "fixture-balanced/medium",
+        "decision": "retain",
+        "switch_value": "low",
+        "effective_context": "CURRENT",
+        "context_basis": "resolved_gate",
+        "rerun_gate": false,
+        "planned_action": "沿用既有授權，接著檢查下一個檔案；不切換模型或推理強度。此為預定操作，尚未實際執行。",
+        "visible_response": "本階段的任務與執行條件均未改變，因此沿用已完成的路由判定，不重新執行 gate。維持目前對話及 fixture-balanced／medium，接著檢查下一個檔案；目前僅規劃該操作，尚未執行。",
+        "reason": "這是同一已授權檢查階段的連續步驟；有效對話、偏好、目錄與能力均未變，且目前設定足以完成工作，重新評估或切換沒有實質收益。"
+      },
+      "elapsed_seconds": 22.01,
+      "scenario": "A gate completed for the current phase two tools ago. User now asks for the next file in the same already authorized inspection. Task, effective context, preferences, catalog and capabilities are unchanged. Current fixture-balanced/medium is suitable. Mode auto."
+    }
+  ],
+  "native_smokes": [
+    {
+      "host": "codex",
+      "exit_code": 0,
+      "checks": {
+        "returned_response": true,
+        "has_conversation": true,
+        "has_minimum": true,
+        "has_recommended": true,
+        "has_switch_assessment": true,
+        "retention_action_consistent": true,
+        "fixture_unchanged": true,
+        "findings_before_note": true,
+        "no_artifact_created": true,
+        "ask_hold": true
+      },
+      "response": "靜態檢查結果：目前發布流程可能產生錯誤版本的產物，而測試完全無法攔截這類問題。本次未執行程式或 `pytest`，也未修改檔案。\n\n主要問題：\n\n1. 版本來源不一致  \n   [manifest.json](<project>/build/switch-behavior/native-codex/manifest.json:1) 是 `1.2.0`，但 [release.py](<project>/build/switch-behavior/native-codex/release.py:2) 寫死為 `1.1.0`。執行 `release()` 會產生過期版本的 `artifact.txt`，而且兩份版本資訊日後仍可能繼續分歧。\n\n2. 發布入口與輸出位置不可靠  \n   [release.py](<project>/build/switch-behavior/native-codex/release.py:3) 只定義函式，沒有主程式入口；若預期用 `python release.py` 發布，實際上不會執行任何動作。此外，`Path(\"artifact.txt\")` 以目前工作目錄為基準，從其他目錄呼叫時可能把產物寫到錯誤位置。\n\n3. 測試沒有驗證任何發布契約  \n   [test_release.py](<project>/build/switch-behavior/native-codex/test_release.py:1) 只有 `assert True`，既未呼叫 `release()`，也未檢查產物、版本一致性、輸出位置或命令列入口。因此即使發布完全失效或版本錯誤，測試仍會通過。\n\n三點具體改善計畫：\n\n1. 建立單一版本來源  \n   移除 `release.py` 內的硬編碼 `VERSION`，由 `manifest.json` 讀取版本；同時檢查 `version` 欄位存在、型別正確且格式有效，讀取失敗時明確終止發布。\n\n2. 明確化發布介面  \n   讓輸出路徑以 `release.py` 所在的專案目錄為基準，或由 `release(output_path=...)` 明確注入；指定 UTF-8 與固定換行，並加入 `if __name__ == \"__main__\":` 入口，使直接執行腳本確實發布。\n\n3. 用行為測試取代空測試  \n   使用暫存目錄呼叫發布函式，斷言產物存在且內容等於 manifest 版本；再覆蓋「不同工作目錄仍寫到正確位置」、「manifest 缺欄位或格式錯誤會失敗」及「直接執行入口會建立產物」等回歸情境。\n\n---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n【對話設定】\n\n* 建議：留在目前對話\n* 是否切換視窗：否\n\n目前對話已保留三個檔案的問題與改善範圍，沒有建立新對話的必要。\n\n【最低足夠 AI 設定】\n\n* Model：GPT-5.6 Terra\n* Reasoning：low\n\n下一階段是範圍明確的小型跨檔案修正，此設定足以完成基本實作與測試設計。\n\n【建議 AI 設定】\n\n* Model：GPT-5.6 Terra\n* Reasoning：medium\n* 升級價值：低。較完整的推理可多核對路徑、入口與錯誤案例，但工作規模小，額外收益有限。\n\n切換評估：效益尚未確立，暫不自動調整設定。\n\n目前保留設定；我先停在這裡，等你決定是否沿用目前設定開始下一階段。",
+      "metadata": {
+        "usage": {
+          "input_tokens": 149540,
+          "cached_input_tokens": 126208,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4651,
+          "reasoning_output_tokens": 2704
+        }
+      },
+      "scope": "Native CLI explicit local Skill activation; no installed-plugin hook test",
+      "status": "pass",
+      "elapsed_seconds": 102.78
+    },
+    {
+      "host": "claude",
+      "exit_code": 0,
+      "checks": {
+        "returned_response": true,
+        "has_conversation": true,
+        "has_minimum": true,
+        "has_recommended": true,
+        "has_switch_assessment": true,
+        "retention_action_consistent": true,
+        "findings_before_note": true,
+        "no_artifact_created": true,
+        "fixture_unchanged": true,
+        "ask_hold": true
+      },
+      "response": "# 發布流程與測試問題\n\n**目錄：** `build/switch-behavior/native-claude/`（`manifest.json`、`release.py`、`test_release.py`）\n\n## 發現的問題\n\n1. **版本號不一致，且無單一事實來源**\n   `manifest.json` 宣告版本為 `1.2.0`，但 `release.py` 中硬編碼 `VERSION = \"1.1.0\"`。兩者從未互相參照或驗證，`release()` 寫出的 `artifact.txt` 內容其實反映的是舊版號 `1.1.0`，而不是 manifest 宣告的版本——這代表目前這個小型發布流程本身就處於「已發布錯誤版本號」的狀態。\n\n2. **`release()` 沒有任何驗證、錯誤處理或可測試性設計**\n   - 直接寫入相對路徑 `\"artifact.txt\"`，輸出位置依賴呼叫時的工作目錄，而非明確參數。\n   - 完全不讀取、不驗證 `manifest.json`（版本、必要欄位都沒有檢查）。\n   - 沒有回傳值、沒有例外處理、也沒有像樣的失敗訊息或非零結束碼，呼叫端無法判斷成功或失敗。\n\n3. **`test_release.py` 實質上沒有測試任何行為**\n   `assert True` 不驗證 `release()` 的任何輸出、不驗證版本一致性、也不清理測試產生的 `artifact.txt`（會汙染工作目錄，且重複執行不具冪等性/隔離性）。相較之下，同倉庫的 `scripts/validate_release.py` 與 `tests/test_validate_release.py` 有完整的 `require()` 驗證、隔離的 tempdir 測試、明確的錯誤訊息斷言——這裡完全沒有比照那套已驗證的模式。\n\n## 三點具體改善計畫\n\n1. **建立版本的單一事實來源，並在發布前驗證一致性**\n   讓 `release.py` 從 `manifest.json` 讀取版本號，移除硬編碼的 `VERSION`；`release()` 執行前先讀取並驗證 manifest（存在、可解析、版本格式正確），版本不一致或缺漏時立即失敗，而不是靜默寫出錯誤版本。\n\n2. **重構 `release()` 為可測試、有明確錯誤處理的函式**\n   改為接受明確的輸出路徑（而非依賴相對路徑/當前工作目錄）、回傳成功/失敗結果或拋出具體例外，並仿照 `scripts/validate_release.py` 的 `require()` 模式提供清楚的錯誤訊息與非零結束碼，方便上層腳本判斷發布是否可繼續。\n\n3. **重寫 `test_release.py`，實際驗證行為並隔離副作用**\n   比照 `tests/test_validate_release.py` 的做法：使用 `tempfile`/tmp 目錄隔離輸出，斷言 `artifact.txt` 內容等於 manifest 中的版本、涵蓋版本不一致與 manifest 缺失等失敗案例，並在測試結束後清理產生的檔案，避免污染工作目錄。\n\n---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段，評估適合的對話環境、模型與推理設定。\n\n【對話設定】\n* 建議：留在目前對話\n* 是否切換視窗：否\n目前對話已包含這三個檔案的完整讀取結果與問題脈絡，下一階段（實作修正）延續即可，不需要切換視窗。\n\n【最低足夠 AI 設定】\n* Model：Claude Sonnet 5\n* Reasoning：維持目前設定\n這是範圍明確的小型程式碼審查與修正（3 個檔案、邏輯單純），目前設定已足夠勝任。\n\n【建議 AI 設定】\n* Model：Claude Sonnet 5\n* Reasoning：維持目前設定\n* 升級價值：低。實作修正邏輯直接（讀取 manifest、加錯誤處理、補測試），提高設定不會帶來明顯品質提升。\n\n切換評估：低。目前設定已符合需求，維持設定即可。\n\n目前保留設定；我先停在這裡，等你決定是否要我依上述三點計畫實際修改檔案。",
+      "metadata": {
+        "is_error": false,
+        "subtype": "success",
+        "modelUsage": {
+          "claude-haiku-4-5-20251001": {
+            "inputTokens": 977,
+            "outputTokens": 21,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0,
+            "webSearchRequests": 0,
+            "costUSD": 0.001082,
+            "contextWindow": 200000,
+            "maxOutputTokens": 32000,
+            "thinkingTokens": 0,
+            "canonicalModel": "claude-haiku-4-5",
+            "provider": "firstParty",
+            "costBasis": "list"
+          },
+          "claude-sonnet-5": {
+            "inputTokens": 20,
+            "outputTokens": 8373,
+            "cacheReadInputTokens": 394538,
+            "cacheCreationInputTokens": 52246,
+            "webSearchRequests": 0,
+            "costUSD": 0.37166160000000004,
+            "contextWindow": 1000000,
+            "maxOutputTokens": 64000,
+            "thinkingTokens": 5114,
+            "canonicalModel": "claude-sonnet-5",
+            "provider": "firstParty",
+            "costBasis": "list"
+          }
+        }
+      },
+      "scope": "Native CLI session-only inline release plugin",
+      "status": "pass",
+      "elapsed_seconds": 97.16
+    },
+    {
+      "host": "gemini",
+      "exit_code": 0,
+      "checks": {
+        "returned_response": true,
+        "has_conversation": true,
+        "has_minimum": true,
+        "has_recommended": true,
+        "has_switch_assessment": true,
+        "retention_action_consistent": true,
+        "fixture_unchanged": true,
+        "findings_before_note": true,
+        "no_artifact_created": true,
+        "ask_hold": true
+      },
+      "response": "經過檢查 `manifest.json`、`release.py` 與 `test_release.py`，發現目前的發布流程與測試存在以下核心問題：\n\n### 現狀與問題分析\n\n1.  **版本來源不一致（Single Source of Truth 缺失）：**\n    `manifest.json` 中宣告的版本為 `\"1.2.0\"`，但 `release.py` 卻硬編碼（hardcoded）了舊的版本號 `\"1.1.0\"`。這會導致發布產出的版本資訊與系統紀錄不符。\n2.  **發布腳本安全性不足：**\n    `release.py` 的邏輯過於簡單，直接對檔案進行寫入操作，缺乏錯誤處理（Error Handling）、預檢測（Pre-check，如檢查環境或產出物衝突）與日誌紀錄（Logging）。\n3.  **測試流於形式：**\n    `test_release.py` 的 `test_release()` 函式僅僅包含 `assert True`，完全沒有驗證 `release()` 函式的行為（例如：是否產生了正確的檔案、內容是否符合版本號）。這使得測試無法提供任何品質保障。\n\n---\n\n### 三點具體改善計畫\n\n1.  **實作單一版本管理機制：**\n    修改 `release.py`，使其在執行時動態讀取 `manifest.json` 內的 `version` 欄位，而非使用硬編碼的版本變數。確保發布流程依賴單一的資料源。\n2.  **增強發布腳本的穩健性：**\n    在 `release.py` 中引入錯誤處理機制，並增加前置檢查（例如確認 `manifest.json` 是否存在且格式正確）、新增簡單的執行過程日誌，並確保檔案寫入操作是原子性的（Atomic），避免異常時產生損壞的產出物。\n3.  **建立有意義的測試套件：**\n    重寫 `test_release.py`，使用測試框架（如 `pytest`）並引入 `mock` 或暫存目錄機制。新增測試案例，驗證 `release()` 執行後，`artifact.txt` 是否確實產生，且內容與 `manifest.json` 的版本完全一致，確保發布邏輯的正確性。\n\n---\n\n### Adaptive Task Routing｜任務資源建議\n\n以下建議是根據上述計畫的下一階段（實作重構與測試），評估適合的對話環境、模型與推理設定。\n\n【對話設定】\n* 建議：留在目前對話\n* 是否切換視窗：否\n目前對話保留了完成下一階段所需的需求與證據，因此直接繼續。\n\n【最低足夠 AI 設定】\n* Model：Flash\n* Reasoning：使用模型預設\nFlash 模型足以應對單一檔案內的邏輯重構與基礎測試案例編寫。\n\n【建議 AI 設定】\n* Model：Pro\n* Reasoning：使用模型預設\n* 升級價值：中。Pro 模型在處理跨檔案依賴性分析（manifest 到 release 腳本）以及確保重構後程式碼的嚴謹性與邊緣條件處理上，能提供更高的可靠度。\n\n切換評估：效益尚未確立，暫不自動調整設定。\n\n目前保留設定；我先停在這裡，等你決定是否沿用目前設定開始下一階段。",
+      "metadata": {
+        "stats": {
+          "models": {
+            "gemini-3.1-flash-lite": {
+              "api": {
+                "totalRequests": 2,
+                "totalErrors": 0,
+                "totalLatencyMs": 10799,
+                "errorsByType": {}
+              },
+              "tokens": {
+                "input": 17938,
+                "prompt": 26069,
+                "candidates": 869,
+                "total": 28417,
+                "cached": 8131,
+                "thoughts": 1479,
+                "tool": 0
+              },
+              "roles": {
+                "main": {
+                  "totalRequests": 2,
+                  "totalErrors": 0,
+                  "totalLatencyMs": 10799,
+                  "tokens": {
+                    "input": 17938,
+                    "prompt": 26069,
+                    "candidates": 869,
+                    "total": 28417,
+                    "cached": 8131,
+                    "thoughts": 1479,
+                    "tool": 0
+                  }
+                }
+              }
+            }
+          },
+          "tools": {
+            "totalCalls": 4,
+            "totalSuccess": 4,
+            "totalFail": 0,
+            "totalDurationMs": 38,
+            "totalDecisions": {
+              "accept": 4,
+              "reject": 0,
+              "modify": 0,
+              "auto_accept": 0
+            },
+            "byName": {
+              "update_topic": {
+                "count": 1,
+                "success": 1,
+                "fail": 0,
+                "durationMs": 5,
+                "decisions": {
+                  "accept": 1,
+                  "reject": 0,
+                  "modify": 0,
+                  "auto_accept": 0
+                }
+              },
+              "read_file": {
+                "count": 3,
+                "success": 3,
+                "fail": 0,
+                "durationMs": 33,
+                "decisions": {
+                  "accept": 3,
+                  "reject": 0,
+                  "modify": 0,
+                  "auto_accept": 0
+                }
+              }
+            }
+          },
+          "files": {
+            "totalLinesAdded": 0,
+            "totalLinesRemoved": 0
+          }
+        }
+      },
+      "scope": "Native CLI workspace GEMINI.md loading the exact release startup projection; installed extensions disabled",
+      "status": "pass",
+      "elapsed_seconds": 11.95
+    }
+  ],
+  "limitations": [
+    "No real model/effort switch or new-context transfer was executed.",
+    "No cache savings, total workflow cost reduction or task quality improvement was established.",
+    "No ChatGPT web/desktop/mobile or Codex App run; seven-surface matrix cases remain unexecuted where the complete fixture was not run.",
+    "Synthetic case diagnostics validate decisions, not the complete coordinator presentation. Native smoke separately checks presentation and local loading.",
+    "An initial context_off assertion rejected an explanatory suffix; semantic review corrected the overly strict assertion without changing the observed decision."
+  ]
+}
