@@ -2,7 +2,24 @@
 
 [English](README.md) · [繁體中文](README.zh-TW.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [한국어](README.ko.md)
 
-Adaptive Task Routing helps Gemini choose the conversation context and model for the next substantial phase. Gemini presents the requested findings or plan first, then shows the resource recommendation.
+**Put AI usage where it matters, and help reduce omissions and rework.**
+
+Adaptive Task Routing recommends whether to start a new conversation and which model and reasoning effort fit the next substantial phase, helping you balance usage with reliable work.
+
+- **Reduce interference from previous tasks:** Recommends when to start a new conversation so the AI is less likely to carry old assumptions or constraints into new work, reducing repeated corrections and rework. Relevant information is summarized for handoff when needed.
+- **Reduce unnecessary usage:** Provides minimum-sufficient and recommended model and reasoning settings, explaining whether an upgrade is worthwhile instead of using the highest settings for every task.
+- **Lower the risk of omissions and rework:** Assesses the capability needed before complex work begins, helping reduce errors caused by settings that are insufficient for the task.
+- **Keep the decision yours:** Review the recommendations before proceeding, or choose automatic application where the platform supports it.
+
+A change of topic alone does not require a new conversation. The benefit comes from reducing irrelevant history while preserving what the next task needs. Actual savings and reliability depend on the task and the settings adopted.
+
+## How it works
+
+1. The AI presents an actionable plan or completes the analysis or findings you requested.
+2. The plugin assesses the next phase: first whether to keep the conversation or start a new one, then the minimum-sufficient and recommended model and reasoning settings and the value of upgrading.
+3. By default, `ask` pauses for your decision. In `auto`, the AI applies supported changes when it can verify them; if switching is unavailable, it explains the limitation, retains the current settings, and continues already authorized work.
+
+Brief questions and tiny operations skip routing to avoid unnecessary overhead.
 
 ## Install
 
