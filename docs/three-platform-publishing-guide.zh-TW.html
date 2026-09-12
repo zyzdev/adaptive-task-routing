@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Adaptive Task Routing 發布至 OpenAI、Claude Code 與 Gemini CLI 的完整操作手冊。">
+  <title>Adaptive Task Routing｜三平台完整發布手冊</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #192132;
+      --muted: #667085;
+      --paper: #fff;
+      --canvas: #f3f6fa;
+      --line: #dce3ec;
+      --brand: #3159c7;
+      --brand-soft: #eaf0ff;
+      --success: #11765a;
+      --success-soft: #e7f7f1;
+      --warn: #946200;
+      --warn-soft: #fff5d8;
+      --code: #111827;
+      --code-ink: #e8edf7;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 90% 2%, rgba(49, 89, 199, 0.12), transparent 28rem),
+        var(--canvas);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+      line-height: 1.7;
+    }
+
+    a { color: var(--brand); font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 900px);
+      gap: 28px;
+      width: min(1220px, calc(100% - 36px));
+      margin: 32px auto 72px;
+      align-items: start;
+    }
+
+    nav {
+      position: sticky;
+      top: 22px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(20, 34, 66, 0.07);
+    }
+
+    nav strong { display: block; margin-bottom: 10px; }
+    nav ol { margin: 0; padding-left: 1.3rem; }
+    nav li { margin: 7px 0; color: var(--muted); font-size: 0.9rem; }
+
+    article { min-width: 0; }
+
+    header, section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 14px 36px rgba(20, 34, 66, 0.07);
+    }
+
+    header {
+      padding: 42px;
+      border-top: 5px solid var(--brand);
+    }
+
+    section { margin-top: 20px; padding: 32px; }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--brand);
+      font-size: 0.78rem;
+      font-weight: 850;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      line-height: 1.06;
+      letter-spacing: -0.045em;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      font-size: 1.5rem;
+      letter-spacing: -0.025em;
+    }
+
+    h3 { margin: 28px 0 10px; font-size: 1.08rem; }
+    p { margin: 10px 0; }
+    .lede { max-width: 720px; color: var(--muted); font-size: 1.08rem; }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .fact {
+      padding: 15px 17px;
+      background: #f6f8fc;
+      border-radius: 13px;
+    }
+
+    .fact small { display: block; color: var(--muted); font-weight: 700; }
+    .fact strong { display: block; margin-top: 3px; overflow-wrap: anywhere; }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .done { color: var(--success); background: var(--success-soft); }
+    .manual { color: var(--warn); background: var(--warn-soft); }
+
+    .platforms {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin: 22px 0 0;
+    }
+
+    .platform {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .platform b { display: block; font-size: 1.05rem; }
+    .platform span { color: var(--muted); font-size: 0.9rem; }
+
+    .steps {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: step;
+    }
+
+    .steps > li {
+      position: relative;
+      min-height: 46px;
+      margin: 0 0 22px;
+      padding-left: 50px;
+      counter-increment: step;
+    }
+
+    .steps > li::before {
+      content: counter(step);
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      color: #fff;
+      background: var(--brand);
+      border-radius: 50%;
+      font-weight: 850;
+    }
+
+    .steps > li:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 39px;
+      bottom: -17px;
+      left: 16px;
+      width: 2px;
+      background: var(--line);
+    }
+
+    .steps strong { display: block; }
+    .steps p { color: var(--muted); }
+
+    pre {
+      margin: 14px 0;
+      padding: 18px 20px;
+      overflow-x: auto;
+      color: var(--code-ink);
+      background: var(--code);
+      border-radius: 13px;
+      line-height: 1.55;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.88em;
+    }
+
+    :not(pre) > code {
+      padding: 2px 6px;
+      background: #eef2f7;
+      border-radius: 6px;
+      overflow-wrap: anywhere;
+    }
+
+    .callout {
+      margin: 18px 0;
+      padding: 17px 19px;
+      background: var(--brand-soft);
+      border-left: 4px solid var(--brand);
+      border-radius: 11px;
+    }
+
+    .warning {
+      background: var(--warn-soft);
+      border-left-color: var(--warn);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+
+    th, td {
+      padding: 13px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th { color: var(--muted); font-size: 0.8rem; }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 18px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .checklist li {
+      position: relative;
+      padding: 12px 14px 12px 40px;
+      background: #f7f9fc;
+      border-radius: 11px;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 15px;
+      color: var(--brand);
+      font-weight: 900;
+    }
+
+    footer {
+      padding: 25px 8px 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.86rem;
+    }
+
+    @media (max-width: 900px) {
+      .layout { display: block; }
+      nav { position: static; margin-bottom: 20px; }
+      nav ol { columns: 2; }
+      .platforms, .facts { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .layout { width: min(100% - 20px, 900px); margin-top: 10px; }
+      header, section { padding: 22px; border-radius: 15px; }
+      nav ol { columns: 1; }
+      .checklist { grid-template-columns: 1fr; }
+      table { display: block; overflow-x: auto; }
+    }
+
+    @media print {
+      body { background: white; }
+      .layout { display: block; width: 100%; margin: 0; }
+      nav { display: none; }
+      header, section { box-shadow: none; break-inside: avoid; }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav aria-label="章節導覽">
+      <strong>完整發布流程</strong>
+      <ol>
+        <li><a href="#scope">確認發布範圍</a></li>
+        <li><a href="#metadata">備妥公開資料</a></li>
+        <li><a href="#version">建立版本分支</a></li>
+        <li><a href="#build">建置與驗證</a></li>
+        <li><a href="#release">GitHub Release</a></li>
+        <li><a href="#openai">OpenAI</a></li>
+        <li><a href="#claude">Claude Code</a></li>
+        <li><a href="#gemini">Gemini CLI</a></li>
+        <li><a href="#acceptance">發布後驗收</a></li>
+        <li><a href="#updates">後續更新</a></li>
+        <li><a href="#troubleshooting">常見錯誤</a></li>
+      </ol>
+    </nav>
+
+    <article>
+      <header>
+        <p class="eyebrow">End-to-end publishing guide</p>
+        <h1>三平台完整發布手冊</h1>
+        <p class="lede">將 Adaptive Task Routing 從單一來源建置成三份經過驗證的發布產物，分別送到 OpenAI／ChatGPT／Codex、Claude Code 與 Gemini CLI。</p>
+        <div class="facts">
+          <div class="fact"><small>目前正式版本</small><strong>v0.4.2</strong></div>
+          <div class="fact"><small>GitHub Release</small><strong><a href="https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.4.2">已發布</a></strong></div>
+          <div class="fact"><small>文件更新日期</small><strong>2026-09-12</strong></div>
+        </div>
+      </header>
+
+      <section id="scope">
+        <h2>1. 確認發布範圍</h2>
+        <p>三份套件共享 <code>skills/</code> 與 <code>shared/</code> 來源，但安裝格式與公開管道不同。</p>
+        <div class="platforms">
+          <div class="platform"><b>OpenAI</b><span>ChatGPT／Codex Plugin Portal，上傳 OpenAI ZIP。</span></div>
+          <div class="platform"><b>Claude Code</b><span>公開 GitHub plugin repository，再申請 Plugin Directory。</span></div>
+          <div class="platform"><b>Gemini CLI</b><span>公開 GitHub extension repository，供 URL 安裝與 Gallery 探索。</span></div>
+        </div>
+        <div class="callout warning"><strong>介面限制：</strong>Claude 套件目標是 Claude Code；Gemini 套件目標是 Gemini CLI。它們不是一般 Claude 或 Gemini 聊天 App 的 Extension 安裝包。</div>
+      </section>
+
+      <section id="metadata">
+        <h2>2. 備妥公開資料</h2>
+        <p>正式送審前，先準備真實且可公開查閱的資料。不要在 Manifest 或表單中填入暫時占位內容。</p>
+        <ul class="checklist">
+          <li>發布者／組織名稱</li>
+          <li>聯絡信箱</li>
+          <li>產品首頁</li>
+          <li>支援頁面</li>
+          <li>隱私權政策</li>
+          <li>服務條款</li>
+          <li>Logo 與截圖</li>
+          <li>支援國家與語言</li>
+          <li>Starter prompts</li>
+          <li>正向與負向測試證據</li>
+        </ul>
+      </section>
+
+      <section id="version">
+        <h2>3. 建立版本分支</h2>
+        <ol class="steps">
+          <li><strong>從最新 main 建立分支</strong><pre><code>git switch main
+git pull --ff-only origin main
+git switch -c release/0.4.3</code></pre></li>
+          <li><strong>更新版本與 Changelog</strong><p>調整 <code>release.json</code>，將完成的項目從 <code>Unreleased</code> 移入新版本區塊，並同步 README、架構與驗證文件中的目前版本。</p></li>
+          <li><strong>先以 PR 審查</strong><p>版本變更只在發布分支進行；測試與審查通過後才合併到 <code>main</code>。</p></li>
+        </ol>
+      </section>
+
+      <section id="build">
+        <h2>4. 建置與驗證三平台產物</h2>
+        <pre><code>python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-dev.txt
+
+.venv/bin/python scripts/validate_release.py --source-only
+.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python scripts/build_release.py
+.venv/bin/python scripts/validate_release.py --require-archives
+
+claude plugin validate dist/claude/adaptive-task-routing --strict
+gemini extensions validate dist/gemini/adaptive-task-routing
+.venv/bin/python scripts/smoke_local.py
+
+(cd dist &amp;&amp; shasum -a 256 -c SHA256SUMS)</code></pre>
+        <p>所有指令都成功後，才提交版本來源：</p>
+        <pre><code>git add CHANGELOG.md README.md README.zh-TW.md docs release.json
+git commit -m "release: prepare 0.4.3"
+git push -u origin release/0.4.3
+
+gh pr create \
+  --base main \
+  --head release/0.4.3 \
+  --title "Release adaptive-task-routing 0.4.3" \
+  --body-file /path/to/release-notes.md</code></pre>
+        <div class="callout"><strong>產物規則：</strong><code>dist/</code> 是可重建且不納入 Git 的輸出。ZIP 必須讓平台 Manifest 直接位於壓縮檔根層，不能再包一層資料夾。</div>
+      </section>
+
+      <section id="release">
+        <h2>5. 建立 GitHub Tag 與 Release</h2>
+        <p>發布 PR 合併後，再從最新 <code>main</code> 建立 tag。版本 tag 必須是非空且格式有效的 <code>vX.Y.Z</code>。</p>
+        <pre><code>git switch main
+git pull --ff-only origin main
+
+gh release create v0.4.3 \
+  dist/adaptive-task-routing-openai-0.4.3.zip \
+  dist/adaptive-task-routing-claude-0.4.3.zip \
+  dist/adaptive-task-routing-gemini-0.4.3.zip \
+  dist/SHA256SUMS \
+  --target main \
+  --title "Adaptive Task Routing 0.4.3" \
+  --generate-notes</code></pre>
+        <p>若使用 GitHub 網頁，於 <strong>Choose a tag</strong> 輸入完整版本，例如 <code>v0.4.3</code>，再選擇 <strong>Create new tag on publish</strong>，Target 指向 <code>main</code>。</p>
+        <h3>目前 0.4.2 發布結果</h3>
+        <table>
+          <thead><tr><th>項目</th><th>結果</th></tr></thead>
+          <tbody>
+            <tr><td>Tag</td><td><code>v0.4.2</code></td></tr>
+            <tr><td>Release</td><td><a href="https://github.com/zyzdev/adaptive-task-routing/releases/tag/v0.4.2">Adaptive Task Routing 0.4.2</a></td></tr>
+            <tr><td>附件</td><td>OpenAI ZIP、Claude ZIP、Gemini ZIP、SHA256SUMS</td></tr>
+            <tr><td>狀態</td><td><span class="status done">已發布並驗證</span></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="openai">
+        <h2>6. 發布至 OpenAI／ChatGPT／Codex</h2>
+        <ol class="steps">
+          <li><strong>確認帳戶條件</strong><p>完成發布者或組織身分驗證，並確認帳戶有 Apps Management Write 權限。</p></li>
+          <li><strong>建立 Skills-only Plugin</strong><p>開啟 <a href="https://platform.openai.com/plugins">OpenAI Plugin Portal</a>，選擇 Create plugin，再選 Skills only。</p></li>
+          <li><strong>上傳正確檔案</strong><p>使用 <code>dist/adaptive-task-routing-openai-版本.zip</code>。不要上傳 monorepo，也不要使用 Claude 或 Gemini ZIP。</p></li>
+          <li><strong>核對匯入結果</strong><p>確認三個 Skills 與需要的 <code>shared/</code> 檔案都被匯入。</p></li>
+          <li><strong>完成商店資料</strong><p>填寫 Logo、分類、開發者身分、網站、支援、隱私權、條款、Starter prompts、地區與聲明。</p></li>
+          <li><strong>加入測試證據</strong><p>使用專案的五個正向與三個負向案例，填入實際操作結果。</p></li>
+          <li><strong>先 Submit，再 Publish</strong><p>送出審核不等於公開上架；審核通過後還要另外執行 Publish。</p></li>
+        </ol>
+        <p>官方參考：<a href="https://developers.openai.com/plugins/build/plugins">Plugin 建置</a>、<a href="https://developers.openai.com/plugins/deploy/submission">提交與發布</a>。</p>
+      </section>
+
+      <section id="claude">
+        <h2>7. 發布至 Claude Code</h2>
+        <ol class="steps">
+          <li><strong>建立專用公開 repository</strong><p>建議使用 <code>adaptive-task-routing-claude</code>。將 <code>dist/claude/adaptive-task-routing/</code> 的內容放在 repository 根目錄。</p></li>
+          <li><strong>核對根目錄</strong><pre><code>.claude-plugin/plugin.json
+skills/
+shared/
+README.md</code></pre></li>
+          <li><strong>驗證遠端 checkout</strong><pre><code>claude plugin validate /absolute/path/to/checkout --strict
+claude --plugin-dir /absolute/path/to/checkout</code></pre></li>
+          <li><strong>重新執行行為測試</strong><p>在新的 Claude Code session 測試隱式觸發、明確 Skill 呼叫、ask 停留、對話視窗與模型建議。</p></li>
+          <li><strong>送交公開目錄</strong><p>前往 <a href="https://platform.claude.com/plugins/submit">Claude Plugin 提交表單</a>，提供 repository、plugin 路徑、版本、發布者資料與測試證據。</p></li>
+          <li><strong>驗證正式安裝來源</strong><p>通過審核後，從正式 marketplace 在新 session 安裝並再次測試。</p></li>
+        </ol>
+        <p>官方參考：<a href="https://code.claude.com/docs/en/plugins">Claude Code Plugins</a>。</p>
+      </section>
+
+      <section id="gemini">
+        <h2>8. 發布至 Gemini CLI</h2>
+        <ol class="steps">
+          <li><strong>建立專用公開 repository</strong><p>建議使用 <code>adaptive-task-routing-gemini</code>。將 <code>dist/gemini/adaptive-task-routing/</code> 的內容放在 repository 根目錄。</p></li>
+          <li><strong>核對根目錄</strong><pre><code>gemini-extension.json
+GEMINI.md
+skills/
+shared/
+README.md</code></pre></li>
+          <li><strong>新增 Gallery topic</strong><p>在 GitHub repository 的 About → Topics 加入 <code>gemini-cli-extension</code>。</p></li>
+          <li><strong>建立版本 tag</strong><p>在 Gemini 專用 repository 建立與來源一致的 tag，例如 <code>v0.4.2</code>。</p></li>
+          <li><strong>從正式 URL 安裝</strong><pre><code>gemini extensions install \
+  https://github.com/zyzdev/adaptive-task-routing-gemini \
+  --ref v0.4.2
+
+gemini extensions list
+gemini skills list</code></pre></li>
+          <li><strong>等待 Gallery 探索</strong><p>topic 與格式符合要求後，Gallery 才可能收錄；本機 validation 通過不代表保證上架。</p></li>
+        </ol>
+        <div class="callout warning"><strong>Gemini Release 附件：</strong>Gemini 專用 repository 的 Release 只附 Gemini ZIP 與 checksum，避免多個通用 ZIP 讓安裝器選錯資產。</div>
+        <p>官方參考：<a href="https://geminicli.com/docs/extensions/releasing/">Gemini CLI Extension 發布</a>。</p>
+      </section>
+
+      <section id="acceptance">
+        <h2>9. 發布後驗收</h2>
+        <ul class="checklist">
+          <li>使用正式 URL／商店安裝</li>
+          <li>使用新的對話或 CLI session</li>
+          <li>確認三個 Skills 都能被發現</li>
+          <li>測試一般小問題不誤觸發</li>
+          <li>測試跨檔案任務會觸發</li>
+          <li>確認計畫先於資源建議</li>
+          <li>確認 ask 在建議後停留</li>
+          <li>確認 auto 僅在有能力時套用</li>
+          <li>確認語言跟隨使用者</li>
+          <li>記錄平台、版本與實際結果</li>
+        </ul>
+        <p>結構驗證、清單出現與實際行為是三種不同證據，發布後都要分別確認。</p>
+      </section>
+
+      <section id="updates">
+        <h2>10. 後續版本更新</h2>
+        <ol class="steps">
+          <li><strong>每次修改都開新分支</strong><p>從最新 <code>main</code> 建立 <code>fix/*</code>、<code>feat/*</code> 或 <code>docs/*</code> 分支，透過 PR 合併。</p></li>
+          <li><strong>發布時再開 release 分支</strong><p>集中調整版本、Changelog、驗證紀錄與可重現產物。</p></li>
+          <li><strong>建立新 tag</strong><p>已發布的 tag 不移動、不覆寫；修正版本使用新的 SemVer，例如 <code>v0.4.3</code>。</p></li>
+          <li><strong>逐平台更新</strong><p>OpenAI 重新提交新版 ZIP；Claude 更新公開 repository／目錄版本；Gemini 推送新 tag，並以 <code>--ref</code> 驗證。</p></li>
+        </ol>
+      </section>
+
+      <section id="troubleshooting">
+        <h2>11. 常見錯誤</h2>
+        <table>
+          <thead><tr><th>錯誤</th><th>原因</th><th>處理方式</th></tr></thead>
+          <tbody>
+            <tr><td>Tag name can't be blank</td><td>Release 沒有指定有效 tag。</td><td>輸入 <code>vX.Y.Z</code> 並選 Create new tag on publish，Target 指向 main。</td></tr>
+            <tr><td>Manifest 不在根目錄</td><td>ZIP 或 repository 多包了一層資料夾。</td><td>重新用專案建置腳本產生，不要手動壓縮外層目錄。</td></tr>
+            <tr><td>Claude 找不到 Skill</td><td>只複製單一 Skill，遺漏 shared 或 sibling Skills。</td><td>發布完整 Claude tree，並用 <code>--strict</code> 驗證。</td></tr>
+            <tr><td>Gemini 無法自動啟動</td><td>舊 session 未重新載入 GEMINI.md，或 host 的 Skill tool 不可用。</td><td>重新啟動 CLI，核對 extension list 與 skills list，再跑跨檔案測試。</td></tr>
+            <tr><td>Release checksum 不符</td><td>建置後又手動修改 ZIP。</td><td>刪除手動修改，重新執行 build 與 SHA256SUMS 驗證。</td></tr>
+            <tr><td>商店審核未通過</td><td>發布者資料、公開網址或測試證據不完整。</td><td>保留完整錯誤訊息，補齊欄位與可重現案例後再提交。</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>最終發布核對表</h2>
+        <ul class="checklist">
+          <li>版本與 Changelog 一致</li>
+          <li>發布 PR 已合併</li>
+          <li>全部自動測試通過</li>
+          <li>三平台 validation 通過</li>
+          <li>SHA256SUMS 通過</li>
+          <li>Tag 指向 main 合併提交</li>
+          <li>GitHub Release 附件完整</li>
+          <li>OpenAI 已送審／發布</li>
+          <li>Claude repository 與申請完成</li>
+          <li>Gemini repository、topic、tag 完成</li>
+          <li>正式安裝來源重新驗收</li>
+          <li>證據矩陣已更新</li>
+        </ul>
+      </section>
+
+      <footer>Adaptive Task Routing｜三平台完整發布手冊｜2026-09-12</footer>
+    </article>
+  </div>
+</body>
+</html>
