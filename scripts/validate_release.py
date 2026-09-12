@@ -264,6 +264,10 @@ def validate_source(root):
     require(all("resource-guidance heading" in AUTO_ACTIVATION[platform]
                 for platform in PLATFORMS),
             "Automatic activation does not preserve the branded routing-note boundary")
+    require(all("configuration commands" in AUTO_ACTIVATION[platform]
+                and "mode change affects both" in AUTO_ACTIVATION[platform]
+                for platform in PLATFORMS),
+            "Automatic activation does not route conversational mode commands")
     require(all(token in AUTO_ACTIVATION["gemini"] for token in (
                 "before responding or using task tools",
                 "automatic adaptive-task-routing coordinator",

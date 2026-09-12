@@ -10,7 +10,7 @@
 
 ## 被宿主直接選中時
 
-先判斷載入原因。只有使用者明確要求「僅模型／推理路由」、`adaptive-task-routing` 已傳入確定的 Context 並標記為協調委派，或先前完整 Gate 已完成、現在只是模型需求改變時，才由本 Skill 直接輸出。若宿主在一般實質任務中直接選到本 Skill，而且 Context 與 Model 尚未一併判定，立即停止子流程，讀取 `../adaptive-task-routing/SKILL.md` 並只轉交一次；轉交前不得先輸出單獨的模型建議。傳遞內部 `delegated_from: research-model-router` 標記；協調入口再次載入本 Skill 時會帶入已解析 Context 與協調委派標記，此時不得再次轉交。
+先判斷載入原因。只有使用者明確要求「僅模型／推理路由」、查詢／切換 Model 模式、`adaptive-task-routing` 已傳入確定的 Context 並標記為協調委派，或先前完整 Gate 已完成、現在只是模型需求改變時，才由本 Skill 直接輸出。模式指令依共用政策立即處理，只確認實際值與作用範圍，不探測或推薦模型。若宿主在一般實質任務中直接選到本 Skill，而且 Context 與 Model 尚未一併判定，立即停止子流程，讀取 `../adaptive-task-routing/SKILL.md` 並只轉交一次；轉交前不得先輸出單獨的模型建議。傳遞內部 `delegated_from: research-model-router` 標記；協調入口再次載入本 Skill 時會帶入已解析 Context 與協調委派標記，此時不得再次轉交。
 
 ## 觸發時機
 
@@ -72,6 +72,8 @@ Gemini CLI 無法取得即時選單時，讀取 `<plugin-root>/shared/model-cata
 - `auto`：模型及強度操作都可呼叫、已授權且可驗證時，自動套用建議；任一操作只能由使用者完成或不可用時，把手動操作列為可選項，沿用目前設定繼續已授權工作。此延續規則只屬於 `auto`；`ask` 一律在建議後停止等待。
 
 使用者目前回合的明確指定優先。Model 模式與 Context 模式彼此獨立。
+
+使用者可在對話中說「這次模型路由用 auto」、「這個對話的 Model Router 改成 ask」或「目前 Model 模式是什麼」。模式控制只回報變更後的值與作用範圍；若要求跨新對話保存但宿主沒有可寫入的使用者設定區，改為套用目前對話並明確說明限制。不得修改套件內的 `shared/defaults.yaml`。
 
 ## 輸出
 

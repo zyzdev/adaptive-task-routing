@@ -76,6 +76,8 @@ Plugin 不會因為使用者允許自動操作，就假設宿主環境真的具�
 
 目前對話狀態就是備援，不需要第二份固定策略。`ask` 下拒絕調整就沿用現況。`auto` 代表使用者授權，不代表環境具備能力。能力按操作逐項解析，不能只看介面名稱；例如 App 可能允許 AI 建立 Context，但切換目前模型或強度仍只能由使用者完成。未知控制方式要說明未知，不捏造步驟。
 
+模式可以直接在 AI 對話中查詢或切換。例如「這個對話的 Adaptive Task Routing 改用 auto」會同時設定兩個獨立 Router；「模型路由改成 ask」只改 Model Router。AI 會確認實際模式與作用範圍，不會為了設定模式另跑一次 Routing Gate。跨新對話的預設值只寫入宿主或使用者管理的設定區，不把已安裝套件當成偏好儲存區。完整畫面請參考[輸出範例](docs/usage/README.zh-TW.md#你會看到什麼)。
+
 ## 環境判斷
 
 第一次使用時，Plugin 先從宿主或使用者管理的設定區讀取能力快照；沒有快照或資料過期時，才偵測缺少的操作並在可持久化時記錄。後續 Gate 只做輕量新鮮度檢查；快取只是提示。介面、Session、權限、工具、宿主、模型清單或操作結果改變時，重新偵測受影響項目。
@@ -124,7 +126,7 @@ gemini extensions validate dist/gemini/adaptive-task-routing
 發行包不含建置腳本、其他平台 Manifest、MCP 服務或常駐 Hook。
 
 [跨平台行為案例](tests/behavioral-cases.md) 保留原 24 案例，另加 10 個探測案例；包含 OpenAI 送審需要的五個正向、三個負向案例。
-[七介面矩陣](tests/surface-matrix.json) 共 238 格：ChatGPT 網頁／桌面／手機、Codex App／CLI、Claude Code 與 Gemini CLI。唯讀探測通過不等於對話驗收或自動切換通過。
+[七介面矩陣](tests/surface-matrix.json) 共 245 格：ChatGPT 網頁／桌面／手機、Codex App／CLI、Claude Code 與 Gemini CLI。唯讀探測通過不等於對話驗收或自動切換通過。
 結構驗證與本機清單載入不代表行為通過；隱式觸發、帳號模型控制，以及 Gemini 單次 coordinator 啟用是否能完整執行，仍須實測記錄。
 
 ## 文件與發布

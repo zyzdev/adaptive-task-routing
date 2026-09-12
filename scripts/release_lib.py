@@ -15,6 +15,8 @@ SCHEMA = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
 COMMON_FILES = (
     "LICENSE", "CHANGELOG.md", "docs/architecture.md", "docs/architecture.zh-TW.md",
     "docs/full-example.md", "docs/full-example.zh-TW.md",
+    "docs/usage/README.md", "docs/usage/README.zh-TW.md", "docs/usage/README.zh-CN.md",
+    "docs/usage/README.ja.md", "docs/usage/README.ko.md",
     "tests/behavioral-cases.md", "tests/behavioral-matrix.json", "tests/surface-matrix.json",
 )
 MANIFESTS = {
@@ -24,6 +26,10 @@ MANIFESTS = {
 }
 AUTO_ACTIVATION = {
     "openai": (
+        "Treat direct requests to inspect or change Adaptive Task Routing modes as configuration "
+        "commands. Handle them through $adaptive-task-routing before ordinary plugin-question "
+        "skipping: named Context or Model changes affect only that router, while an unqualified "
+        "mode change affects both. Confirm the effective modes and scope without a routing note. "
         "Treat substantial multi-step analysis, inspection, audits, scans, research, and planning "
         "as qualifying work even when the user requested findings only and did not authorize "
         "implementation. First complete that requested deliverable and present its useful content "
@@ -42,6 +48,10 @@ AUTO_ACTIVATION = {
         "already completed."
     ),
     "claude": (
+        "Treat direct requests to inspect or change Adaptive Task Routing modes as configuration "
+        "commands. Handle them through /adaptive-task-routing:adaptive-task-routing before ordinary "
+        "plugin-question skipping: named Context or Model changes affect only that router, while an "
+        "unqualified mode change affects both. Confirm the effective modes and scope without a routing note. "
         "Treat substantial multi-step analysis, inspection, audits, scans, research, and planning "
         "as qualifying work even when the user requested findings only and did not authorize "
         "implementation. First complete that requested deliverable and present its useful content "
@@ -60,6 +70,10 @@ AUTO_ACTIVATION = {
     ),
     "gemini": (
         "Immediately classify the user's request before responding or using task tools. Treat "
+        "direct requests to inspect or change Adaptive Task Routing modes as configuration commands "
+        "before ordinary extension-question skipping. Named Context or Model changes affect only that "
+        "router; an unqualified mode change affects both. Confirm effective modes and scope without a "
+        "routing note. "
         "substantial multi-step analysis, inspection, audits, scans, research, and planning as "
         "qualifying work even when the user requested findings only and did not authorize "
         "implementation. This extension context is the automatic adaptive-task-routing coordinator; "

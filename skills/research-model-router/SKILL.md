@@ -1,6 +1,6 @@
 ---
 name: research-model-router
-description: Model-only child router for substantial coding, debugging, architecture, validation, research, or analysis. Use when the user explicitly asks only for model/reasoning advice, when adaptive-task-routing delegates with a resolved context, or at a later model-only phase transition. For a general task needing both context and model routing, dispatch to adaptive-task-routing instead. Skip ordinary chat and tiny operations; do not choose context.
+description: Model-only child router for substantial coding, debugging, architecture, validation, research, or analysis, and for conversational inspection or changes of the model-routing mode. Use when the user explicitly asks only for model/reasoning advice or mode control, when adaptive-task-routing delegates with a resolved context, or at a later model-only phase transition. For a general task needing both context and model routing, dispatch to adaptive-task-routing instead. Skip ordinary chat and tiny operations; do not choose context.
 ---
 
 # Research Model Router
@@ -17,7 +17,7 @@ If the host cannot load a plugin-level reference, preserve these minimum invaria
 
 ## Direct-selection dispatch guard
 
-Before doing model discovery or emitting output, determine why this Skill was loaded. Continue locally only when the user explicitly requested model/reasoning-only routing, the `adaptive-task-routing` coordinator supplied a resolved effective context and marked this call as coordinator-delegated, or a previously completed coordinator gate is being revisited for a genuine model-only phase transition. For any general substantial task where Context and Model routing have not both been resolved, stop this child workflow, read [adaptive-task-routing](../adaptive-task-routing/SKILL.md), and follow that coordinator once. Do not emit a standalone model result before dispatch. Pass an internal `delegated_from: research-model-router` marker; when the coordinator reads this Skill again with its coordinator-delegated resolved-context marker, continue here and never dispatch again.
+Before doing model discovery or emitting output, determine why this Skill was loaded. Continue locally only when the user explicitly requested model/reasoning-only routing or model-mode control, the `adaptive-task-routing` coordinator supplied a resolved effective context and marked this call as coordinator-delegated, or a previously completed coordinator gate is being revisited for a genuine model-only phase transition. Handle a model-mode inspection/change immediately under the shared policy: confirm the effective value and scope without model discovery or a recommendation. For any general substantial task where Context and Model routing have not both been resolved, stop this child workflow, read [adaptive-task-routing](../adaptive-task-routing/SKILL.md), and follow that coordinator once. Do not emit a standalone model result before dispatch. Pass an internal `delegated_from: research-model-router` marker; when the coordinator reads this Skill again with its coordinator-delegated resolved-context marker, continue here and never dispatch again.
 
 ## Routing gate
 

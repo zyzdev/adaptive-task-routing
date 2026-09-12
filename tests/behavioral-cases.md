@@ -132,9 +132,17 @@ Use these cases for manual or automated forward evaluation. Judge observable dec
 
 **中文：** 已有快取模型清單，但新 Session 的 Runtime 清單新增一個模型並移除一個模型時，決策應改用新的 Runtime 清單，且目前執行設定仍分開觀察。任務需求評分不綁模型名稱，只對應目前能力證據。使用者提供的清單要標記來源；靜態備援只有具版本且未過期才使用；不得從過期資料建議已移除或未知模型。
 
+## 17. Conversational mode control / 對話模式控制
+
+**Given:** In a normal conversation with no writable persistent settings store, the user sets Adaptive Task Routing to `auto` for this conversation, then changes only model routing to `ask`, and asks which modes are active.
+
+**Expect:** Treat the requests as configuration commands before ordinary plugin-question skipping. The unqualified change sets both independent routers; the named change affects only Model. Confirm Context `auto`, Model `ask`, and conversation scope concisely without model discovery, a routing recommendation, or a second confirmation. Do not claim that a new conversation will inherit the setting, and do not treat a mode change as authorization to implement another task.
+
+**中文：** 在沒有可寫入持久設定區的一般對話中，使用者先把 Adaptive Task Routing 設為本對話使用 `auto`，再只把 Model Router 改為 `ask`，最後查詢目前模式。這些要求應先被視為設定指令；未指定 Router 的切換同時套用兩者，具名切換只影響 Model。以精簡訊息確認 Context `auto`、Model `ask` 與目前對話範圍，不探測模型、不產生 Routing 建議，也不要求第二次確認。不得宣稱新對話會沿用，也不得把模式切換當成其他任務的實作授權。
+
 ## Cross-platform release matrix / 跨平台發布矩陣
 
-Machine-readable source: [behavioral-matrix.json](behavioral-matrix.json). B01–B16 preserve the original scenarios above; P01–P05 and N01–N03 are the OpenAI submission set. The [surface matrix](surface-matrix.json) adds R01–R10 and records all 34 cases separately on seven surfaces: ChatGPT web/desktop/mobile, Codex App/CLI, Claude Code and Gemini CLI (238 cells). Its per-surface results are authoritative; the legacy four-host summary below does not establish individual surface passes. All results start as `not_run`; native validation or inventory discovery does not prove behavioral success.
+Machine-readable source: [behavioral-matrix.json](behavioral-matrix.json). B01–B17 preserve the scenarios above; P01–P05 and N01–N03 are the OpenAI submission set. The [surface matrix](surface-matrix.json) adds R01–R10 and records all 35 cases separately on seven surfaces: ChatGPT web/desktop/mobile, Codex App/CLI, Claude Code and Gemini CLI (245 cells). Its per-surface results are authoritative; the legacy four-host summary below does not establish individual surface passes. All results start as `not_run`; native validation or inventory discovery does not prove behavioral success.
 
 Use a fresh conversation for each independent case. P05 and B11 require a controlled multi-turn sequence. Record host version, observed model/effort (or unknown), invocation mode, loaded resource paths, result and evidence. Synthetic capability fixtures must never be treated as authority to call real operations. Use the host's actual controls for manual tests; unknown or user-only operations must remain honestly reported.
 
@@ -153,6 +161,6 @@ Use a fresh conversation for each independent case. P05 and B11 require a contro
 |---|---|---|---|---|
 | P01–P05 (5 positive) | not_run | not_run | not_run | not_run |
 | N01–N03 (3 negative) | not_run | not_run | not_run | not_run |
-| B01–B16 (16 original boundary cases) | not_run | not_run | not_run | not_run |
+| B01–B17 (17 boundary cases) | not_run | not_run | not_run | not_run |
 
 Explicit invocation: select the coordinator Skill in ChatGPT/Codex; Claude uses `/adaptive-task-routing:adaptive-task-routing`; Gemini asks to use the named Skill and may require activation consent. Test P02, N01–N03 without naming any Skill. Evaluate trigger accuracy separately from correctness after explicit activation. The generated Gemini coordinator is self-contained: its normal gate must not request additional sibling Skill or plugin-level shared-resource access, and a missing dependency appendix leaves the gate incomplete.

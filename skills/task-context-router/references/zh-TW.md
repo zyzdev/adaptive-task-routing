@@ -12,7 +12,7 @@
 
 ## 被宿主直接選中時
 
-只有使用者明確要求「僅 Context 路由」，或 `adaptive-task-routing` 已標記為協調委派時，才由本 Skill 直接輸出。若宿主在一般實質任務中直接選到本 Skill，而且使用者預期同時取得 Context 與 Model 建議，立即停止子流程，讀取 `../adaptive-task-routing/SKILL.md` 並只轉交一次；轉交前不得先輸出單獨的 Context 結果。傳遞內部 `delegated_from: task-context-router` 標記；協調入口再次載入本 Skill 時會帶入協調委派標記，此時不得再次轉交。
+只有使用者明確要求「僅 Context 路由」、查詢／切換 Context 模式，或 `adaptive-task-routing` 已標記為協調委派時，才由本 Skill 直接輸出。模式指令依共用政策立即處理，只確認實際值與作用範圍，不評估 Context。若宿主在一般實質任務中直接選到本 Skill，而且使用者預期同時取得 Context 與 Model 建議，立即停止子流程，讀取 `../adaptive-task-routing/SKILL.md` 並只轉交一次；轉交前不得先輸出單獨的 Context 結果。傳遞內部 `delegated_from: task-context-router` 標記；協調入口再次載入本 Skill 時會帶入協調委派標記，此時不得再次轉交。
 
 ## 觸發時機
 
@@ -31,6 +31,8 @@
 - `auto`：在工具、權限與安全限制允許時自動套用。
 
 使用者目前回合的明確要求優先。Context 模式與 Model 模式彼此獨立。
+
+使用者可在對話中說「這次關閉對話路由」、「這個對話的 Context Router 改成 auto」或「目前 Context 模式是什麼」。模式控制只回報變更後的值與作用範圍；若要求跨新對話保存但宿主沒有可寫入的使用者設定區，改為套用目前對話並明確說明限制。不得修改套件內的 `shared/defaults.yaml`。
 
 ## 輸出與交接
 
