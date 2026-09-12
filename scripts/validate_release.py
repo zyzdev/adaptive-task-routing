@@ -431,6 +431,15 @@ def validate_source(root):
             "Switching evidence schema missing")
     require("Lower the setting again after the demanding phase ends" not in model_skill,
             "Automatic downgrade conflicts with switching assessment")
+    require("### Select the action paragraph" in gemini_runtime
+            and "For `retain` or `defer`, do not append `/model`" in gemini_runtime
+            and "目前保留設定；我先停在這裡" in gemini_runtime
+            and "Whenever the recommended model may differ" not in gemini_runtime,
+            "Gemini retention action conflicts with switch assessment")
+    require("### Select the action paragraph" in model_skill
+            and "For `retain` or `defer`, do not append `/model`" in model_skill
+            and "目前保留設定；我先停在這裡" in model_skill,
+            "Model retention action selection missing")
     require(all(token in model_skill for token in
                 ("minimum_sufficient_setting", "recommended_setting",
                  "upgrade_value", "upgrade_reason")),

@@ -158,12 +158,30 @@ settings are retained; in `ask` wait for a natural choice without instructing a 
 The manual-switch paragraph below applies only to a justified change or an explicit
 user-selected target. Every `ask` note still requires a final action/hold paragraph.
 
+### Select the action paragraph
+
+Choose the final paragraph from the switch decision, not from whether the current
+model is readable. Unknown current settings require `decision: defer`, so they use
+the retention paragraph. A concrete task-based recommendation alone never selects
+the manual-switch paragraph.
+
+For `retain` or `defer`, do not append `/model`, a selector instruction or an invitation
+to apply the target. In Traditional Chinese `ask`, end with:
+
+```text
+目前保留設定；我先停在這裡，等你決定是否沿用目前設定開始下一階段。
+```
+
+In `auto`, say that settings are retained and continue authorized work without a
+confirmation question. Explicit user requests for a particular setting override the
+retention advice and use the known control when no callable operation exists.
+
 ### Manual control when changing
 
 Gemini CLI does not expose an agent-callable, verifiable operation for changing the current model
-through this Skill. Whenever the recommended model may differ from the current model or the current
-model is unreadable, present `/model` as the user control. In Traditional Chinese `ask` mode, the
-routing note must end with:
+through this Skill. Only for `decision: change` or an explicit user-selected target,
+present `/model` as the user control. For a justified change in Traditional Chinese
+`ask` mode, the routing note must end with:
 
 ```text
 目前環境無法代為切換模型；Reasoning 使用模型預設。如需採用建議，可用 /model 選擇模型；我先停在這裡，等你決定是否調整，或沿用目前設定開始下一階段。

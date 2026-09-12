@@ -148,7 +148,12 @@ application: report retaining, a justified change, or deferring automatic change
 a task-specific reason. Show a switch value when supported; for an uncertain decision,
 say that benefit is not established and retain provisionally, without printing unreadable
 current fields or diagnostic provenance. A retention action must not invite applying
-the recommended pair as though the switch had been justified.
+the recommended pair as though the switch had been justified. Select the action paragraph
+before using any host-control template. For `retain` or `defer`, omit `/model`, selectors
+and invitations to apply the target. In Traditional Chinese `ask`, use: “目前保留設定；
+我先停在這裡，等你決定是否沿用目前設定開始下一階段。” In `auto`, retain and
+continue without a question. Manual-switch templates apply only to `decision: change`
+or an explicit user-selected target; unreadable current settings do not select them.
 
 ## Resolve the mode and executor
 

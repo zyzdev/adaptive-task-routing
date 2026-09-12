@@ -4,6 +4,12 @@ Specification check: 2026-09-12. Recheck interfaces against the installed versio
 
 ## Codex CLI and App
 
+Before presenting model controls, follow the model router's action-paragraph selection.
+For `retain` or `defer`, use its retention/hold paragraph without `/model`, a selector
+instruction or an invitation to apply the target. Unknown current settings alone never
+trigger manual-switch advice. The control examples below apply only to a justified
+`decision: change` or an explicit user-selected target, including the fallback path.
+
 Prefer metadata or a documented read tool exposed by the current host. A catalog
 must describe the effective destination, not the subagent menu or a different account.
 If a local shell, Python 3.10+ and Codex CLI are available and permitted, run the

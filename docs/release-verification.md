@@ -4,6 +4,14 @@ Audit date: 2026-09-12 (Asia/Taipei). This release updates discovery, recommenda
 direct-selection dispatch, plan-first routing and the `ask` hold while preserving the three Skill names. Local automated checks passed;
 public submission and conversational acceptance remain outstanding.
 
+## Unreleased switch-aware follow-up
+
+The [switch-aware behavioral report](switch-aware-testing.md) records 17 fresh live-model
+fixture evaluations and three CLI loading/output smoke tests, with the manual-control
+conflict found during native testing and its verified correction. This follow-up has
+61 passing Python tests. Its scoped results do not retroactively change the historical
+release results or establish full seven-surface acceptance.
+
 ## Automated results
 
 | Check | Result | Scope |

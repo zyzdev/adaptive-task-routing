@@ -6,6 +6,9 @@ All notable changes to this project are documented here.
 
 ### Changed
 
+- Live CLI testing exposed manual-switch prompts after a deferred switch decision.
+  Select retention versus manual-control paragraphs explicitly in the model router,
+  OpenAI guide and Gemini projection; cover the conflicting-template regression.
 - Evaluate model and reasoning changes at task boundaries using remaining-phase benefit,
   switching cost and context continuity; retain suitable settings rather than automatically
   downgrading after demanding work.

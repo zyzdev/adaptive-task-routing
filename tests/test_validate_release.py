@@ -75,6 +75,19 @@ class ValidateReleaseTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Switching contract missing: Gemini projection"):
             VALIDATOR.validate_source(self.root)
 
+    def test_rejects_gemini_unknown_model_forcing_manual_switch(self):
+        path = self.root / "shared/gemini-coordinator-runtime.md"
+        path.write_text(path.read_text() +
+                        "\nWhenever the recommended model may differ, present /model.\n")
+        with self.assertRaisesRegex(ValueError, "Gemini retention action conflicts"):
+            VALIDATOR.validate_source(self.root)
+
+    def test_rejects_missing_model_retention_action_selection(self):
+        path = self.root / "skills/research-model-router/SKILL.md"
+        path.write_text(path.read_text().replace("### Select the action paragraph", "### Actions"))
+        with self.assertRaisesRegex(ValueError, "Model retention action selection missing"):
+            VALIDATOR.validate_source(self.root)
+
     def test_rejects_switch_schema_without_unknown_value(self):
         path = self.root / "skills/research-model-router/references/evidence-schema.md"
         path.write_text(path.read_text().replace(
