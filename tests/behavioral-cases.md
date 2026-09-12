@@ -8,33 +8,33 @@ Use these cases for manual or automated forward evaluation. Judge observable dec
 
 **Given:** A substantial debugging request explicitly invokes `adaptive-task-routing`, with both child Skills and shared files available.
 
-**Expect:** After a lightweight understanding and rough plan, the coordinator loads the context router first, resolves the effective context, then loads the model router for that context. User-facing output briefly frames the understood task and rough approach before one compact routing note; detailed planning or execution follows it. The coordinator does not make either child decision itself.
+**Expect:** For a plan-only or analysis-only request, the requested useful deliverable appears first. For an execution request, an actionable plan appears first. The coordinator then loads the context router, resolves the effective context, and loads the model router for the resulting substantial next phase. In default `ask`, the compact routing note ends the turn and waits for a natural user response; only `auto` may continue automatically. The coordinator does not make either child decision itself.
 
-**中文：** 明確要求 `adaptive-task-routing` 處理實質除錯任務，且兩個子 Skill 與共用檔均可用時，入口應先理解任務並形成輕量初步計畫，再載入 Context Router、確定實際 Context，最後為該 Context 載入 Model Router。面向使用者的輸出先簡短交代任務理解與粗略方向，再用單一精簡訊息呈現兩個獨立結果，詳細計畫或執行內容接在其後；入口本身不代替子元件做判斷。
+**中文：** 明確要求 `adaptive-task-routing` 處理實質除錯任務，且兩個子 Skill 與共用檔均可用時，只要求計畫或分析就先呈現完整且有用的交付內容；要求執行則先呈現可操作計畫。入口接著載入 Context Router、確定實際 Context，最後為實質下一階段載入 Model Router。預設 `ask` 在精簡路由訊息後結束回合，等待使用者自然回覆；只有 `auto` 可自動繼續。入口本身不代替子元件做判斷。
 
 ## 2. Improvement-plan delivery / 交付改善計畫
 
 **Given:** The user asks for an improvement plan only, and the completed plan proposes a concrete, substantial implementation and validation phase.
 
-**Expect:** Before yielding, the enabled model router visibly recommends model and effort for the proposed next phase. If it recommends a change in default `ask` mode, it presents the known control as an option without requiring a confirmation word; it states that the recommendation did not authorize or begin implementation.
+**Expect:** Present the completed improvement plan first. Before yielding, the enabled model router visibly recommends model and effort for the proposed next phase. Default `ask` stops after the recommendation and waits for a natural user response, even when the current setting appears sufficient; it states that the recommendation did not authorize or begin implementation.
 
-**中文：** 使用者只要求改善計畫，而完成的計畫包含具體且有份量的實作與驗證下一階段時，啟用的 Model Router 應在回覆結束前顯示該階段的模型與強度建議。預設 `ask` 模式若建議改變，應把已知控制列為可選操作，不要求回覆特定口令；同時說明建議不代表已授權或開始實作。
+**中文：** 使用者只要求改善計畫，而完成的計畫包含具體且有份量的實作與驗證下一階段時，應先呈現完整改善計畫，再於回覆結束前顯示該階段的模型與強度建議。預設 `ask` 即使判斷目前設定足夠，也在建議後停止並等待自然回覆；同時說明建議不代表已授權或開始實作。
 
 ## 3. Context continuity with localized visible advice / 對話延續與在地化建議
 
 **Given:** A follow-up depends on definitions and corrections from recent turns, and the running model and effort are both observed and suitable.
 
-**Expect:** Structured evidence records `CURRENT`, while visible output uses a localized plain-language recommendation without the raw context enum. Model routing remains visible, identifies the observed suitable pair, and states that no switch occurred.
+**Expect:** Structured evidence records `CURRENT`, while visible output uses a localized plain-language recommendation without the raw context enum. Model routing remains visible and identifies the observed suitable pair. Default model `ask` still ends the turn for the user's natural decision; it does not silently continue because no switch is needed.
 
-**中文：** 後續工作依賴最近回合的定義與修正，而且目前模型與強度均可觀察且適合時，結構化證據記錄留在目前對話的穩定代碼；畫面只顯示在地化白話建議，不顯示英文代碼。模型結果仍須顯示已觀察且適合的具體組合，以及未執行切換。
+**中文：** 後續工作依賴最近回合的定義與修正，而且目前模型與強度均可觀察且適合時，結構化證據記錄留在目前對話的穩定代碼；畫面只顯示在地化白話建議，不顯示英文代碼。模型結果仍須顯示已觀察且適合的具體組合；預設 Model `ask` 仍結束回合等待自然決定，不能因不需切換就直接繼續。
 
 ## 4. Unknown current configuration / 目前設定未知
 
 **Given:** The applicable model catalog, supported effort options and task-relevant capability descriptions are known, but the running model and reasoning effort cannot be read.
 
-**Expect:** Recommend a concrete supported model and effort for the task; do not retain CURRENT/CURRENT solely because current settings are unknown. Current fields and switch necessity remain unknown. In ask mode present the pair and known control as options without claiming an upgrade, a comparison with current settings, or an applied change; continue authorized work with the retained current setting.
+**Expect:** Recommend a concrete supported model and effort for the task; do not retain CURRENT/CURRENT solely because current settings are unknown. Current fields and switch necessity remain unknown. In `ask`, present the pair and known control without claiming an upgrade, comparison, or applied change, then stop and wait for a natural user response.
 
-**中文：** 適用清單、強度選項及任務相關能力依據已知，但目前模型與推理強度無法讀取時，應給出具體受支援組合，不能僅因現況未知就暫留 `CURRENT/CURRENT`。目前欄位及是否需要切換仍未知；`ask` 把組合與已知控制列為可選項，不宣稱已比較、升級或套用，並沿用目前設定繼續已授權工作。
+**中文：** 適用清單、強度選項及任務相關能力依據已知，但目前模型與推理強度無法讀取時，應給出具體受支援組合，不能僅因現況未知就暫留 `CURRENT/CURRENT`。目前欄位及是否需要切換仍未知；`ask` 顯示組合與已知控制，不宣稱已比較、升級或套用，接著停止並等待自然回覆。
 
 ## 5. Unknown catalog / 模型清單未知
 
@@ -155,4 +155,4 @@ Use a fresh conversation for each independent case. P05 and B11 require a contro
 | N01–N03 (3 negative) | not_run | not_run | not_run | not_run |
 | B01–B16 (16 original boundary cases) | not_run | not_run | not_run | not_run |
 
-Explicit invocation: select the coordinator Skill in ChatGPT/Codex; Claude uses `/adaptive-task-routing:adaptive-task-routing`; Gemini asks to use the named Skill and may require activation consent. Test P02, N01–N03 without naming any Skill. Evaluate trigger accuracy separately from correctness after explicit activation. Gemini skill-directory consent may not cover sibling Skills and plugin-level shared/; record additional prompts or denied reads, and do not mark that gate complete if dependencies remain inaccessible.
+Explicit invocation: select the coordinator Skill in ChatGPT/Codex; Claude uses `/adaptive-task-routing:adaptive-task-routing`; Gemini asks to use the named Skill and may require activation consent. Test P02, N01–N03 without naming any Skill. Evaluate trigger accuracy separately from correctness after explicit activation. The generated Gemini coordinator is self-contained: its normal gate must not request additional sibling Skill or plugin-level shared-resource access, and a missing dependency appendix leaves the gate incomplete.

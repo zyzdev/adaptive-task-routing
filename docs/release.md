@@ -36,9 +36,10 @@ architecture, examples, shared files, license, changelog and platform-specific R
 are explicitly included. README source lives in packaging/<platform>/README.md and is
 placed at each package root with its repository-relative links rebased by the builder.
 Both source and packaged links are checked. Codex and Claude packages include fixed-output
-prompt hooks; Gemini includes startup context. They remind the host to understand the request,
-form a lightweight rough plan, and invoke the Skill before substantial tool use, detailed
-planning, or execution. They do not run the router or metadata helper themselves.
+prompt hooks; Gemini includes startup context. They remind the host to complete and present a
+requested analysis or plan first, then invoke the Skill for any substantial next phase before
+that phase begins. For an execution request, the host presents an actionable plan before the
+gate. They do not run the router or metadata helper themselves.
 
 The sole packaged executable source is the optional Python 3.10+ Codex metadata helper
 inside the model Skill. Its read-only RPC tests run in the Python suite. To check it
@@ -48,9 +49,10 @@ may occur. Do not run it on Claude/Gemini or a ChatGPT sandbox as an App-setting
 In a project-only Codex sandbox it may return `codex_state_unwritable`; the routing
 Skill stops after that read and immediately uses the matching unexpired bundled registry
 to produce minimum-sufficient and recommended settings. It does not print unreadable
-current fields. In `auto`, it applies only through independently verified model and
-effort controls; otherwise it shows `/model` as an optional action and continues authorized
-work with the current setting.
+current fields. In `ask`, it presents the applicable selector or `/model` control and stops for
+the user's natural decision. In `auto`, it applies only through independently verified model and
+effort controls; otherwise it shows the control as optional, retains the current setting, and
+continues.
 `/status` can provide current settings as user-reported evidence.
 Installing a release enables the packaged host-native reminder where the host supports it.
 Codex can require one-time hook trust. No status line, daemon, or Python environment is configured.

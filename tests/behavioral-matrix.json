@@ -9,7 +9,7 @@
       "title": "Coordinator sequence / 協調入口順序",
       "setup": "A substantial debugging request explicitly invokes `adaptive-task-routing`, with both child Skills and shared files available.",
       "prompt": "Evaluate this fixture under the installed routing Skills: A substantial debugging request explicitly invokes `adaptive-task-routing`, with both child Skills and shared files available.",
-      "expected": "After a lightweight understanding and rough plan, the coordinator loads the context router first, resolves the effective context, then loads the model router for that context. User-facing output briefly frames the understood task and rough approach before one compact routing note; detailed planning or execution follows it. The coordinator does not make either child decision itself.",
+      "expected": "For a plan-only or analysis-only request, the requested useful deliverable appears first. For an execution request, an actionable plan appears first. The coordinator then loads the context router, resolves the effective context, and loads the model router for the resulting substantial next phase. In default `ask`, the compact routing note ends the turn and waits for a natural user response; only `auto` may continue automatically. The coordinator does not make either child decision itself.",
       "results": {
         "chatgpt": {
           "status": "not_run",
@@ -36,7 +36,7 @@
       "title": "Improvement-plan delivery / 交付改善計畫",
       "setup": "The user asks for an improvement plan only, and the completed plan proposes a concrete, substantial implementation and validation phase.",
       "prompt": "Evaluate this fixture under the installed routing Skills: The user asks for an improvement plan only, and the completed plan proposes a concrete, substantial implementation and validation phase.",
-      "expected": "Before yielding, the enabled model router visibly recommends model and effort for the proposed next phase. If it recommends a change in default `ask` mode, it asks whether the user wants to adjust and waits; it states that the recommendation did not authorize or begin implementation.",
+      "expected": "Present the completed improvement plan first. Before yielding, the enabled model router visibly recommends model and effort for the proposed next phase. Default `ask` stops after the recommendation and waits for a natural user response, even when the current setting appears sufficient; it states that the recommendation did not authorize or begin implementation.",
       "results": {
         "chatgpt": {
           "status": "not_run",
@@ -63,7 +63,7 @@
       "title": "Context continuity with localized visible advice / 對話延續與在地化建議",
       "setup": "A follow-up depends on definitions and corrections from recent turns, and the running model and effort are both observed and suitable.",
       "prompt": "Evaluate this fixture under the installed routing Skills: A follow-up depends on definitions and corrections from recent turns, and the running model and effort are both observed and suitable.",
-      "expected": "Structured evidence records `CURRENT`, while visible output uses a localized plain-language recommendation without the raw context enum. Model routing remains visible, identifies the observed suitable pair, and states that no switch occurred.",
+      "expected": "Structured evidence records `CURRENT`, while visible output uses a localized plain-language recommendation without the raw context enum. Model routing remains visible and identifies the observed suitable pair. Default model `ask` still ends the turn for the user's natural decision; it does not silently continue because no switch is needed.",
       "results": {
         "chatgpt": {
           "status": "not_run",
@@ -90,7 +90,7 @@
       "title": "Unknown current configuration / 目前設定未知",
       "setup": "The applicable model catalog, supported effort options and task-relevant capability descriptions are known, but the running model and reasoning effort cannot be read.",
       "prompt": "Evaluate this fixture under the installed routing Skills: The applicable model catalog, supported effort options and task-relevant capability descriptions are known, but the running model and reasoning effort cannot be read.",
-      "expected": "Recommend a concrete supported model and effort for the task; do not retain CURRENT/CURRENT solely because current settings are unknown. Current fields and switch necessity remain unknown. In ask mode ask to use the pair without claiming an upgrade, a comparison with current settings, or an applied change.",
+      "expected": "Recommend a concrete supported model and effort for the task; do not retain CURRENT/CURRENT solely because current settings are unknown. Current fields and switch necessity remain unknown. In `ask`, present the pair and known control without claiming an upgrade, comparison, or applied change, then stop and wait for a natural user response.",
       "results": {
         "chatgpt": {
           "status": "not_run",

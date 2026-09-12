@@ -10,7 +10,7 @@ The plugin contains one thin coordinator, two independent decision skills, and o
 task request
     │
     ▼
-understand + rough plan
+requested analysis or plan
     │
     ▼
 adaptive-task-routing (loads and sequences the children)
@@ -25,10 +25,10 @@ resolve context using user mode + runtime capability
 research-model-router ─► minimum sufficient + recommended model/effort pairs
     │
     ▼
-resolve configuration using user mode + runtime capability
+ask: wait for user | auto: resolve configuration
     │
     ▼
-execute the task
+execute the next phase when authorized
 ```
 
 ## Responsibility boundary
@@ -46,11 +46,11 @@ The coordinator follows relative links to the packaged child `SKILL.md` files, o
 
 ## Trigger and gate lifecycle
 
-Explicitly selecting the coordinator runs the full workflow. The generated packages also use a host-native reminder: Codex and Claude Code inject one short instruction on `UserPromptSubmit`, while Gemini CLI loads an extension `GEMINI.md` at session startup. The reminder asks the host to understand the request, form a lightweight rough plan, and invoke the coordinator for qualifying work before substantial tool use, detailed planning, or execution; the coordinator Skill still owns eligibility and routing. A child's one-time dispatch guard recovers when a host nevertheless selects it for a general task.
+Explicitly selecting the coordinator runs the full workflow. The generated packages also use a host-native reminder: Codex and Claude Code inject one short instruction on `UserPromptSubmit`, while Gemini CLI loads an extension `GEMINI.md` at session startup. The reminder asks the host to present the requested analysis or plan before routing advice, then invoke the coordinator for a qualifying next phase before that phase begins; the coordinator Skill still owns eligibility and routing. A child's one-time dispatch guard recovers when a host nevertheless selects it for a general task.
 
-Run an initial gate after a rough plan and before substantial work. When the gate precedes work in the same response, show a brief task-framing sentence before the routing note and put detailed planning, findings, or execution after it. Also route a substantial next phase when presenting an improvement plan, even if executing it awaits user approval. A final answer with no concrete substantial next phase ends normally. At later stage changes, re-run model routing alone unless context also needs reconsideration.
+For an analysis-only or plan-only request, finish and present the authorized deliverable first, then route a concrete substantial next phase before yielding. For an execution request, present a concise actionable plan first and route before mutation or substantial execution. Model `ask` ends the turn after the routing note and waits for a natural user response, even when the current pair is suitable. Model `auto` may apply supported changes and continue. A final answer with no concrete substantial next phase ends normally. At later stage changes, present the completed phase's results first, then re-run model routing alone unless context also needs reconsideration.
 
-Reuse a completed gate while phase, effective context, preferences, catalog, and capabilities are unchanged. If both modes are `off`, skip evaluation, probing, and output. If only one is off, the other remains active. Context-off uses the current context; model-off retains current settings. In the default `ask` mode, a `CURRENT` result proceeds immediately; a recommended change pauses for the user's decision.
+Reuse a completed gate while phase, effective context, preferences, catalog, and capabilities are unchanged. If both modes are `off`, skip evaluation, probing, and output. If only one is off, the other remains active. Context-off uses the current context; model-off retains current settings. In the default model `ask` mode, every displayed setting recommendation pauses before the next phase; a context `CURRENT` result alone does not force a pause when model routing is off.
 
 If the user declines a context change in `ask`, model routing evaluates the current effective context. If a destination is pending and its model catalog is unknown, display the model gate as deferred and show observable current settings; revalidate in the destination before work starts. Do not silently drop the second gate or call it complete.
 
@@ -78,7 +78,7 @@ The first invocation loads a capability snapshot from a host- or user-managed se
 
 The installed plugin package is not used as mutable state because upgrades may replace it.
 
-The available model catalog has a shorter lifecycle than the capability snapshot. Runtime metadata is preferred and cached for the session or another short host-defined lifetime. A user-provided list is labeled as such; a static fallback must be versioned and expiring. When an OpenAI App cannot expose runtime discovery, the router immediately uses the bundled official cross-surface reference to produce minimum-sufficient and recommended settings without asking for a copied selector. Gemini CLI uses a separate registry of stable aliases and preserves model-native reasoning controls; without an observed `thinkingBudget` or `thinkingLevel`, compact output says the model default is used. Account availability remains unverified. In `auto`, independently verified switch controls may apply the pair; otherwise the surface-appropriate control is an optional action and authorized work continues with the current setting. Unreadable current fields are retained only in structured evidence and omitted from compact output. Catalog, running configuration, model capability evidence and switch capability remain separate.
+The available model catalog has a shorter lifecycle than the capability snapshot. Runtime metadata is preferred and cached for the session or another short host-defined lifetime. A user-provided list is labeled as such; a static fallback must be versioned and expiring. When an OpenAI App cannot expose runtime discovery, the router immediately uses the bundled official cross-surface reference to produce minimum-sufficient and recommended settings without asking for a copied selector. Gemini CLI uses a separate registry of stable aliases and preserves model-native reasoning controls; without an observed `thinkingBudget` or `thinkingLevel`, compact output says the model default is used. Account availability remains unverified. In `ask`, the surface-appropriate control is shown and the next phase waits for the user. In `auto`, independently verified switch controls may apply the pair; otherwise the control is optional and authorized work continues with the current setting. Unreadable current fields are retained only in structured evidence and omitted from compact output. Catalog, running configuration, model capability evidence and switch capability remain separate.
 
 Permission escalation is deferred until the user questions the recommendation or requests an account-specific check. The router first discloses its evidence and limits. It may then ask once for the smallest useful read permission, but only when a concrete path can reach the same App or session model catalog. Access to a separate CLI process does not satisfy that condition. A refusal keeps the fallback result and suppresses repeat requests until the relevant environment or user request changes.
 
@@ -102,8 +102,8 @@ The repository root owns the only maintained `skills/` and `shared/` sources. Sk
 
 `scripts/build_release.py` creates three staging trees at `dist/<platform>/adaptive-task-routing` and three root-layout ZIPs. Common documentation is included by explicit file list; each platform README comes from `packaging/<platform>/README.md`. Build/test executables are excluded. The one allowed executable source is the optional on-demand Skill helper. Automatic activation uses declarative context or a fixed shell-output hook; it does not probe metadata, start a service, or execute the routers itself.
 
-There is no fourth marketplace archive. Local marketplace registration is a separate host setup step. The validator checks relative references, frontmatter, preserved triggers, automatic activation definitions, shared files, versions, platform manifest boundaries, staged bytes, ZIP members and SHA-256. Rebuilds use fixed archive metadata. Previous dist trees are preserved outside dist in `.release-backups/`. File validation proves that the reminder is packaged, but installed-host tests are still required to prove that the host delivered it, invoked the Skill, allowed sibling reads, or switched settings.
+There is no fourth marketplace archive. Local marketplace registration is a separate host setup step. The validator checks relative references, frontmatter, preserved triggers, automatic activation definitions, shared files, versions, platform manifest boundaries, staged bytes, ZIP members and SHA-256. Rebuilds use fixed archive metadata. Previous dist trees are preserved outside dist in `.release-backups/`. File validation proves that the reminder and Gemini dependency appendix are packaged, but installed-host tests are still required to prove that the host delivered the reminder, invoked the Skill, completed Gemini's single-activation gate, or switched settings.
 
 ## Defaults
 
-Both routers default to `ask`. Model recommendations do not interrupt authorized work when switching is unavailable; a context change still waits for the user's choice unless the context router is explicitly set to `auto`.
+Both routers default to `ask`. A model recommendation ends the turn before the next phase regardless of switching availability; no fixed reply keyword is required. Model `auto` is the only mode that may continue automatically after routing. A context change still waits for the user's choice unless the context router is explicitly set to `auto`.

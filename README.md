@@ -14,8 +14,8 @@ The routers stay independent. A third, thin `adaptive-task-routing` skill coordi
 Long agentic sessions can waste context and compute when every phase stays in one conversation or always uses the strongest available model. This project adds a small routing gate after task understanding and before substantial execution:
 
 ```text
-understand → rough plan → context routing → resolve context
-→ model routing → resolve model configuration → execute
+requested analysis or plan → context routing → resolve context
+→ model routing → ask: wait | auto: resolve configuration and execute
 ```
 
 It never assumes that a host can perform a switch. A recommendation, user authorization, runtime capability, and verified execution are separate states.
@@ -24,7 +24,7 @@ It never assumes that a host can perform a switch. A recommendation, user author
 
 ### `adaptive-task-routing` — start here
 
-After understanding a substantial task and forming a rough plan, this coordinator reads the context router, resolves the effective working context, then reads the model router. When work continues in the same response, it first shows one brief task-framing sentence, then the routing note, followed by detailed planning or execution. It also routes a concrete substantial next phase when delivering an improvement plan, before yielding to the user. It does not authorize implementing a plan-only request.
+The coordinator first lets the agent complete and present the requested analysis or plan. If that deliverable defines a concrete substantial next phase, it then reads the context router, resolves the effective working context, and reads the model router for that next phase. For an execution request, the agent presents a concise actionable plan before the routing note and does not begin substantial execution yet. Model `ask` stops after the note and waits for a natural user response; model `auto` may apply supported settings and continue. A plan-only request never authorizes implementation.
 
 It skips brief explanations, status checks, tiny edits, and questions merely about the plugin. At later phase changes it loads only the needed router. A completed answer with no substantial next phase does not need a new routing note.
 
@@ -46,7 +46,7 @@ It does not decide where the task runs or perform the task. Direct model-only re
 
 ## Invocation and visibility
 
-The generated packages now add a short host-native activation reminder. Codex and Claude Code run a `UserPromptSubmit` plugin hook; Gemini CLI loads the extension's `GEMINI.md` in every restarted session. The reminder tells the host to understand the request, form a lightweight rough plan, and invoke the coordinator for qualifying substantial work before broad tool use, detailed planning, or execution. It does not duplicate the routing policy or run the routers itself. Codex can require one-time review before an installed hook runs, and any host or administrator can disable hooks or extensions. ChatGPT surfaces that consume only the portable Agent Plugins manifest do not expose a local prompt hook, so their implicit activation still depends on description matching or explicit Skill selection.
+The generated packages now add a short host-native activation reminder. Codex and Claude Code run a `UserPromptSubmit` plugin hook; Gemini CLI loads the extension's `GEMINI.md` in every restarted session. The reminder tells the host to present the requested analysis or plan first, then invoke the coordinator for a qualifying next phase before that phase begins. It also preserves the `ask` hold and `auto` continuation boundary. It does not duplicate the routing policy or run the routers itself. Codex can require one-time review before an installed hook runs, and any host or administrator can disable hooks or extensions. ChatGPT surfaces that consume only the portable Agent Plugins manifest do not expose a local prompt hook, so their implicit activation still depends on description matching or explicit Skill selection.
 
 For explicit use, select the **adaptive-task-routing skill** in the host's skill picker, or ask: “Use the adaptive-task-routing skill before starting this work.” Codex surfaces supporting `$` mentions can use `$adaptive-task-routing`; Claude Code uses `/adaptive-task-routing:adaptive-task-routing`. Individual routers remain available for context-only or model-only requests. The coordinator remains the primary entrypoint; a child selected for a general task dispatches once to it unless the request is explicitly context-only or model-only.
 
@@ -61,10 +61,10 @@ Each router has one of three independent modes:
 | Mode | Behavior |
 |---|---|
 | `off` | Skip the router entirely. |
-| `ask` | Evaluate and continue when no change is needed. Before a recommended change, ask the user whether to adjust. This is the default. |
+| `ask` | Present the recommendation, then stop and wait for the user's natural decision before the next phase. This is the default. |
 | `auto` | Evaluate and apply each supported change when that exact operation is permitted, callable, and verifiable; degrade only unavailable parts to user action. |
 
-The present conversation state is the fallback; no second fixed strategy is required. In `ask`, declining a change continues with current settings. `auto` is permission, not proof of capability. Capabilities are resolved per operation rather than per surface: an App may allow automatic context creation while current-model or effort changes remain user-only. Unknown controls are reported as unknown, not invented.
+The present conversation state is the fallback; no second fixed strategy is required. In `ask`, the user can request a change or explicitly continue with current settings without a prescribed reply keyword. `auto` is permission, not proof of capability. Capabilities are resolved per operation rather than per surface: an App may allow automatic context creation while current-model or effort changes remain user-only. Unknown controls are reported as unknown, not invented.
 
 ## Runtime behavior
 
@@ -135,7 +135,7 @@ shared dependencies, platform isolation, ZIP members and hashes.
 The [behavioral matrix](tests/behavioral-cases.md) includes the five positive
 and three negative OpenAI submission tests. Native loading and structural validation
 do not prove behavioral success. Account-specific model controls, implicit activation
-and cross-Skill permission prompts need installed-host evidence.
+and Gemini's single-activation coordinator behavior need installed-host evidence.
 
 ## Documentation and publication
 

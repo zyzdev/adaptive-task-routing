@@ -34,8 +34,9 @@ unexpired registry for an immediate useful recommendation; ask for `/model` cont
 only if the user later requests an account-specific comparison. A subagent's model
 and a new invocation's `--model` do not identify or change the running parent session.
 
-Keep the full extension together. If Skill activation consent does not cover sibling
-or shared resources, request the required access without bypassing that boundary.
+Keep the full extension together. The generated coordinator contains its runtime dependencies
+in a self-contained appendix, so its normal coordinated gate must not request access to sibling
+Skills or plugin-level shared resources. Treat a missing or truncated appendix as incomplete.
 
 Sources: [model selector](https://geminicli.com/docs/cli/model/),
 [model routing](https://geminicli.com/docs/cli/model-routing/), and

@@ -4,46 +4,19 @@
 
 > Inspect this app's slow startup and give me an improvement plan. Do not implement it yet. Use the adaptive-task-routing skill.
 
-The agent identifies an initial phase: inspect startup entry points and existing timing evidence, then propose changes. Before broad code reading, the coordinator loads the context router and then the model router. Both modes default to `ask`. This example runs in an App whose orchestrator can create contexts but cannot change the current model or effort.
+The agent performs the authorized read-only inspection first: it traces startup entry points, examines existing timing evidence, and presents a concrete improvement plan. The routers do not inspect the app themselves. Before the proposed implementation phase begins, the coordinator loads the context router and then the model router. Both modes default to `ask`. This example runs in an App whose orchestrator can create contexts but cannot change the current model or effort.
 
 The following model names are **fictional test-fixture labels**, not installable models or real recommendations. The example runtime reports current `fixture-balanced` / `medium`, and lists `fixture-fast` and `fixture-balanced`, each supporting `low`, `medium`, and `high`.
 
-The context router finds recent requirements relevant and recommends staying in this conversation. The model router finds the observed balanced configuration sufficient for initial inspection. A compact note is enough:
+Suppose the inspection finds serialized initialization and proposes three dependent changes: defer optional services, parallelize independent reads, and test startup ordering. The agent first explains that evidence and the complete improvement plan. It then identifies a substantial **next phase**: implementing and validating those changes. The context router finds recent requirements relevant and recommends staying in this conversation. The model router recommends more reasoning effort for that next phase. The routing note follows the plan:
 
 ```text
-I will trace the startup entry points and timing evidence, then turn the findings into a scoped improvement plan.
+The inspection found serialized initialization. The plan is to defer optional services, parallelize independent reads, and add startup-ordering tests. No implementation has started.
 
 Conversation setting
 Recommendation: Stay in this conversation
 Switch window: no
 Recent requirements are still relevant.
-
-Minimum sufficient AI setting
-Model: fixture-balanced
-Reasoning: medium
-Enough for scoped inspection.
-
-Recommended AI setting
-Model: fixture-balanced
-Reasoning: medium
-Upgrade value: low; stronger settings add little before evidence identifies a difficult branch.
-```
-
-The main agent performs the authorized inspection. The routers do not inspect the app themselves.
-
-## 2. Deliver the improvement plan
-
-Suppose the inspection finds serialized initialization and proposes three dependent changes: defer optional services, parallelize independent reads, and test startup ordering. The agent explains the evidence and improvement plan.
-
-Before yielding, the coordinator identifies a substantial **next phase**: implementing and validating initialization changes. The context result remains valid; only the model gate is revisited. The model router recommends more reasoning effort from the fixture's verified options:
-
-```text
-The next phase would implement the three initialization changes and verify their ordering and regressions.
-
-Conversation setting
-Recommendation: Stay in this conversation
-Switch window: no
-Reuse the resolved context.
 
 Minimum sufficient AI setting
 Model: fixture-balanced
@@ -55,21 +28,22 @@ Model: fixture-balanced
 Reasoning: high
 Upgrade value: medium; extra checking helps with initialization ordering and regression interactions.
 
-If desired, choose high effort in the known App selector; keeping the current setting is
-also valid. Implementation has not started.
+If desired, choose high effort in the known App selector. I will stop here while you decide whether to adjust it or keep the current setting for the next phase.
 ```
 
-Advice does not authorize implementation. If the App selector location is unknown, the agent states that limitation instead of inventing an exact menu path. Model guidance does not require a confirmation word; staying in the current conversation proceeds without interruption.
+Default `ask` ends the turn here even though the current pair might already be sufficient. The user can reply naturally; no fixed confirmation word is required. Advice does not authorize implementation, and the plan-only request does not start it.
 
-## 3. User approves the next phase
+## 2. User authorizes the next phase
 
 > I selected high effort. Implement the plan.
 
 The agent revalidates the current setting using runtime metadata if available; otherwise it records the user-provided value and its source without claiming independent verification. It does not repeat unchanged context analysis. A brief model note confirms the intended pair or reports any mismatch, then implementation proceeds under the user's authorization.
 
+If the user instead says “Use the current setting and start,” that is also a valid natural response. If the App selector location is unknown, the agent describes the available control without inventing an exact menu path.
+
 If the user had instead said only “What does deferred initialization mean?”, the agent would answer without starting another gate or implementing anything.
 
-## 4. Completion
+## 3. Completion
 
 Before a demanding final interpretation of benchmark results, the model router may run again if the phase materially changes. When the agent finishes with a complete conclusion and no substantial next phase, it stops normally. No artificial next task or new window is proposed solely to keep routing active.
 

@@ -1,0 +1,32 @@
+{
+  "observed_at": "2026-09-12T07:22:35Z",
+  "host_version": "codex-cli 0.154.0",
+  "release_version": "0.4.1",
+  "installed_plugin_version": "0.4.1+codex.20260912071849",
+  "prompt_named_skill": false,
+  "hook_event": "UserPromptSubmit",
+  "hook_test_mode": "dangerously-bypass-hook-trust for this reviewed local test invocation only",
+  "task": "Read-only README and architecture consistency review with a three-point improvement plan",
+  "result": {
+    "coordinator_skill_loaded": true,
+    "requested_findings_and_plan_presented_before_routing": true,
+    "context_block_rendered_after_plan": true,
+    "minimum_setting_block_rendered_after_plan": true,
+    "recommended_setting_block_rendered_after_plan": true,
+    "ask_ended_turn_after_routing": true,
+    "downstream_execution_after_routing": false,
+    "fixed_confirmation_word_required": false,
+    "project_files_modified": false
+  },
+  "sanitized_order": [
+    "Completed the requested read-only consistency review and presented three concrete improvements.",
+    "Rendered the localized conversation-setting block.",
+    "Rendered minimum-sufficient and recommended AI-setting blocks.",
+    "Stopped the turn under default ask mode without starting the proposed next phase."
+  ],
+  "notes": [
+    "A preceding fresh run using the Gemini release-audit prompt showed the same plan-first order before the final documentation consistency cleanup.",
+    "The earlier codex-cli-routing-order evidence records the superseded rough-plan-first/non-blocking behavior and is retained as historical evidence.",
+    "Normal interactive use still requires the user to review and trust the installed hook once."
+  ]
+}

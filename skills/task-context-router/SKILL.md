@@ -21,7 +21,7 @@ Before deciding Context or emitting output, determine why this Skill was loaded.
 
 ## Routing gate
 
-Run after the request is understood and a rough execution plan exists, but before broad searching, reading many files, long analysis, or large artifact generation.
+When the coordinator delegates a plan-only or analysis-only request, run after that requested deliverable is complete and before its substantial next phase. For an execution request, run after a concise actionable plan exists and before mutation or substantial execution. A direct context-only request may run as soon as the request is understood.
 
 Reconsider at a genuine task boundary: a substantially different objective, the transition from exploration to a stable downstream phase, a context crowded with irrelevant or conflicting history, or a phase requiring isolation or reproducibility. Do not invoke for every small follow-up.
 
@@ -98,8 +98,8 @@ When the host exposes only user controls, provide the exact action for that surf
 This skill decides **where work runs**. `research-model-router` decides **which model and reasoning effort run it**. Keep them separate and use this order:
 
 ```text
-understand → rough plan → task-context-router → resolve context
-→ research-model-router → resolve model configuration → execute
+requested analysis or actionable plan → task-context-router → resolve context
+→ research-model-router → resolve model configuration → ask: wait | auto: execute
 ```
 
 The [coordinator](../adaptive-task-routing/SKILL.md) owns this full sequence and loads the model router after this Skill returns. This Skill dispatches to the coordinator only when the host selected it for a general task; it never chooses the model itself. A direct context-only request stays context-only.

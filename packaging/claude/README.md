@@ -1,10 +1,10 @@
 # Adaptive Task Routing — Claude Code
 
 Three Skills route substantial work through context, model and reasoning recommendations.
-Both independent routers default to ask; no-change recommendations continue. A packaged
-`UserPromptSubmit` hook injects a short reminder before each prompt so Claude first forms a
-lightweight rough plan, then invokes the coordinator before substantial tool use, detailed
-planning, or execution for qualifying work.
+Both independent routers default to ask. A packaged `UserPromptSubmit` hook injects a short
+reminder before each prompt so Claude first presents the requested analysis or plan, then invokes
+the coordinator before any qualifying next phase. For an execution request, Claude presents an
+actionable plan before the gate.
 
 ## Local installation
 
@@ -16,8 +16,9 @@ claude plugin validate /absolute/path/to/adaptive-task-routing --strict
 claude --plugin-dir /absolute/path/to/adaptive-task-routing
 ```
 
-In the new session, first submit a substantial task without naming the Skill and confirm a brief
-task framing appears before the routing note, followed by detailed planning or execution. Explicit
+In the new session, first submit a substantial plan-only task without naming the Skill and confirm
+the useful plan appears before the routing note and default `ask` ends the turn there. Submit a
+separate execution request and confirm only `auto` may continue through the gate. Explicit
 invocation is /adaptive-task-routing:adaptive-task-routing.
 The individual routers are /adaptive-task-routing:task-context-router and
 /adaptive-task-routing:research-model-router. Verify all three are discovered.

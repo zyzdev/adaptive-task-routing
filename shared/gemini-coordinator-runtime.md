@@ -7,14 +7,14 @@ from memory.
 
 ## Sequence
 
-1. Understand the request and form a lightweight rough plan without broad exploration or execution.
-2. Assess conversation placement before model choice.
-3. Assess minimum-sufficient and recommended Gemini model settings for the upcoming phase.
-4. When work will continue, precede the localized routing note with one brief localized sentence
-   stating the understood task and rough approach. Render the routing note and apply the `ask` or
-   `auto` action.
-5. Put detailed planning, findings, or execution after the routing note. Stop only when a context
-   decision or the user's requested scope requires it.
+1. Complete and present the requested findings or plan. If execution is already requested, present
+   a concise actionable plan first without starting mutation or substantial execution.
+2. Assess conversation placement for the substantial next phase before model choice.
+3. Assess minimum-sufficient and recommended Gemini model settings for that next phase.
+4. Render the localized routing note after the requested plan or findings.
+5. In `ask`, stop after the note and wait for the user's natural response without requiring a fixed
+   keyword. In `auto`, apply any callable, authorized and verifiable setting, or retain the current
+   setting when switching is unavailable, then continue authorized execution.
 
 Both routers default to `ask`. Skip a router only when its mode is explicitly `off`. Reuse a
 completed gate for an unchanged phase. Never claim a context or model change unless the host
@@ -77,17 +77,17 @@ For Traditional Chinese, render both blocks exactly in this order:
 
 Omit unreadable current settings, diagnostics, confidence, registry details, and internal schema.
 
-## Optional model action
+## Model action
 
 Gemini CLI does not expose an agent-callable, verifiable operation for changing the current model
 through this Skill. Whenever the recommended model may differ from the current model or the current
-model is unreadable, present `/model` as an option without blocking authorized downstream work. In
-Traditional Chinese use:
+model is unreadable, present `/model` as the user control. In Traditional Chinese `ask` mode use:
 
 ```text
-目前環境無法代為切換模型；Reasoning 使用模型預設。如需採用建議，可用 /model 選擇模型；我會先依目前設定繼續執行。
+目前環境無法代為切換模型；Reasoning 使用模型預設。如需採用建議，可用 /model 選擇模型；我先停在這裡，等你決定是否調整，或沿用目前設定開始下一階段。
 ```
 
-Continue authorized work in the same turn. For a model-advice-only or plan-only request, replace the
-continuation clause with the localized equivalent of “you may also keep the current setting.” In
-another user language, translate the same action and keep `/model` unchanged.
+Stop after the note in `ask`; the user may respond naturally with a changed setting or a request to
+continue with the current one. In `auto`, show `/model` only as an optional control, retain the
+current setting and continue authorized work. In another user language, translate the same action
+and keep `/model` unchanged.

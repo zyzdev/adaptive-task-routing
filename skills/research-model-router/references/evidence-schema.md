@@ -65,7 +65,8 @@ execution:
   manual_action: null | surface-specific instruction
 ```
 
-When switching is unavailable but downstream work remains authorized, record
-`disposition: kept_current` and `execution.status: retained_current`; `manual_action` may
-hold the optional surface-specific control. Do not use an awaiting state solely because
-the recommendation differs from an unreadable or retained current setting.
+In `ask`, record `disposition: awaiting_user_confirmation` and the matching execution
+status after presenting the settings, even when the current pair appears suitable;
+`manual_action` may hold the surface-specific control. In `auto`, when switching is
+unavailable but downstream work remains authorized, record `disposition: kept_current`
+and `execution.status: retained_current` while continuing with the current setting.

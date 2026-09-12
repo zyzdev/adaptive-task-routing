@@ -18,14 +18,16 @@ gemini skills list
 
 Linking changes the local extension registry. Use install instead of link if you
 want a copied installation. Start a new interactive session and inspect /skills list.
-The manifest loads the packaged `GEMINI.md` after restart. Submit a substantial task without
-naming the Skill and confirm Gemini forms a lightweight rough plan, requests or performs
-adaptive-task-routing activation, and shows a brief task framing before the routing note and
-execution. Explicit activation remains available for comparison.
+The manifest loads the packaged `GEMINI.md` after restart. Submit a substantial plan-only task
+without naming the Skill and confirm Gemini presents the useful plan, requests or performs
+adaptive-task-routing activation for the next phase, then shows the routing note and ends the
+turn in default `ask`. Submit a separate execution request and confirm only `auto` may continue
+through the gate. Explicit activation remains available for comparison.
 
-Gemini can limit consent to an activated Skill's directory. Our coordinator also
-reads sibling Skills and plugin-level shared/. Verify these reads in the installed
-host and record any additional permission prompt. An inaccessible dependency must
+Gemini can limit consent to an activated Skill's directory. The generated coordinator therefore
+contains a self-contained dependency appendix and must not activate sibling Skills during the
+coordinated gate. Verify that one coordinator activation can produce both decisions without an
+additional sibling/shared-resource permission prompt. A missing or truncated appendix must
 produce an incomplete gate, not an invented routing result. The startup context contains only
 the eligibility reminder; the Skill remains the source of routing policy and output rules.
 

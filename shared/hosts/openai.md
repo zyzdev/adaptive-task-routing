@@ -61,8 +61,9 @@ Catalog discovery never establishes switch capability. In `auto`, switch only wh
 the exact model and effort controls are callable, authorized and verifiable. On an
 identified CLI, show `/model` as an optional manual action. On ChatGPT desktop or web
 with a visible model/reasoning selector, show only that selector and do not include
-the CLI-only `/model` command. Retain the current setting and continue authorized work
-without requiring a confirmation word. `/status` may supply useful user-reported current
+the CLI-only `/model` command. In `ask`, stop and wait for the user's natural decision without
+requiring a confirmation word. In `auto`, retain the current setting and continue when switching
+is unavailable. `/status` may supply useful user-reported current
 settings, but unreadable current values are omitted from the compact result. Do not make
 further probe attempts in the same gate.
 

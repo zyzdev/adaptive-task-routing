@@ -79,12 +79,12 @@ Use the capabilities already available in the current execution. When the bounde
 
 Permission escalation is diagnostic, not part of the default recommendation path. When a user questions the recommendation or explicitly requests an account-specific check, explain the actual evidence source, relevant dates, applicability limit, and task mapping. Then request narrowly scoped read permission at most once only if that permission unlocks a concrete same-surface `model/list` or equivalent path. Do not request generic permission that can only inspect another process or cannot reach the current selector. After a decline, continue with the fallback and do not repeat the request until the environment or explicit user intent changes.
 
-Read capability and switch capability are separate. In `auto`, apply the recommended pair only when the exact model and effort operations are callable, authorized, and verifiable. Otherwise show the two settings and the surface-appropriate user control as an optional action, retain the current setting, and continue authorized work without requiring a confirmation word. ChatGPT desktop and web use their visible model/reasoning selector and must not be given the CLI-only `/model` command. Use `/model` only for an identified Codex CLI that documents it. Never claim a switch from catalog access alone.
+Read capability and switch capability are separate. In `ask`, show the two settings and the surface-appropriate user control, then wait for the user's natural decision without requiring a fixed confirmation word. In `auto`, apply the recommended pair only when the exact model and effort operations are callable, authorized, and verifiable; otherwise retain the current setting, show the control as an optional action, and continue authorized work. ChatGPT desktop and web use their visible model/reasoning selector and must not be given the CLI-only `/model` command. Use `/model` only for an identified Codex CLI that documents it. Never claim a switch from catalog access alone.
 
 ## Resolve the mode and executor
 
 - `off`: skip that router's evaluation and output; retain the current context or model settings.
-- `ask`: evaluate and present both settings. Retain the current setting unless the user explicitly requests a change; provide an optional exact manual action when useful and continue authorized work without pausing solely for model configuration. If a verified change is requested, perform each authorized operation when callable and verifiable.
+- `ask`: evaluate and present both settings, then stop and wait for the user's natural response even when the current setting appears suitable. Retain the current setting unless the user explicitly requests a change. Provide an exact manual action when useful, but never require a fixed reply keyword. If a verified change is requested, perform each authorized operation when callable and verifiable.
 - `auto`: evaluate and perform each permitted, callable, verifiable operation. Degrade unsupported, unavailable, or user-only operations to an optional user action while continuing authorized work with the current setting. Mixed capability may therefore produce a partially automatic result, but every reported result must identify what actually happened.
 
 Only report `applied` after observing evidence that the host completed that exact operation. A direct user request to perform a particular host action is explicit authorization but still does not create missing capability.
@@ -112,6 +112,9 @@ Use this precedence order:
 Persist only the two modes, user preferences such as latency/cost emphasis, and cache records with provenance. Do not require a second fixed model strategy: the current conversation settings are the fallback. If no settings store exists, use packaged defaults and session-local observations without repeatedly asking onboarding questions.
 
 ## Interaction rules
+
+- Present the requested findings or plan before routing advice. The recommendation governs the next substantial phase, not work already completed to produce the plan.
+- In model `ask`, the routing note ends the turn and downstream execution waits for a natural user response. In model `auto`, apply or retain settings according to capability and continue.
 
 - Keep stable context enums in structured evidence. In compact user-facing output, render the recommendation as a plain description in the user's language and omit the raw enum token.
 - Combine pending context and model questions when both recommendations are reliable for the same effective destination.

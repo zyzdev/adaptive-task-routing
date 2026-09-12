@@ -368,7 +368,9 @@ def validate_source(root):
                 "【最低足夠 AI 設定】", "【建議 AI 設定】",
                 "Reasoning：使用模型預設", "Never output Gemini 1.5",
                 "如需採用建議，可用 /model 選擇模型",
-                "Continue authorized work in the same turn")),
+                "Complete and present the requested findings or plan",
+                "In `ask`, stop after the note",
+                "In `auto`, apply any callable")),
             "Gemini compact coordinator contract missing")
     model_skill = (root / "skills/research-model-router/SKILL.md").read_text()
     evidence_schema = (root / "skills/research-model-router/references/evidence-schema.md").read_text()
@@ -377,7 +379,7 @@ def validate_source(root):
                  "upgrade_value", "upgrade_reason")),
             "Model router two-tier recommendation contract missing")
     require("never print `Current: unknown / unknown`" in model_skill
-            and "Do not require a confirmation word" in model_skill
+            and "do not require a fixed confirmation word" in model_skill
             and "如需採用建議，可使用介面中的模型與推理強度選單調整" in model_skill
             and "do not include the CLI-only `/model` command" in model_skill
             and "Do not ask the user to transcribe selector options" in model_skill
@@ -385,7 +387,9 @@ def validate_source(root):
             and "* Reasoning：使用模型預設" in model_skill
             and "Traditional Chinese must use the exact literal headings" in model_skill
             and "目前環境無法代為切換模型；Reasoning 使用模型預設" in model_skill
-            and "Continue authorized downstream work in the same turn" in model_skill
+            and "Put the requested plan or preceding findings before these blocks" in model_skill
+            and "In `ask`, stop after the blocks" in model_skill
+            and "In `auto`, continue authorized downstream work" in model_skill
             and "reply “continue”" not in model_skill
             and "回覆「繼續」" not in model_skill
             and "Never render the schema or internal evidence in ordinary compact output" in model_skill
@@ -403,9 +407,10 @@ def validate_source(root):
     coordinator = (root / "skills/adaptive-task-routing/SKILL.md").read_text()
     require("【對話設定】" in coordinator and "* 建議：留在目前對話" in coordinator
             and "是否切換視窗" in coordinator
-            and "Form a lightweight rough plan" in coordinator
-            and "before the routing note" in coordinator
-            and "Put detailed planning, findings, or execution after the routing note" in coordinator
+            and "For a plan-only or analysis-only request" in coordinator
+            and "Present the requested findings and plan before one compact routing note" in coordinator
+            and "If model mode is `ask`, stop after the routing note" in coordinator
+            and "Do not require a fixed confirmation word" in coordinator
             and "Localize every label and description to the user's language" in coordinator
             and "never show those English enum tokens" in coordinator
             and "never surface the probe, fallback/registry source" in coordinator

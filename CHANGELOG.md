@@ -12,7 +12,7 @@ All notable changes to this project are documented here.
 
 ## Unreleased
 
-- Keep automatic activation on the host-native prompt boundary, but require a lightweight task understanding and rough plan before routing. Present one brief task-framing sentence before the routing blocks, then place detailed planning or execution after them.
+- Keep automatic activation on the host-native prompt boundary, but complete and present requested analysis or planning before routing the resulting substantial next phase. For execution requests, present an actionable plan before the gate. Default `ask` stops after its recommendation and waits for a natural user response; only `auto` may continue automatically.
 - Make `adaptive-task-routing` the primary description match for general substantial tasks. When a host selects a context-only or model-only child for such a task, dispatch once to the coordinator and use delegation markers to prevent recursion, preserving explicit component-only invocations.
 - Require a concrete supported model/effort recommendation when applicable catalog and capability evidence are sufficient, even if current settings are unknown. Keep comparison and application separate.
 - Continue scoped discovery after excluding a subagent-only menu; unverified retention must report the actual discovery outcome or access limitation. Update English/Traditional Chinese guidance and regression fixtures.

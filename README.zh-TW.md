@@ -14,8 +14,8 @@ Adaptive Task Routing 是跨平台的 Agent Skills Plugin，在高成本或大�
 長時間的 Agentic 工作若全部留在同一段對話，或始終使用最強模型，可能浪費 Context 與運算額度。本專案在理解任務之後、真正執行之前加入 Routing Gate：
 
 ```text
-理解請求 → 初步計畫 → Context Routing → 確定 Context
-→ Model Routing → 確定模型設定 → 執行
+完成使用者要求的分析或計畫 → Context Routing → 確定 Context
+→ Model Routing → ask：等待｜auto：確定模型設定並執行
 ```
 
 Plugin 不會因為使用者允許自動操作，就假設宿主環境真的具備操作能力。建議、使用者授權、環境能力與已驗證執行是四個不同狀態。
@@ -24,7 +24,7 @@ Plugin 不會因為使用者允許自動操作，就假設宿主環境真的具�
 
 ### `adaptive-task-routing` — 完整流程入口
 
-理解實質任務並形成初步計畫後，協調入口先讀取 Context Router，確定實際工作 Context，再讀取 Model Router。同一則回覆還要繼續工作時，畫面先用一句話交代任務理解與粗略方向，再顯示 Routing 建議，最後才展開詳細計畫或執行。交付改善計畫且提出具體實質下一階段時，也要在回覆結束前給出該階段的建議；只要求計畫不代表授權實作。
+協調入口先讓 AI 完成並呈現使用者要求的分析或計畫。若交付內容定義了具體且有份量的下一階段，再依序讀取 Context Router、確定實際工作 Context，並為該階段讀取 Model Router。使用者已要求執行時，也先呈現精簡可執行計畫，再顯示 Routing 建議，尚不開始大量執行。Model `ask` 顯示後停止等待自然回覆；Model `auto` 才能套用支援的設定並繼續。只要求計畫不代表授權實作。
 
 簡短解釋、狀態詢問、小修改，以及僅詢問 Plugin 功能時不必自動觸發。後續階段只載入必要的 Router；回答完整且沒有實質下一階段時，不必再加 Routing 訊息。
 
@@ -46,7 +46,7 @@ Plugin 不會因為使用者允許自動操作，就假設宿主環境真的具�
 
 ## 觸發與顯示
 
-三個平台產物現在都包含簡短的宿主原生啟動提醒。Codex 與 Claude Code 使用 `UserPromptSubmit` Plugin hook；Gemini CLI 在重啟後的每個工作階段載入 Extension 的 `GEMINI.md`。提醒要求宿主先理解請求並形成輕量初步計畫，再於大量工具操作、詳細規劃或執行前，在符合條件的實質工作中呼叫協調 Skill；它不會複製路由政策，也不會自行執行 Router。Codex 安裝的 hook 首次執行前可能需要一次審查；宿主或管理員仍可停用 hook 或 Extension。只讀取可攜式 Agent Plugins Manifest 的 ChatGPT 介面沒有本機 Prompt hook，因此仍要依賴描述匹配或明確選取 Skill。
+三個平台產物現在都包含簡短的宿主原生啟動提醒。Codex 與 Claude Code 使用 `UserPromptSubmit` Plugin hook；Gemini CLI 在重啟後的每個工作階段載入 Extension 的 `GEMINI.md`。提醒要求宿主先呈現使用者要求的分析或計畫，再於下一個實質階段開始前呼叫協調 Skill，並保留 `ask` 等待與 `auto` 繼續的界線；它不會複製路由政策，也不會自行執行 Router。Codex 安裝的 hook 首次執行前可能需要一次審查；宿主或管理員仍可停用 hook 或 Extension。只讀取可攜式 Agent Plugins Manifest 的 ChatGPT 介面沒有本機 Prompt hook，因此仍要依賴描述匹配或明確選取 Skill。
 
 需要明確觸發時，可在宿主的 Skill 選擇器選取 **adaptive-task-routing Skill**，或要求：「開始這項工作前，請使用 adaptive-task-routing Skill。」支援 `$` 提及的 Codex 介面可用 `$adaptive-task-routing`；Claude Code 可用 `/adaptive-task-routing:adaptive-task-routing`。一般實質任務仍以協調入口為主；誤選到子 Router 時，除非使用者明確只要 Context 或 Model，子 Router 只會轉交協調入口一次。
 
@@ -61,7 +61,7 @@ Plugin 不會因為使用者允許自動操作，就假設宿主環境真的具�
 | 模式 | 行為 |
 |---|---|
 | `off` | 完全不執行該 Router。 |
-| `ask` | 執行評估；不需改變時直接繼續，建議改變時先詢問使用者是否調整。這是預設值。 |
+| `ask` | 顯示建議後停止，等待使用者自然決定下一階段是否調整設定。這是預設值。 |
 | `auto` | 執行評估；逐項套用已允許、可呼叫且可驗證的改變，只有無法自動完成的部分才交給使用者。 |
 
 目前對話狀態就是備援，不需要第二份固定策略。`ask` 下拒絕調整就沿用現況。`auto` 代表使用者授權，不代表環境具備能力。能力按操作逐項解析，不能只看介面名稱；例如 App 可能允許 AI 建立 Context，但切換目前模型或強度仍只能由使用者完成。未知控制方式要說明未知，不捏造步驟。
@@ -115,7 +115,7 @@ gemini extensions validate dist/gemini/adaptive-task-routing
 
 [跨平台行為案例](tests/behavioral-cases.md) 保留原 24 案例，另加 10 個探測案例；包含 OpenAI 送審需要的五個正向、三個負向案例。
 [七介面矩陣](tests/surface-matrix.json) 共 238 格：ChatGPT 網頁／桌面／手機、Codex App／CLI、Claude Code 與 Gemini CLI。唯讀探測通過不等於對話驗收或自動切換通過。
-結構驗證與本機清單載入不代表行為通過；隱式觸發、帳號模型控制、跨 Skill 讀取權限仍須實測記錄。
+結構驗證與本機清單載入不代表行為通過；隱式觸發、帳號模型控制，以及 Gemini 單次 coordinator 啟用是否能完整執行，仍須實測記錄。
 
 ## 文件與發布
 
