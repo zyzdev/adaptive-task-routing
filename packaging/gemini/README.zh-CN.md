@@ -31,11 +31,20 @@ gemini extensions install https://github.com/zyzdev/adaptive-task-routing-gemini
 
 ## 你会看到什么
 
+以下以“检查 Plugin 的发布流程、跨平台一致性和测试缺口”为例。实际的计划和建议会依任务及平台调整。
+
+### 回复示例
+
+#### 1. AI 的任务计划
+
 ```text
-计划
 1. 检查发布脚本和 Manifest。
 2. 核对 CI 和测试缺口。
+```
 
+#### 2. Adaptive Task Routing 的资源建议
+
+```text
 ---
 
 ### Adaptive Task Routing｜任务资源建议

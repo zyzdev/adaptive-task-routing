@@ -80,13 +80,20 @@ Modes can be inspected or changed directly in conversation. For example, “Set 
 
 ## What you will see
 
-The requested findings or plan appear first. A qualifying next phase then adds a clearly separated resource recommendation:
+The example below uses the request “Review the plugin release process, cross-platform consistency, and test gaps.” Actual plans and recommendations vary by task and platform.
+
+### Example response
+
+#### 1. AI task plan
 
 ```text
-Plan
 1. Check the release scripts and platform manifests.
 2. Review CI and test gaps.
+```
 
+#### 2. Adaptive Task Routing resource recommendation
+
+```text
 ---
 
 ### Adaptive Task Routing | Task resource guidance

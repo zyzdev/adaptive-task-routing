@@ -31,11 +31,20 @@ An unqualified mode change applies to both independent routers. The default is `
 
 ## What you will see
 
+The example below uses the request “Review the plugin release process, cross-platform consistency, and test gaps.” Actual plans and recommendations vary by task and platform.
+
+### Example response
+
+#### 1. AI task plan
+
 ```text
-Plan
 1. Inspect release scripts and manifests.
 2. Review CI and test gaps.
+```
 
+#### 2. Adaptive Task Routing resource recommendation
+
+```text
 ---
 
 ### Adaptive Task Routing | Task resource guidance
