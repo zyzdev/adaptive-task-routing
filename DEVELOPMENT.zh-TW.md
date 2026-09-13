@@ -4,6 +4,11 @@
 
 [返回使用說明](README.zh-TW.md)
 
+選用的 [Routing Evaluation Harness](docs/evaluation-protocol.md) 可規劃可重現的
+重複實驗、匯入觀察結果、比較策略並準備盲評資料。規劃與報告均離線執行；
+外部執行器須明確啟用並指定工作數上限。第一版依使用者要求尚未執行測試或推論，
+不代表既有驗收案例已通過。完整格式與操作方式請見協議文件。
+
 ## 內含 Skills
 
 ### `adaptive-task-routing` — 完整流程入口

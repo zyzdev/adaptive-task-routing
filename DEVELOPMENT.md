@@ -87,6 +87,12 @@ No separate Codex marketplace ZIP, runtime service, or MCP service is shipped.
 
 ## Build and verify
 
+The optional [routing evaluation harness](docs/evaluation-protocol.md) plans repeated
+experiments, imports observations, scores strategy comparisons and prepares blind
+reviews. Planning and reporting are offline; external adapter execution requires an
+explicit opt-in and job limit. The initial implementation has not been tested or used
+for inference. It does not promote existing acceptance cases to passes.
+
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements-dev.txt

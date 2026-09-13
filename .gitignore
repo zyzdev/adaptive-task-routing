@@ -5,3 +5,4 @@ __pycache__/
 /dist/
 /build/
 /.release-backups/
+/evaluation-results/

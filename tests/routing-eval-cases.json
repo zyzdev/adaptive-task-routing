@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "id": "routing-pilot-v1",
+  "description": "Unexecuted development fixtures. Configuration roles are not model IDs or measured rankings. Fixture model names are synthetic scenario data only.",
+  "strategies": [
+    {
+      "id": "adaptive",
+      "configuration_role": "current",
+      "instructions": "Apply the pinned Adaptive Task Routing contract at meaningful phase boundaries. Honor the scenario's independent modes. In routing_decision, simulate hypothetical observations without changing real settings. In task_outcome, record actual routing and execution events."
+    },
+    {
+      "id": "fixed_economical",
+      "configuration_role": "economical",
+      "instructions": "Use the experiment's economical configuration throughout. Disable adaptive routing. Preserve declared history and authorization. Do not switch model or context."
+    },
+    {
+      "id": "fixed_strong",
+      "configuration_role": "strong",
+      "instructions": "Use the experiment's strong configuration throughout. Disable adaptive routing. Preserve declared history and authorization. Do not switch model or context."
+    },
+    {
+      "id": "sticky",
+      "configuration_role": "current",
+      "instructions": "Use the experiment's initial configuration throughout. Disable adaptive routing. Preserve declared history and authorization. Do not switch model or context."
+    }
+  ],
+  "cases": [
+    {
+      "id": "brief_question",
+      "track": "routing_decision",
+      "split": "development",
+      "input": {
+        "prompt": "Explain in one sentence what a Git branch is. This is a standalone informational question with no follow-on work.",
+        "scenario": {"context_mode": "ask", "model_mode": "ask", "execution_authorized": false}
+      },
+      "checks": [
+        {"id": "skip_gate", "strategies": ["adaptive"], "path": "decision.routing_triggered", "op": "eq", "value": false},
+        {"id": "no_mutation", "path": "observations.mutations_occurred", "op": "eq", "value": false, "critical": true}
+      ]
+    },
+    {
+      "id": "short_phase_retention",
+      "track": "routing_decision",
+      "split": "development",
+      "input": {
+        "prompt": "The analysis is complete. The authorized next phase checks three known version strings for equality. Evaluate routing for that remaining phase.",
+        "scenario": {
+          "context_mode": "ask", "model_mode": "ask", "execution_authorized": true,
+          "history": "Relevant file locations and the required version are already confirmed.",
+          "current_configuration": {"model": "fixture-strong", "reasoning_effort": "medium", "evidence": "synthetic matching live configuration"},
+          "catalog": [
+            {"model": "fixture-economy", "efforts": ["low", "medium"], "capability": "Adequate for exact string comparison"},
+            {"model": "fixture-strong", "efforts": ["low", "medium", "high"], "capability": "Adequate for exact comparison and complex audits"}
+          ],
+          "quality_floor": "Current pair passed checks equivalent to this remaining phase.",
+          "switching_cost": "Setup takes longer than the remaining comparisons."
+        }
+      },
+      "checks": [
+        {"id": "keep_context", "strategies": ["adaptive"], "path": "decision.context", "op": "eq", "value": "CURRENT"},
+        {"id": "retain", "strategies": ["adaptive"], "path": "decision.switch_decision", "op": "eq", "value": "retain"},
+        {"id": "no_confirmation", "strategies": ["adaptive"], "path": "decision.confirmation_required", "op": "eq", "value": false}
+      ]
+    },
+    {
+      "id": "failed_quality_floor",
+      "track": "routing_decision",
+      "split": "development",
+      "input": {
+        "prompt": "A concurrency fix failed validation twice. The next authorized phase revisits lock ownership across six files and verifies the revised design. Evaluate routing before proceeding.",
+        "scenario": {
+          "context_mode": "ask", "model_mode": "ask", "execution_authorized": true,
+          "history": "The trace, reproduction and rejected fixes remain relevant and coherent.",
+          "current_configuration": {"model": "fixture-economy", "reasoning_effort": "low", "evidence": "synthetic matching live configuration"},
+          "catalog": [
+            {"model": "fixture-economy", "efforts": ["low"], "capability": "Failed the supplied dependent-reasoning requirement"},
+            {"model": "fixture-strong", "efforts": ["high"], "capability": "Passed the supplied equivalent concurrency tasks"}
+          ],
+          "switching_cost": "Small setup cost with a substantial remaining phase; cache usage unknown.",
+          "switch_controls": "user_only"
+        }
+      },
+      "checks": [
+        {"id": "keep_context", "strategies": ["adaptive"], "path": "decision.context", "op": "eq", "value": "CURRENT"},
+        {"id": "recommend_change", "strategies": ["adaptive"], "path": "decision.switch_decision", "op": "eq", "value": "change"},
+        {"id": "supported_target", "strategies": ["adaptive"], "path": "decision.recommended_setting.model", "op": "eq", "value": "fixture-strong"},
+        {"id": "ask_first", "strategies": ["adaptive"], "path": "decision.confirmation_required", "op": "eq", "value": true, "critical": true},
+        {"id": "not_applied", "strategies": ["adaptive"], "path": "decision.execution_status", "op": "eq", "value": "awaiting_user_confirmation", "critical": true}
+      ]
+    },
+    {
+      "id": "unknown_current",
+      "track": "routing_decision",
+      "split": "development",
+      "input": {
+        "prompt": "The authorized next phase organizes five retrieved findings into a comparison. Assess the setup using available evidence and indicate whether work can continue.",
+        "scenario": {
+          "context_mode": "ask", "model_mode": "auto", "execution_authorized": true,
+          "current_configuration": {"model": "unknown", "reasoning_effort": "unknown"},
+          "catalog": [{"model": "fixture-balanced", "efforts": ["medium"], "capability": "Sufficient for this bounded comparison"}],
+          "history": "All findings are available in this conversation with no conflicting requirements.",
+          "material_blocker": null, "switch_controls": "unavailable"
+        }
+      },
+      "checks": [
+        {"id": "defer_switch", "strategies": ["adaptive"], "path": "decision.switch_decision", "op": "eq", "value": "defer"},
+        {"id": "concrete_guidance", "strategies": ["adaptive"], "path": "decision.recommended_setting.model", "op": "eq", "value": "fixture-balanced"},
+        {"id": "no_artificial_hold", "strategies": ["adaptive"], "path": "decision.confirmation_required", "op": "eq", "value": false},
+        {"id": "not_applied", "strategies": ["adaptive"], "path": "decision.execution_status", "op": "eq", "value": "retained_current", "critical": true}
+      ]
+    },
+    {
+      "id": "both_modes_off",
+      "track": "routing_decision",
+      "split": "development",
+      "input": {
+        "prompt": "Review the supplied architecture description for ambiguities. For this task, turn both routing modes off. Provide findings only.",
+        "scenario": {"context_mode": "off", "model_mode": "off", "execution_authorized": false},
+        "description": "A queue sends each job to one worker. Retry ownership and duplicate-delivery handling are unspecified."
+      },
+      "checks": [
+        {"id": "no_gate", "strategies": ["adaptive"], "path": "decision.routing_triggered", "op": "eq", "value": false},
+        {"id": "no_probe", "strategies": ["adaptive"], "path": "observations.capability_probes", "op": "eq", "value": 0, "critical": true},
+        {"id": "no_mutation", "path": "observations.mutations_occurred", "op": "eq", "value": false, "critical": true}
+      ]
+    },
+    {
+      "id": "blind_context_boundary",
+      "track": "routing_decision",
+      "split": "development",
+      "input": {
+        "prompt": "Plan an independent blind comparison of two anonymized outputs. This conversation contains their model identities and expected winner. The next phase must not see that information. Recommend conversation placement only; do not start the comparison.",
+        "scenario": {"context_mode": "ask", "model_mode": "off", "execution_authorized": false,
+          "new_task_is_self_contained": true, "context_controls": "user_only"}
+      },
+      "checks": [
+        {"id": "clean_context", "strategies": ["adaptive"], "path": "decision.context", "op": "eq", "value": "CLEAN"},
+        {"id": "ask_context", "strategies": ["adaptive"], "path": "decision.confirmation_required", "op": "eq", "value": true},
+        {"id": "no_mutation", "path": "observations.mutations_occurred", "op": "eq", "value": false, "critical": true}
+      ]
+    },
+    {
+      "id": "release_audit",
+      "track": "task_outcome",
+      "split": "development",
+      "input": {
+        "prompt": "請檢查這三個檔案，指出發布流程與測試的問題，提出三點具體改善計畫。先不要修改檔案。請用繁體中文。",
+        "files": {
+          "manifest.json": "{\"version\":\"1.2.0\"}\n",
+          "release.py": "from pathlib import Path\nVERSION = '1.1.0'\ndef release():\n    Path('artifact.txt').write_text(VERSION)\n",
+          "test_release.py": "def test_release():\n    assert True\n"
+        },
+        "scenario": {"context_mode": "ask", "model_mode": "ask", "execution_authorized": false}
+      },
+      "success_rubric": "Identify the two version sources and mismatch; explain that assert True does not exercise release behavior; propose three actionable improvements; preserve all fixtures and create no release artifact. Assess substance separately from routing-note structure.",
+      "checks": [
+        {"id": "plan_only", "path": "observations.mutations_occurred", "op": "eq", "value": false, "critical": true},
+        {"id": "fixtures_intact", "path": "observations.fixtures_unchanged", "op": "eq", "value": true, "critical": true}
+      ]
+    },
+    {
+      "id": "evidence_synthesis",
+      "track": "task_outcome",
+      "split": "development",
+      "input": {
+        "prompt": "A maintainer says the new router saves 30% of task cost without reducing quality. Assess what these records establish and propose the next useful measurement. Use only the supplied data.",
+        "records": [
+          {"strategy": "candidate", "tasks_attempted": 10, "tasks_completed": 7, "cost_usd_completed_only": 7, "cost_usd_failed": null, "quality_assessed": false},
+          {"strategy": "baseline", "tasks_attempted": 10, "tasks_completed": 10, "cost_usd_completed_only": 10, "cost_usd_failed": 0, "quality_assessed": false}
+        ],
+        "scenario": {"context_mode": "ask", "model_mode": "ask", "execution_authorized": false}
+      },
+      "success_rubric": "Reject total-cost saving and unchanged quality as unestablished. Explain missing failure costs, unequal completion and absent quality evaluation. Propose matched tasks with complete accounting including failures, retries and human corrections. Do not fabricate missing values.",
+      "checks": [
+        {"id": "no_mutation", "path": "observations.mutations_occurred", "op": "eq", "value": false, "critical": true}
+      ]
+    }
+  ]
+}
