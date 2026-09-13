@@ -6,3 +6,5 @@ __pycache__/
 /build/
 /.release-backups/
 /evaluation-results/
+/evaluation/**/*.private.json
+/evaluation/private/

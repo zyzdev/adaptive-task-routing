@@ -1,9 +1,11 @@
 # Routing evaluation harness
 
-Status: **implemented but not tested; no evaluations run**. The owner requested
-implementation without executing tests or inference. Examples below are usage
-instructions, not results. This developer tool is separate from installed routing
-Skills and existing release acceptance matrices.
+Status: **offline harness validation passed; no model evaluations run**. Initial
+implementation omitted tests at the owner's request. The owner subsequently authorized
+local tests while deferring any evaluation that consumes model usage. See the
+[validation record](evaluation-validation.md) for coverage, corrections and limitations.
+Examples below are usage instructions, not empirical routing results. This developer
+tool is separate from installed Skills and release acceptance matrices.
 
 The Python 3.10+ standard-library CLI is
 [`evaluate_routing.py`](../scripts/evaluate_routing.py); its implementation is
@@ -29,7 +31,12 @@ brief question, short-phase retention, failed quality floor, unknown current set
 both modes off, clean evaluation context, release audit and evidence synthesis.
 None is a fresh holdout. The release audit is already used in historical smoke tests.
 Create privately maintained, independently authored holdouts before evaluating
-generalization. The duplicate guard catches identical normalized prompts only.
+generalization. Prefer a location outside this repository managed by an independent
+evaluator. As a secondary safeguard, `evaluation/**/*.private.json` and
+`evaluation/private/` are Git-ignored and excluded from release-test working copies.
+Git ignore is not an access boundary for an editing agent, nor does it untrack files
+already committed. No genuine holdout was created or read during harness development.
+The duplicate guard catches identical normalized prompts only.
 
 Strategies are `adaptive`, `fixed_economical`, `fixed_strong` and `sticky`. An adapter
 resolves configuration roles from a pinned platform/account catalog. Fixture model
@@ -125,7 +132,8 @@ The adapter normalizes router evidence: `context` is the context recommendation;
 `execution_status` map to interaction and execution fields. Do not alter public
 compact output just to satisfy a parser. Missing fields stay unknown.
 
-An externally assessed `task_success` boolean needs a nonempty
+Every schema version must be an integer; booleans and floating-point versions are
+rejected. An externally assessed `task_success` boolean needs a nonempty
 `task_success_evidence` reference. The harness requires the reference but does not
 verify its truth or accessibility. Use deterministic artifact checks or documented
 human review. A blind preference win is not automatically task success.
@@ -193,7 +201,10 @@ kills the adapter process group; Windows stops only the direct child.
 Changing adapter configuration requires a new experiment directory. Existing results,
 including failures, are skipped on resume. The runner stops after
 the first failed/blocked job and never retries automatically. Outputs are never
-overwritten. For corrected records or deliberate retries, use a new versioned plan
+overwritten. A caught interruption kills the local adapter and records a blocked
+attempt before propagating the interruption; resume skips that attempt. Hard process
+termination or disk failure can still prevent recording and requires manual inspection.
+For corrected records or deliberate retries, use a new versioned plan
 directory and retain the originals; do not cherry-pick successful attempts. Interrupted
 writes can leave invalid files; subsequent reads reject them. Use one writer per plan.
 
@@ -238,7 +249,10 @@ python3 scripts/evaluate_routing.py blind \
 
 Share only `review.json` with reviewers. Keep `private-key.json` and raw results out
 of their context. Completed jobs with two nonempty answers enter review; skipped
-pairs are counted. Metadata is stripped, but answer text can reveal its strategy.
+pairs are counted. New packets use `key_binding_version: 2` to bind the complete
+private key, including plan identity, strategies and mirror settings. Legacy packets
+with only an item-mapping hash are rejected; regenerate the packet and review it under
+its new identity. Metadata is stripped, but answer text can reveal its strategy.
 Inspect for leakage and, if needed, prepare versioned sanitized source records under
 a symmetric documented rule, then regenerate. Do not edit a hashed packet in place.
 
@@ -296,5 +310,6 @@ contracts and scoring rules. Collect repeated baseline/adaptive observations and
 inspect unknowns and failure accounting before judging or expanding. Evaluate fresh
 holdouts separately. Budget task execution and judging separately from development.
 
-No success rate, saving, behavioral pass, live integration result or release readiness
-is claimed: implementation was requested without testing.
+Offline harness checks have passed. No model task success rate, saving, behavioral
+pass, live integration result or release readiness is claimed. Model evaluations
+remain deferred at the owner's request.

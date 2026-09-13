@@ -28,7 +28,8 @@ class ValidateReleaseTests(unittest.TestCase):
         shutil.copytree(
             PROJECT_ROOT,
             self.root,
-            ignore=shutil.ignore_patterns("dist", "__pycache__", "*.pyc", ".git", ".venv", "build", ".release-backups"),
+            ignore=shutil.ignore_patterns("dist", "__pycache__", "*.pyc", ".git", ".venv", "build", ".release-backups",
+                                         "evaluation-results", "*.private.json", "private"),
         )
 
     @contextlib.contextmanager

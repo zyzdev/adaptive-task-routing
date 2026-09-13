@@ -84,6 +84,12 @@ def require_object(value, label):
     return value
 
 
+def require_schema(value, label):
+    require_object(value, label)
+    if type(value.get("schema_version")) is not int or value["schema_version"] != VERSION:
+        raise ValueError(f"Unsupported {label} schema_version")
+
+
 def positive_int(value, label):
     if type(value) is not int or value < 1:
         raise ValueError(f"{label} must be a positive integer")
@@ -91,9 +97,7 @@ def positive_int(value, label):
 
 
 def validate_suite(suite):
-    require_object(suite, "suite")
-    if suite.get("schema_version") != VERSION:
-        raise ValueError("Unsupported suite schema_version")
+    require_schema(suite, "suite")
     identifier(suite.get("id"))
     for key in ("strategies", "cases"):
         if not isinstance(suite.get(key), list) or not suite[key]:
@@ -206,20 +210,22 @@ def make_jobs(payload, plan_id):
 
 def load_plan(directory):
     plan = require_object(read_json(Path(directory) / "plan.json"), "plan")
-    if plan.get("schema_version") != VERSION:
-        raise ValueError("Unsupported plan schema")
+    require_schema(plan, "plan")
     payload_keys = ("schema_version", "suite_id", "suite_sha256", "seed", "repetitions",
                     "split", "cases", "strategies", "contract_sha256")
     payload = {k: plan[k] for k in payload_keys}
     if digest(payload)[:24] != plan["plan_id"]:
         raise ValueError("Plan contents changed; create a new plan")
-    if plan["jobs"] != make_jobs(payload, plan["plan_id"]):
+    expected_jobs = make_jobs(payload, plan["plan_id"])
+    if digest(plan["jobs"]) != digest(expected_jobs):
         raise ValueError("Schedule or requests changed; create a new plan")
+    if type(plan.get("estimated_adapter_invocations")) is not int or plan["estimated_adapter_invocations"] != len(expected_jobs):
+        raise ValueError("Planned invocation count changed")
     return plan
 
 
 def validate_result(result, job, plan):
-    require_object(result, "result")
+    require_schema(result, "result")
     for key, value in (("schema_version", VERSION), ("plan_id", plan["plan_id"]),
                        ("job_id", job["id"]), ("request_sha256", job["request_sha256"])):
         if result.get(key) != value:
@@ -335,9 +341,16 @@ def execute_jobs(directory, adapter_path, *, allow_execution=False, max_jobs=Non
                     result.update(status="blocked", error_type="timeout")
                 except (OSError, ValueError, TypeError, KeyError) as error:
                     result.update(status="failed", error_type=type(error).__name__)
-                except BaseException:
+                except BaseException as error:
                     if process is not None:
                         stop_process(process)
+                    # Preserve an interrupted attempt so resume cannot silently resubmit
+                    # a remote job whose billing/cancellation state may be unknown.
+                    result.update(status="blocked", error_type=type(error).__name__)
+                    result["metrics"] = {"elapsed_seconds": round(time.monotonic() - started, 6)}
+                    result["provenance"] = {"adapter_sha256": adapter_hash, "collected_at": now(),
+                                            "execution_scope": "interrupted_attempt"}
+                    write_json(Path(directory) / "results" / (job["id"] + ".json"), result)
                     raise
         # Includes routing and adapter setup; provider timing can stay in provenance.
         provenance = result.setdefault("provenance", {})
@@ -501,12 +514,13 @@ def blind_packet(directory, output, *, left, right, seed=0, mirror=False):
         "winner": "A, B, tie, or unassessable. Judge correctness and requirements before style.",
         "bias_control": "Do not reward length alone. Do not infer model identity. Return a concise evidence-based reason.",
         "review_format": "One object per item and judge: id, judge_id, winner, scores {A:{criterion:score},B:{criterion:score}}, reason."}
+    key = {"schema_version": VERSION, "plan_id": plan["plan_id"],
+           "left": left, "right": right, "mirror": mirror, "skipped_pairs": skipped, "items": keys}
     packet = {"schema_version": VERSION, "rubric": rubric, "items": items,
-              "mapping_sha256": digest(keys)}
+              "key_binding_version": 2, "mapping_sha256": digest(key)}
     packet_id = digest(packet)
     packet["packet_id"] = packet_id
-    key = {"schema_version": VERSION, "packet_id": packet_id, "plan_id": plan["plan_id"],
-           "left": left, "right": right, "mirror": mirror, "skipped_pairs": skipped, "items": keys}
+    key["packet_id"] = packet_id
     output = Path(output)
     if output.exists():
         raise ValueError("Choose a new blind-review directory")
@@ -518,12 +532,16 @@ def blind_packet(directory, output, *, left, right, seed=0, mirror=False):
 def summarize_reviews(packet_path, key_path, reviews_path):
     packet, key, reviews = (require_object(read_json(path), label) for path, label in
                            ((packet_path, "packet"), (key_path, "key"), (reviews_path, "reviews")))
+    for label, value in (("packet", packet), ("key", key), ("reviews", reviews)):
+        require_schema(value, label)
     packet_id = packet.get("packet_id")
     if digest({k: v for k, v in packet.items() if k != "packet_id"}) != packet_id or key.get("packet_id") != packet_id:
         raise ValueError("Review packet/key mismatch")
-    if reviews.get("schema_version") != VERSION or reviews.get("packet_id") != packet_id:
+    if reviews.get("packet_id") != packet_id:
         raise ValueError("Review input must identify the exact packet")
-    if packet.get("mapping_sha256") != digest(key["items"]):
+    if type(packet.get("key_binding_version")) is not int or packet["key_binding_version"] != 2:
+        raise ValueError("Regenerate legacy review packets to bind the complete private key")
+    if packet.get("mapping_sha256") != digest({k: v for k, v in key.items() if k != "packet_id"}):
         raise ValueError("Private review mapping changed")
     items = {i["id"]: i for i in packet["items"]}
     keys = {i["id"]: i for i in key["items"]}
